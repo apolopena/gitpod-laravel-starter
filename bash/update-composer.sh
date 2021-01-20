@@ -18,9 +18,9 @@ else
    if [$? -ne 0]
    then
     echo "ERROR $RESULT: Installing the latest version of composer, FAILED."
-  else
+   else
     echo "SUCCESS: latest version of composer was installed"
-  fi
+   fi
   rm composer-setup.php
 fi
 # END: update composer to the latest version
