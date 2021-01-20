@@ -10,16 +10,16 @@ ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 
 if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
 then
-  >&2 echo 'ERROR: Invalid installer checksum - could not update composer'
-  rm composer-setup.php
+    >&2 echo 'ERROR: Invalid installer checksum - could not update composer'
+    rm composer-setup.php
 else
   php composer-setup.php --install-dir=/usr/bin --filename=composer
   RESULT=$?
-    if [ $RESULT -ne 0]
-    then
-      echo "ERROR $RESULT: Failed to install the latest version of composer!"
-    else
-      echo "SUCCESS: latest version of composer was installed"
+   if [$? -ne 0]
+   then
+    echo "ERROR $RESULT: Installing the latest version of composer, FAILED."
+  else
+    echo "SUCCESS: latest version of composer was installed"
   fi
   rm composer-setup.php
 fi
