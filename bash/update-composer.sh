@@ -15,11 +15,11 @@ then
 else
   php composer-setup.php --install-dir=/usr/bin --filename=composer
   RESULT=$?
-   if [$? -eq "0"]
+   if [ $RESULT -ne 0]
+    echo "ERROR $RESULT: Failed to install the latest version of composer!"
    then
     echo "SUCCESS: latest version of composer was installed"
-  else
-    echo "ERROR $RESULT: Installing the latest version of composer, FAILED."
+  else  
   fi
   rm composer-setup.php
 fi
