@@ -1,0 +1,12 @@
+image:
+  file: .gitpod.Dockerfile
+  
+ports:
+  - port: 8080
+    onOpen: open-preview
+  - port: 9009
+    onOpen: ignore
+    
+vscode:
+  extensions:
+    - felixfbecker.php-debug@1.14.5:xEr6zDqY853IE2HQtLtXPA==
