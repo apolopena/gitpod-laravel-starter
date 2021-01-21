@@ -10,7 +10,7 @@ ports:
     onOpen: ignore
 
 tasks:
-  - init: mv -f test-app/* $GITPOD_REPO_ROOT && rmdir test-app
+  - init: mv -f $GITPOD_REPO_ROOT/test-app/* $GITPOD_REPO_ROOT && rmdir test-app
     
 vscode:
   extensions:
