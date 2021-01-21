@@ -2,7 +2,7 @@
 🚀
 This a Laravel 8 starter project designed as a starting point for you. Once you have properly copied this repository you may add and change the codebase to your hearts desire 💞. You may also want to save any of the information you find useful on this README page before you overwrite it with information about your own project, the project that this codebase will become 🤩.
 
-This project is designed to run and be developed in a [Gitpod](https://gitpod.io/) environment but can be deployed and developed locally. See the **local development outside of Gitpod** section for more details. Live deployment of this project can of course be done anywhere and that is up to you. The project will be running live on Gitpod however the project only stays open for a small amount of time (usually 30 minutes) that is counted against your Gitpod account hours. A free Gitpod account gets you 50 hours of workspace time a week.
+This project is designed to run and be developed in a [Gitpod](https://gitpod.io/) environment but can be deployed and developed locally. See the **local development outside of Gitpod** section for more details. Live deployment of this project can of course be done anywhere and that is up to you. The project will be running live on Gitpod, however the project only stays open for a small amount of time (usually 30 minutes) which is counted against your Gitpod account hours. A free Gitpod account gets you 50 hours of workspace time a week.
 
 ### Requirements ###
 - A [Github](https://github.com/) account (a free account is fine).
@@ -12,7 +12,7 @@ This project is designed to run and be developed in a [Gitpod](https://gitpod.io
 Gitpod will use the name of Github repository you use as the name of the project so make sure you name your new repository accordingly. There are many ways to copy a repository, blast away the history and name it something new and call it your own. Here is a guide you can follow if you like.
 
 ---
-#### Tl;dr ####
+### Tl;dr ###
 **Step 1**: In your browser on Github make a new repository.
 **Step 2**: On your local machine run these commands in your shell. Ensure that the NEW_PROJECT_REPO_NAME matches the name of the repository you created in step 1.
 ```bash
