@@ -9,12 +9,52 @@ This project is designed to run and be developed in a [Gitpod](https://gitpod.io
 - A [GitPod](https://www.gitpod.io/) account (a free account is fine)
 
 ## Setting Up ##
-Gitpod will use the name of Github repository you use as the name of the project so make sure you name your new repository accordingly.
+Gitpod will use the name of Github repository you use as the name of the project so make sure you name your new repository accordingly. There are many ways to copy a repository, blast away the history and name it something new and call it your own. Here is a guide you can follow if you like.
+
+---
+#### Tl;dr ####
+**Step 1**: In your browser on Github make a new repository.
+**Step 2**: On your local machine run these commands in your shell. Ensure that the NEW_PROJECT_REPO_NAME matches the name of the repository you created in step 1.
+```bash
+mkdir NEW_PROJECT_REPO_NAME
+cd NEW_PROJECT_REPO_NAME
+git clone https://github.com/apolopena/gitpod-laravel8-starter.git
+rm -rf .git
+git init
+git add -A
+git commit -m "initial commit built from https://github.com/apolopena/gitpod-laravel8-starter"
+git remote add origin https://github.com/GITHUB_USERNAME/NEW_PROJECT_REPO_NAME.git
+git branch -m main
+git push -u origin main
+```
+---
+
+*Or read on for a more detailed explanation of the recommended steps.*
+- First copy this Github repository into a new Github repository of your own and of course be sure to name that repository as the name of your project. These instructions assume you have a bash or bash like shell to work with but if you dont you can figure out on your own.
+  1. In a web browser, [make a new repository in github](https://docs.github.com/en/github/getting-started-with-github/create-a-repo).
+  2. On your local machine create a directory that has the *same name* as your newly created repository in the previous step. For the sake of instruction lets say you named the repo NEW_PROJECT_REPO_NAME.
+    - `mkdir NEW_PROJECT_REPO_NAME`
+  3. Move into your newly created local folder.
+    - `cd NEW_PROJECT_REPO_NAME`
+  4. Clone this repository into your newly created local folder. Pay close attention to the *.* at the end of this command as you do not want and extra folder named gitpod-laravel8-starter in your project repo. You may use the SSH URL is you like. This example uses the https URL.
+    - `git clone https://github.com/apolopena/gitpod-laravel8-starter.git`
+  5. Delete all the git history (important step).
+    - `rm -rf .git`
+  6. Initialize the local git repository.
+    - `git init`
+  7. Add all the files to the local git repository.
+    - `git add -A`
+  8. Commit all the files to the local git repository.
+    - `git commit -m "initial commit built from https://github.com/apolopena/gitpod-laravel8-starter"`
+  9. Add the URL for the remote repository where your local repository will be pushed to. You can use SSH or HTTPS. This example uses https. If you don't know how to find the remote URL for your repository you read [this](https://checkmarx.atlassian.net/wiki/spaces/KC/pages/131432811/GitHub+-+Tips+on+Finding+Git+GitHub+Repository+URLs#:~:text=Tip%20to%20find%20the%20Github,link%20as%20a%20regular%20URL.).
+    - The command will look something like this:
+      - `git remote add origin https://github.com/<github user name>/NEW_PROJECT_REPO_NAME.git`
+  10. Create the local main branch. NOTE: main branches are now called `main` and are no longer called `master`.
+    - `git branch -m main`
+  11. Finally push your local repository main branch to the remote upsteam on the github servers.
+    - `git push -u origin main`
 
 
-- The first thing you need to do is copy this repository into a new repository of your own and of course be sure to name that repository after the name of your project.
-  1. blah
-  2. blah
 - Secondly you need to build out the Gitpod workspace for the first time. Gitpod makes this easy. One simple URL builds out the whole thing. Lets call this URL the Gitpod workspace build URL.
   1. Paste URL your newly created github repository to the end of the special Gitpod URL, **https://gitpod.io/#/**.
     - For example if your respoitory url is **https://github.com/myusername/myprojectname** then the Gitpod workspace build URL needs to look like this: 
