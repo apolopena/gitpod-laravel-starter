@@ -6,15 +6,13 @@ ports:
     onOpen: open-preview
   - port: 8000
     onOpen: open-preview
-  - port: 8001
-    onOpen: open-preview
   - port: 9009
     onOpen: ignore
 
 tasks:
   - init: bash bash/init-gitpod.sh && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-  - command: gp await-port 8001 && php artisan serve
-    openMode: split-left
+  - command: php artisan serve && gp await-port 8000 && gp preview $(gp url 8000)
+    openMode: split-right
     
 vscode:
   extensions:
