@@ -20,7 +20,7 @@ then
     rm composer-setup.php
 else
   php composer-setup.php --install-dir=/usr/bin --filename=composer
-  COMP_VAL = $?
+  COMP_VAL=$?
   if [ $COMP_VAL -ne 0]; then
     echo "ERROR $COMP_VAL: Failed to install latest version of composer"
   else
