@@ -8,6 +8,9 @@ ports:
     onOpen: open-preview
   - port: 9009
     onOpen: ignore
+
+tasks:
+  - init: mv -f test-app/* $GITPOD_REPO_ROOT && rmdir test-app
     
 vscode:
   extensions:
