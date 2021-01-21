@@ -11,5 +11,6 @@ if [ $? -ne 0 ]; then
 else
   echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
 fi
+mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
 rmdir ~/test-app
-echo "If the above results are successful then make sure you add, commit and push the changes to your git repository."
+echo "If the above results are successful then make sure to add, commit and push the changes to your git repository."
