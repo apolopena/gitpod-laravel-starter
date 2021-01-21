@@ -10,10 +10,7 @@ ports:
     onOpen: ignore
 
 tasks:
-  -before: |
-    url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-  - init: |
-      bash bash/init-gitpod.sh
+  - init: bash bash/init-gitpod.sh && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     
 vscode:
   extensions:
