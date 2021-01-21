@@ -13,8 +13,10 @@ then
     >&2 echo 'ERROR: Invalid installer checksum - could not update composer'
     rm composer-setup.php
 else
-  if !php composer-setup.php --install-dir=/usr/bin --filename=composer; then
-  echo "ERROR $?: Installing the latest version of composer, FAILED."
+  php composer-setup.php --install-dir=/usr/bin --filename=composer
+  COMP_VAL = $?
+  if [ $COMP_VAL -ne 0]; then
+  echo "ERROR $COMP_VAL: Installing the latest version of composer, FAILED."
   fi
   rm composer-setup.php
 fi
