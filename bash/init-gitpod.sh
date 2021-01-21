@@ -4,7 +4,7 @@ echo "Results of building the workspace image ➥"
 cat /var/log/workspace-image.log
 echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT ..."
 shopt -s dotglob
-mv -f ~/test-app/* $GITPOD_REPO_ROOT
+mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
 RESULT=$?
 if [ $? -ne 0 ]; then
   >&2 echo "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
