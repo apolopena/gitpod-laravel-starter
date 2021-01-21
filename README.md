@@ -16,9 +16,9 @@ Gitpod will use the name of Github repository you use as the name of the project
   1. blah
   2. blah
 - Secondly you need to build out the Gitpod workspace for the first time. Gitpod makes this easy. One simple URL builds out the whole thing. Lets call this URL the Gitpod workspace build URL.
-  1. Paste the portion of your newly created github repository URL that contains your username and respository name to the end of the Gitpod URL, **https://gitpod.io/#/**.
+  1. Paste URL your newly created github repository to the end of the special Gitpod URL, **https://gitpod.io/#/**.
     - For example if your respoitory url is **https://github.com/myusername/myprojectname** then the Gitpod workspace build URL needs to look like this: 
-      - **https://gitpod.io/#/myusername/myprojectname**
+      - **https://gitpod.io/#/https://github.com/myusername/myprojectname**
 - Finally build out the Gitpod workspace by pasting the Gitpod you obtained in the previous step into your browser and hit enter.
   1. The first time around and entire online development environment comeplete with and IDE is being built from a custom docker container so this will take some time. Scaffolding for the laravel 8 project and debugging capabilities are also created the first time you build the workspace so it will be up to you to commit those newly created files to your repository once you see that the build was successful. more on that below
   2. Gitpod will cache subsequent requests to your workspace and when you restart the workspace it will be much quicker than the inital build so don't worry.
