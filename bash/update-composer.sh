@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # BEGIN: update composer to the latest version
-echo 'UPDATING COMPOSERR: removing existing version composer'
+echo 'UPDATING COMPOSER: removing existing version composer'
 sudo apt-get --assume-yes purge composer
 echo 'UPDATING COMPOSER: installing latest version of composer'
 EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
@@ -14,8 +14,7 @@ then
     rm composer-setup.php
 else
   if [! php composer-setup.php --install-dir=/usr/bin --filename=composer]; then
-  RESULT=$?
-  echo "ERROR $RESULT: Installing the latest version of composer, FAILED."
+  echo "ERROR $?: Installing the latest version of composer, FAILED."
   fi
   rm composer-setup.php
 fi
