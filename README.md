@@ -14,7 +14,7 @@ Gitpod will use the name of Github repository you use as the name of the project
 ---
 ### Tl;dr ###
 **Step 1**: In your browser on Github make a new repository.
-**Step 2**: On your local machine run these commands in your shell. Ensure that the NEW_PROJECT_REPO_NAME matches the name of the repository you created in step 1.
+**Step 2**: On your local machine run these commands in your shell. Ensure that the NEW_PROJECT_REPO_NAME matches the name of the repository you created in step 1.git add -A
 ```bash
 mkdir NEW_PROJECT_REPO_NAME
 cd NEW_PROJECT_REPO_NAME
@@ -63,12 +63,11 @@ git push -u origin main
   1. The first time around and entire online development environment comeplete with and IDE is being built from a custom docker container so this will take some time. Scaffolding for the laravel 8 project and debugging capabilities are also created the first time you build the workspace so it will be up to you to commit those newly created files to your repository once you see that the build was successful. more on that below
   2. Gitpod will cache subsequent requests to your workspace and when you restart the workspace it will be much quicker than the inital build so don't worry.
 
-## Running it ##
-Here is a quick guide on how to view the starting page of your project in a preview browser. Please read the [Gitpod documentation](https://www.gitpod.io/docs/) if you want to use this amazing system to its fullest potential.
+## Running the client ##
+A preview browser should automatically open and display the Laravel start page. This page is being served by a web server. The code for this page is in `/resources/views/welcome.blade.php` Please read the [Gitpod documentation](https://www.gitpod.io/docs/) if you want to use this amazing system to its fullest potential. In the IDE there is a UI for hiding the preview brower panel and for launching the preview browser in a seperate window. Look on the right side area of the IDE for these controls.
 
-
-Once the gitpod workspace has been built and loaded you will see a log of the results in a terminal window at the bottom. The starting page of your project should be displayed in the preview browser. The preview browser can also be launched in a seperate window if you like. If you see that the starting page has not loaded in the preview browser try clicking the "try again" button as sometimes the preview window opens before the webserver has served the page.
-
+## Pushing files ##
+If the results log shows success, you should push the newly created project files to your repository.
 
 A successful results log will look something like this:
 ```
@@ -92,15 +91,25 @@ If the above results are successful then make sure to add, commit and push the c
 
 ### Debugging (TBD, not accurate yet)
 
- The server is started for you via the task set in .gitpod.yml but you may also startup a debugging session manually (for all php files in the public folder) by running the command: `php -S localhost:8080 -t public/`
+ The server is started in way that is compatible with `xdebug` for you via a command task set in .gitpod.yml 
 
- Note: This system uses port 9009 for the debugging data. A vs code launch configuration file is included (`/.theia/launch.json`).
+ Note: This system uses port 9009 for the debugging. A vs code launch configuration file is included (`/.theia/launch.json`).
 
-- Once the preview browser is open, set a breakpoint in any `php` file in the `public` folder (or deeper) and then in the VScode IDE in the browser :
+- Once the preview browser is open, set a breakpoint by clicking in the gutter next to the line of code you want in any `php` file in the `public` folder (or deeper) and then in the Gitpod (THEIA) IDE in the browser:
   2. Hit the debug icon in the left side panel to open the Debug panel.
   3. Choose "Listen for XDebug" from the dropdown list.
   4. Hit the green play button (you should see the status "RUNNING" in the Threads panel)
   5. Refresh the preview browser and you should now hit your breakpoint.
+
+
+All debugging is subject to server timeout, refreshing the preview browser should make this go away.
+
+
+You may also debug blade templates by placing the following snippet above where you want to inspect the blade directive. Save the file and refresh the preview browser when the debugger is RUNNING. If all else fails stop the debugger, launch the Listen for xdebug launch configuration again and refresh the page again.
+- ```php
+<?php xdebug_break(); ?>
+```
+This will open a temporary php file that has all the blade directives convert to php tags, you may set additional breakpoints in this code as well.
 
 ### Tailing the xdebug log
 To tail the xdbug log
