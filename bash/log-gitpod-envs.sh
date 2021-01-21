@@ -1,4 +1,4 @@
 #!/bin/bash
 LOG='/var/log/workspace-image.log'
 
-env | grep GITPOD | tee -a $LOG
+env | grep THEIA_WORKSPACE_ROOT | tee -a $LOG
