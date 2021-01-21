@@ -18,7 +18,7 @@ Gitpod will use the name of Github repository you use as the name of the project
 ```bash
 mkdir NEW_PROJECT_REPO_NAME
 cd NEW_PROJECT_REPO_NAME
-git clone https://github.com/apolopena/gitpod-laravel8-starter.git
+git clone https://github.com/apolopena/gitpod-laravel8-starter.git .
 rm -rf .git
 git init
 git add -A
@@ -37,7 +37,7 @@ git push -u origin main
   3. Move into your newly created local folder.
     - `cd NEW_PROJECT_REPO_NAME`
   4. Clone this repository into your newly created local folder. Pay close attention to the *.* at the end of this command as you do not want and extra folder named gitpod-laravel8-starter in your project repo. You may use the SSH URL is you like. This example uses the https URL.
-    - `git clone https://github.com/apolopena/gitpod-laravel8-starter.git`
+    - `git clone https://github.com/apolopena/gitpod-laravel8-starter.git .`
   5. Delete all the git history (important step).
     - `rm -rf .git`
   6. Initialize the local git repository.
