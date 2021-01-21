@@ -70,6 +70,26 @@ Here is a quick guide on how to view the starting page of your project in a prev
 Once the gitpod workspace has been built and loaded you will see a log of the results in a terminal window at the bottom. The starting page of your project should be displayed in the preview browser. The preview browser can also be launched in a seperate window if you like. If you see that the starting page has not loaded in the preview browser try clicking the "try again" button as sometimes the preview window opens before the webserver has served the page.
 
 
+A successful results log will look something like this:
+```
+Results of building the workspace image ➥
+BEGIN: update composer
+  Purging existing version of composer: Composer 1.10.1 2020-03-13 20:34:27
+  SUCCESS: purged existing version of composer.
+  Installing latest version of composer...
+  SUCCESS: latest version of composer installed: Composer version 2.0.8 2020-12-03 17:20:38
+END: update composer
+BEGIN: Scaffolding Laravel Project
+  Creating Laravel 8.x project in ~/temp-app ...
+  SUCCESS: Laravel Framework 8.24.0 project temp-app project created in ~/
+END: Scaffolding Laravel Project
+
+Moving Laravel project from ~/temp-app to /workspace/gitpod-laravel8-starter ...
+SUCCESS: moved Laravel project from ~/temp-app to /workspace/gitpod-laravel8-starter
+If the above results are successful then make sure to add, commit and push the changes to your git repository.
+```
+
+
 ### Debugging (TBD, not accurate yet)
 
  The server is started for you via the task set in .gitpod.yml but you may also startup a debugging session manually (for all php files in the public folder) by running the command: `php -S localhost:8080 -t public/`
