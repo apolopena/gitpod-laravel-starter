@@ -10,7 +10,7 @@ ports:
     onOpen: ignore
 
 tasks:
-  - init: mv -f ~/test-app/* $GITPOD_REPO_ROOT
+  - init: bash bash/init-gitpod.sh
     
 vscode:
   extensions:
