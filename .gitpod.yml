@@ -11,7 +11,7 @@ ports:
 
 tasks:
   - init: bash bash/init-gitpod.sh && source ~/.bash_profile && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-  - command: php -S 127.0.0.1:8000 -t public/ && gp await-port 8000 && sleep 3 && gp preview $(gp url 8000)
+  - command: sleep 1 && php -S 127.0.0.1:8000 -t public/ && gp await-port 8000 && sleep 3 && gp preview $(gp url 8000)
     openMode: split-left
     
 vscode:
