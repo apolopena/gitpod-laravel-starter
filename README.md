@@ -67,7 +67,7 @@ git push -u origin main
 A preview browser should automatically open and display the Laravel start page. This page is being served by a web server. The code for this page is in `/resources/views/welcome.blade.php` Please read the [Gitpod documentation](https://www.gitpod.io/docs/) if you want to use this amazing system to its fullest potential. In the IDE there is a UI for hiding the preview brower panel and for launching the preview browser in a seperate window. Look on the right side area of the IDE for these controls.
 
 ## Pushing files ##
-If the results log shows success, you should push the newly created project files to your repository.
+If the results log shows success, you should push the newly created project files to your remote repository. *If you do not push the newly created project files to your remote repository **all** of those will be **lost** when the workspace stops and is restarted!*. 
 
 A successful results log will look something like this:
 ```
@@ -111,10 +111,11 @@ To disable debugging run `debug-off` in a Gitpod terminal.
 All debugging is subject to server timeout, refreshing the preview browser should make this go away.
 
 
-You may also debug blade templates by placing the following snippet above where you want to inspect the blade directive. Save the file and refresh the preview browser when the debugger is RUNNING. If all else fails stop the debugger, launch the Listen for xdebug launch configuration again and refresh the page again.
-- ```php
+You may also debug blade templates by placing the following snippet above where you want to inspect the blade directive.
+```php
 <?php xdebug_break(); ?>
 ```
+Save the file and refresh the preview browser when the debugger is in the IDE. If all else fails stop the debugger, launch the "Listen for Xdebug" launch configuration again and refresh the preview browser.
 This will open a temporary php file that has all the blade directives convert to php tags, you may set additional breakpoints in this code as well.
 
 ### Tailing the xdebug log
