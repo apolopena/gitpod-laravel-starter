@@ -11,7 +11,6 @@ ports:
 
 tasks:
   - init: bash bash/init-gitpod.sh && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-  - init: echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile && echo -e 'alias t-debug-off="gp preview \"$(gp url 8000)?XDEBUG_SESSION_STOP=1\""' >> ~/.bash_profile && source ~/.bash_profile
   - command: php -S 127.0.0.1:8000 -t public/ && gp await-port 8000 && sleep 3 && gp preview $(gp url 8000)
     openMode: split-left
     
