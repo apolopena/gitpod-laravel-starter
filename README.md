@@ -91,9 +91,15 @@ If the above results are successful then make sure to add, commit and push the c
 
 ### Debugging (TBD, not accurate yet)
 
- The server is started in way that is compatible with `xdebug` for you via a command task set in .gitpod.yml 
+The server is started in way that is compatible with `xdebug` for you via a command task set in .gitpod.yml
 
- Note: This system uses port 9009 for the debugging. A vs code launch configuration file is included (`/.theia/launch.json`).
+**Debugging must be enabled before breakpoints can be hit and will last for an hour before it disables automatically.**
+To enable debugging run `debug-on` in a Gitpod terminal. 
+To disable debugging run `debug-off` in a Gitpod terminal.
+
+*Note*: When debugging is enabled or disabled the preview browser will reload the index page. When debugging is enabled *each* subsequent request can be debugged for an hour or until debugging is disabled.
+
+*Additional Note*: This system uses port 9009 for the debugging. A launch configuration file is included (`/.theia/launch.json`).
 
 - Once the preview browser is open, set a breakpoint by clicking in the gutter next to the line of code you want in any `php` file in the `public` folder (or deeper) and then in the Gitpod (THEIA) IDE in the browser:
   2. Hit the debug icon in the left side panel to open the Debug panel.
