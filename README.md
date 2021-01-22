@@ -93,7 +93,7 @@ If the above results are successful then make sure to add, commit and push the c
 
 The server is started in way that is compatible with `xdebug` for you via a command task set in .gitpod.yml
 
-**Debugging must be enabled before breakpoints can be hit and will last for an hour before it disables automatically.**
+**Debugging must be enabled before breakpoints can be hit and will last for an hour before it is disabled automatically.**
 To enable debugging run `debug-on` in a Gitpod terminal. 
 To disable debugging run `debug-off` in a Gitpod terminal.
 
