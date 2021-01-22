@@ -2,10 +2,6 @@ FROM gitpod/workspace-full
 
 USER gitpod
 
-RUN echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile \
-    echo -e 'alias debug-off="gp preview \"$(gp url 8000)?XDEBUG_SESSION_STOP=1\""' >> ~/.bash_profile \
-    source ~/.bash_profile
-
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
 
