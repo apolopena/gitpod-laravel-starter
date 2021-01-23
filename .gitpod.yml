@@ -22,7 +22,7 @@ tasks:
       && "MySql Server is RUNNING" \
       && php -S 127.0.0.1:8000 -t public/ \
       && echo "Waiting for web server on port 8000..." \
-      && gp await-port 3306 \
+      && gp await-port 8000 \
       && echo "Web server is RUNNING on port 8000." \
       && "Waiting 5 seconds to open the preview browser..." \
       sleep 5 \
