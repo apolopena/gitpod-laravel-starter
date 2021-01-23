@@ -8,6 +8,8 @@ ports:
     onOpen: open-preview
   - port: 9009
     onOpen: ignore
+  - port: 3306
+    onOpen: ignore
 
 tasks:
   - init: |
@@ -15,11 +17,9 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      bash bash/clear-term.sh
-      sleep 1 \
+      sleep 5 \
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
-      && sleep 5 \
       && gp preview $(gp url 8000)
     openMode: split-left
     
