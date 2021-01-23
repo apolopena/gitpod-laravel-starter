@@ -6,7 +6,7 @@ echo "BEGIN: Scaffolding Laravel Project" | tee -a $LOG
 echo "  Creating Laravel 8.x project in ~/temp-app ..." | tee -a $LOG
 composer create-project --prefer-dist laravel/laravel test-app "8.*"
 ERRCODE=$?
-if [ $ERROCODE -ne 0 ]; then
+if [ $ERRCODE -ne 0 ]; then
   >&2 echo "  ERROR: failed to create Laravel 8.23.x project temp-app" | tee -a $LOG
 else
   chown -R gitpod:gitpod /home/gitpod/test-app
