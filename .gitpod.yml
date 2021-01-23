@@ -13,7 +13,7 @@ ports:
 
 tasks:
   - before: |
-      printf "\033c" && echo "Waiting for MySql Server on port 3306..."
+      printf "\033c" && sleep 1 && echo "Waiting for MySql Server on port 3306..."
   - init: |
       bash bash/init-gitpod.sh \
       && source ~/.bash_profile \
