@@ -12,6 +12,8 @@ ports:
     onOpen: ignore
 
 tasks:
+  - before: |
+    sleep 1
   - init: |
       bash bash/init-gitpod.sh \
       && source ~/.bash_profile \
