@@ -13,7 +13,7 @@ ports:
 
 tasks:
   - before: |
-    sleep 1
+    echo "Starting up..."
   - init: |
       bash bash/init-gitpod.sh \
       && source ~/.bash_profile \
