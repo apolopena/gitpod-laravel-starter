@@ -17,7 +17,7 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      sleep 1 \
+      gp await-port 3306 \
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
       sleep 5 \
