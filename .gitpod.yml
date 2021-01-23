@@ -19,7 +19,7 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      && gp await-port 3306 \
+      gp await-port 3306 \
       && echo "MySql Server is RUNNING" \
       && sleep 1 \
       && echo "Waiting for web server on port 8000..." \
