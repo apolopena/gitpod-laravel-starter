@@ -13,7 +13,8 @@ ports:
 
 tasks:
   - before: |
-      echo "Waiting for MySql Server on port 3306..." \
+      echo "Waiting for MySql Server on port 3306..."
+      sleep 5
   - init: |
       bash bash/init-gitpod.sh \
       && source ~/.bash_profile \
@@ -26,7 +27,6 @@ tasks:
       && php -S 127.0.0.1:8000 -t public/ \
       && sleep 8 \
       && gp preview $(gp url 8000) \
-      && echo "Preview browser is open."
     openMode: split-left
     
 vscode:
