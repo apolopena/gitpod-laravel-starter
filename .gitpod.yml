@@ -17,11 +17,17 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      gp await-port 3306 \
+      echo "Waiting for MySql Server..." \
+      && gp await-port 3306 \
+      && "MySql Server is RUNNING"
       && php -S 127.0.0.1:8000 -t public/ \
-      && gp await-port 8000 \
+      && echo "Waiting for web server on port 8000..."
+      && gp await-port 3306 \
+      && echo "Web server is RUNNING on port 8000."
+      && "Waiting 5 seconds to open the preview browser..."
       sleep 5 \
       && gp preview $(gp url 8000)
+      && echo "Preview browser is open."
     openMode: split-left
     
 vscode:
