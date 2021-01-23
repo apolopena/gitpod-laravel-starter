@@ -1,5 +1,5 @@
 #!/bin/bash
-printf "\033c"
+#printf "\033c"
 echo "Results of building the workspace image ➥"
 cat /var/log/workspace-image.log
 echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT ..."
