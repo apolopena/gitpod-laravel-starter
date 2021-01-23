@@ -12,12 +12,13 @@ ports:
     onOpen: ignore
 
 tasks:
+  - before: |
+      echo "--> Waiting for MySql Server on port 3306..." \
   - init: |
       bash bash/init-gitpod.sh \
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      echo "--> Waiting for MySql Server on port 3306..." \
       && gp await-port 3306 \
       && echo "MySql Server is RUNNING" \
       && sleep 1 \
