@@ -24,7 +24,7 @@ tasks:
       && echo "Waiting for web server on port 8000..." \
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
-      && sleep 5 \
+      && sleep 8 \
       && gp preview $(gp url 8000) \
       && echo "Preview browser is open."
     openMode: split-left
