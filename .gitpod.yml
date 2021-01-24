@@ -22,12 +22,10 @@ tasks:
       && echo "Waiting for MySql Server on port 3306..."
       gp await-port 3306 \
       && echo "MySql Server is RUNNING" \
-      && sleep 1 \
       && echo "Waiting for web server on port 8000..." \
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
-      && gp preview $(gp url 8000)
-      sleep 5
+      && sleep 5 /
       buster=$(gp url 8000)?buster=1; gp preview $buster
     openMode: split-left
     
