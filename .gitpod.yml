@@ -5,7 +5,7 @@ ports:
   - port: 8080
     onOpen: open-preview
   - port: 8000
-    onOpen: open-preview
+    onOpen: ignore
   - port: 9009
     onOpen: ignore
   - port: 3306
@@ -26,7 +26,7 @@ tasks:
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
       && sleep 5 /
-      buster=$(gp url 8000)?buster=1; gp preview $buster
+      && gp preview $(gp url 8000)
     openMode: split-left
     
 vscode:
