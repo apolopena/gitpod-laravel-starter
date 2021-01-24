@@ -27,7 +27,7 @@ tasks:
       && php -S 127.0.0.1:8000 -t public/ \
       && gp await-port 8000 \
       && gp preview $(gp url 8000) \
-      && sleep 5 && buster=$(gp url 8000)?buster=1; gp preview buster
+      && sleep 5 && buster=$(gp url 8000)?buster=1; gp preview $buster
     openMode: split-left
     
 vscode:
