@@ -9,7 +9,7 @@ RUN echo "go"
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 # Copy dependencies
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /tmp
-RUN 'source /tmp/spinner.sh && start_spinner "Initializing MySql" && source /etc/mysql/mysql-bashrc-launch.sh && stop_spinner $?'
+RUN 'source /tmp/spinner.sh && start_spinner "Initializing MySql"'
 
 # END: handle graceful init/run of MySq
 
