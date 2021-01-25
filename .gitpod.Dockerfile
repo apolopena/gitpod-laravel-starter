@@ -4,8 +4,14 @@ USER gitpod
 
 RUN echo "go"
 
+# BEGIN: handle graceful init/run of MySql
 # Remove the auto startup of mysql
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
+# Copy dependencies
+COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /tmp
+RUN 'source /tmp/spinner.sh && start_spinner "Initializing MySql" && source /etc/mysql/mysql-bashrc-launch.sh && stop_spinner $?'
+
+# END: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
