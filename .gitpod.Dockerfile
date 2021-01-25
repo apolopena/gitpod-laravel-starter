@@ -9,9 +9,9 @@ RUN echo "go"
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 # Copy dependencies
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /tmp
-RUN 'source /tmp/spinner.sh && start_spinner "Initializing MySql"'
+RUN 'cat /temp/spinner.sh && source /tmp/spinner.sh && start_spinner "Initializing MySql"'
 
-# END: handle graceful init/run of MySq
+# BEGIN: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
