@@ -4,6 +4,9 @@ USER gitpod
 
 RUN echo "go"
 
+# Clear HISTFILE echo, comment this out when you need to debug what commands were given in the console.
+printf "\033c"
+
 # BEGIN: handle graceful init/run of MySql
 # Remove the auto startup of mysql (workspace-mysql)
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"

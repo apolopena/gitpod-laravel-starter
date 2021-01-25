@@ -1,14 +1,6 @@
 #!/bin/bash
 #printf "\033c"
 
-# startup spinner
-
-# WORKS (with problems, non terminating? so no good in an init task?): Initializing mysql take a long time so show a spinner in the console.
-#. bash/third-party/spinner.sh && start_spinner "Initializing MySql"
-# Initialize mysql
-#. /etc/mysql/mysql-bashrc-launch.sh
-stop_spinner $?
-
 echo "Results of building the workspace image ➥"
 cat /var/log/workspace-image.log
 echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT ..."
