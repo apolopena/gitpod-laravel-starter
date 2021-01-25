@@ -2,6 +2,9 @@ FROM gitpod/workspace-mysql
 
 USER gitpod
 
+# Remove the auto startup of mysql
+RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
+
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
 
