@@ -18,7 +18,8 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: |
-      bash bash/commands/start-debugable-php.sh
+      echo "Starting up debugable web server..."
+      sleep 5 && bash bash/commands/start-debugable-php.sh
     openMode: split-right
     
 vscode:
