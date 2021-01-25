@@ -9,11 +9,10 @@ RUN echo "go"
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 # Copy dependencies
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
-RUN echo " . /etc/mysql/spinner.sh && start_spinner 'Initializing MySql'" >> ~/.bashrc
+# Notify user
+RUN echo " . /etc/mysql/spinner.sh && start_spinner 'Initializing MySql, this may take a moment.'" >> ~/.bashrc
 RUN echo "/etc/mysql/mysql-bashrc-launch.sh" >> ~/.bashrc
 RUN echo "stop_spinner $?" >> ~/.bashrc
-#RUN cat /etc/mysql/mysql-bashrc-launch.sh && bash -c ". /tmp/spinner.sh && start_spinner 'Initializing MySql' && . /etc/mysql/mysql-bashrc-launch.sh"
-
 # END: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
@@ -40,7 +39,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=69
+ENV INVALIDATE_CACHE=70
 
 COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
