@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Author: Tasos Latsas
+# From repo: https://github.com/tlatsas/bash-spinner
 
 # spinner.sh
 #
