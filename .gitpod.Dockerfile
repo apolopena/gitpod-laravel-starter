@@ -1,9 +1,8 @@
 FROM gitpod/workspace-mysql
 
 USER gitpod
-# gitpod trick to bypass the docker caching mechanism for all lines below this one
-# just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=65
+
+RUN echo "go"
 
 # Remove the auto startup of mysql
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
@@ -29,6 +28,10 @@ RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
 
 COPY --chown=gitpod:gitpod bash/update-composer.sh /tmp
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
+
+# gitpod trick to bypass the docker caching mechanism for all lines below this one
+# just increment the value each time you want to bypass the cache system
+ENV INVALIDATE_CACHE=66
 
 COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
