@@ -17,8 +17,9 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   - command: php -S 127.0.0.1:8000 -t public/
-    openMode: split-left
-    command: echo "foo"
+    name: PHP dev server
+  - openMode: split-left
+  - command: echo "foo"
     openMode: split-right
     
 vscode:
