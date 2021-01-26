@@ -19,7 +19,7 @@ tasks:
   - command: php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
   - openMode: split-left
-  - command: echo "foo"
+  - command: gp await-port 8000 && sleep 3 && gp preview $(gp url 8000) 
     openMode: split-right
     
 vscode:
