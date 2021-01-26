@@ -1,8 +1,19 @@
-if [ $MYSQL_INIT -ne 0 ]; then
-  . /etc/mysql/spinner.sh && start_spinner "Initializing MySql, this may take a moment."
+if [[ ! -v MYSQL_INIT ]]; then
+    echo "MYSQL_INIT is not set"
+    /etc/mysql/mysql-bashrc-launch.sh
+elif [[ -z "$MYSQL_INIT" ]]; then
+    echo "MYSQL_INIT is set to the empty string"
+else
+    #echo "MYSQL_INIT has the value: $MYSQL_INIT"
+    . /etc/mysql/spinner.sh && start_spinner "Initializing MySql, this may take a moment."
+    /etc/mysql/mysql-bashrc-launch.sh
 fi
-/etc/mysql/mysql-bashrc-launch.sh
-if [ $MYSQL_INIT -ne 0 ]; then
-  stop_spinner $?
-  MYSQL_INIT=0
+
+if [[ ! -v MYSQL_INIT ]]; then
+    #echo "MYSQL_INIT is not set"
+elif [[ -z "$MYSQL_INIT" ]]; then
+    echo "MYSQL_INIT is set to the empty string"
+else
+    stop_spinner
+    unset MYSQL_INIT
 fi
