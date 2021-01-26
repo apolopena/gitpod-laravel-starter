@@ -4,7 +4,7 @@ USER gitpod
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=83
+ENV INVALIDATE_CACHE=84
 
 # BEGIN: handle graceful init/run of MySql
 # Flag to ensure init message and spinner only displays once @see bash/mysql-snippet.sh
@@ -15,7 +15,7 @@ RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
 COPY --chown=gitpod:gitpod bash/mysql-snippet.sh /tmp
 # Write main logic to ~/bashrc
-#RUN cat /tmp/mysql-snippet.sh >> ~/.bashrc
+RUN cat /tmp/mysql-snippet.sh >> ~/.bashrc
 # END: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
