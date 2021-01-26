@@ -4,8 +4,7 @@ USER gitpod
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=89
-RUN echo "whatever and then some"
+ENV INVALIDATE_CACHE=90
 
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
