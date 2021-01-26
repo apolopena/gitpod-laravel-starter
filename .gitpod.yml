@@ -17,13 +17,13 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     name: Initialization
-  - openMode: split-left
+  - openMode: split-right
   - command: sleep 1 && php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
-  - openMode: split-left
-  - command: gp await-port 8000 && sleep 3 && gp preview "$(gp url 8000)/index.php"
+  - openMode: split-right
+  - command: sleep 5 && gp await-port 8000 && sleep 3 && gp preview "$(gp url 8000)/index.php"
     name: Main Terminal
-  - openMode: split-left
+  - openMode: split-right
     
 vscode:
   extensions:
