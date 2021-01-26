@@ -11,7 +11,7 @@ RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
 COPY --chown=gitpod:gitpod bash/mysql-snippet.sh /tmp
 # Write main logic to ~/bashrc
-RUN cat bash/mysql-snippet.sh >> ~/.bashrc
+RUN cat tmp/mysql-snippet.sh >> ~/.bashrc
 # END: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
