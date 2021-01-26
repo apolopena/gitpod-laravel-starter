@@ -3,14 +3,15 @@ FROM gitpod/workspace-mysql
 USER gitpod
 
 # BEGIN: handle graceful init/run of MySql
+# Flag to ensure init message and spinner only displays once @see bash/mysql-snippet.sh
+ENV MYSQL_INIT=1
 # Remove the auto startup of mysql (workspace-mysql)
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 # Copy dependencies
 COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
-# Notify user
-RUN echo " . /etc/mysql/spinner.sh && start_spinner 'Initializing MySql, this may take a moment.'" >> ~/.bashrc
-RUN echo "/etc/mysql/mysql-bashrc-launch.sh" >> ~/.bashrc
-RUN echo "stop_spinner $?" >> ~/.bashrc
+COPY --chown=gitpod:gitpod bash/mysql-snippet.sh /tmp
+# Write main logic to ~/bashrc
+RUN cat /tmp mysql-snippet.sh >> ~/.bashrc
 # END: handle graceful init/run of MySq
 
 RUN sudo touch /var/log/workspace-image.log \
