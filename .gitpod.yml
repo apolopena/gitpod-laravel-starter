@@ -13,6 +13,7 @@ ports:
 
 tasks:
   - init: |
+      bash bash/clear-term.sh &&
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql..." &&
       gp await-port 3306 &&
