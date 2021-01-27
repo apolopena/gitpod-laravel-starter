@@ -2,6 +2,12 @@ FROM gitpod/workspace-mysql
 
 USER gitpod
 
+RUN sudo touch /var/log/workspace-image.log \
+    && sudo chmod 666 /var/log/workspace-image.log
+
+RUN sudo touch /var/log/xdebug.log \
+    && sudo chmod 666 /var/log/xdebug.log
+
 # BEGIN: Notify user of MySql initialization
 ENV MYSQL_INIT=1
 
@@ -11,15 +17,8 @@ COPY --chown=gitpod:gitpod bash/mysql-snippet.sh /tmp
 
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 
-#RUN cat /tmp/mysql-snippet.sh | tee -a ~/.bashrc
+RUN cat /tmp/mysql-snippet.sh >> ~/.bashrc
 # END: Notify user of MySql initialization
-
-
-RUN sudo touch /var/log/workspace-image.log \
-    && sudo chmod 666 /var/log/workspace-image.log
-
-RUN sudo touch /var/log/xdebug.log \
-    && sudo chmod 666 /var/log/xdebug.log
 
 RUN sudo apt-get update -q \
     && sudo apt-get install -y php-dev
