@@ -12,17 +12,16 @@ ports:
     onOpen: ignore
 
 tasks:
-  - init: |
-      bash bash/init-gitpod.sh &&
-      source ~/.bash_profile &&
-      url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env &&
+  - before: |
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql..." &&
       gp await-port 3306 &&
       stop_spinner $?
-  - name: Initialization
-  - openMode: split-left
-  - command: |
+    init: |
+      bash bash/init-gitpod.sh &&
+      source ~/.bash_profile &&
+      url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env &&
+    command: |
       gp await-port 3306 &&
       php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
