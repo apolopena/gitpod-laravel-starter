@@ -20,6 +20,8 @@ tasks:
       start_spinner "Initializing MySql..." &&
       gp await-port 3306 &&
       stop_spinner $?
+  - name: Initialization
+  - openMode: split-left
   - command: |
       gp await-port 3306 &&
       php -S 127.0.0.1:8000 -t public/
