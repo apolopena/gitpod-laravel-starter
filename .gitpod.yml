@@ -20,7 +20,7 @@ tasks:
   - openMode: split-left
   - command: |
       . bash/third-party/spinner.sh &&
-      start_spinner &&
+      start_spinner "Initializing MySql" &&
       gp await-port 3306 &&
       stop_spinner $? &&
       php -S 127.0.0.1:8000 -t public/
@@ -29,7 +29,8 @@ tasks:
   - command: |
       gp await-port 8000 &&
       gp preview "$(gp url 8000)?firstrun=1" &&
-      sleep 3 && gp preview $(gp url 8000)
+      sleep 3 && gp preview $(gp url 8000) &&
+      echo "Preview browser is open"
 
 vscode:
   extensions:
