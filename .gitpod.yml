@@ -19,6 +19,7 @@ tasks:
     name: Initialization
   - openMode: split-left
   - command: |
+      bash bash/clear-term.sh &&
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql" &&
       gp await-port 3306 &&
@@ -27,6 +28,7 @@ tasks:
     name: PHP dev server
   - openMode: split-left
   - command: |
+      bash bash/clear-term.sh &&
       gp await-port 8000 &&
       gp preview "$(gp url 8000)?firstrun=1" &&
       sleep 3 && gp preview $(gp url 8000) &&
