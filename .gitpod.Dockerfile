@@ -8,14 +8,6 @@ RUN sudo touch /var/log/workspace-image.log \
 RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
-# BEGIN: Notify user of MySql initialization
-#ENV MYSQL_INIT=1
-#COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
-#COPY --chown=gitpod:gitpod bash/snippets/graceful-mysql.sh /tmp
-#RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
-#RUN cat /tmp/graceful-mysql.sh >> ~/.bashrc
-# END: Notify user of MySql initialization
-
 RUN sudo apt-get update -q \
     && sudo apt-get install -y php-dev
 
@@ -34,7 +26,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=97
+ENV INVALIDATE_CACHE=98
 
 COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
