@@ -17,11 +17,20 @@ tasks:
       && source ~/.bash_profile \
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     name: Initialization
-  - openMode: split-right
-  - command: gp await-port 3306 && php -S 127.0.0.1:8000 -t public/ && gp await-port 8000 && gp preview $(gp url 8000)
+  - openMode: split-left
+  - command: |
+      . bash/third-party/spinner.sh &&
+      start_spinner &&
+      gp await-port 3306 &&
+      stop_spinner $? &&
+      php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
-  - openMode: split-right
-    
+  - openMode: split-left
+  - command: |
+      gp await port 8000 &&
+      gp preview "$(gp url 8000)?firstrun=1" &&
+      sleep 3 && gp preview $(gp url 8000)
+
 vscode:
   extensions:
     - felixfbecker.php-debug@1.14.5:xEr6zDqY853IE2HQtLtXPA==

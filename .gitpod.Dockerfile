@@ -9,11 +9,11 @@ RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
 # BEGIN: Notify user of MySql initialization
-ENV MYSQL_INIT=1
-COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
-COPY --chown=gitpod:gitpod bash/snippets/graceful-mysql.sh /tmp
-RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
-RUN cat /tmp/graceful-mysql.sh >> ~/.bashrc
+#ENV MYSQL_INIT=1
+#COPY --chown=gitpod:gitpod bash/third-party/spinner.sh /etc/mysql
+#COPY --chown=gitpod:gitpod bash/snippets/graceful-mysql.sh /tmp
+#RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
+#RUN cat /tmp/graceful-mysql.sh >> ~/.bashrc
 # END: Notify user of MySql initialization
 
 RUN sudo apt-get update -q \
