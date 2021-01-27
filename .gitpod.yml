@@ -19,7 +19,7 @@ tasks:
       stop_spinner $? &&
       bash bash/init-gitpod.sh &&
       source ~/.bash_profile &&
-      url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env &&
+      url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     command: |
       gp await-port 3306 &&
       php -S 127.0.0.1:8000 -t public/
