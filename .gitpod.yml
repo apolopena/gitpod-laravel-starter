@@ -26,7 +26,6 @@ tasks:
     name: PHP dev server
   - openMode: split-left
     command: |
-      bash bash/clear-term.sh &&
       gp await-port 8000 &&
       gp preview "$(gp url 8000)?firstrun=1" &&
       echo "Auto refreshing preview browser. Please wait 5 seconds."
