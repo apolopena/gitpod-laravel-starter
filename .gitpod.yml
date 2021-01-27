@@ -22,10 +22,7 @@ tasks:
       bash bash/clear-term.sh &&
       echo "Initializing MySql..." &&
       gp await-port 3306 &&
-      php -S 127.0.0.1:8000 -t public/
-    name: PHP dev server
-  - openMode: split-left
-  - command: |
+      & php -S 127.0.0.1:8000 -t public/ &&
       bash bash/clear-term.sh &&
       gp await-port 8000 &&
       gp preview "$(gp url 8000)?firstrun=1" &&
