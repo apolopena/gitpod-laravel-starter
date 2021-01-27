@@ -20,10 +20,8 @@ tasks:
   - openMode: split-left
   - command: |
       bash bash/clear-term.sh &&
-      . bash/third-party/spinner.sh &&
-      start_spinner "Initializing MySql" &&
+      echo "Initializing MySql..." &&
       gp await-port 3306 &&
-      stop_spinner $? &&
       php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
   - openMode: split-left
@@ -31,7 +29,8 @@ tasks:
       bash bash/clear-term.sh &&
       gp await-port 8000 &&
       gp preview "$(gp url 8000)?firstrun=1" &&
-      sleep 3 && gp preview $(gp url 8000) &&
+      echo "Auto refreshing preview browser. Please wait 5 seconds."
+      sleep 5 && gp preview $(gp url 8000) &&
       echo "Preview browser is open"
 
 vscode:
