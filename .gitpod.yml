@@ -5,7 +5,7 @@ ports:
   - port: 8080
     onOpen: open-preview
   - port: 8000
-    onOpen: open-preview
+    onOpen: ignore
   - port: 9009
     onOpen: ignore
   - port: 3306
@@ -13,18 +13,30 @@ ports:
 
 tasks:
   - init: |
-      bash bash/init-gitpod.sh \
-      && source ~/.bash_profile \
-      && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-    name: Initialization
-  - openMode: split-right
-  - command: sleep 1 && php -S 127.0.0.1:8000 -t public/
+      . bash/third-party/spinner.sh &&
+      start_spinner "Initializing MySql..." &&
+      gp await-port 3306 &&
+      stop_spinner $? &&
+      bash bash/init-gitpod.sh &&
+      source ~/.bash_profile &&
+      url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+    name: Init
+  - openMode: split-left
+    command: |
+      bash bash/clear-term.sh && UP=$(pgrep mysql | wc -l); if [ "$UP" -ne 1 ]; then . bash/third-party/spinner.sh && start_spinner "Initializing MySql..." && gp await-port 3306 && stop_spinner $?; fi
+      gp await-port 3306 &&
+      sleep 1.5 &&
+      php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
-  - openMode: split-right
-  - command: sleep 5 && gp await-port 8000 && sleep 3 && gp preview "$(gp url 8000)/index.php"
+  - openMode: split-left
+    command: |
+      gp await-port 8000 &&
+      gp preview "$(gp url 8000)?firstrun=1" &&
+      echo "Auto refreshing preview browser. Please wait 5 seconds."
+      sleep 5 && gp preview $(gp url 8000) &&
+      echo "Preview browser is open"
     name: Main Terminal
-  - openMode: split-right
-    
+
 vscode:
   extensions:
     - felixfbecker.php-debug@1.14.5:xEr6zDqY853IE2HQtLtXPA==
