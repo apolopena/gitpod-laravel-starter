@@ -6,6 +6,7 @@ elif [[ -z "$MYSQL_INIT" ]]; then
   /etc/mysql/mysql-bashrc-launch.sh
 else
   unset MYSQL_INIT &&
+  sleep 2 &&
   . /etc/mysql/spinner.sh &&
   start_spinner "Initializing MySql, this may take a few moments." &&
   /etc/mysql/mysql-bashrc-launch.sh &&
