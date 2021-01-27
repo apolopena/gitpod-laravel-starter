@@ -17,7 +17,7 @@ COPY --chown=gitpod:gitpod bash/mysql-snippet.sh /tmp
 
 RUN bash -c "sed -i -e 's/\/etc\/mysql\/mysql-bashrc-launch.sh//g' ~/.bashrc"
 
-#RUN cat /tmp/mysql-snippet.sh >> ~/.bashrc
+RUN cat /tmp/mysql-snippet.sh >> ~/.bashrc
 # END: Notify user of MySql initialization
 
 RUN sudo apt-get update -q \
