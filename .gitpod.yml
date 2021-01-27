@@ -25,6 +25,7 @@ tasks:
     command: |
       bash bash/clear-term.sh && UP=$(pgrep mysql | wc -l); if [ "$UP" -ne 1 ]; then . bash/third-party/spinner.sh && start_spinner "Initializing MySql..." && gp await-port 3306 && stop_spinner $?; fi
       gp await-port 3306 &&
+      sleep 1.5 &&
       php -S 127.0.0.1:8000 -t public/
     name: PHP dev server
   - openMode: split-left
