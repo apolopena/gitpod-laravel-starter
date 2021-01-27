@@ -18,11 +18,8 @@ tasks:
       && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     name: Initialization
   - openMode: split-right
-  - command: sleep 1 && php -S 127.0.0.1:8000 -t public/
+  - command: gp await-port 3306 && php -S 127.0.0.1:8000 -t public/ && gp await-port 8000 && gp preview $(gp url 8000)
     name: PHP dev server
-  - openMode: split-right
-  - command: gp await-port 8000 && gp preview $(gp url 8000)
-    name: Main Terminal
   - openMode: split-right
     
 vscode:
