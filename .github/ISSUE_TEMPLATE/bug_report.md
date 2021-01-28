@@ -1,10 +1,9 @@
 ---
 name: Bug report
-about: Create a report to help us improve. Please put 'n/a' in any section that is
-  not relevant
-title: ''
-labels: ''
-assignees: ''
+about: Create a bug report. You may remove irrelevant sections.
+title: "[BUG]"
+labels: bug
+assignees: apolopena
 
 ---
 
