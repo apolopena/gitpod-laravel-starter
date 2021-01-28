@@ -1,7 +1,7 @@
 #!/bin/bash
 #printf "\033c"
 
-if [ ! -d "$GITPOD_REPO_ROOT/bootstrap"]; then
+if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
   echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT ..."
