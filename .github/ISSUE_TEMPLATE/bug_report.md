@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a bug report. You may remove irrelevant sections.
-title: "[BUG]"
+title: ''
 labels: bug
 assignees: apolopena
 
