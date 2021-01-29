@@ -42,7 +42,7 @@ version () {
 # if [ $? -eq 0 ]; then echo "all files exist"; fi
 check_files_exist () {
   for arg
-  do if [ ! -f "$arg" ]; then echo the file $arg does not exist; exit 1; fi
+  do if [ ! -f "$arg" ]; then echo ERROR: the file $arg does not exist; exit 1; fi
   done
 }
 
