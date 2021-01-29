@@ -19,8 +19,10 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
 fi
 
 # Aliases for git - doesnt support ~/.gitconfig, only tested with ~/.gitconfig, might be file permissions issue, ~/.gitconfig is -rw-r--r-- but __tmp is corrupt it seems, dunno
+echo "Writing git aliases..."
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
+echo "Writing git aliases complete, check the log for any errors."
 
 # Aliases for .bash_profile
 echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile
