@@ -19,8 +19,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
 fi
 
 # Aliases for git
-bash utils.sh add_file_to_file_after \\[alias\\] snippets/emoji-log ~/.gitconfig
-bash utils.sh add_file_to_file_after \\[alias\\] snippets/gitaliases ~/.gitconfig
+bash bash/utils.sh add_file_to_file_after \\[alias\\] snippets/emoji-log ~/.gitconfig
+bash bash/utils.sh add_file_to_file_after \\[alias\\] snippets/gitaliases ~/.gitconfig
 
 # Aliases for .bash_profile
 echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile
