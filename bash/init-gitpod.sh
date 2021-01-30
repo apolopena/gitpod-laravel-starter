@@ -14,11 +14,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   else
     echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
+  cat ~/test-app/.gitignore >> $GITPOD_REPO_ROOT/.gitignore && rm ~/test-app/.gitignore
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
   rmdir ~/test-app
 fi
 
-# Aliases for git - doesnt support ~/.gitconfig, only tested with ~/.gitconfig, might be file permissions issue, ~/.gitconfig is -rw-r--r-- but __tmp is corrupt it seems, dunno
+# Aliases for git 
 echo "Writing git aliases..."
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
