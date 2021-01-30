@@ -24,12 +24,12 @@ else
   echo "  SUCCESS: $VER project temp-app project created in ~/" | tee -a $LOG
 
   # Handle optional install of phpmyadmin
-  install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value starter.ini phpmyadmin install);
+  install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install);
   if [ $install_phpmyadmin -eq 1 ]; then
     echo "  Phpmyadmin installation directive found in starter.ini" | tee -a $LOG
     echo " Installing phpmyadmin..."  | tee -a $LOG
     cd /home/gitpod/test-app/public && composer create-project phpmyadmin/phpmyadmin
-    
+
     ERRCODE=$?
     if [ $ERRCODE -ne 0 ]; then
       echo "  SUCCESS: phpmyadmin installed to ~/temp-app/public"  | tee -a $LOG
