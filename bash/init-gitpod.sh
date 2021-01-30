@@ -14,7 +14,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   else
     echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
-  cat ~/test-app/.gitignore >> $GITPOD_REPO_ROOT/.gitignore && rm ~/test-app/.gitignore
+  (cat ~/test-app/.gitignore; echo) >> $GITPOD_REPO_ROOT/.gitignore && rm ~/test-app/.gitignore
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
   rmdir ~/test-app
 fi
