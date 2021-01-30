@@ -27,11 +27,11 @@ else
   install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install);
   if [ $install_phpmyadmin -eq 1 ]; then
     echo "  Phpmyadmin installation directive found in starter.ini" | tee -a $LOG
-    echo " Installing phpmyadmin..."  | tee -a $LOG
+    echo "  Installing phpmyadmin..."  | tee -a $LOG
     cd /home/gitpod/test-app/public && composer create-project phpmyadmin/phpmyadmin
-
-    ERRCODE=$?
-    if [ $ERRCODE -ne 0 ]; then
+    ERRCODE_PHPMYADMIN=$?
+    if [ $ERRCODE_PHPMYADMIN -eq 0 ]; then
+      chown -R gitpod:gitpod /home/gitpod/test-app/public/phpmyadmin
       echo "  SUCCESS: phpmyadmin installed to ~/temp-app/public"  | tee -a $LOG
     else
       >&2 echo "  ERROR $?: phpmyadmin failed to install" | tee -a $LOG
