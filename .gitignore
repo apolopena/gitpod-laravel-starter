@@ -1,0 +1,6 @@
+# Begin: merged in from laravel8 starter project
+.starter.env
+/vendor/
+/node_modules/
+/public/phpmyadmin
+# END: merged in from laravel8 starter project

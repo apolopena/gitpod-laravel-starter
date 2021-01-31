@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.2"
+  echo "utils.sh version 0.0.3"
 }
 
 # Use absolute paths or paths relative to this script
@@ -79,6 +79,31 @@ add_file_to_file_after() {
   check_files_exist $2 $3 && if [ $? -ne 0 ]; then exit 1; fi
   awk "//; /$1/{while(getline<\"$2\"){print}}" $3 >__tmp
   mv __tmp $3
+}
+
+# parse_ini_value
+# Description:
+# Echoes the value of a variable ($3) for a name value pair under a section ($2) in an .ini file ($1)
+# 
+# Notes:
+# Comments are ignored.
+# Comments are either a pound sign # or a semicolon ; at the beginning of a line.
+# The name argument ($3) and the section argument ($2) 
+# must be simple strings with no special regex characters in them.
+# If a value is not set then an empty string with be echoed.
+#
+# Usage:
+# Example: get the value of the install variable under the section myphpadmin in the file starter.ini
+# Assume the contents of starter.ini has at least this block in it.
+#   [phpmyadmin]
+#   ; this is a comment: install=1, do not install = 0
+#   install=1
+#
+# parse_ini_value starter.ini phpmyadmin install
+# // outputs: 1
+#
+parse_ini_value() {
+  echo $(sed -nr '/^#|^;/b;/\['"$2"'\]/,/\[.*\]/{/\<'"$3"'\>/s/(.*)=(.*)/\2/p}' "$1")
 }
 
 
