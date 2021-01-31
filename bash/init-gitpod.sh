@@ -17,7 +17,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # BEGIN: Optional configurations
   installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
   if [ $installed_phpmyadmin -eq 1 ]; then
-    "Creating phpmyadmin superuser: pmasu..."
+    echo "Creating phpmyadmin superuser: pmasu..."
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
     RESULT=$?
