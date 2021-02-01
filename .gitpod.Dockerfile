@@ -32,3 +32,7 @@ COPY --chown=gitpod:gitpod bash/utils.sh /tmp
 COPY --chown=gitpod:gitpod starter.ini /tmp
 COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
+
+# Aliases
+COPY --chown=gitpod:gitpod bash/snippets/apache-helpers /tmp
+RUN cat /tmp/apache-helpers > ~/.bashrc
