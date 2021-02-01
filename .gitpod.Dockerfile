@@ -34,7 +34,7 @@ COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Aliases
-COPY --chown=gitpod:gitpod bash/snippets/apache-helpers /tmp
+COPY --chown=gitpod:gitpod bash/snippets/webserver-functions /tmp
 RUN echo "# BEGIN: custom code (not internal to gitpod)" \
-    && cat /tmp/apache-helpers >> ~/.bashrc \ 
+    && cat /tmp/webserver-functions >> ~/.bashrc \ 
     && echo "# END: custom code (not internal to gitpod)"
