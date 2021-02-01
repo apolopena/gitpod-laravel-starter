@@ -35,4 +35,4 @@ RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Aliases
 COPY --chown=gitpod:gitpod bash/snippets/apache-helpers /tmp
-RUN cat /tmp/apache-helpers > ~/.bashrc
+RUN cat /tmp/apache-helpers >> ~/.bashrc
