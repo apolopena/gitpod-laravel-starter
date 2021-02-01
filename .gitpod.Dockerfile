@@ -26,7 +26,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=103
+ENV INVALIDATE_CACHE=105
 
 COPY --chown=gitpod:gitpod bash/utils.sh /tmp
 COPY --chown=gitpod:gitpod starter.ini /tmp
@@ -35,4 +35,6 @@ RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Aliases
 COPY --chown=gitpod:gitpod bash/snippets/apache-helpers /tmp
-RUN cat /tmp/apache-helpers >> ~/.bashrc
+RUN echo "# BEGIN: custom code (not internal to gitpod)" \
+    && cat /tmp/apache-helpers >> ~/.bashrc \ 
+    && echo "# END: custom code (not internal to gitpod)"
