@@ -13,6 +13,6 @@ function start-php-dev() {
 }
 
 function stop-php-dev() {
-  local $pid=$(ps axf | grep 'php -S 127.0.0.1:8000 -t public/' | grep -v grep | awk '{print $1}' | sed 1q)
+  local pid=$(ps axf | grep 'php -S 127.0.0.1:8000 -t public/' | grep -v grep | awk '{print $1}' | sed 1q)
   kill -2 $pid
 }
