@@ -44,6 +44,4 @@ echo "try: git a    or: git aliases    for a list your git aliases."
 # Aliases for .bash_profile
 echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile
 echo -e 'alias debug-off="gp preview \"$(gp url 8000)?XDEBUG_SESSION_STOP=1\""' >> ~/.bash_profile
-#echo -e "alias start-apache=\"bash $GITPOD_REPO_ROOT/bash/cmds/start-apache.sh\"" >> ~/.bash_profile
-#echo -e "alias stop-apache=\"bash $GITPOD_REPO_ROOT/bash/cmds/stop-apache.sh\"" >> ~/.bash_profile
 echo "If the above results are successful then make sure to add, commit and push the changes to your git repository."

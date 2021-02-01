@@ -27,7 +27,7 @@ tasks:
       gp await-port 3306 &&
       sleep 1.5 &&
       php -S 127.0.0.1:8000 -t public/
-    name: PHP dev server
+    name: Web Server
   - openMode: split-left
     command: |
       gp await-port 8000 &&
