@@ -68,7 +68,7 @@ open_preview() {
       echo "$err invalid server type: $stype"
       ;;
   esac
-  gp await-port $port &&
+  gp await-port "$(echo $port)" &&
   gp preview "$(gp url $port)?firstrun=1" &&
   echo "Auto refreshing preview browser. Please wait 5 seconds."
   sleep 5 && gp preview $(gp url $port) &&
