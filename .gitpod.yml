@@ -31,7 +31,7 @@ tasks:
   - openMode: split-left
     command: |
       gp await-port 8000 &&
-      default_server=bash bash/utils.sh parse_ini_value starter.ini development default_server; open_preview default_server
+      default_server=bash bash/utils.sh parse_ini_value starter.ini development default_server; bash bash/helpers.sh open_preview default_server
     name: Main Terminal
 
 vscode:
