@@ -32,7 +32,7 @@ debug_off() {
   refresh=$(echo "$2" | tr '[:upper:]' '[:lower:]')
   local stype
   stype=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-  [ -z $stype ] && echo "$err must have at least one argument" && echo $usage && return
+  [ -z "$stype" ] && echo "$err must have at least one argument" && echo $usage && return
   [ "$refresh" != '' ] && [ "$refresh" != 'no-refresh' ] && echo "$err invalid refresh argument: $refresh" && return
   case $stype in
     "php")
@@ -45,5 +45,23 @@ debug_off() {
       ;;
     *)
       echo "$err invalid server type: $1"
+      ;;
   esac
+}
+
+# TODO: make refresh dynamic based on an arg passed in
+open_preview() {
+  local usage='Usage: open_preview server-type'
+  local err='Error: open_preview():'
+  local stype
+  stype=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+  local port
+  [ -z "$stype" ] && echo "$err Missing server type. Exactly one argument was expected." && echo $usage && return
+  [ "$stype" != 'php'] || [ "$stype" != 'apache'] && echo "$err invalid server type: $stype"
+  [ "$stype" == 'php' ] && port=$php_port
+  [ "$stype" == 'apache' ] && port=$apache_port
+  gp preview "$(gp url $port)?firstrun=1" &&
+  echo "Auto refreshing preview browser. Please wait 5 seconds."
+  sleep 5 && gp preview $(gp url $port) &&
+  echo "Preview browser is open"
 }

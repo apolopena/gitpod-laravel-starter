@@ -2,7 +2,7 @@
 
 # utils.sh
 # Author: Apolo Pena
-# Description: A variety of useful functions
+# Description: A variety of useful functions with no dependecies.
 # Note: Do not execute this script witout calling a function from it
 #
 # Usage: bash <function name> arg1 arg2 arg3 ...

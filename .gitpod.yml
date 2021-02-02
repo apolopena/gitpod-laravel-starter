@@ -26,15 +26,12 @@ tasks:
       bash bash/clear-term.sh && UP=$(pgrep mysql | wc -l); if [ "$UP" -ne 1 ]; then . bash/third-party/spinner.sh && start_spinner "Initializing MySql..." && gp await-port 3306 && stop_spinner $?; fi
       gp await-port 3306 &&
       sleep 1.5 &&
-      php -S 127.0.0.1:8000 -t public/
+      bash bash/helpers.sh start_server
     name: Web Server
   - openMode: split-left
     command: |
       gp await-port 8000 &&
-      gp preview "$(gp url 8000)?firstrun=1" &&
-      echo "Auto refreshing preview browser. Please wait 5 seconds."
-      sleep 5 && gp preview $(gp url 8000) &&
-      echo "Preview browser is open"
+      default_server=bash bash/utils.sh parse_ini_value starter.ini development default_server; open_preview default_server
     name: Main Terminal
 
 vscode:
