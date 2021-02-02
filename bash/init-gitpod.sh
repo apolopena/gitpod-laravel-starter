@@ -41,7 +41,4 @@ bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases 
 echo "Writing git aliases complete, check the log for any possible errors."
 echo "try: git a    or: git aliases    for a list your git aliases."
 
-# Aliases for .bash_profile
-echo -e 'alias debug-on="gp preview \"$(gp url 8000)?XDEBUG_SESSION_START=1\""' >> ~/.bash_profile
-echo -e 'alias debug-off="gp preview \"$(gp url 8000)?XDEBUG_SESSION_STOP=1\""' >> ~/.bash_profile
 echo "If the above results are successful then make sure to add, commit and push the changes to your git repository."
