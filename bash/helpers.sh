@@ -51,4 +51,14 @@ start_server() {
   fi
 }
 
+# Call functions from this script gracefully
+if declare -f "$1" > /dev/null
+then
+  # call arguments verbatim
+  "$@"
+else
+  echo "utils.sh: '$1' is not a known function name." >&2
+  exit 1
+fi
+
 
