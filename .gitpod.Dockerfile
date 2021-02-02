@@ -29,9 +29,10 @@ COPY --chown=gitpod:gitpod starter.ini /tmp
 COPY --chown=gitpod:gitpod bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
+RUN echo "TRIGGER"
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=109
+ENV INVALIDATE_CACHE=110
 
 # Aliases
 COPY --chown=gitpod:gitpod bash/snippets/webserver-functions /tmp
