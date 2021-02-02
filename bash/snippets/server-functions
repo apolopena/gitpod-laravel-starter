@@ -1,0 +1,26 @@
+start_apache() {
+  apachectl start
+  (( $? == 0 )) || return
+  multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;
+}
+
+stop_apache() {
+  apachectl stop
+  (( $? == 0 )) || return
+  local pid
+  # The grep string here must match the command given in the function start_apache
+  pid=$(ps axf | grep 'multitail /var/log/apache2/access.log -I /var/log/apache2/error.log' | grep -v grep | awk '{print $1}' | sed 1q)
+  kill -2 $pid
+}
+
+start_php_dev() {
+  php -S 127.0.0.1:8000 -t public/
+}
+
+stop_php_dev() {
+  local pid
+  # The grep string here must match the command given in the function start_php_dev
+  pid=$(ps axf | grep 'php -S 127.0.0.1:8000 -t public/' | grep -v grep | awk '{print $1}' | sed 1q)
+  kill -2 $pid
+}
+

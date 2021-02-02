@@ -1,0 +1,78 @@
+__php_port="8000"
+__apache_port="8001"
+debug_on() {
+  local usage='Usage: debug_on server-type [no-refresh]'
+  local err='Error: debug_on():'
+  local php_port="8000"
+  local apache_port="8001"
+  local refresh
+  refresh=$(echo "$2" | tr '[:upper:]' '[:lower:]')
+  local stype
+  stype=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+  [ -z $stype ] && echo "$err must have at least one argument" && echo $usage && return
+  [ "$refresh" != '' ] && [ "$refresh" != 'no-refresh' ] && echo "$err invalid refresh argument: $refresh" && return
+  case $stype in
+    "php")
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__php_port)?XDEBUG_SESSION_START=$stype" && return
+      gp preview "$(gp url $__php_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $__php_port)
+      ;;
+    "apache")
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_START=$stype" && return
+      gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $__apache_port)
+      ;;
+    *)
+      echo "$err invalid server type: $1"
+  esac
+}
+
+debug_off() {
+  local usage='Usage: debug_off server-type [no-refresh]'
+  local err='Error: debug_off():'
+  local php_port=8000
+  local apache_port=8001
+  local refresh
+  refresh=$(echo "$2" | tr '[:upper:]' '[:lower:]')
+  local stype
+  stype=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+  [ -z "$stype" ] && echo "$err must have at least one argument" && echo $usage && return
+  [ "$refresh" != '' ] && [ "$refresh" != 'no-refresh' ] && echo "$err invalid refresh argument: $refresh" && return
+  case $stype in
+    "php")
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__php_port)?XDEBUG_SESSION_STOP=$stype" && return
+      gp preview "$(gp url $__php_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $__php_port)
+      ;;
+    "apache")
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_STOP=$stype" && return
+      gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $__apache_port)
+      ;;
+    *)
+      echo "$err invalid server type: $1"
+      ;;
+  esac
+}
+
+# TODO: make refresh and await port dynamic based on an arg passed in
+open_preview() {
+  local usage='Usage: open_preview server-type'
+  local err='Error: open_preview():'
+  local stype
+  stype=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+  local port
+  [ -z "$stype" ] && echo "$err Missing server type. Exactly one argument was expected." && echo $usage && return
+  case $stype in
+    "php")
+      port=$__php_port
+      ;;
+    "apache")
+      port=$__apache_port
+      ;;
+    *)
+      echo "$err invalid server type: $stype"
+      ;;
+  esac
+  gp await-port $port &&
+  gp preview "$(gp url $port)?firstrun=1" &&
+  echo "Auto refreshing preview browser. Please wait 5 seconds."
+  sleep 5 && gp preview $(gp url $port) &&
+  echo "Preview browser is open"
+}
