@@ -30,7 +30,7 @@ tasks:
     name: Web Server
   - openMode: split-left
     command: |
-      default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); bash -i bash/helpers.sh open_preview default_server
+      default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); open_preview default_server
     name: Main Terminal
 
 vscode:
