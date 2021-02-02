@@ -3,21 +3,21 @@
 # helpers.sh
 # Author: Apolo Pena
 # Description: A variety of useful functions with that depend on gitpod other
-# binaries, aliases and functions in .bashrc 
+# binaries, aliases and functions in .bashrc
 # other than coreutils.
 # Note: Do not execute this script witout calling a function from it
 #
 # Usage: bash <function name> arg1 arg2 arg3 ...
-# 
+#
 
 version () {
-  echo "helpers.sh version 0.0.1"
+  echo "helpers.sh version 0.0.2"
 }
 
 # start_server
 # Description:
 # Starts up the default server or a specific server ($1)
-# 
+#
 # Notes:
 # It is assumed that starter.ini is in the project root.
 # Valid servers are: apache, php
@@ -30,15 +30,16 @@ start_server() {
   local err='Error: start_server():'
   local server
   local s
-  s=$(bash $GITPOD_REPO_ROOT/bash/utils.sh parse_ini_value $GITPOD_REPO_ROOT/starter.ini development default_server)
-  # Bump the value of the defualt_server in starter.ini to lowercase
-  server=$(echo "$s" | tr '[:upper:]' '[:lower:]') 
-  if [ -z "$server" ]; then
-    [ "$server" == 'apache' ] && start_apache && return
-    [ "$server" == 'php' ] && start_php_dev && return
+  s=$(bash bash/utils.sh parse_ini_value starter.ini development default_server)
+  # Bump the value of the default_server in starter.ini to lowercase
+  server=$(echo "$s" | tr '[:upper:]' '[:lower:]')
+  if [ -z "$1" ]; then
+    [ "$server" == 'apache' ] && start_apache; return
+    [ "$server" == 'php' ] && start_php_dev; return
     echo "$err invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
     return
   else
+  echo $(echo "$1" | tr '[:upper:]' '[:lower:]')
     case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
       "php")
         start_php_dev
