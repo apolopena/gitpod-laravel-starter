@@ -34,17 +34,24 @@ start_server() {
   # Bump the value of the default_server in starter.ini to lowercase
   server=$(echo "$s" | tr '[:upper:]' '[:lower:]')
   if [ -z "$1" ]; then
-    [ "$server" == 'apache' ] && start_apache; return
-    [ "$server" == 'php' ] && start_php_dev; return
-    echo "$err invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
-    return
+    case "$server" in
+      'php')
+        start_php_dev
+        ;;
+      'apache')
+        start_apache
+        ;;
+      *)
+        echo "$err invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
+        ;;
+    esac
   else
   echo $(echo "$1" | tr '[:upper:]' '[:lower:]')
     case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
-      "php")
+      'php')
         start_php_dev
         ;;
-      "apache")
+      'apache')
         start_apache
         ;;
       *)
@@ -63,5 +70,3 @@ else
   echo "helpers.sh: '$1' is not a known function name." >&2
   exit 1
 fi
-
-
