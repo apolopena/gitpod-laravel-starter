@@ -40,6 +40,7 @@ start_server() {
     case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
       "php")
         start_php_dev
+        ;;
       "apache")
         start_apache
         ;;
