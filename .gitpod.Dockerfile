@@ -37,6 +37,6 @@ ENV INVALIDATE_CACHE=108
 COPY --chown=gitpod:gitpod bash/snippets/webserver-functions /tmp
 COPY --chown=gitpod:gitpod bash/snippets/browser-functions /tmp
 RUN echo "# BEGIN: custom code (not internal to gitpod)" \
-    && cat /tmp/webserver-functions >> ~/.bashrc \
-    && echo -e "\n" | cat /tmp/webserver-functions >> ~/.bashrc \ 
+    && cat /tmp/server-functions >> ~/.bashrc \
+    && echo -e "\n" | cat /tmp/browser-functions >> ~/.bashrc \ 
     && echo "# END: custom code (not internal to gitpod)"
