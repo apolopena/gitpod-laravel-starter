@@ -7,7 +7,7 @@
 # other than coreutils.
 # Note: Do not execute this script witout calling a function from it
 #
-# Usage: bash <function name> arg1 arg2 arg3 ...
+# Usage: bash -i <function name> arg1 arg2 arg3 ...
 #
 
 version () {
