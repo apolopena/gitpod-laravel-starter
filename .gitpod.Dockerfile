@@ -31,10 +31,12 @@ RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=107
+ENV INVALIDATE_CACHE=108
 
 # Aliases
 COPY --chown=gitpod:gitpod bash/snippets/webserver-functions /tmp
+COPY --chown=gitpod:gitpod bash/snippets/browser-functions /tmp
 RUN echo "# BEGIN: custom code (not internal to gitpod)" \
-    && cat /tmp/webserver-functions >> ~/.bashrc \ 
+    && cat /tmp/webserver-functions >> ~/.bashrc \
+    && echo -e "\n" | cat /tmp/webserver-functions >> ~/.bashrc \ 
     && echo "# END: custom code (not internal to gitpod)"
