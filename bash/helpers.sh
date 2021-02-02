@@ -30,7 +30,7 @@ start_server() {
   local err='Error: start_server():'
   local server
   # Bump the value of the defualt_server in starter.ini to lowercase
-  server=$(echo "$(bash utils.sh parse_ini_value $GITPOD_REPO_ROOT/starter.ini development default_server)" | tr '[:upper:]' '[:lower:]') 
+  server=$(echo "$(bash $GITPOD_REPO_ROOT/bash/utils.sh parse_ini_value $GITPOD_REPO_ROOT/starter.ini development default_server)" | tr '[:upper:]' '[:lower:]') 
   if [ -z "$server" ]; then
     [ "$server" == 'apache' ] && start_apache && return
     [ "$server" == 'php' ] && start_php_dev && return
