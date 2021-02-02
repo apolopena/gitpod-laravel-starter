@@ -49,7 +49,7 @@ debug_off() {
   esac
 }
 
-# TODO: make refresh dynamic based on an arg passed in
+# TODO: make refresh and await port dynamic based on an arg passed in
 open_preview() {
   local usage='Usage: open_preview server-type'
   local err='Error: open_preview():'
@@ -60,6 +60,7 @@ open_preview() {
   [ "$stype" != 'php'] || [ "$stype" != 'apache'] && echo "$err invalid server type: $stype"
   [ "$stype" == 'php' ] && port=$php_port
   [ "$stype" == 'apache' ] && port=$apache_port
+  gp await-port $port &&
   gp preview "$(gp url $port)?firstrun=1" &&
   echo "Auto refreshing preview browser. Please wait 5 seconds."
   sleep 5 && gp preview $(gp url $port) &&
