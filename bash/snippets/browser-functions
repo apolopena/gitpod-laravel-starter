@@ -1,3 +1,5 @@
+__php_port="8000"
+__apache_port="8001"
 debug_on() {
   local usage='Usage: debug_on server-type [no-refresh]'
   local err='Error: debug_on():'
@@ -11,12 +13,12 @@ debug_on() {
   [ "$refresh" != '' ] && [ "$refresh" != 'no-refresh' ] && echo "$err invalid refresh argument: $refresh" && return
   case $stype in
     "php")
-      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $php_port)?XDEBUG_SESSION_START=$stype" && return
-      gp preview "$(gp url $php_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $php_port)
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__php_port)?XDEBUG_SESSION_START=$stype" && return
+      gp preview "$(gp url $__php_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $__php_port)
       ;;
     "apache")
-      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $apache_port)?XDEBUG_SESSION_START=stype" && return
-      gp preview "$(gp url $apache_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $apache_port)
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_START=$stype" && return
+      gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_START=$stype" && sleep 1 && gp preview $(gp url $__apache_port)
       ;;
     *)
       echo "$err invalid server type: $1"
@@ -36,12 +38,12 @@ debug_off() {
   [ "$refresh" != '' ] && [ "$refresh" != 'no-refresh' ] && echo "$err invalid refresh argument: $refresh" && return
   case $stype in
     "php")
-      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $php_port)?XDEBUG_SESSION_STOP=$stype" && return
-      gp preview "$(gp url $php_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $php_port)
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__php_port)?XDEBUG_SESSION_STOP=$stype" && return
+      gp preview "$(gp url $__php_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $__php_port)
       ;;
     "apache")
-      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $apache_port)?XDEBUG_SESSION_STOP=stype" && return
-      gp preview "$(gp url $apache_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $apache_port)
+      [ "$refresh" == 'no-refresh' ] && gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_STOP=$stype" && return
+      gp preview "$(gp url $__apache_port)?XDEBUG_SESSION_STOP=$stype" && sleep 1 && gp preview $(gp url $__apache_port)
       ;;
     *)
       echo "$err invalid server type: $1"
@@ -59,10 +61,10 @@ open_preview() {
   [ -z "$stype" ] && echo "$err Missing server type. Exactly one argument was expected." && echo $usage && return
   case $stype in
     "php")
-      port="8000"
+      port=$__php_port
       ;;
     "apache")
-      port="8001"
+      port=$__apache_port
       ;;
     *)
       echo "$err invalid server type: $stype"
