@@ -59,16 +59,16 @@ open_preview() {
   [ -z "$stype" ] && echo "$err Missing server type. Exactly one argument was expected." && echo $usage && return
   case $stype in
     "php")
-      port=$php_port
+      port="8000"
       ;;
     "apache")
-      port=$apache_port
+      port="8001"
       ;;
     *)
       echo "$err invalid server type: $stype"
       ;;
   esac
-  gp await-port "$(echo $port)" &&
+  gp await-port $port &&
   gp preview "$(gp url $port)?firstrun=1" &&
   echo "Auto refreshing preview browser. Please wait 5 seconds."
   sleep 5 && gp preview $(gp url $port) &&
