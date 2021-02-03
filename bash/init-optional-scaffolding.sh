@@ -19,8 +19,8 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
     # genrate yarn.lock without installing anything
     # this is a npm workaround since yarn does not have this feature
 
-   #echo "Doing a yarn install now."
-    #yarn install
+    echo "Doing a yarn install now."
+    yarn install
     echo "current working dir is: $(pwd)"
   else
     >&2 echo "ERROR $?: There was a problem installing laravel/ui"
