@@ -47,7 +47,8 @@ if [ $install_react -eq 1 ]; then
   fi
   if [ ! -z "$version" ]; then
     "Installing/upgrading react to$version_msg"
-    eval("yarn upgrade react@$version")
+    cmd="yarn upgrade react@$version"
+    eval $cmd
     #upgrade_cmd=(yarn upgrade react@$version)
     #"${upgrade_cmd[@]}"
     if [ $err_code == 0 ]; then
@@ -55,7 +56,8 @@ if [ $install_react -eq 1 ]; then
     else
       >&2 echo "ERROR $?: There was a problem installing/upgrading React to$version_msg"
     fi
-    eval("yarn upgrade react-dom@$version")
+    cmd="yarn upgrade react-dom@$version"
+    eval $cmd
     #upgrade_cmd=(yarn upgrade react-dom@$version)
     #"${upgrade_cmd[@]}"
     if [ $err_code == 0 ]; then
