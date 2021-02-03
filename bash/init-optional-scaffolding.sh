@@ -16,6 +16,9 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   err_code=$?
   if [ $err_code -eq 0 ]; then
     echo "SUCCESS: laravel/ui scaffolding installed"
+    # genrate yarn.lock without installing anything
+    # this is a npm workaround since yarn does not have this feature
+    npm install --package-lock-only; yarn import
     #echo "Doing a yarn install now."
     #yarn install
   else
@@ -46,7 +49,7 @@ if [ $install_react -eq 1 ]; then
     >&2 echo "ERROR $?: There was a problem installing React/React DOM$version_msg$auth_msg"
   fi
   if [ ! -z "$version" ]; then
-    "Installing/upgrading react to$version_msg"
+    echo "Installing/upgrading react to$version_msg"
     cmd="yarn upgrade react@$version"
     eval $cmd
     #upgrade_cmd=(yarn upgrade react@$version)
