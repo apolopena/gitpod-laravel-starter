@@ -9,7 +9,7 @@ install_react=$(. /tmp/utils.sh parse_ini_value starter.ini react install)
 install_bootstrap=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap install)
 
 # Install Laravel ui if needed
-if [ $install_react -eq 1 ] || [ $install_bootstrap  -eq 1 ]; then
+if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   echo "Optional installation the require laravel/ui were found."
   echo "Installing laravel/ui ..."
   composer require laravel/ui
@@ -64,6 +64,6 @@ fi
 
 # Finally install everything else
 echo "Installing remaining dependencies"
-yarn install
+#yarn install
 
 
