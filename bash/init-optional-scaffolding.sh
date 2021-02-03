@@ -7,6 +7,7 @@
 
 # BEGIN: Optional react and react-dom install
 install_react=$(. /tmp/utils.sh parse_ini_value starter.ini react install)
+echo "install react=$install_react"
 if [ $install_react -eq 1 ]; then
   version=$(. /tmp/utils.sh parse_ini_value starter.ini react version)
   auth=$(. /tmp/utils.sh parse_ini_value starter.ini react auth)
