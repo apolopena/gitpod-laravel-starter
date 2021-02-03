@@ -16,8 +16,8 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   err_code=$?
   if [ $err_code -eq 0 ]; then
     echo "SUCCESS: laravel/ui scaffolding installed"
-    echo "Doing a yarn install now."
-    yarn install
+    #echo "Doing a yarn install now."
+    #yarn install
   else
     >&2 echo "ERROR $?: There was a problem installing laravel/ui"
   fi
@@ -28,7 +28,7 @@ if [ $install_react -eq 1 ]; then
   version=$(. /tmp/utils.sh parse_ini_value starter.ini react version)
   auth=$(. /tmp/utils.sh parse_ini_value starter.ini react auth)
   [ -z "$version" ] version_msg='' || version_msg=" version $version"
-  [ $auth != 1 ] auth_msg='' || auth_msg= ' with --auth'
+  [ $auth != 1 ] auth_msg='' || auth_msg=' with --auth'
   echo "React/React DOM installation directive found in starter.ini"
   echo "Installing React and React DOM$version_msg$auth_msg..."
   if [ $auth == 1 ]; then
