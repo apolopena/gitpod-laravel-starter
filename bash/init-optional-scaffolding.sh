@@ -16,6 +16,8 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   err_code=$?
   if [ $err_code -eq 0 ]; then
     echo "SUCCESS: laravel/ui scaffolding installed"
+    echo "Doing a yarn install now."
+    yarn install
   else
     >&2 echo "ERROR $?: There was a problem installing laravel/ui"
   fi
