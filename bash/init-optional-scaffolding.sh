@@ -4,9 +4,24 @@
 # Description:
 # Installs various packages according to the configuration set in starter.ini
 
+# Parse starter.ini
+install_react=$(. /tmp/utils.sh parse_ini_value starter.ini react install)
+install_bootstrap=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap install)
+
+# Install Laravel ui if needed
+if [ $install_react -eq 1 ] || [ $install_bootstrap  -eq 1 ]; then
+  echo "Optional installation the require laravel/ui were found."
+  echo "Installing laravel/ui ..."
+  composer require laravel/ui
+  err_code=$?
+  if [ $err_code -eq 0 ]; then
+    echo "SUCCESS: laravel/ui installed"
+  else
+    >&2 echo "ERROR $?: There was a problem installing laravel/ui"
+  fi
+fi
 
 # BEGIN: Optional react and react-dom install
-install_react=$(. /tmp/utils.sh parse_ini_value starter.ini react install)
 echo "install react=$install_react"
 if [ $install_react -eq 1 ]; then
   version=$(. /tmp/utils.sh parse_ini_value starter.ini react version)
