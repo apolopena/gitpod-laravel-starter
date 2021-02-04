@@ -29,7 +29,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   fi
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini github-changelog-generator install)
-  if [ "$github-changelog-generator" == 1 ]; then
+  if [ "$installed_changelog_gen" == 1 ]; then
     gem install github_changelog_generator
   fi
   # END: Optional configurations
