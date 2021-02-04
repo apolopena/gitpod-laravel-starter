@@ -49,9 +49,13 @@ if [ "$install_react" == 1 ]; then
     echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
     echo "Compiling fresh scaffolding and running Laravel Mix"
     yarn install && yarn run dev && sleep 1 && yarn run dev
-    echo "Setting react and react-dom to$version_msg"
-    # TODO:  validate semver and valid version for the package so users cant pass in junk
-    yarn upgrade react@$version react-dom@$version
+
+    if [ ! -z "$version" ]; then
+      echo "Setting react and react-dom to$version_msg"
+      # TODO:  validate semver and valid version for the package so users cant pass in junk
+      yarn upgrade react@$version react-dom@$version
+    fi
+
     [ "$install_bootstrap" == 1 ] && echo "Bootstrap install directive found but ignored. Already installed."
     [ "$install_vue" == 1 ] && echo "Vue install directive found but ignored. The install of react superceded this."
   else
@@ -82,9 +86,13 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     echo "SUCCESS: Vue$version_msg$auth_msg has been installed."
     echo "Compiling fresh scaffolding and running Laravel Mix."
     yarn install && yarn run dev && sleep 1 && yarn run dev
-    echo "Setting vue to$version_msg"
-    # TODO:  validate semver and valid version for the package so users cant pass in junk
-    yarn upgrade vue@$version
+
+    if [ ! -z "$version" ]; then
+      echo "Setting vue to$version_msg"
+      # TODO:  validate semver and valid version for the package so users cant pass in junk
+      yarn upgrade vue@$version
+    fi
+
     [ "$install_bootstrap" == 1 ] && echo "Bootstrap install directive found but ignored. Already installed."
   else
     >&2 echo "ERROR $err_code: There was a problem installing Vue$version_msg$auth_msg"
@@ -114,9 +122,12 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
     echo "SUCCESS: Bootstrap$version_msg$auth_msg has been installed."
     echo "Compiling fresh scaffolding and running Laravel Mix."
     yarn install && yarn run dev && sleep 1 && yarn run dev
-    echo "Setting bootstrap to$version_msg"
-    # TODO:  validate semver and valid version for the package so users cant pass in junk
-    yarn upgrade bootstrap@$version
+
+    if [ ! -z "$version" ]; then
+      echo "Setting bootstrap to$version_msg"
+      # TODO:  validate semver and valid version for the package so users cant pass in junk
+      yarn upgrade bootstrap@$version
+    fi
   else
     >&2 echo "ERROR $err_code: There was a problem installing Bootstrap$version_msg$auth_msg"
   fi
