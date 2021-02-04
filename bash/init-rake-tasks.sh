@@ -6,8 +6,8 @@ add_changelog_rake() {
   local project=$(basename $GITPOD_REPO_ROOT)
   local since_tag
   local future_release
-  since_tag=$(. /tmp/utils.sh parse_ini_value starter.ini github-changelog-generator since_tag)
-  future_release=$(. /tmp/utils.sh parse_ini_value starter.ini github-changelog-generator future_release)
+  since_tag=$(bash utils.sh parse_ini_value starter.ini github-changelog-generator since_tag)
+  future_release=$(bash utils.sh parse_ini_value starter.ini github-changelog-generator future_release)
 
   # this rake task cannot handle empty strings as values so handle them (whitespace is ok though)
   [ -z "$since_tag" ] && default_since_tag='' ||  default_since_tag="config.since_tag = '$since_tag'"
@@ -28,7 +28,7 @@ EOF
 # END: dynamic rake task functions
 
 # BEGIN: conditionally add dynamic rake tasks on configuration in starter.ini
-if [ "$(. /tmp/utils.sh parse_ini_value starter.ini github-changelog-generator install)" ]; then
+if [ "$(bash utils.sh parse_ini_value starter.ini github-changelog-generator install)" ]; then
   add_changelog_rake
 fi
 # END: conditionally add dynamic rake tasks on configuration in starter.ini
