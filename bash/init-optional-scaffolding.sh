@@ -35,42 +35,6 @@ if [ $install_react -eq 1 ]; then
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
 
-  echo "React/React DOM installation directive found in starter.ini"
-  echo "Installing React and React DOM$version_msg$auth_msg..."
-
-  if [ $auth == 1 ]; then
-    php artisan ui react --auth
-  else
-    php artisan ui react
-  fi
-  err_code=$?
-  if [ $err_code == 0 ]; then
-    echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
-  else
-    >&2 echo "ERROR $?: There was a problem installing React/React DOM$version_msg$auth_msg"
-  fi
-  if [ ! -z "$version" ]; then
-    echo "Installing/upgrading react to$version_msg"
-    yarn upgrade react@$version
-    #eval $cmd
-    #upgrade_cmd=(yarn upgrade react@$version)
-    #"${upgrade_cmd[@]}"
-    if [ $err_code == 0 ]; then
-      echo "SUCCESS: React version installed/upgraded to$version_msg"
-    else
-      >&2 echo "ERROR $?: There was a problem installing/upgrading React to$version_msg"
-    fi
-    yarn upgrade react-dom@$version
-    #eval $cmd
-    #upgrade_cmd=(yarn upgrade react-dom@$version)
-    #"${upgrade_cmd[@]}"
-    if [ $err_code == 0 ]; then
-      echo "SUCCESS: React DOM version installed/upgraded to$version_msg"
-    else
-      >&2 echo "ERROR $?: There was a problem installing/upgrading React DOM to$version_msg"
-    fi
-  fi
-fi
 # END: Optional react and react-dom install
 
 
