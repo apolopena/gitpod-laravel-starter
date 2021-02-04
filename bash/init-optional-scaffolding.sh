@@ -123,7 +123,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
 else
   version=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap version)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  if [ ! -z "$version" && "$install_bootstrap" == 1 ]; then
+  if [[ ! -z $version && $install_bootstrap == 1 ]]; then
     echo "Setting bootstrap to$version_msg"
     yarn upgrade bootstrap@$version
   fi
