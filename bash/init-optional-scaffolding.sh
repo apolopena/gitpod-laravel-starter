@@ -47,7 +47,7 @@ if [ $install_react -eq 1 ]; then
   if [ $err_code == 0 ]; then
     echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
     echo "Compiling fresh scaffolding and running Laravel Mix"
-    yarn install && yarn run dev
+    yarn install && yarn run dev && sleep 1 && yarn run dev
   else
     >&2 echo "ERROR $err_code: There was a problem installing React/React DOM$version_msg$auth_msg"
   fi
