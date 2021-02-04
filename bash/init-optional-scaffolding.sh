@@ -126,6 +126,7 @@ else
   if [! -z "$version" && "$install_bootstrap" == 1 ]
     echo "Setting bootstrap to$version_msg"
     yarn upgrade bootstrap@$version
+  fi
 fi
 # END: Optional bootstrap install
 
