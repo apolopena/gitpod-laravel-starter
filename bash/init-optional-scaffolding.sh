@@ -12,7 +12,7 @@ install_bootstrap=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap instal
 if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   echo "Optional installations that require laravel/ui scaffolding were found."
   echo "Installing laravel/ui scaffolding..."
-  composer require laravel/ui^2.4
+  composer require laravel/ui:^2.4
   err_code=$?
   if [ $err_code -eq 0 ]; then
     echo "SUCCESS: laravel/ui scaffolding installed"
