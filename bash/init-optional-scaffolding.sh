@@ -35,8 +35,22 @@ if [ $install_react -eq 1 ]; then
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
 
-# END: Optional react and react-dom install
+  echo "React/React DOM installation directive found in starter.ini"
+  echo "Installing React and React DOM$version_msg$auth_msg..."
 
+  if [ $auth == 1 ]; then
+    php artisan ui react --auth
+  else
+    php artisan ui react
+  fi
+  err_code=$?
+  if [ $err_code == 0 ]; then
+    echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
+  else
+    >&2 echo "ERROR $?: There was a problem installing React/React DOM$version_msg$auth_msg"
+  fi
+# END: Optional react and react-dom install
+fi
 
 # Finally install everything else
 echo "Installing remaining dependencies"
