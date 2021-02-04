@@ -53,7 +53,7 @@ if [ "$install_react" == 1 ]; then
     # TODO:  validate semver and valid version for the package so users cant pass in junk
     yarn upgrade react@$version react-dom@$version
     [ "$install_bootstrap" == 1 ] && echo "Bootstrap install directive found but ignored. Already installed."
-    [ "$install_vue" == 1 ] && echo "Vue install directive found but ignored. React supercedes this."
+    [ "$install_vue" == 1 ] && echo "Vue install directive found but ignored. The install of react superceded this."
   else
     >&2 echo "ERROR $err_code: There was a problem installing React/React DOM$version_msg$auth_msg"
   fi
@@ -123,7 +123,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
 else
   version=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap version)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  if [! -z "$version" && "$install_bootstrap" == 1 ]
+  if [ ! -z "$version" && "$install_bootstrap" == 1 ]; then
     echo "Setting bootstrap to$version_msg"
     yarn upgrade bootstrap@$version
   fi
