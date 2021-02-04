@@ -19,11 +19,11 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
     # genrate yarn.lock without installing anything
     # this is a npm workaround since yarn does not have this feature
 
-    #echo "Doing a npm install now."
-    yarn install
+    echo "Compiling fresh scaffolding and running Laravel Mix"
+    yarn install && yarn run dev
     #echo "current working dir is: $(pwd)"
   else
-    >&2 echo "ERROR $?: There was a problem installing laravel/ui"
+    >&2 echo "ERROR $err_code: There was a problem installing laravel/ui"
   fi
 fi
 
@@ -46,8 +46,10 @@ if [ $install_react -eq 1 ]; then
   err_code=$?
   if [ $err_code == 0 ]; then
     echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
+    echo "Compiling fresh scaffolding and running Laravel Mix"
+    yarn install && yarn run dev
   else
-    >&2 echo "ERROR $?: There was a problem installing React/React DOM$version_msg$auth_msg"
+    >&2 echo "ERROR $err_code: There was a problem installing React/React DOM$version_msg$auth_msg"
   fi
 # END: Optional react and react-dom install
 fi
