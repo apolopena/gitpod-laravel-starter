@@ -28,17 +28,17 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
 fi
 # END: Install Laravel ui if needed
 # BEGIN: Optional react and react-dom install
-if [ $install_react == 1 ]; then
+if [ "$install_react" == 1 ]; then
   version=$(. /tmp/utils.sh parse_ini_value starter.ini react version)
   auth=$(. /tmp/utils.sh parse_ini_value starter.ini react auth)
 
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
+  [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
 
   echo "React/React DOM installation directive found in starter.ini"
-  echo "Installing React and React DOM$version_msg$auth_msg..."
+  echo "Installing React and React DOM..."
   sleep 10
-  if [ $auth == 1 ]; then
+  if [ "$auth" == 1 ]; then
     php artisan ui react --auth
   else
     php artisan ui react
@@ -61,17 +61,6 @@ fi
 # BEGIN: Optional bootstrap install
 # END: Optional bootstrap install
 
-# BEGIN: set react and react-dom to specific version
 
-# END: set react and react-dom to specific version
-# BEGIN: set vue to specific version
-# END: set vue to specific version
-# BEGIN: set bootstrap to specific version
-# END: set bootstrap to specific version
-
-
-# Finally install everything else
-echo "Installing remaining dependencies"
-#yarn install
 
 
