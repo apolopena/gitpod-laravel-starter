@@ -15,17 +15,22 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
   # BEGIN: Optional configurations
+  # Super user account for phpmyadmin
   installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
-  if [ $installed_phpmyadmin -eq 1 ]; then
+  if [ "$installed_phpmyadmin" == 1 ]; then
     echo "Creating phpmyadmin superuser: pmasu..."
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
-    RESULT=$?
-    if [ $? -ne 0 ]; then
+    if [ $? != 0 ]; then
       >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
     else
       echo "SUCCESS: created phpmyadmin superuser: pmasu"
     fi
+  fi
+  # Install https://github.com/github-changelog-generator/github-changelog-generator
+  installed_changelog_gen=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini github-changelog-generator install)
+  if [ "$github-changelog-generator" == 1 ]; then
+    gem install github_changelog_generator
   fi
   # END: Optional configurations
   # Move and or merge necessary failes then cleanup
@@ -34,6 +39,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   rmdir ~/test-app
 fi
 
+# Rake tasks (will be written to ~/.rake).
+# Some rake tasks are dynamic and conditional depending on the configuration in starter.ini
+bash bash/init-rake-tasks.sh
+
+# Aliases for .bash_profile
 # Aliases for git 
 echo "Writing git aliases..."
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig
