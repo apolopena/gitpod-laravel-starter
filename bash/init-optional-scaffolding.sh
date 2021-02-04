@@ -74,7 +74,6 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
 
   echo "Vue install directive found in starter.ini"
   echo "Installing Vue..."
-  sleep 3
 
   if [ "$auth" == 1 ]; then
     php artisan ui vue --auth
@@ -110,7 +109,6 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
 
   echo "Bootstrap install directive found in starter.ini"
   echo "Installing Bootstrap..."
-  sleep 3
 
   if [ "$auth" == 1 ]; then
     php artisan ui bootstrap --auth
