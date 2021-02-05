@@ -41,7 +41,7 @@ function _spinner() {
             #let column=$(tput cols)-${#2}-8
             # display message and position the cursor in $column column
             echo -ne ${2}
-            echo -n ' '
+            echo -n '  '
             #printf "%${column}s"
 
             # start spinner
