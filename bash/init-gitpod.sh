@@ -32,9 +32,10 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   err_code=$?
+  err_code=1 #temp for testing
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
+    log_silent "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
     stop_spinner $err_code
     log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
