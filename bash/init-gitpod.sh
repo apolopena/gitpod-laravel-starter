@@ -9,18 +9,19 @@ log () {
 
 log_silent () {
   [[ "$2" == '-e' || "$2" == '--error' ]] &&
-  >&2 echo "$1" || echo "$1"
+  >&2 echo "$1" >> $log_path || echo "$1" >> $log_path
 }
 # Load spinner
 . bash/third-party/spinner.sh
 
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
-  echo "Results of building the workspace image ➥"
+  #echo "Results of building the workspace image ➥"
+  log "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
-  log_silent $msg && start_spinner $msg
+  log_silent $msg && start_spinner "$msg"
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   err_code=$?
