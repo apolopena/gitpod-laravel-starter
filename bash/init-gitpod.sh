@@ -1,5 +1,4 @@
 #!/bin/bash
-clear
 
 # Load spinner
 . bash/third-party/spinner.sh
