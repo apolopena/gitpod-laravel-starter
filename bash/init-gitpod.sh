@@ -3,9 +3,9 @@
 log_path=/var/log/workspace-init.log
 
 log () {
-  local cm
-  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd=('>&2 echo' '-e' $1) || cmd=('echo' '-e' $1)
-  eval "${cmd[@]}" | tee -a $log_path
+  local cmd
+  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd=">&2 echo -e" || cmd="echo -e"
+  echo $(eval cmd "$1") | tee -a $log_path
 }
 
 log_silent () {
