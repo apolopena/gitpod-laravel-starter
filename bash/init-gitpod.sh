@@ -1,6 +1,9 @@
 #!/bin/bash
 #printf "\033c"
 
+# Load spinner
+. bash/third-party/spinner.sh
+
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
@@ -30,7 +33,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
-    gem install github_changelog_generator --no-document
+    start_spinner "Installing github-changelog-generator" &&
+    gem install github_changelog_generator --no-document --silent &&
+    stop_spinner $?
   fi
   # END: Optional configurations
   # Move and or merge necessary failes then cleanup
