@@ -12,6 +12,7 @@ add_changelog_rake() {
   # this rake task cannot handle empty strings as values so handle them (whitespace is ok though)
   [ -z "$since_tag" ] && default_since_tag='' ||  default_since_tag="config.since_tag = '$since_tag'"
   [ -z "$future_release" ] && default_future_release='' ||  default_future_release="config.future_release = '$future_release'"
+
 # Do not indent the below HEREDOC code block!
 IFS='' read -r -d '' __task <<EOF
 require 'github_changelog_generator/task'
@@ -27,11 +28,11 @@ EOF
 }
 # END: dynamic rake task functions
 
-# BEGIN: conditionally add dynamic rake tasks on configuration in starter.ini
+# BEGIN: conditionally add dynamic rake tasks 
 if [ "$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)" ]; then
   add_changelog_rake
 fi
-# END: conditionally add dynamic rake tasks on configuration in starter.ini
+# END: conditionally add dynamic rake tasks
 
 
 

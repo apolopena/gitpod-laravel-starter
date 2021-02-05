@@ -3,13 +3,14 @@
 # install-optional-scaffoliding.sh
 # Description:
 # Installs various packages according to the configuration set in starter.ini
-
+__parse="bash bash/utils.sh parse_ini_value starter.ini"
 # BEGIN: Parse starter.ini
-install_react=$(. /tmp/utils.sh parse_ini_value starter.ini react install)
-install_vue=$(. /tmp/utils.sh parse_ini_value starter.ini vue install)
-install_bootstrap=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap install)
+install_react=$($parse react install)
+install_vue=$($parse vue install)
+install_bootstrap=$($parse bootstrap install)
 # END: Parse starter.ini
-
+echo "install_react=$install_react"
+sleep 7
 # BEGIN: Install Laravel ui if needed
 if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   echo "Optional installations that require laravel/ui scaffolding were found."
@@ -29,8 +30,8 @@ fi
 
 # BEGIN: Optional react and react-dom install
 if [ "$install_react" == 1 ]; then
-  version=$(. /tmp/utils.sh parse_ini_value starter.ini react version)
-  auth=$(. /tmp/utils.sh parse_ini_value starter.ini react auth)
+  version=$(bash bash/utils.sh parse_ini_value starter.ini react version)
+  auth=$(bash bash/utils.sh parse_ini_value starter.ini react auth)
 
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
@@ -66,8 +67,8 @@ fi
 
 # BEGIN: Optional vue install
 if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
-  version=$(. /tmp/utils.sh parse_ini_value starter.ini vue version)
-  auth=$(. /tmp/utils.sh parse_ini_value starter.ini vue auth)
+  version=$(bash bash/utils.sh parse_ini_value starter.ini vue version)
+  auth=$(bash bash/utils.sh parse_ini_value starter.ini vue auth)
 
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
@@ -101,8 +102,8 @@ fi
 
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
-  version=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap version)
-  auth=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap auth)
+  version=$(bash bash/utils.sh parse_ini_value starter.ini bootstrap version)
+  auth=$(bash bash/utils.sh parse_ini_value bootstrap auth)
 
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
@@ -130,7 +131,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
     >&2 echo "ERROR $err_code: There was a problem installing Bootstrap$version_msg$auth_msg"
   fi
 else
-  version=$(. /tmp/utils.sh parse_ini_value starter.ini bootstrap version)
+  version=$(bash bash/utils.sh parse_ini_value starter.ini bootstrap version)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   if [[ ! -z $version && $install_bootstrap == 1 ]]; then
     echo "Setting bootstrap to$version_msg"
