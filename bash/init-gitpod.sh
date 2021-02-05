@@ -1,23 +1,30 @@
 #!/bin/bash
 
-log_path=/var/log/workspace-init.log
-
+# Log to the console and a file
 log () {
-  [[ "$2" == '-e' || "$2" == '--error' ]] &&
-  >&2 echo "$1" | tee -a $log_path || echo "$1" | tee -a $log_path
+  if [ -z "$2" ]; then
+    bash bash/utils.sh log log "$1" /var/log/workspace-init.log
+  else
+    bash bash/utils.sh log log "$1" /var/log/workspace-init.log -e
+  fi
 }
 
+# Log only to a file
 log_silent () {
-  [[ "$2" == '-e' || "$2" == '--error' ]] &&
-  >&2 echo "$1" >> $log_path || echo "$1" >> $log_path
+  if [ -z "$2" ]; then
+    bash bash/utils.sh log log_silent "$1"
+  else
+    bash bash/utils.sh log log_silent "$1" -e
+  fi
 }
+
+
 # Load spinner
 . bash/third-party/spinner.sh
 
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
-  #echo "Results of building the workspace image ➥"
-  log "Results of building the workspace image ➥"
+  echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
@@ -25,13 +32,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   err_code=$?
-  err_code=1 #temp for testing
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
     log "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
     stop_spinner $err_code
-    #echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+    log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
