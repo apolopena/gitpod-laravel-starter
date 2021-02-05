@@ -12,9 +12,9 @@ log () {
 # Log only to a file
 log_silent () {
   if [ -z "$2" ]; then
-    bash bash/utils.sh log_silent "$1"
+    bash bash/utils.sh log_silent "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log_silent "$1" -e
+    bash bash/utils.sh log_silent "$1" /var/log/workspace-init.log -e
   fi
 }
 
