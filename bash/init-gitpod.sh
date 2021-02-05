@@ -21,7 +21,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
-  log_silent $msg && start_spinner "$msg"
+  log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   err_code=$?
