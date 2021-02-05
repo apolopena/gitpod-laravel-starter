@@ -4,14 +4,14 @@ log_path=/var/log/workspace-init.log
 
 log () {
   local cmd
-  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd='>&2 echo -e "$1"' || cmd='echo -e "$1"'
-  eval $cmd | tee -a $log_path
+  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd=(>&2 echo -e "$1") || cmd=(echo -e "$1")
+  eval "${cmd[@]}" | tee -a $log_path
 }
 
 log_silent () {
   local cmd
   [[ "$2" == '-e' || "$2" == '--error' ]] && cmd='>&2 echo -e "$1"' || cmd='echo -e "$1"'
-  eval $cmd
+  eval "$cmd"
 }
 # Load spinner
 . bash/third-party/spinner.sh
