@@ -1,9 +1,18 @@
 #!/bin/bash
 
+log_path=/var/log/workspace-init.log
+
 log () {
-  echo "$1" | tee -a '/var/log/workspace-init.log'
+  local cmd
+  [[ "$2" == '-e' || "$2" == '--error'] && cmd='>&2 echo -e'
+  eval $cmd "$1" | tee -a $log_path
 }
 
+log_silent () {
+  local cmd
+  [[ "$2" == '-e' || "$2" == '--error'] && cmd='>&2 echo -e'
+  eval $cmd "$1" >> $log_path
+}
 # Load spinner
 . bash/third-party/spinner.sh
 
@@ -12,15 +21,17 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
-  log "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT " | tee | start_spinner 
+  msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  log_silent $msg && start_spinner $msg
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
-  RESULT=$?
-  if [ $RESULT != 0 ]; then
-    stop_spinner $RESULT
-    >&2 echo "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  err_code=$?
+  err_code=1 #temp for testing
+  if [ $err_code != 0 ]; then
+    stop_spinner $err_code
+    log "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
-    stop_spinner $RESULT
+    stop_spinner $err_code
     #echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
   # BEGIN: Optional configurations
@@ -30,12 +41,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     start_spinner "Creating phpmyadmin superuser: pmasu"
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
-    RESULT=$?
-    if [ $RESULT != 0 ]; then
-      stop_spinner $RESULT
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
       >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
     else
-      stop_spinner $RESULT
+      stop_spinner $err_code
     fi
   fi
   # Install https://github.com/github-changelog-generator/github-changelog-generator
