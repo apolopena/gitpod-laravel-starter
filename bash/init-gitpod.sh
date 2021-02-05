@@ -14,11 +14,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   RESULT=$?
-  if [ $? -ne 0 ]; then
-    stop_spinner $?
+  if [ $RESULT -ne 0 ]; then
+    stop_spinner $RESULT
     >&2 echo "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   else
-    stop_spinner $?
+    stop_spinner $RESULT
     echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
   # BEGIN: Optional configurations
@@ -39,7 +39,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
-    start_spinner "Installing github-changelog-generator..." &&
+    start_spinner "Installing github-changelog-generator" &&
     gem install github_changelog_generator --no-document --silent &&
     stop_spinner $?
   fi
