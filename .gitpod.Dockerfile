@@ -5,6 +5,9 @@ USER gitpod
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
 
+RUN sudo touch /var/log/workspace-init.log \
+    && sudo chmod 666 /var/log/workspace-init.log
+
 RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 

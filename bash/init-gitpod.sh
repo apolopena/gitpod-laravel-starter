@@ -1,5 +1,9 @@
 #!/bin/bash
 
+log () {
+  echo "$1" | tee -a '/var/log/workspace-init.log'
+}
+
 # Load spinner
 . bash/third-party/spinner.sh
 
@@ -8,7 +12,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
-  start_spinner "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT "
+  log "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT " | tee | start_spinner 
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   RESULT=$?
