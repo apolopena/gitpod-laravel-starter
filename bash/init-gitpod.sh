@@ -33,7 +33,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
-    start_spinner "Installing github-changelog-generator" &&
+    start_spinner "Installing github-changelog-generator..." &&
     gem install github_changelog_generator --no-document --silent &&
     stop_spinner $?
   fi
