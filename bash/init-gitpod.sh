@@ -28,11 +28,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     start_spinner "Creating phpmyadmin superuser: pmasu "
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
-    if [ $? != 0 ]; then
-      stop_spinner $?
+    RESULT=$?
+    if [ $RESULT != 0 ]; then
+      stop_spinner $RESULT
       >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
     else
-      stop_spinner $?
+      stop_spinner $RESULT
       echo "SUCCESS: created phpmyadmin superuser: pmasu"
     fi
   fi
