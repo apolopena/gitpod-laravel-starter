@@ -3,8 +3,8 @@
 log_path=/var/log/workspace-init.log
 
 log () {
-  local cmd
-  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd=('>&2 echo' '-e' "$1") || cmd=('echo' '-e' "$1")
+  local cm
+  [[ "$2" == '-e' || "$2" == '--error' ]] && cmd=('>&2 echo' '-e' $1) || cmd=('echo' '-e' $1)
   eval "${cmd[@]}" | tee -a $log_path
 }
 
