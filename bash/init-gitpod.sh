@@ -43,13 +43,14 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # Super user account for phpmyadmin
   installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
   if [ "$installed_phpmyadmin" == 1 ]; then
-    start_spinner "Creating phpmyadmin superuser: pmasu"
+    msg="Creating phpmyadmin superuser: pmasu"
+    log_silent "$msg" && start_spinner "$msg" 
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
+      log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
     else
       stop_spinner $err_code
     fi
@@ -57,7 +58,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
-    start_spinner "Installing github-changelog-generator" &&
+    msg="Installing github-changelog-generator"
+    log_silent "$msg" && start_spinner "$msg" &&
     gem install github_changelog_generator --no-document --silent &&
     stop_spinner $?
   fi
@@ -87,4 +89,4 @@ echo "See starter.ini (github_changelog_generator section) for configurable opti
 echo "For a full list of options see the github-changelog-generator repository on github"
 
 # Init complete message
-echo -e "\nALL DONE\nIf the above results are successful then make sure to add, commit and push the changes to your git repository."
+log "\nALL DONE\nIf the above results are successful then make sure to add, commit and push the changes to your git repository."
