@@ -3,13 +3,15 @@
 # install-optional-scaffoliding.sh
 # Description:
 # Installs various packages according to the configuration set in starter.ini
-__parse="bash bash/utils.sh parse_ini_value starter.ini"
+
+parse="bash bash/utils.sh parse_ini_value starter.ini"
+
 # BEGIN: Parse starter.ini
-install_react=$(${parse} react install)
-install_vue=$(${parse} vue install)
-install_bootstrap=$(${parse} bootstrap install)
+install_react=$( eval $parse react install )
+install_vue=$( eval $parse vue install)
+install_bootstrap=$( eval $parse bootstrap install)
 # END: Parse starter.ini
-echo "install_react=$install_react"
+echo "install_react=$install_react" && echo "install_vue=$install_vue" && echo "install_bootstrap=$install_bootstrap"
 sleep 7
 # BEGIN: Install Laravel ui if needed
 if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
