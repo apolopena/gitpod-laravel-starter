@@ -5,13 +5,13 @@ log_path=/var/log/workspace-init.log
 log () {
   local cmd
   [[ "$2" == '-e' || "$2" == '--error' ]] && cmd='>&2 echo -e'
-  eval $cmd "$1" | tee -a $log_path
+  eval "$cmd" "$1" | tee -a $log_path
 }
 
 log_silent () {
   local cmd
   [[ "$2" == '-e' || "$2" == '--error' ]] && cmd='>&2 echo -e'
-  eval $cmd "$1" >> $log_path
+  eval "$cmd" "$1" >> $log_path
 }
 # Load spinner
 . bash/third-party/spinner.sh
