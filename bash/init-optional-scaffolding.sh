@@ -5,9 +5,9 @@
 # Installs various packages according to the configuration set in starter.ini
 __parse="bash bash/utils.sh parse_ini_value starter.ini"
 # BEGIN: Parse starter.ini
-install_react=$($parse react install)
-install_vue=$($parse vue install)
-install_bootstrap=$($parse bootstrap install)
+install_react=$(${parse} react install)
+install_vue=$(${parse} vue install)
+install_bootstrap=$(${parse} bootstrap install)
 # END: Parse starter.ini
 echo "install_react=$install_react"
 sleep 7
