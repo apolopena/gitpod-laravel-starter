@@ -124,7 +124,6 @@ parse_ini_value() {
 # log "Hello World" /var/log/test.log -e
 #
 log () {
-  echo "1=$1, 2=$2, 3=$3"
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
     >&2 echo -e "$1" && printf "$1\n" >> "$2"
   else
