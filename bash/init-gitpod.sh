@@ -1,5 +1,5 @@
 #!/bin/bash
-#printf "\033c"
+clear
 
 # Load spinner
 . bash/third-party/spinner.sh
@@ -8,7 +8,7 @@
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
-  # Todo replacespinner with a real progrees bar for coreutils
+  # Todo replacespinner with a real progress bar for coreutils
   start_spinner "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT "
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
@@ -33,7 +33,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
       >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
     else
       stop_spinner $RESULT
-      #echo "SUCCESS: created phpmyadmin superuser: pmasu"
     fi
   fi
   # Install https://github.com/github-changelog-generator/github-changelog-generator
@@ -44,6 +43,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     stop_spinner $?
   fi
   # END: Optional configurations
+
   # Move and or merge necessary failes then cleanup
   (echo; cat ~/test-app/.gitignore) >> $GITPOD_REPO_ROOT/.gitignore && rm ~/test-app/.gitignore
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
@@ -51,19 +51,21 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
 fi
 
 # Rake tasks (will be written to ~/.rake).
-# Some rake tasks are dynamic and conditional depending on the configuration in starter.ini
+# Some rake tasks are dynamic and depend on the configuration in starter.ini
 bash bash/init-rake-tasks.sh
 
-# Aliases for .bash_profile
 # Aliases for git
 start_spinner "Writing git aliases " &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
 stop_spinner $?
-#echo "Writing git aliases complete, check the log for any possible errors."
-echo "try: git a    or: git aliases    for a list your git aliases."
+echo "try: git a    or: git aliases    for a list your git aliases.\n"
+
+# Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] && 
 echo -e "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
 echo "See starter.ini (github_changelog_generator section) for configurable options" &&
-echo "For a full list of options see https://github.com/github-changelog-generator/github-changelog-generator"
+echo "For a full list of options see the github-changelog-generator repository on github"
+
+# Init complete message
 echo -e "\nALL DONE\nIf the above results are successful then make sure to add, commit and push the changes to your git repository."
