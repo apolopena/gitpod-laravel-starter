@@ -8,25 +8,31 @@
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   echo "Results of building the workspace image ➥"
   cat /var/log/workspace-image.log
-  echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT ..."
+  # Todo replacespinner with a real progrees bar for coreutils
+  start_spinner
+  echo -e "\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT "
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
   RESULT=$?
   if [ $? -ne 0 ]; then
+    stop_spinner $?
     >&2 echo "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   else
+    stop_spinner $?
     echo "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
   installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
   if [ "$installed_phpmyadmin" == 1 ]; then
-    echo "Creating phpmyadmin superuser: pmasu..."
+    start_spinner "Creating phpmyadmin superuser: pmasu "
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
     mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
     if [ $? != 0 ]; then
+      stop_spinner $?
       >&2 echo "ERROR: failed to create phpmyadmin superuser: pmasu"
     else
+      stop_spinner $?
       echo "SUCCESS: created phpmyadmin superuser: pmasu"
     fi
   fi
