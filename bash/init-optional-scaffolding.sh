@@ -6,13 +6,10 @@
 
 parse="bash bash/utils.sh parse_ini_value starter.ini"
 
-# BEGIN: Parse starter.ini
-install_react=$( eval $parse react install )
-install_vue=$( eval $parse vue install)
-install_bootstrap=$( eval $parse bootstrap install)
-# END: Parse starter.ini
-echo "install_react=$install_react" && echo "install_vue=$install_vue" && echo "install_bootstrap=$install_bootstrap"
-sleep 7
+install_react=$(eval $parse react install)
+install_vue=$(eval $parse vue install)
+install_bootstrap=$(eval $parse bootstrap install)
+
 # BEGIN: Install Laravel ui if needed
 if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   echo "Optional installations that require laravel/ui scaffolding were found."
@@ -23,7 +20,6 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
     echo "SUCCESS: laravel/ui scaffolding installed."
     echo "Compiling fresh scaffolding and running Laravel Mix."
     yarn install && yarn run dev
-    #echo "current working dir is: $(pwd)"
   else
     >&2 echo "ERROR $err_code: There was a problem installing laravel/ui"
   fi
@@ -32,16 +28,13 @@ fi
 
 # BEGIN: Optional react and react-dom install
 if [ "$install_react" == 1 ]; then
-  version=$(bash bash/utils.sh parse_ini_value starter.ini react version)
-  auth=$(bash bash/utils.sh parse_ini_value starter.ini react auth)
-
+  version=$(eval $parse react version)
+  auth=$(eval $parse react auth)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
-
   echo "React/React DOM install directive found in starter.ini"
   echo "Installing React and React DOM..."
   sleep 3
-
   if [ "$auth" == 1 ]; then
     php artisan ui react --auth
   else
@@ -52,13 +45,11 @@ if [ "$install_react" == 1 ]; then
     echo "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
     echo "Compiling fresh scaffolding and running Laravel Mix"
     yarn install && yarn run dev && sleep 1 && yarn run dev
-
     if [ ! -z "$version" ]; then
       echo "Setting react and react-dom to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
       yarn upgrade react@$version react-dom@$version
     fi
-
     [ "$install_bootstrap" == 1 ] && echo "Bootstrap install directive found but ignored. Already installed."
     [ "$install_vue" == 1 ] && echo "Vue install directive found but ignored. The install of react superceded this."
   else
@@ -69,15 +60,12 @@ fi
 
 # BEGIN: Optional vue install
 if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
-  version=$(bash bash/utils.sh parse_ini_value starter.ini vue version)
-  auth=$(bash bash/utils.sh parse_ini_value starter.ini vue auth)
-
+  version=$(eval $parse vue version)
+  auth=$(eval $parse vue auth)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
-
   echo "Vue install directive found in starter.ini"
   echo "Installing Vue..."
-
   if [ "$auth" == 1 ]; then
     php artisan ui vue --auth
   else
@@ -88,13 +76,11 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     echo "SUCCESS: Vue$version_msg$auth_msg has been installed."
     echo "Compiling fresh scaffolding and running Laravel Mix."
     yarn install && yarn run dev && sleep 1 && yarn run dev
-
     if [ ! -z "$version" ]; then
       echo "Setting vue to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
       yarn upgrade vue@$version
     fi
-
     [ "$install_bootstrap" == 1 ] && echo "Bootstrap install directive found but ignored. Already installed."
   else
     >&2 echo "ERROR $err_code: There was a problem installing Vue$version_msg$auth_msg"
@@ -104,15 +90,12 @@ fi
 
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
-  version=$(bash bash/utils.sh parse_ini_value starter.ini bootstrap version)
-  auth=$(bash bash/utils.sh parse_ini_value bootstrap auth)
-
+  version=$(eval $parse bootstrap version)
+  auth=$(eval $parse bootstrap auth)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
-
   echo "Bootstrap install directive found in starter.ini"
   echo "Installing Bootstrap..."
-
   if [ "$auth" == 1 ]; then
     php artisan ui bootstrap --auth
   else
@@ -123,7 +106,6 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
     echo "SUCCESS: Bootstrap$version_msg$auth_msg has been installed."
     echo "Compiling fresh scaffolding and running Laravel Mix."
     yarn install && yarn run dev && sleep 1 && yarn run dev
-
     if [ ! -z "$version" ]; then
       echo "Setting bootstrap to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -133,7 +115,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
     >&2 echo "ERROR $err_code: There was a problem installing Bootstrap$version_msg$auth_msg"
   fi
 else
-  version=$(bash bash/utils.sh parse_ini_value starter.ini bootstrap version)
+  version=$(eval $parse bootstrap version)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   if [[ ! -z $version && $install_bootstrap == 1 ]]; then
     echo "Setting bootstrap to$version_msg"
