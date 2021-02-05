@@ -151,7 +151,7 @@ log_silent () {
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
     >&2 echo -e "$1"
   else
-    echo -e "$1" && printf "$1\n" >> "$2"
+    echo -e "$1"
   fi
 }
 
