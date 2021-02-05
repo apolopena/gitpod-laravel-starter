@@ -3,18 +3,18 @@
 # Log to the console and a file
 log () {
   if [ -z "$2" ]; then
-    bash bash/utils.sh log log "$1" /var/log/workspace-init.log
+    bash bash/utils.sh log "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log log "$1" /var/log/workspace-init.log -e
+    bash bash/utils.sh log "$1" /var/log/workspace-init.log -e
   fi
 }
 
 # Log only to a file
 log_silent () {
   if [ -z "$2" ]; then
-    bash bash/utils.sh log log_silent "$1"
+    bash bash/utils.sh log_silent "$1"
   else
-    bash bash/utils.sh log log_silent "$1" -e
+    bash bash/utils.sh log_silent "$1" -e
   fi
 }
 
