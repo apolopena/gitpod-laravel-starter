@@ -8,8 +8,8 @@ log () {
 }
 
 log_silent () {
-  [[ "$2" == '-e' || "$2" == '--error' ]]
-  && >&2 echo -e "$1" || echo -e "$1"
+  [[ "$2" == '-e' || "$2" == '--error' ]] &&
+  >&2 echo -e "$1" || echo -e "$1"
 }
 # Load spinner
 . bash/third-party/spinner.sh
