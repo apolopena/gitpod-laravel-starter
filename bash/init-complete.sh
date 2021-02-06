@@ -8,4 +8,5 @@ cat $workspace_log
 echo ''
 echo "Results of the gitpod initialization $init_log ➥"
 cat $init_log
-echo -e "\nIf everything looks good in the above results then push the newly created project files to your git repo and get started coding your project 🚀"
+echo -e "\nALL DONE\n"
+echo "If everything looks good in the above results then push the newly created project files to your git repo and get started coding your project 🚀"
