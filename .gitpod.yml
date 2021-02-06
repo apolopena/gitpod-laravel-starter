@@ -21,7 +21,7 @@ tasks:
       source ~/.bash_profile &&
       url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env &&
       bash bash/init-optional-scaffolding.sh &&
-      bash bash/init-complete.ah
+      bash bash/init-complete.sh
     name: Init
   - openMode: split-left
     command: |

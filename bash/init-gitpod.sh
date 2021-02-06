@@ -79,10 +79,10 @@ log_silent "$msg" && start_spinner "$msg" &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
 stop_spinner $?
-echo "try: git a    or: git aliases    for a list your git aliases.\n"
+log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] && 
 log "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
-echo "See starter.ini (github_changelog_generator section) for configurable options" &&
-echo "For a full list of options see the github-changelog-generator repository on github"
+log "See starter.ini (github_changelog_generator section) for configurable options" &&
+log "For a full list of options see the github-changelog-generator repository on github"
