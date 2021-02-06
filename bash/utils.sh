@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.3"
+  echo "utils.sh version 0.0.4"
 }
 
 # Use absolute paths or paths relative to this script
@@ -104,6 +104,54 @@ add_file_to_file_after() {
 #
 parse_ini_value() {
   echo $(sed -nr '/^#|^;/b;/\['"$2"'\]/,/\[.*\]/{/\<'"$3"'\>/s/(.*)=(.*)/\2/p}' "$1")
+}
+
+# log
+# Description:
+# Log a message ($1) to the console and an output file ($2). Logs to stdout if no -e option ($3) is passed in.
+# Logs to stdout and stderr if the -e option is passed in.
+# 
+# Notes:
+# The output file must already exist.
+# Backslash escapes are interpreted in both the console 
+# and the output file (e.g., they are not printed literally).
+#
+# Usage:
+# Example 1: log a standard message to the console and an output file
+# log "Hello World" /var/log/test.log
+#
+# Example 2: log an error message to the console and an output file
+# log "Hello World" /var/log/test.log -e
+#
+log () {
+  if [[ "$3" == '-e' || "$3" == '--error' ]]; then
+    >&2 echo -e "$1" && printf "$1\n" >> "$2"
+  else
+    echo -e "$1" && printf "$1\n" >> "$2"
+  fi
+}
+
+# log_silent
+# Description:
+# Log a message ($1) to the console. Logs to stdout if no -e option ($2) is passed in.
+# Logs to stdout and stderr if the -e option is passed in.
+# 
+# Notes:
+# Backslash escapes are interpreted in the output file (e.g., they are not printed literally).
+#
+# Usage:
+# Example 1: log a standard message to an output file
+# log "Hello World"
+#
+# Example 2: log an error message to an output file
+# log "Hello World" -e
+#
+log_silent () {
+  if [[ "$3" == '-e' || "$3" == '--error' ]]; then
+    1>&2 printf "$1\n" >> "$2"
+  else
+    printf "$1\n" >> "$2"
+  fi
 }
 
 

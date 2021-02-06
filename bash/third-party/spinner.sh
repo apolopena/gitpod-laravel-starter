@@ -34,14 +34,16 @@ function _spinner() {
     local green="\e[1;32m"
     local red="\e[1;31m"
     local nc="\e[0m"
+    local colors=("\e[38;5;22m" "\e[38;5;34m" "\e[38;5;40m" "\e[38;5;46m")
 
     case $1 in
         start)
             # calculate the column where spinner and status msg will be displayed
-            let column=$(tput cols)-${#2}-8
+            #let column=$(tput cols)-${#2}-8
             # display message and position the cursor in $column column
             echo -ne ${2}
-            printf "%${column}s"
+            echo -n '  '
+            #printf "%${column}s"
 
             # start spinner
             i=1
@@ -50,7 +52,7 @@ function _spinner() {
 
             while :
             do
-                printf "\b${sp:i++%${#sp}:1}"
+                printf "\b${colors[$(($i % 4))]}${sp:i++%${#sp}:1}"&& printf "$nc"
                 sleep $delay
             done
             ;;
