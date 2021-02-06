@@ -52,7 +52,6 @@ if [ "$install_react" == 1 ]; then
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "React/React DOM install directive found in starter.ini"
   log "Installing React and React DOM"
-  sleep 3
   if [ "$auth" == 1 ]; then
     php artisan ui react --auth
   else
