@@ -34,7 +34,7 @@ function _spinner() {
     local green="\e[1;32m"
     local red="\e[1;31m"
     local nc="\e[0m"
-    local colors=("\e[38;5;206m " "\e[1;33m" "\e[1;34m" "\e[1;35m")
+    local colors=("\e[38;5;206m" "\e[1;33m" "\e[1;34m" "\e[1;35m")
 
     case $1 in
         start)
