@@ -24,8 +24,6 @@ log_silent () {
 
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
-  echo "Results of building the workspace image ➥"
-  cat /var/log/workspace-image.log
   # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
@@ -88,6 +86,3 @@ echo "try: git a    or: git aliases    for a list your git aliases.\n"
 log "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
 echo "See starter.ini (github_changelog_generator section) for configurable options" &&
 echo "For a full list of options see the github-changelog-generator repository on github"
-
-# Init complete message
-log "\nALL DONE\nIf the above results are successful then make sure to add, commit and push the changes to your git repository."
