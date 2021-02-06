@@ -7,7 +7,7 @@ echo -en "\e[38;5;177mResults of building the workspace image $workspace_log ➥
 cat $workspace_log
 echo -en "\e[0m"
 echo ''
-echo -en "\e[38;5;39mResults of the gitpod initialization $init_log ➥"
+echo -en "\e[38;5;189mResults of the gitpod initialization $init_log ➥"
 cat $init_log
 echo -en "\e[0m"
 echo -e "\n\e[38;5;177mALL DONE\e[0m\n"
