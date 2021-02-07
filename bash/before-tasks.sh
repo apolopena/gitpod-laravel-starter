@@ -3,8 +3,6 @@
 # Gitpod currently does not persist files in the home directory so we must write them 
 # in everytime the workspace starts. We do this in the  -before task in .gitpod.yml
 
-. bash/third-party/spinner.sh
-
 # Log to the console and a file
 log () {
   if [ -z "$2" ]; then
@@ -26,14 +24,12 @@ log_silent () {
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 msg="Writing rake tasks"
-log_silent "$msg" && start_spinner "$msg" &&
+log "$msg" &&
 bash bash/init-rake-tasks.sh
-&& stop_spinner $?
 
 # Aliases for git
 msg="Writing git aliases"
-log_silent "$msg" && start_spinner "$msg" &&
+log "$msg" &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
-stop_spinner $?
 log "try: git a    or: git aliases    for a list your git aliases.\n"
