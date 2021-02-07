@@ -71,7 +71,7 @@ fi
 
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
-bash bash/init-rake-tasks.sh
+# bash bash/init-rake-tasks.sh
 
 # Aliases for git
 #msg="Writing git aliases"
