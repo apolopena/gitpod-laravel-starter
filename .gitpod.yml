@@ -12,8 +12,7 @@ ports:
     onOpen: ignore
 
 tasks:
-  - before: |
-    touch text.txt
+  - before: touch ~/text.txt
     init: |
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql..." &&
