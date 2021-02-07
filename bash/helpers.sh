@@ -98,6 +98,16 @@ add_global_rake_task() {
   echo -e "$1" > "$root/$file"
 }
 
+persist_file() {
+  local store="/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+  local dest="$store/$(dirname ${1#/})"
+  local file="$dest/$(basename $1)"
+  mkdir -p $store
+  mkdir -p $dest
+  [ -f $1 ] && cp $1 $file || echo "error: $ does not exist"
+}
+
+
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
 then
