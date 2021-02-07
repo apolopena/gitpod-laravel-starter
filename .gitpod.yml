@@ -12,7 +12,9 @@ ports:
     onOpen: ignore
 
 tasks:
-  - init: |
+  - before: |
+    touch text.txt
+    init: |
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql..." &&
       gp await-port 3306 &&
