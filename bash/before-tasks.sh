@@ -3,6 +3,8 @@
 # Gitpod currently does not persist files in the home directory so we must write them 
 # in everytime the workspace starts. We do this in the  -before task in .gitpod.yml
 
+. bash/spinner.sh
+
 # Log to the console and a file
 log () {
   if [ -z "$2" ]; then
