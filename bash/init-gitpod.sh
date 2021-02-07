@@ -74,12 +74,12 @@ fi
 bash bash/init-rake-tasks.sh
 
 # Aliases for git
-msg="Writing git aliases"
-log_silent "$msg" && start_spinner "$msg" &&
+#msg="Writing git aliases"
+#log_silent "$msg" && start_spinner "$msg" &&
 #bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 #bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
-stop_spinner $?
-log "try: git a    or: git aliases    for a list your git aliases.\n"
+#stop_spinner $?
+#log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] && 

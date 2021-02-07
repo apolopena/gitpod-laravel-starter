@@ -12,7 +12,7 @@ ports:
     onOpen: ignore
 
 tasks:
-  - before: bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig && bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
+  - before: bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig && bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
     init: |
       . bash/third-party/spinner.sh &&
       start_spinner "Initializing MySql..." &&
