@@ -37,5 +37,5 @@ bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases 
 
 # compare to zero for testing this on the first run, put it back to 1 once it works
 if [ $(bash bash/helpers.sh is_inited) == 0 ]; then
-  sudo bash bash/helpers.sh restore_persistant_files
+  sudo bash bash/helpers.sh restore_persistant_files $GITPOD_REPO_ROOT
 fi

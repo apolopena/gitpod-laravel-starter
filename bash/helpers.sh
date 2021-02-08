@@ -115,12 +115,13 @@ persist_file() {
   [ -f $1 ] && cp $1 $file || echo "$err $1 does not exist"
 }
 
+# For some reason $GITPOD_REPO_ROOT is not avaialable when this is called (from before task)
+# So just pass it in from there as $1
 restore_persistant_files() {
   local err="helpers.sh: restore_persistant_files: error:"
   # TODO make this dynamic
   local init_log_orig=/var/log/workspace-init.log
-  echo "GITPOD_REPO_ROOT is $GITPOD_REPO_ROOT"
-  local store="/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+  local store="/workspace/$(basename $1)--store"
   #local init_log="$(get_store_root)$init_log_orig"
   local init_log="$store$init_log_orig"
   [ -e $init_log ] && sudo cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
