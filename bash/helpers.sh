@@ -128,7 +128,7 @@ mark_as_inited() {
   local file=$(inited_file)
   local store=$(get_store_root)
   mkdir -p $(get_store_root)
-  [! -e $file ] && touch $file
+  [ ! -e $file ] && touch $file
 }
 
 is_inited() {
