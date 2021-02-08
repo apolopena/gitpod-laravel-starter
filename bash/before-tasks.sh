@@ -29,10 +29,10 @@ bash bash/init-rake-tasks.sh
 
 # Aliases for git
 msg="Writing git aliases"
-#log "$msg" &&
+log "$msg" &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
-#log "try: git a    or: git aliases    for a list your git aliases.\n"
+log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 if [ $(bash bash/helpers.sh is_inited) == 1 ]; then
   bash bash/helpers.sh restore_persistant_files $GITPOD_REPO_ROOT
