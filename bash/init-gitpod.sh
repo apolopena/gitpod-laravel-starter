@@ -18,14 +18,18 @@ log_silent () {
   fi
 }
 
-
 # Load spinner
 . bash/third-party/spinner.sh
 
+# Let the user know there will a wait, then begin once MySql is initialized.
+start_spinner "Initializing MySql..." &&
+gp await-port 3306 &&
+stop_spinner $?
+
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
-  # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
@@ -37,9 +41,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     stop_spinner $err_code
     log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
+  # configure Laravel to use gitpod urls
+  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
-  installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
+  installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
   if [ "$installed_phpmyadmin" == 1 ]; then
     msg="Creating phpmyadmin superuser: pmasu"
     log_silent "$msg" && start_spinner "$msg" 
@@ -68,18 +74,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
   rmdir ~/test-app
 fi
-
-# Rake tasks (will be written to ~/.rake).
-# Some rake tasks are dynamic and depend on the configuration in starter.ini
-bash bash/init-rake-tasks.sh
-
-# Aliases for git
-msg="Writing git aliases"
-log_silent "$msg" && start_spinner "$msg" &&
-bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
-bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
-stop_spinner $?
-log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] && 

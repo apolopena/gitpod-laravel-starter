@@ -1,6 +1,7 @@
 #!/bin/bash
 
 parse="bash bash/utils.sh parse_ini_value starter.ini"
+
 # BEGIN: dynamic rake task functions
 add_changelog_rake() {
   local rake='changelog'
@@ -32,6 +33,7 @@ EOF
 # BEGIN: conditionally add dynamic rake tasks 
 if [ "$(eval $parse github-changelog-generator install)" ]; then
   add_changelog_rake
+  [ $? != 0 ] && exit 1
 fi
 # END: conditionally add dynamic rake tasks
 

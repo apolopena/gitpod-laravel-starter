@@ -98,6 +98,72 @@ add_global_rake_task() {
   echo -e "$1" > "$root/$file"
 }
 
+# show_first_run_logs
+# Description:
+# Outputs a summarized and colorized dump of /var/log/workspace-image.log
+# and /var/log/workspace-init.log
+#
+# Usage:
+# show_first_run_summary
+show_first_run_summary() {
+  workspace_log='/var/log/workspace-image.log'
+  init_log='/var/log/workspace-init.log'
+  echo -e "\n\e[38;5;171mSUMMARY 👀\e[0m\n"
+  echo -en "\e[38;5;194mResults of building the workspace image\e[0m \e[38;5;34m$workspace_log\e[0m ➥\n\e[38;5;183m"
+  cat $workspace_log
+  echo -en "\e[0m"
+  echo ''
+  echo -en "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥\e[38;5;39m"
+  echo ''
+  cat $init_log
+  echo -en "\e[0m"
+  echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
+}
+
+# Begin: persistance hacks
+get_store_root() {
+  echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+}
+
+persist_file() {
+  local err="helpers.sh: persist: error:"
+  local store=$(get_store_root)
+  local dest="$store/$(dirname ${1#/})"
+  local file="$dest/$(basename "$1")"
+  mkdir -p $store && mkdir -p $dest
+  [ -f $1 ] && cp $1 $file || echo "$err $1 does not exist"
+}
+
+# For some reason $GITPOD_REPO_ROOT is not avaialable when this is called (from before task)
+# So just pass it in from there as $1
+restore_persistent_files() {
+  local err="helpers.sh: restore_persistent_files: error:"
+  # TODO make this dynamic
+  local init_log_orig=/var/log/workspace-init.log
+  local store="/workspace/$(basename $1)--store"
+  local init_log="$store$init_log_orig"
+  [ -e $init_log ] && cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
+}
+
+inited_file () {
+  echo "$(get_store_root)/is_inited.lock"
+}
+
+mark_as_inited() {
+  local file=$(inited_file)
+  local store=$(get_store_root)
+  mkdir -p $(get_store_root)
+  [ ! -e $file ] && touch $file
+}
+
+is_inited() {
+  [ -e $(inited_file) ] && echo 1 || echo 0
+}
+# End: persistance hacks
+
+
+
+
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
 then

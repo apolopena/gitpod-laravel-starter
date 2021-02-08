@@ -1,7 +1,11 @@
+mtail_apache () {
+  multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;
+}
+
 start_apache() {
   apachectl start
   (( $? == 0 )) || return
-  multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;
+  mtail_apache
 }
 
 stop_apache() {
