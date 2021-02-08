@@ -21,10 +21,15 @@ log_silent () {
 # Load spinner
 . bash/third-party/spinner.sh
 
+# Let the user know there will a wait, then begin once MySql is initialized.
+start_spinner "Initializing MySql..." &&
+gp await-port 3306 &&
+stop_spinner $?
+
 # Bootstrap scaffolding
 if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
-  # Todo replacespinner with a real progress bar for coreutils
   msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   mv --no-clobber ~/test-app/* $GITPOD_REPO_ROOT
@@ -36,6 +41,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     stop_spinner $err_code
     log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
+  # configure Laravel to use gitpod urls
+  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
   installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
