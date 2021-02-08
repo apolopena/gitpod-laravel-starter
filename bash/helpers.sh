@@ -114,8 +114,8 @@ persist_file() {
 
 # For some reason $GITPOD_REPO_ROOT is not avaialable when this is called (from before task)
 # So just pass it in from there as $1
-restore_persistant_files() {
-  local err="helpers.sh: restore_persistant_files: error:"
+restore_persistent_files() {
+  local err="helpers.sh: restore_persistent_files: error:"
   # TODO make this dynamic
   local init_log_orig=/var/log/workspace-init.log
   local store="/workspace/$(basename $1)--store"
