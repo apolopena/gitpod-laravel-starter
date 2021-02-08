@@ -10,6 +10,7 @@ cat $workspace_log
 echo -en "\e[0m"
 echo ''
 echo -en "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥\e[38;5;39m"
+echo ''
 cat $init_log
 echo -en "\e[0m"
 echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
