@@ -100,7 +100,7 @@ add_global_rake_task() {
 
 # Begin: persistance hacks
 get_store_root() {
-  # Hunch: looks like $GITPOD_REPO_ROOT is not available in the 'before' phase.
+  # Hunch: $GITPOD_REPO_ROOT iis an empty string when called from before phase for some reason
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
   #echo "/workspace/gitpod-laravel8-starter--store"
 }
@@ -108,7 +108,8 @@ get_store_root() {
 persist_file() {
   local err="helpers.sh: persist: error:"
   echo "persist_file called for $1"
-  local store=$(get_store_root)
+  #local store=$(get_store_root)
+  local store="/workspace/$(basename $GITPOD_REPO_ROOT)--store"
   local dest="$store/$(dirname ${1#/})"
   local file="$dest/$(basename "$1")"
   mkdir -p $store && mkdir -p $dest
