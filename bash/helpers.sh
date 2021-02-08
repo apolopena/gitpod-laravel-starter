@@ -118,7 +118,7 @@ restore_persistant_files() {
   # TODO make this dynamic
   local init_log_orig=/var/log/workspace-init.log
   local init_log="$(get_store_root)$init_log_orig"
-  [ -e $init_log ] && cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
+  [ -e $init_log ] && sudo cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
 }
 
 inited_file () {
