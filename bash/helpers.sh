@@ -100,6 +100,7 @@ add_global_rake_task() {
 
 # Begin: persistance hacks
 get_store_root() {
+  echo "GIT_REPO_ROOT=$GITPOD_REPO_ROOT"
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
 }
 
