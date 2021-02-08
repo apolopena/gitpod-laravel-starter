@@ -104,12 +104,17 @@ get_store_root() {
 }
 
 persist_file() {
+  echo "persist_file called for $1"
   local store=$(get_store_root)
   local dest="$store/$(dirname ${1#/})"
   local file="$dest/$(basename "$1")"
   mkdir -p $store
   mkdir -p $dest
-  [ -f $1 ] && cp $1 "$file" || echo "error: $ does not exist"
+  if [ -f $1 ]; then 
+    cp "$1" "$file"
+  else 
+    echo "error: $ does not exist"
+  fi
 }
 
 restore_persistant_files() {
