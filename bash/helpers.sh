@@ -106,7 +106,7 @@ get_store_root() {
 persist_file() {
   local store=$(get_store_root)
   local dest="$store/$(dirname ${1#/})"
-  local file="$dest/$(basename $1)"
+  local file="$dest/$(basename "$1")"
   mkdir -p $store
   mkdir -p $dest
   [ -f $1 ] && cp $1 $file || echo "error: $ does not exist"
@@ -117,7 +117,7 @@ restore_persistant_files() {
   #local image_log="$(get_store_root)/var/log/workspace-image.log"
   #[ -e $image_log ] sudo cp $image_log /var/log/workspace-image.log
   local image_log="$(get_store_root)/var/log/workspace-init.log"
-  [ -e $init_log ] sudo cp $init_log /var/log/workspace-init.log
+  [ -e $init_log ] && sudo cp $init_log /var/log/workspace-init.log
 }
 
 inited_file () {
