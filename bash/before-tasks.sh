@@ -24,7 +24,7 @@ log_silent () {
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 msg="Writing rake tasks"
-#log "$msg" &&
+log "$msg" &&
 bash bash/init-rake-tasks.sh
 
 # Aliases for git
