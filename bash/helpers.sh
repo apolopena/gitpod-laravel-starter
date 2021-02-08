@@ -108,7 +108,7 @@ add_global_rake_task() {
 show_first_run_summary() {
   workspace_log='/var/log/workspace-image.log'
   init_log='/var/log/workspace-init.log'
-  echo -e "\n\e[38;5;171mSUMMARY 📃\e[0m\n"
+  echo -e "\n\e[38;5;171mSUMMARY 👀\e[0m\n"
   echo -en "\e[38;5;194mResults of building the workspace image\e[0m \e[38;5;34m$workspace_log\e[0m ➥\n\e[38;5;183m"
   cat $workspace_log
   echo -en "\e[0m"
