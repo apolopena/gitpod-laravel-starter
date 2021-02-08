@@ -26,7 +26,7 @@ tasks:
     name: Init
   - openMode: split-left
     command: |
-      [ bash bash/helpers.sh is_inited == 0  && sudo bash bash/helpers.sh restore_persistant_files
+      [ bash bash/helpers.sh is_inited == 0 ] && sudo bash bash/helpers.sh restore_persistant_files
     name: Web Server
   - openMode: split-left
     command: |
