@@ -121,7 +121,7 @@ restore_persistant_files() {
 }
 
 inited_file () {
-  echo "$get_store_root/is_inited.lock"
+  echo "$(get_store_root)/is_inited.lock"
 }
 
 mark_as_inited() {
