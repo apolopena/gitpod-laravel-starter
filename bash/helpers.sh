@@ -98,6 +98,28 @@ add_global_rake_task() {
   echo -e "$1" > "$root/$file"
 }
 
+# show_first_run_logs
+# Description:
+# Outputs a summarized and colorized dump of /var/log/workspace-image.log
+# and /var/log/workspace-init.log
+#
+# Usage:
+# show_first_run_summary
+show_first_run_summary() {
+  workspace_log='/var/log/workspace-image.log'
+  init_log='/var/log/workspace-init.log'
+  echo -e "\n\e[38;5;171mSUMMARY 📃\e[0m\n"
+  echo -en "\e[38;5;194mResults of building the workspace image\e[0m \e[38;5;34m$workspace_log\e[0m ➥\n\e[38;5;183m"
+  cat $workspace_log
+  echo -en "\e[0m"
+  echo ''
+  echo -en "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥\e[38;5;39m"
+  echo ''
+  cat $init_log
+  echo -en "\e[0m"
+  echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
+}
+
 # Begin: persistance hacks
 get_store_root() {
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
