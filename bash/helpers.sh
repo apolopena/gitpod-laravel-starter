@@ -100,7 +100,6 @@ add_global_rake_task() {
 
 # Begin: persistance hacks
 get_store_root() {
-  echo "GIT_REPO_ROOT=$GITPOD_REPO_ROOT"
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
 }
 
@@ -111,7 +110,7 @@ persist_file() {
   local dest="$store/$(dirname ${1#/})"
   local file="$dest/$(basename "$1")"
   mkdir -p $store && mkdir -p $dest
-  [ -f $1 ] && cp $1 $file echo "$err $1 does not exist"
+  [ -f $1 ] && cp $1 $file || echo "$err $1 does not exist"
 }
 
 restore_persistant_files() {
