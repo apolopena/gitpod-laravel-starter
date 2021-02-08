@@ -109,7 +109,7 @@ persist_file() {
   local file="$dest/$(basename "$1")"
   mkdir -p $store
   mkdir -p $dest
-  [ -f $1 ] && cp $1 $file || echo "error: $ does not exist"
+  [ -f $1 ] && cp $1 "$file" || echo "error: $ does not exist"
 }
 
 restore_persistant_files() {
