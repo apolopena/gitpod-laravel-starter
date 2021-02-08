@@ -4,7 +4,7 @@
 # in everytime the workspace starts. We do this in the  -before task in .gitpod.yml
 
 # Log to the console and a file
-env | grep GITPOD_REPO_ROOT
+echo "before task: GITPOD_REPO_ROOT is $GITPOD_REPO_ROOT, GITPOD_WORKSPACE_ID is $GITPOD_WORKSPACE_ID"
 log () {
   if [ -z "$2" ]; then
     bash bash/utils.sh log "$1" /var/log/workspace-init.log
