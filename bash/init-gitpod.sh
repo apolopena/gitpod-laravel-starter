@@ -18,7 +18,6 @@ log_silent () {
   fi
 }
 
-
 # Load spinner
 . bash/third-party/spinner.sh
 
@@ -68,18 +67,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
   rmdir ~/test-app
 fi
-
-# Rake tasks (will be written to ~/.rake).
-# Some rake tasks are dynamic and depend on the configuration in starter.ini
-# bash bash/init-rake-tasks.sh
-
-# Aliases for git
-#msg="Writing git aliases"
-#log_silent "$msg" && start_spinner "$msg" &&
-#bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
-#bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
-#stop_spinner $?
-#log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] && 
