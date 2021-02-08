@@ -104,25 +104,21 @@ get_store_root() {
 }
 
 persist_file() {
+  local err="helpers.sh: persist: error:"
   echo "persist_file called for $1"
   local store=$(get_store_root)
   local dest="$store/$(dirname ${1#/})"
   local file="$dest/$(basename "$1")"
-  mkdir -p $store
-  mkdir -p $dest
-  if [ -f $1 ]; then 
-    cp "$1" "$file"
-  else 
-    echo "error: $ does not exist"
-  fi
+  mkdir -p $store && mkdir -p $dest
+  [ -f $1 ] && cp $1 $file echo "$err $1 does not exist"
 }
 
 restore_persistant_files() {
+  local err="helpers.sh: restore_persistant_files: error:"
   # TODO make this dynamic
-  #local image_log="$(get_store_root)/var/log/workspace-image.log"
-  #[ -e $image_log ] sudo cp $image_log /var/log/workspace-image.log
-  local image_log="$(get_store_root)/var/log/workspace-init.log"
-  [ -e $init_log ] && sudo cp $init_log /var/log/workspace-init.log
+  local init_log_orig=/var/log/workspace-init.log
+  local init_log="$(get_store_root)$init_log_orig"
+  [ -e $init_log ] && cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
 }
 
 inited_file () {
