@@ -34,6 +34,6 @@ bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
 #log "try: git a    or: git aliases    for a list your git aliases.\n"
 
-if [ bash/helpers.sh is_inited == 1]; then
+if [ bash/helpers.sh is_inited == 1 ]; then
   sudo bash bash/helpers.sh restore_persistant_files
 fi
