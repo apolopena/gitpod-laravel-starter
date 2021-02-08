@@ -98,14 +98,38 @@ add_global_rake_task() {
   echo -e "$1" > "$root/$file"
 }
 
+# Begin: persistance hacks
+get_store_root() {
+  echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+}
+
 persist_file() {
-  local store="/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+  local store=$(get_store_root)
   local dest="$store/$(dirname ${1#/})"
   local file="$dest/$(basename $1)"
   mkdir -p $store
   mkdir -p $dest
   [ -f $1 ] && cp $1 $file || echo "error: $ does not exist"
 }
+
+inited_file () {
+  echo "$get_store_root/is_inited.lock"
+}
+
+
+mark_as_inited() {
+  local file=$(inited_file)
+  local store=$(get_store_root)
+  mkdir -p $(get_store_root)
+  [! -e $file ] && touch $file
+}
+
+is_inited() {
+  [ -e $(inited_file) ] && echo 1 || echo 0
+}
+# End: persistance hacks
+
+
 
 
 # Call functions from this script gracefully
