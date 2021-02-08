@@ -21,10 +21,6 @@ log_silent () {
   fi
 }
 
-# Hack: Persist any important files outside of /workspace
-bash bash/helpers.sh persist_file /var/log/workspace-image.log
-bash bash/helpers.sh persist_file /var/log/workspace-init.log
-
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 msg="Writing rake tasks"

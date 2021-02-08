@@ -114,8 +114,8 @@ persist_file() {
 
 restore_persistant_files() {
   # TODO make this dynamic
-  local image_log="$(get_store_root)/var/log/workspace-image.log"
-  [ -e $image_log ] sudo cp $image_log /var/log/workspace-image.log
+  #local image_log="$(get_store_root)/var/log/workspace-image.log"
+  #[ -e $image_log ] sudo cp $image_log /var/log/workspace-image.log
   local image_log="$(get_store_root)/var/log/workspace-init.log"
   [ -e $init_log ] sudo cp $init_log /var/log/workspace-init.log
 }
