@@ -20,7 +20,13 @@ tasks:
     name: Startup
   - openMode: split-left
     command: |
-      UP=$(pgrep mysql | wc -l); if [ "$UP" -ne 1 ]; then . bash/third-party/spinner.sh && start_spinner "Initializing MySql..." && gp await-port 3306 && stop_spinner $?; fi
+      UP=$(pgrep mysql | wc -l); \
+      if [ "$UP" -ne 1 ]; then \
+        . bash/third-party/spinner.sh &&
+        start_spinner "Initializing MySql..." &&
+        gp await-port 3306 &&
+        stop_spinner $?; \
+      fi \
       gp await-port 3306 &&
       sleep 1 &&
       bash -i bash/helpers.sh start_server
