@@ -119,6 +119,7 @@ restore_persistant_files() {
   local err="helpers.sh: restore_persistant_files: error:"
   # TODO make this dynamic
   local init_log_orig=/var/log/workspace-init.log
+  echo "GITPOD_REPO_ROOT is $GITPOD_REPO_ROOT"
   local store="/workspace/$(basename $GITPOD_REPO_ROOT)--store"
   #local init_log="$(get_store_root)$init_log_orig"
   local init_log="$store$init_log_orig"
