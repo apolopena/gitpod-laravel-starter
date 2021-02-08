@@ -36,6 +36,7 @@ tasks:
     command: |
       default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); open_preview $default_server
     name: Main Terminal
+  - openMode: split-left
 
 vscode:
   extensions:
