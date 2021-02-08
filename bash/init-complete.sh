@@ -19,5 +19,6 @@ echo -e "\e[38;5;194mIf everything looks good in the above results then push the
 
 # Hack: Persist the workspace-init.log since the .gitpod.Dockerfile will wipe it out and it wont come back after the first run
 bash bash/helpers.sh persist_file /var/log/workspace-init.log
+
 # Set initialized flag - Keep this at the bottom of the file
 bash bash/helpers.sh mark_as_inited
