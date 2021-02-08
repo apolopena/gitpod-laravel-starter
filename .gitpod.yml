@@ -26,7 +26,7 @@ tasks:
     name: Init
   - openMode: split-left
     command: |
-      sudo bash/helpers.sh restore_persistant_files
+      sudo bash bash/helpers.sh restore_persistant_files
       UP=$(pgrep mysql | wc -l); if [ "$UP" -ne 1 ]; then . bash/third-party/spinner.sh && start_spinner "Initializing MySql..." && gp await-port 3306 && stop_spinner $?; fi
       gp await-port 3306 &&
       sleep 1.5 &&
