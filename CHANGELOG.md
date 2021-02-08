@@ -2,10 +2,23 @@
 
 ## [Unreleased](https://github.com/apolopena/gitpod-laravel8-starter/tree/HEAD)
 
-[Full Changelog](https://github.com/apolopena/gitpod-laravel8-starter/compare/v0.0.1a...HEAD)
+[Full Changelog](https://github.com/apolopena/gitpod-laravel8-starter/compare/v0.0.2...HEAD)
 
 **Implemented enhancements:**
 
+- Command to show pretty results of initialization / workspace image build [\#32](https://github.com/apolopena/gitpod-laravel8-starter/issues/32)
+- File persistence system for files outside the repository [\#31](https://github.com/apolopena/gitpod-laravel8-starter/issues/31)
+
+## [v0.0.2](https://github.com/apolopena/gitpod-laravel8-starter/tree/v0.0.2) (2021-02-08)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel8-starter/compare/v0.0.1a...v0.0.2)
+
+**Implemented enhancements:**
+
+- Command to show pretty results of initialization / workspace image build [\#32](https://github.com/apolopena/gitpod-laravel8-starter/issues/32)
+- File persistence system for files outside the repository [\#31](https://github.com/apolopena/gitpod-laravel8-starter/issues/31)
+
+- Add CHANGELOG [\#27](https://github.com/apolopena/gitpod-laravel8-starter/issues/27)
 - Colorized spinner and  initialization summary [\#25](https://github.com/apolopena/gitpod-laravel8-starter/issues/25)
 - Autogenerating CHANGELOG.md capability [\#23](https://github.com/apolopena/gitpod-laravel8-starter/issues/23)
 - Optional installs of react, vue and bootstrap [\#20](https://github.com/apolopena/gitpod-laravel8-starter/issues/20)
@@ -18,19 +31,25 @@
 
 **Fixed bugs:**
 
+- Anything written to ~/ does not persist. ~/.gitconfig, ~/.rake, etc.. [\#30](https://github.com/apolopena/gitpod-laravel8-starter/issues/30)
+- phpmyadmin install configuration only works the very first time [\#28](https://github.com/apolopena/gitpod-laravel8-starter/issues/28)
 - Gitpod initialization messages are out of order [\#24](https://github.com/apolopena/gitpod-laravel8-starter/issues/24)
 - No gitpod init log [\#21](https://github.com/apolopena/gitpod-laravel8-starter/issues/21)
-- Restarting a workspaces gives an error when opening the preview [\#19](https://github.com/apolopena/gitpod-laravel8-starter/issues/19)
 - Move alias and function creation to .gitpod.Dockerfile [\#16](https://github.com/apolopena/gitpod-laravel8-starter/issues/16)
 - 9660+ extra files in phpmyadmin install [\#10](https://github.com/apolopena/gitpod-laravel8-starter/issues/10)
 - No .gitignore in the root of the project. [\#9](https://github.com/apolopena/gitpod-laravel8-starter/issues/9)
 - Project scaffolding conflicts after first push [\#3](https://github.com/apolopena/gitpod-laravel8-starter/issues/3)
 - Make MySql graceful when using gitpod/workspace-mysql on the first run [\#1](https://github.com/apolopena/gitpod-laravel8-starter/issues/1)
 
+**Closed issues:**
+
+- Update documentation for version 0.0.2 release [\#5](https://github.com/apolopena/gitpod-laravel8-starter/issues/5)
+
 **Merged pull requests:**
 
+- Features \#31 and \#32, Fixes \#30 [\#33](https://github.com/apolopena/gitpod-laravel8-starter/pull/33) ([apolopena](https://github.com/apolopena))
 - Update Readme for 0.0.2 release [\#29](https://github.com/apolopena/gitpod-laravel8-starter/pull/29) ([apolopena](https://github.com/apolopena))
-- Features 25, 23 and Fixes  21 and 24 [\#26](https://github.com/apolopena/gitpod-laravel8-starter/pull/26) ([apolopena](https://github.com/apolopena))
+- Features \#25, \#23 and Fixes  \#21 and \#24 [\#26](https://github.com/apolopena/gitpod-laravel8-starter/pull/26) ([apolopena](https://github.com/apolopena))
 - Feature \#20: optional installs of react, vue and bootstrap [\#22](https://github.com/apolopena/gitpod-laravel8-starter/pull/22) ([apolopena](https://github.com/apolopena))
 - Features and Fixes: \#13 to \#17 [\#18](https://github.com/apolopena/gitpod-laravel8-starter/pull/18) ([apolopena](https://github.com/apolopena))
 - Feature \#8 Starter Confiuration \(phpmyadmin\) [\#12](https://github.com/apolopena/gitpod-laravel8-starter/pull/12) ([apolopena](https://github.com/apolopena))
