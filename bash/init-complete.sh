@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Note: allways call thi file last in the initialization sequence
+# Note: allways call this file last in the initialization sequence
 
 workspace_log='/var/log/workspace-image.log'
 init_log='/var/log/workspace-init.log'
@@ -17,7 +17,7 @@ echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
 echo -e "\e[38;5;194mIf everything looks good in the above results then push the newly created\n project files to your git repo and get started coding your project\e[0m"
 
 
-# Hack: Persist the workspace-init.log since the .gitpod.Dockerfile will wipe it out and it wont come back after the first run
+# Persist the workspace-init.log since the .gitpod.Dockerfile will wipe it out and it wont come back after the first run
 bash bash/helpers.sh persist_file /var/log/workspace-init.log
 
 # Set initialized flag - Keep this at the bottom of the file
