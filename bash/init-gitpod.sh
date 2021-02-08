@@ -38,7 +38,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
   fi
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
-  installed_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install)
+  installed_phpmyadmin=$(. utils.sh parse_ini_value starter.ini phpmyadmin install)
   if [ "$installed_phpmyadmin" == 1 ]; then
     msg="Creating phpmyadmin superuser: pmasu"
     log_silent "$msg" && start_spinner "$msg" 
