@@ -101,8 +101,8 @@ add_global_rake_task() {
 # Begin: persistance hacks
 get_store_root() {
   # Hunch: looks like $GITPOD_REPO_ROOT is not available in the 'before' phase.
-  #echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
-  echo "/workspace/gitpod-laravel8-starter--store"
+  echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+  #echo "/workspace/gitpod-laravel8-starter--store"
 }
 
 persist_file() {
