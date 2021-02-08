@@ -26,7 +26,7 @@ tasks:
         start_spinner "Initializing MySql..." &&
         gp await-port 3306 &&
         stop_spinner $?; \
-      fi \
+      fi &&
       gp await-port 3306 &&
       sleep 1 &&
       bash -i bash/helpers.sh start_server
