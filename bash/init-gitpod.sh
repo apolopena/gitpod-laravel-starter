@@ -41,8 +41,29 @@ if [ ! -d "$GITPOD_REPO_ROOT/bootstrap" ]; then
     stop_spinner $err_code
     log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
-  # configure Laravel to use gitpod urls
+  
+  # BEGIN: parse configurations
+
+  # Configure .editorconfig
+  if [ -e .editorconfig ]; then 
+    ec_type=$(bash bash/utils.sh parse_ini_value starter.ini .editorconfig type)
+    case $(echo "$ec_type" | tr '[:upper:]' '[:lower:]') in
+      'laravel-js-2space')
+        cp bash/snippets/editorconfig/laravel-js-2space .editorconfig
+      ;;
+      'none')
+        rm .editorconfig
+      ;;
+      *)
+        #Ignore invalid types
+      ;;
+    esac
+  fi
+  
+  # Laravel .env 
   [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+  # END: parse configurations
+
   # BEGIN: Optional configurations
   # Super user account for phpmyadmin
   installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
