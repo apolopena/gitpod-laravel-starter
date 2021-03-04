@@ -12,8 +12,8 @@ RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
 RUN sudo apt-get update -q \
-    && sudo apt-get install -y php-dev
-
+    && sudo apt-get install -y rsync
+    
 RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
     && tar -xvzf xdebug-3.0.2.tgz \
     && cd xdebug-3.0.2 \

@@ -5,7 +5,7 @@
 # Description:Creates all project files in /tmp
 # Author: Apolo Pena
 #
-# NOTE: This script assumes it is being run from .gitpod.Dockerfile 
+# NOTE: This script assumes it is being run from .gitpod.Dockerfile
 # and all of this scripts dependencies have already been copied to /tmp
 
 LOG='/var/log/workspace-image.log'
