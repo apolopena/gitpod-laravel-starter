@@ -85,13 +85,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # Install node packages if needed, in case the Laravel Ui front end is already in version control
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     log "Found a package.json but there are no node modules installed"
-    log " --> Assume that there is Laravel ui frontend scaffolding already installed"
     log " --> Installing node packages..."
     yarn install
     log " --> Node packages installed"
     log " --> Running Laravel Mix..."
     yarn run dev
-    log " --> Running Laravel Mix complete"
+    log " --> Running of Laravel Mix complete"
   fi
 
   # BEGIN: Optional configurations
