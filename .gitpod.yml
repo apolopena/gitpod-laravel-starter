@@ -1,6 +1,6 @@
 image:
   file: .gitpod.Dockerfile
-  
+
 ports:
   - port: 8001
     onOpen: ignore
@@ -16,10 +16,14 @@ tasks:
     init: |
       bash bash/init-gitpod.sh &&
       bash bash/init-optional-scaffolding.sh &&
+      bash bash/init-project.sh &&
       bash bash/init-complete.sh
     name: Startup
   - openMode: split-left
     command: |
+      if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
+        gp sync-done gitpod-inited
+      fi;
       UP=$(pgrep mysql | wc -l); \
       if [ "$UP" -ne 1 ]; then \
         . bash/third-party/spinner.sh &&
@@ -33,7 +37,12 @@ tasks:
     name: Web Server
   - openMode: split-top
     command: |
-      default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); open_preview $default_server
+      . bash/third-party/spinner.sh &&
+      start_spinner "Opening preview when system is ready..."
+      gp sync-await gitpod-inited &&
+      default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
+      open_preview $default_server &&
+      stop_spinner $?
     name: Main Terminal
 
 vscode:

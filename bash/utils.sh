@@ -6,11 +6,11 @@
 # Note: Do not execute this script witout calling a function from it
 #
 # Usage: bash <function name> arg1 arg2 arg3 ...
-# 
+#
 
 
 version () {
-  echo "utils.sh version 0.0.4"
+  echo "utils.sh version 0.0.5"
 }
 
 # Use absolute paths or paths relative to this script
@@ -26,7 +26,7 @@ version () {
 # Error code 0 if all files exist
 # Error code 1 if any file doesn't exist. Function exits on the first file that doesn't exist.
 # When a file does not exist a message is echoed to the console.
-# 
+#
 # Notes:
 # The marker is a regexp expression so it must have any regexp characters in it double escaped.
 #
@@ -50,7 +50,7 @@ check_files_exist () {
 # add_file_to_file_before
 # Description:
 # Adds the contents of file ($2) into another file ($3) before the marker ($1)
-# 
+#
 # Notes:
 # The marker is a regexp expression so it must have any regexp characters in it double escaped.
 #
@@ -67,7 +67,7 @@ add_file_to_file_before() {
 # add_file_to_file_after
 # Description:
 # Adds the contents of file ($2) into another file ($3) after the marker ($1)
-# 
+#
 # Notes:
 # The marker is a regexp expression so it must have any regexp characters in it double escaped.
 #
@@ -84,11 +84,11 @@ add_file_to_file_after() {
 # parse_ini_value
 # Description:
 # Echoes the value of a variable ($3) for a name value pair under a section ($2) in an .ini file ($1)
-# 
+#
 # Notes:
 # Comments are ignored.
 # Comments are either a pound sign # or a semicolon ; at the beginning of a line.
-# The name argument ($3) and the section argument ($2) 
+# The name argument ($3) and the section argument ($2)
 # must be simple strings with no special regex characters in them.
 # If a value is not set then an empty string with be echoed.
 #
@@ -110,10 +110,10 @@ parse_ini_value() {
 # Description:
 # Log a message ($1) to the console and an output file ($2). Logs to stdout if no -e option ($3) is passed in.
 # Logs to stdout and stderr if the -e option is passed in.
-# 
+#
 # Notes:
 # The output file must already exist.
-# Backslash escapes are interpreted in both the console 
+# Backslash escapes are interpreted in both the console
 # and the output file (e.g., they are not printed literally).
 #
 # Usage:
@@ -135,7 +135,7 @@ log () {
 # Description:
 # Log a message ($1) to the console. Logs to stdout if no -e option ($2) is passed in.
 # Logs to stdout and stderr if the -e option is passed in.
-# 
+#
 # Notes:
 # Backslash escapes are interpreted in the output file (e.g., they are not printed literally).
 #
@@ -152,6 +152,36 @@ log_silent () {
   else
     printf "$1\n" >> "$2"
   fi
+}
+
+# node_package_exists
+# Description:
+# Checks is a node package directory ($1) is present on the file system
+# An optional argument ($2) of the location to make the check can be passed
+# otherwise the current working directory will be searched
+# Echos 1 if a directory with the name of the node package ($1) exists within
+# a directory named node_modules
+# Echos 0 if a directory with the name of the node package ($1) does not exists within
+# a directory named node_modules or if the node_modules directory does not exist
+#
+# Notes:
+# If using the optional location argument ($2), make sure the path is valid
+# or you can get a false negative
+#
+# Usage:
+# Example 1:
+# # Check if the node package react exists in the current working directory (assume that is does)
+# node_package_is_installed react # echos 1
+# Example 2:
+# # Check if the node package foobar exists in the current working directory (assume that is does not)
+# node_package_is_installed foobar # echos 0
+# Example 3:
+# # Check if the node package react exists in the foo/bar/baz (assume that is does)
+# node_package_is_installed react foo/bar/baz # echos 1
+
+node_package_exists () {
+  [ -z $2 ] && local path='node_modules' || local path="$2/node_modules"
+  ls "$path" 2>/dev/null | grep -w $1 >/dev/null 2>&1 && echo "1" || echo "0"
 }
 
 

@@ -149,14 +149,15 @@ The exception right now is the optional installation of `phpmyadmin`. This optio
 
 
 
-### Development Servers
+### Development Servers 
 
 This starter project comes pre packaged with two development servers.
 
 - Apache2
 - PHP Development Sever
 
-By default the server listed in `starter.ini` will be the server used. You can however run both servers at the same time or change your default sever. 
+By default the server listed in `starter.ini` will be the server used. You can however run both servers at the same time or change your default sever.
+You may also run the php development server manually via the command `php artisan serve`.
 
 The default server will be started automatically when the workspace is started
 
