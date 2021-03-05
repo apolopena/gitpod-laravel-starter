@@ -1,4 +1,4 @@
-FROM aledbf/workspace-mysql:04032021
+FROM gitpod/workspace-mysql
 
 USER gitpod
 
