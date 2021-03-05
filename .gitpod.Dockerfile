@@ -12,19 +12,15 @@ RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
     
 RUN sudo mkdir /var/log/apache2 \
-
     && sudo chmod 755 /var/log/apache2
 
 RUN sudo touch /var/log/apache2/access.log \
-
     && sudo chmod 666 /var/log/apache2/access.log
 
 RUN sudo touch /var/log/apache2/error.log \
-
     && sudo chmod 666 /var/log/apache2/error.log
 
 RUN sudo touch /var/log/apache2/other_vhosts_access.log \
-
     && sudo chmod 666 /var/log/apache2/other_vhosts_access.log
 
 RUN sudo apt-get update -q \
