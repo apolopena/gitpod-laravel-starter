@@ -24,7 +24,8 @@ RUN sudo touch /var/log/apache2/other_vhosts_access.log \
     && sudo chmod 666 /var/log/apache2/other_vhosts_access.log
 
 RUN sudo apt-get update -q \
-    && sudo apt-get install -y rsync
+    && sudo apt-get install -y rsync \
+    && sudo apt-get install -y grc
     
 RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
     && tar -xvzf xdebug-3.0.2.tgz \
@@ -41,7 +42,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=123
+ENV INVALIDATE_CACHE=125
 
 COPY --chown=gitpod:gitpod bash/utils.sh /tmp
 COPY --chown=gitpod:gitpod starter.ini /tmp
