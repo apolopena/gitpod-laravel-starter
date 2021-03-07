@@ -1,11 +1,28 @@
-mtail_apache () {
+mtail_apache() {
   multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;
+}
+
+tail_apache() {
+  # See bash/before-tasks.sh for setup of ~/apache-log-colors.conf
+  grc -c ~/apache-log-colors.conf tail -f /var/log/apache2/error.log /var/log/apache2/access.log
 }
 
 start_apache() {
   apachectl start
   (( $? == 0 )) || return
-  mtail_apache
+  __log_monitor_type="$(bash \
+  $GITPOD_REPO_ROOT/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
+  case "$__log_monitor_type" in
+    'tail')
+    tail_apache
+    ;;
+    'multitail')
+    mtail_apache
+    ;;
+    *)
+    echo "ERROR start_apache: invalid apache_log_monitor type: $__log_monitor_type. Check your starter.ini"
+    ;;
+  esac
 }
 
 stop_apache() {
