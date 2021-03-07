@@ -44,9 +44,9 @@ log "try: git a    or: git aliases\nto see what is available.\n"
 
 # grc color configuration for apache logs
 alc_conf="~/apache-log-colors.conf"
-msg="Creating grc color configuration file for apache logs: $alc_conf"
+msg="Creating grc color configuration file for apache logs: ~/apache-log-colors.conf"
 log "$msg..." &&
-cat bash/snippets/grc/apache-log-colors > "$alc_conf"
+cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf
 if [ $? == 0 ]; then
   log "SUCCESS: $msg"
 else
