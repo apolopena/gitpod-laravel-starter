@@ -36,7 +36,7 @@ fi
 
 
 # Aliases for git
-msg="git aliases have been written"
+msg="\ngit aliases have been written"
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
 log "$msg" &&
