@@ -20,7 +20,7 @@ start_apache() {
     mtail_apache
     ;;
     *)
-    echo "ERROR start_apache: invalid apache_log_monitor type: $__log_monitor_type. Check your starter.ini"
+    echo "ERROR start_apache: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
     ;;
   esac
 }
@@ -41,7 +41,7 @@ stop_apache() {
     pid=$(ps axf | grep 'multitail /var/log/apache2/access.log -I /var/log/apache2/error.log' | grep -v grep | awk '{print $1}' | sed 1q)
     ;;
     *)
-    echo "ERROR start_apache: invalid apache_log_monitor type: $__log_monitor_type. Check your starter.ini"
+    echo "ERROR start_apache: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
     ;;
   esac
   kill -2 $pid
