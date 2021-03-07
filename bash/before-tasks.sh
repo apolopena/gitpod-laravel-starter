@@ -26,21 +26,19 @@ log_silent () {
 msg="Writing rake tasks"
 log "$msg..." &&
 bash bash/init-rake-tasks.sh &&
-if [ $? == 0 ]; then
-  log "SUCCESS: $msg"
-else
-  log "ERROR: $msg" -e
-fi
+[ $? == 0 ] && log "SUCCESS: $msg" || log "ERROR: $msg" -e
+
 
 # Aliases for git
 msg="git aliases have been written"
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
 log "$msg" &&
-log "try: git a    or: git aliases    to see what has been written.\n"
+log "try: git a    or: git aliases\nto see what is available.\n"
 
 # grc color configuration for apache logs
-msg="Creating grc color configuration file for apache logs"
+alc_conf='~/apache-log-colors.conf'
+msg="Creating grc color configuration file for apache logs: $alc"
 log "$msg..." &&
 cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf &&
 if [ $? == 0 ]; then
