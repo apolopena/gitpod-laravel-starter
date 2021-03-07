@@ -30,18 +30,18 @@ stop_spinner $?
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nMoving Laravel project from ~/temp-app to $GITPOD_REPO_ROOT using rsync"
+  msg="\nrsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
-  log_silent "$msg" && start_spinner "$msg"
+  log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
   rsync -rlptgoD --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed to move Laravel project from ~/temp-app to $GITPOD_REPO_ROOT using rsync" -e
+    log "ERROR: Failed to rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
     stop_spinner $err_code
-    log "SUCCESS: moved Laravel project from ~/temp-app to $GITPOD_REPO_ROOT using rsync"
+    log "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
 
   # BEGIN: parse configurations
@@ -71,7 +71,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     __laravel_db_msg="laravel database did not exist in mysql. Creating database: laravel"
-    log_silent "$__laravel_db_msg" && start_spinner "$__laravel_db_msg"
+    log_silent "$__laravel_db_msg..." && start_spinner "$__laravel_db_msg..."
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
