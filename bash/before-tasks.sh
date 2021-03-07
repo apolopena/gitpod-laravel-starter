@@ -24,22 +24,30 @@ log_silent () {
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 msg="Writing rake tasks"
-log "$msg" &&
-bash bash/init-rake-tasks.sh
+log "$msg..." &&
+bash bash/init-rake-tasks.sh &&
+if [ $? == 0 ]; then
+  log "SUCCESS: $msg"
+else
+  log "ERROR: $msg" -e
+fi
 
 # Aliases for git
-msg="Writing git aliases"
-log "$msg" &&
+msg="Wrote git aliases"
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
-bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
+bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
+log $msg &&
 log "try: git a    or: git aliases    for a list your git aliases.\n"
 
 # grc color configuration for apache logs
 msg="Creating grc color configuration file for apache logs"
-log "$msg" &&
+log "$msg..." &&
 cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf &&
-[ $? != 0 ] &&
-log 'ERROR: $msg' -e
+if [ $? == 0 ]; then
+  log "SUCCESS: $msg"
+else
+  log "ERROR: $msg" -e
+fi
 
 if [ $(bash bash/helpers.sh is_inited) == 1 ]; then
   bash bash/helpers.sh restore_persistent_files $GITPOD_REPO_ROOT
