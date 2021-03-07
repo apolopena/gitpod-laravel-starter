@@ -51,6 +51,7 @@ else
   log "ERROR: $msg" -e
 fi
 
+# Keep this at the bottom of the file
 if [ $(bash bash/helpers.sh is_inited) == 1 ]; then
   bash bash/helpers.sh restore_persistent_files $GITPOD_REPO_ROOT
 fi

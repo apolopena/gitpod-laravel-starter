@@ -34,6 +34,7 @@ EOF
 if [ "$(eval $parse github-changelog-generator install)" ]; then
   add_changelog_rake
   [ $? != 0 ] && exit 1
+  exit 0
 fi
 # END: conditionally add dynamic rake tasks
 
