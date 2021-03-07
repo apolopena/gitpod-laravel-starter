@@ -33,6 +33,7 @@ tasks:
       fi &&
       gp await-port 3306 &&
       sleep 1 &&
+      gp sync-await gitpod-inited &&
       bash -i bash/helpers.sh start_server
     name: Web Server
   - openMode: split-top
