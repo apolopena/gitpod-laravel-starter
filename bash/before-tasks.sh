@@ -34,6 +34,13 @@ bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig
 log "try: git a    or: git aliases    for a list your git aliases.\n"
 
+# grc color configuration for apache logs
+msg="Creating grc color configuration file for apache logs"
+log "$msg" &&
+cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf &&
+[ $? != 0 ] &&
+log 'ERROR: $msg' -e
+
 if [ $(bash bash/helpers.sh is_inited) == 1 ]; then
   bash bash/helpers.sh restore_persistent_files $GITPOD_REPO_ROOT
 fi
