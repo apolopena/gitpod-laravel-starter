@@ -40,10 +40,9 @@ msg="git aliases have been written"
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
 log "$msg" &&
-log "try: git a    or: git aliases\nto see what is available.\n"
+log "\ntry: git a    or: git aliases\nto see what is available.\n"
 
 # grc color configuration for apache logs
-alc_conf="~/apache-log-colors.conf"
 msg="Creating grc color configuration file for apache logs: ~/apache-log-colors.conf"
 log "$msg..." &&
 cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf
@@ -54,6 +53,8 @@ else
 fi
 
 # Keep this at the bottom of the file
+# Restores files marked as persistant
+# See persist_file in bash/helpers.sh 
 if [ $(bash bash/helpers.sh is_inited) == 1 ]; then
   bash bash/helpers.sh restore_persistent_files $GITPOD_REPO_ROOT
 fi
