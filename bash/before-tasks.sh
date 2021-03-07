@@ -25,7 +25,7 @@ log_silent () {
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 msg="Writing rake tasks"
 log "$msg..." &&
-bash bash/init-rake-tasks.sh &&
+bash bash/init-rake-tasks.sh
 [ $? == 0 ] && log "SUCCESS: $msg" || log "ERROR: $msg" -e
 
 
