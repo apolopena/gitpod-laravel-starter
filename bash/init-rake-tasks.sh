@@ -32,7 +32,9 @@ EOF
 
 # BEGIN: add rake tasks
   add_changelog_rake
-  [ $? != 0 ] && exit 1
+  if [ $? != 0 ]; then
+    exit 1
+  fi
 # END: add rake tasks
 
 
