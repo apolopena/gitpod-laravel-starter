@@ -4,7 +4,7 @@ mtail_apache() {
 
 tail_apache() {
   # See bash/before-tasks.sh for setup of ~/apache-log-colors.conf
-  grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/apache2/error.log /var/log/apache2/access.log
+  grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/apache2/access.log /var/log/apache2/error.log
 }
 
 start_apache() {
