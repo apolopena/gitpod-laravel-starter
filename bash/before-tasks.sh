@@ -33,11 +33,11 @@ else
 fi
 
 # Aliases for git
-msg="Wrote git aliases"
+msg="git aliases have been written"
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after \\[alias\\] bash/snippets/git-aliases ~/.gitconfig &&
-log $msg &&
-log "try: git a    or: git aliases    for a list your git aliases.\n"
+log "$msg" &&
+log "try: git a    or: git aliases    to see what has been written.\n"
 
 # grc color configuration for apache logs
 msg="Creating grc color configuration file for apache logs"
