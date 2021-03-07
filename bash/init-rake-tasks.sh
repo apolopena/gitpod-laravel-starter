@@ -30,13 +30,10 @@ EOF
 }
 # END: dynamic rake task functions
 
-# BEGIN: conditionally add dynamic rake tasks 
-if [ "$(eval $parse github-changelog-generator install)" ]; then
+# BEGIN: add rake tasks
   add_changelog_rake
   [ $? != 0 ] && exit 1
-  exit 0
-fi
-# END: conditionally add dynamic rake tasks
+# END: add rake tasks
 
 
 
