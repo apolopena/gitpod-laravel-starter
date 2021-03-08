@@ -76,7 +76,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      log "ERROR: Failed to move createe mysql database: laravel" -e
+      log "ERROR: Failed to move create mysql database: laravel" -e
     else
       stop_spinner $err_code
       log "SUCCESS: created mysql database: laravel"
@@ -123,7 +123,15 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       fi
     fi
     # phpmyadmin db
-
+    mysql -e "CREATE DATABASE phpmyadmin;"
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
+      log "ERROR: Failed to move createe mysql database: phpmyadmin" -e
+    else
+      stop_spinner $err_code
+      log "SUCCESS: created mysql database: phpmyadmin"
+    fi
     # Super user account for phpmyadmin
     msg="Creating phpmyadmin superuser: pmasu"
     log_silent "$msg" && start_spinner "$msg"
