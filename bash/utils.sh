@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.5"
+  echo "utils.sh version 0.0.6"
 }
 
 # Use absolute paths or paths relative to this script
