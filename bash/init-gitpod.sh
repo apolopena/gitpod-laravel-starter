@@ -70,7 +70,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   log "Configuring FOOBAR"
   __bfs=$(bash bash/utils.sh generate_string 32)
     cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
-    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
+    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = 'a-zA-Z0-9$+,:;=?@|<>.^*()%-a-zA-Z0-9$+,:;=?@|<>.^*()%-';#g" public/phpmyadmin/config.inc.php
   fi
 
   # END: parse configurations
