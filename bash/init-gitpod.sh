@@ -100,7 +100,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     if [ -e public/phpmyadmin/config.sample.inc.php ]; then
       msg="Creating public/phpmyadmin/config.inc.php"
       log_silent "$msg ..." && start_spinner "$msg ..."
-      cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
+      cat bash/snippets/phpmyadmin/config.inc.php > public/phpmyadmin/config.inc.php
       err_code=$?
       if [ $err_code != 0 ]; then
         stop_spinner $err_code
