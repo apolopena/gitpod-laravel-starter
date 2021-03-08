@@ -126,10 +126,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     mysql -e "CREATE DATABASE phpmyadmin;"
     err_code=$?
     if [ $err_code != 0 ]; then
-      stop_spinner $err_code
-      log "ERROR: Failed to move createe mysql database: phpmyadmin" -e
+      log "ERROR: Failed to move created mysql database: phpmyadmin" -e
     else
-      stop_spinner $err_code
       log "SUCCESS: created mysql database: phpmyadmin"
     fi
     # Super user account for phpmyadmin
