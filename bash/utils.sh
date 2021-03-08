@@ -184,6 +184,24 @@ node_package_exists () {
   ls "$path" 2>/dev/null | grep -w $1 >/dev/null 2>&1 && echo "1" || echo "0"
 }
 
+# generate_string
+# Description:
+# Generates a string of random alphanumeric and special charaters of any length ($1)
+# The length of the string defaults to 32 if no argument is passed in
+# or if the argument passed in is empty or not a valid positive integer
+#
+# Usage:
+# Example 1: generate a random string with a length of 8
+# generate_string 8
+#
+# Example 2: generate a random string with a length of 32
+# generate_string
+#
+generate_string () {
+  [ "$1" -ge 0 ] 2>/dev/null && local count=$1 || local count=32
+  echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$&+,:;=?@#|<>.^*()%-' | fold -w $count | head -n 1)
+}
+
 
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null

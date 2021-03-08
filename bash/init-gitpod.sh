@@ -64,6 +64,14 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
   # Laravel .env
   [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+
+  # Configure phpmyadmin
+  if [ -e public/phpMyAdmin/config.sample.inc.php ]; then
+  __pma_bs=$(bash bash/utils.sh generate_string 32)
+    cp config.sample.inc.php config.inc.php
+    sed -i'' "s#^$cfg['blowfish_secret'] = $__pma_bs;"
+  fi
+
   # END: parse configurations
 
   # Create laravel database if it does not exist
