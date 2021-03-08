@@ -199,7 +199,7 @@ node_package_exists () {
 #
 generate_string () {
   [ "$1" -ge 0 ] 2>/dev/null && local count=$1 || local count=32
-  echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$&+,:;=?@#|<>.^*()%-' | fold -w $count | head -n 1)
+  echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$+,:;=?|<>.^*()%-' | fold -w $count | head -n 1)
 }
 
 
