@@ -64,15 +64,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
   # Laravel .env
   [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
-
-  # Configure phpmyadmin
-  if [ -e public/phpmyadmin/config.sample.inc.php ]; then
-  log "Configuring FOOBAR"
-  __bfs=$(bash bash/utils.sh generate_string 32)
-    cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
-    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
-  fi
-
   # END: parse configurations
 
   # Create laravel database if it does not exist
@@ -103,9 +94,37 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
 
   # BEGIN: Optional configurations
-  # Super user account for phpmyadmin
+  # phpmyadmin config
   installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
   if [ "$installed_phpmyadmin" == 1 ]; then
+    if [ -e public/phpmyadmin/config.sample.inc.php ]; then
+      msg="Creating public/phpmyadmin/config.inc.php"
+      log_silent "$msg ..." && start_spinner "$msg ..."
+      cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
+      err_code=$?
+      if [ $err_code != 0 ]; then
+        stop_spinner $err_code
+        log "ERROR: Failed $msg" -e
+      else
+        stop_spinner $err_code
+        log "SUCCESS: $msg"
+      fi
+      msg="Parsing public/phpmyadmin/config.inc.php"
+      log_silent "$msg ..." && start_spinner "$msg ..."
+      __bfs=$(bash bash/utils.sh generate_string 32)
+      sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
+      err_code=$?
+      if [ $err_code != 0 ]; then
+        stop_spinner $err_code
+        log "ERROR: Failed $msg" -e
+      else
+        stop_spinner $err_code
+        log "SUCCESS: $msg"
+      fi
+    fi
+    # phpmyadmin db
+
+    # Super user account for phpmyadmin
     msg="Creating phpmyadmin superuser: pmasu"
     log_silent "$msg" && start_spinner "$msg"
     mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
