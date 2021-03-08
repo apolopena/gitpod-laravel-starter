@@ -66,11 +66,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
 
   # Configure phpmyadmin
-  if [ -e public/phpMyAdmin/config.sample.inc.php ]; then
+  if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   log "Configuring FOOBAR"
   __bfs=$(bash bash/utils.sh generate_string 32)
-    cp public/phpMyAdmin/config.sample.inc.php public/phpMyAdmin/config.inc.php
-    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '\"$__bfs\"';#g" public/phpMyAdmin/config.inc.php
+    cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
+    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '\"$__bfs\"';#g" public/phpmyadmin/config.inc.php
   fi
 
   # END: parse configurations
