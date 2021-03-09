@@ -43,7 +43,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log "ERROR: Failed to rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
     stop_spinner $err_code
-    log "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+    log_silent "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
 
   # BEGIN: parse configurations
@@ -72,16 +72,16 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # TODO: think more about making this dynamic as per .env
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
-    __laravel_db_msg="laravel database did not exist in mysql. Creating database: laravel"
+    __laravel_db_msg="Creating database: laravel"
     log_silent "$__laravel_db_msg..." && start_spinner "$__laravel_db_msg..."
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      log "ERROR: Failed to move create mysql database: laravel" -e
+      log "ERROR: $__laravel_db_msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: created mysql database: laravel"
+      log "SUCCESS: $__laravel_db_msg"
     fi
   fi
   # Install node packages if needed, in case the Laravel Ui front end is already in version control
