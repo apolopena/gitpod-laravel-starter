@@ -32,15 +32,15 @@ stop_spinner $?
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   msg="\nrsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
-  log_silent "$msg..." && start_spinner "$msg..."
+  #log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
-  rsync -rlptgoD --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
+  rsync -rlptgoD --ignore-existing --progress ~/test-app/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
-    stop_spinner $err_code
+    #stop_spinner $err_code
     log "ERROR: Failed to rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
   else
-    stop_spinner $err_code
+    #stop_spinner $err_code
     log "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
   fi
 
