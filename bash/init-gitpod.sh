@@ -35,7 +35,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
   #rsync -rlptgoDP --ignore-existing --info=name0 --no-i-r ~/test-app/ $GITPOD_REPO_ROOT | xargs -L1 printf "\33[2K\r%s"
-  rsync -rlptgoDP --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
+  rsync -rlptgoD --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
