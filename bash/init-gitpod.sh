@@ -34,7 +34,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # TODO: replace spinner with a real progress bar for coreutils
   #log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
-  rsync -rlptgoDP --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
+  rsync -rlptgoDP --ignore-existing --progress --no-inc-recursive ~/test-app/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     #stop_spinner $err_code
