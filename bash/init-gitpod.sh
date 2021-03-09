@@ -34,7 +34,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # TODO: replace spinner with a real progress bar for coreutils
   #log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
-  rsync -rlptgoDP --ignore-existing --info=name0 --stats ~/test-app/ $GITPOD_REPO_ROOT #| xargs -L1 printf "\33[2K\r%s"
+  rsync -rlptgoDP --ignore-existing --info=name0 ~/test-app/ $GITPOD_REPO_ROOT | xargs -L1 printf "\33[2K%s"
   err_code=$?
   if [ $err_code != 0 ]; then
     #stop_spinner $err_code
