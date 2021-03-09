@@ -25,7 +25,8 @@ RUN sudo touch /var/log/apache2/other_vhosts_access.log \
 
 RUN sudo apt-get update -q \
     && sudo apt-get install -y rsync \
-    && sudo apt-get install -y grc
+    && sudo apt-get install -y grc \
+    && sudo apt-get install -y progress
     
 RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
     && tar -xvzf xdebug-3.0.2.tgz \
