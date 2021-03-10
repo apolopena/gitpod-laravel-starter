@@ -78,8 +78,8 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
-      log "Compiling fresh scaffolding and running Laravel Mix"
-      yarn install && yarn run dev && sleep 1 && yarn run dev
+      log "Compiling fresh scaffolding" #and running Laravel Mix"
+      yarn install #&& yarn run dev && sleep 1 && yarn run dev
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
