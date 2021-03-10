@@ -49,8 +49,8 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: laravel/ui scaffolding installed"
       #log "Compiling fresh scaffolding and running Laravel Mix"
-      log "Installing node modules"
-      yarn install #&& yarn run dev
+      log "  -> Installing node modules and running Laravel Mix"
+      yarn install && yarn run dev
     else
       log "ERROR $err_code: There was a problem installing laravel/ui" -e
     fi
