@@ -84,6 +84,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       log "SUCCESS: $__laravel_db_msg"
     fi
   fi
+  
   # Install node packages if needed, in case the Laravel Ui front end is already in version control
   __has_installs=$(bash bash/helpers.sh has_installs)
   if [[ -f "package.json"  && ! -d "node_modules" && "$__has_installs" == 0 ]]; then
@@ -97,69 +98,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
 
   # BEGIN: Optional configurations
-  # phpmyadmin config
-  installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
-  if [ "$installed_phpmyadmin" == 1 ]; then
-    if [ -e public/phpmyadmin/config.sample.inc.php ]; then
-      msg="Creating public/phpmyadmin/config.inc.php"
-      log_silent "$msg ..." && start_spinner "$msg ..."
-      cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
-      err_code=$?
-      if [ $err_code != 0 ]; then
-        stop_spinner $err_code
-        log "ERROR: Failed $msg" -e
-      else
-        stop_spinner $err_code
-        log "SUCCESS: $msg"
-      fi
-      msg="Parsing public/phpmyadmin/config.inc.php"
-      log_silent "$msg ..." && start_spinner "$msg ..."
-      __bfs=$(bash bash/utils.sh generate_string 32)
-      sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
-      err_code=$?
-      if [ $err_code != 0 ]; then
-        stop_spinner $err_code
-        log "ERROR: Failed $msg" -e
-      else
-        stop_spinner $err_code
-        log "SUCCESS: $msg"
-      fi
-    fi
-    # phpmyadmin db
-    mysql -e "CREATE DATABASE phpmyadmin;"
-    err_code=$?
-    if [ $err_code != 0 ]; then
-      log "ERROR: Failed to move created mysql database: phpmyadmin" -e
-    else
-      log "SUCCESS: created mysql database: phpmyadmin"
-    fi
-    # Super user account for phpmyadmin
-    msg="Creating phpmyadmin superuser: pmasu"
-    log_silent "$msg" && start_spinner "$msg"
-    mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
-    mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
-    err_code=$?
-    if [ $err_code != 0 ]; then
-      stop_spinner $err_code
-      log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
-    else
-      stop_spinner $err_code
-    fi
-    if [ ! -d 'public/phpmyadmin/node_modules' ]; then
-      log "phpmyadmin node modules have not yet been installed, installing now..."
-      cd public/phpmyadmin && yarn install && cd ../../
-      if [ $? == 0 ]; then
-        __pmaurl=$(gp url 8001)/phpmyadmin
-        log "phpmyadmin node modules installed."
-        log "To login to phpmyadmin:"
-        log "  --> 1. Make sure you are serving it with apache"
-        log "  --> 2. In the browser go to $__pmaurl"
-        log "  --> 3. You should be able to login here using the default account. user: pmasu, pw: 123456"
-      else
-        log "ERROR: installing phpmyadmin node modules. Try installing them manually." -e
-      fi
-    fi
-  fi
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then

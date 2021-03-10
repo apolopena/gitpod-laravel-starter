@@ -27,7 +27,9 @@ parse="bash bash/utils.sh parse_ini_value starter.ini"
 install_react=$(eval $parse react install)
 install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
+install_only_frontend_scaffolding=$(bash bash/helpers.sh has_only_frontend_scaffolding_install)
 
+# BEGIN: optional frontend scaffolding installations
 # BEGIN: Install Laravel ui if needed
 if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
@@ -72,8 +74,13 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg have been installed"
-      log "Compiling fresh scaffolding and running Laravel Mix"
-      yarn install && yarn run dev && sleep 1 && yarn run dev
+      if [ $install_only_frontend_scaffolding == 1 ]; then
+        log "Compiling fresh scaffolding and running Laravel Mix"
+        yarn install && yarn run dev && sleep 1 && yarn run dev
+      else
+        log "Running Laravel Mix"
+        yarn run dev
+      fi
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -162,3 +169,69 @@ else
   fi
 fi
 # END: Optional bootstrap install
+# END: optional frontend scaffolding installations
+
+# BEGIN: phpmyadmin setup
+installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
+if [ "$installed_phpmyadmin" == 1 ]; then
+  if [ -e public/phpmyadmin/config.sample.inc.php ]; then
+    msg="Creating public/phpmyadmin/config.inc.php"
+    log_silent "$msg ..." && start_spinner "$msg ..."
+    cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
+      log "ERROR: Failed $msg" -e
+    else
+      stop_spinner $err_code
+      log "SUCCESS: $msg"
+    fi
+    msg="Parsing public/phpmyadmin/config.inc.php"
+    log_silent "$msg ..." && start_spinner "$msg ..."
+    __bfs=$(bash bash/utils.sh generate_string 32)
+    sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
+      log "ERROR: Failed $msg" -e
+    else
+      stop_spinner $err_code
+      log "SUCCESS: $msg"
+    fi
+  fi
+  # phpmyadmin db
+  mysql -e "CREATE DATABASE phpmyadmin;"
+  err_code=$?
+  if [ $err_code != 0 ]; then
+    log "ERROR: Failed to move created mysql database: phpmyadmin" -e
+  else
+    log "SUCCESS: created mysql database: phpmyadmin"
+  fi
+  # Super user account for phpmyadmin
+  msg="Creating phpmyadmin superuser: pmasu"
+  log_silent "$msg" && start_spinner "$msg"
+  mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
+  mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
+  err_code=$?
+  if [ $err_code != 0 ]; then
+    stop_spinner $err_code
+    log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
+  else
+    stop_spinner $err_code
+  fi
+  if [ ! -d 'public/phpmyadmin/node_modules' ]; then
+    log "phpmyadmin node modules have not yet been installed, installing now..."
+    cd public/phpmyadmin && yarn install && cd ../../
+    if [ $? == 0 ]; then
+      __pmaurl=$(gp url 8001)/phpmyadmin
+      log "phpmyadmin node modules installed."
+      log "To login to phpmyadmin:"
+      log "  --> 1. Make sure you are serving it with apache"
+      log "  --> 2. In the browser go to $__pmaurl"
+      log "  --> 3. You should be able to login here using the default account. user: pmasu, pw: 123456"
+    else
+      log "ERROR: installing phpmyadmin node modules. Try installing them manually." -e
+    fi
+  fi
+fi
+# END: phpmyadmin setup
