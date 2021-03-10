@@ -161,6 +161,7 @@ is_inited() {
 }
 # End: persistance hacks
 
+# Begin: installation information API
 # parses starter.ini for installation for the install key of a section ($1)
 get_install() {
   echo "$(bash bash/utils.sh parse_ini_value starter.ini $1 install)"
@@ -248,7 +249,7 @@ has_only_frontend_scaffolding_install() {
     echo 0
   fi
 }
-
+# End: installation information API
 
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
