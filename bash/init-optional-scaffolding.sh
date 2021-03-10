@@ -50,7 +50,7 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
       log "SUCCESS: laravel/ui scaffolding installed"
       #log "Compiling fresh scaffolding and running Laravel Mix"
       log "-->Installing node modules"
-      yarn install && yarn run dev
+      yarn install #&& yarn run dev
     else
       log "ERROR $err_code: There was a problem installing laravel/ui" -e
     fi
@@ -78,13 +78,8 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
-      if [ $install_only_frontend_scaffolding == 1 ]; then
-        log "Compiling fresh scaffolding and running Laravel Mix"
-        yarn install && yarn run dev && sleep 1 && yarn run dev
-      else
-        log "Running Laravel Mix"
-        yarn run dev
-      fi
+      log "Compiling fresh scaffolding and running Laravel Mix"
+      yarn install && yarn run dev && sleep 1 && yarn run dev
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
