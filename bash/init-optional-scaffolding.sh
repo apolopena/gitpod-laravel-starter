@@ -22,6 +22,9 @@ log_silent () {
   fi
 }
 
+# Load spinner
+. bash/third-party/spinner.sh
+
 parse="bash bash/utils.sh parse_ini_value starter.ini"
 
 install_react=$(eval $parse react install)
