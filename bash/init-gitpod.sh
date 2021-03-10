@@ -85,7 +85,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     fi
   fi
   # Install node packages if needed, in case the Laravel Ui front end is already in version control
-  if [[ -f "package.json"  && ! -d "node_modules" ]]; then
+  __has_installs=$(bash bash/helpers.sh has_installs)
+  if [[ -f "package.json"  && ! -d "node_modules" && "$__has_installs" == 0 ]]; then
     log "Found a package.json but there are no node modules installed"
     log " --> Installing node packages..."
     yarn install
