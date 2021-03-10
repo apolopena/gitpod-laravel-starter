@@ -161,7 +161,93 @@ is_inited() {
 }
 # End: persistance hacks
 
+# parses starter.ini for installation for the install key of a section ($1)
+get_install() {
+  echo "$(bash bash/utils.sh parse_ini_value starter.ini $1 install)"
+}
 
+# parses starter.ini and echos a string showing installtaion information for any installs key in the list.
+# The install key list is set in this function. The install key list is order specific.
+# phpmyadmin needs to be first, the next three installs are the frontend scaffolding installs.
+# You can add any additional installs to the end of this string delimited by a space character.
+get_installs() {
+  # Space delimited list of installs to check
+  # starter.ini must have a section named by the string and a key named install
+  # So not change the order of installs in this string, just add more to the end if needed
+  local installs='phpmyadmin react vue bootstrap'
+  for i in $installs; do
+    data+=$i:$(get_install $i)
+  done
+  echo $data
+}
+
+# parses starter.ini for installation information
+# Echos 1 if any install key in list (see installs varaible in get_install function) in starter.ini
+# has a value of 1.
+# Echos 0 if no keys in the list have a value of 1 
+has_installs() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local pattern='.*[1-9].*'
+  if [[ $result =~ $pattern ]]; then 
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+# parses starter.ini for installation information
+# Echos 1 if the install key for phpmyadmin is set to 1 and no frontend scaffolding keys are set to 1
+# There are three possible frontend scaffolding keys: react, vue and bootstrap
+# Echos 0 if the install key for phpmyadmin is not set to 1 or if it is set to 0 but any frontend
+# scaffolding key is set to 1
+has_only_phpmyadmin_install() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local all_zeros='^0$|^0.*0$'
+  # if the string starts with a 1 phpmyadmin is installed
+  if [[ $result =~ ^1 ]]; then 
+    # trim the first character from the string
+    local installs="${result:1}"
+    # if the trimmed string is all zeros
+    if [[ $installs =~ $all_zeros ]]; then
+      # only phpmyadmin is installed
+      echo 1
+    else
+      # phpmyadmin is not the only install
+      echo 0
+    fi
+  else
+    # phpmyadmin is not the only install
+    echo 0
+  fi
+}
+
+# parses starter.ini for installation information
+# Echos 1 if the install key for phpmyadmin is set to 0 and any frontend scaffolding key is set to 1
+# There are three possible frontend scaffolding keys: react, vue and bootstrap
+# Echos 0 if the install key for phpmyadmin is set to 1 and any frontend scaffolding key is set to 1
+has_only_frontend_scaffolding_install() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local all_zeros='^0$|^0.*0$'
+  # if the string starts with a 0 phpmyadmin is not installed
+  if [[ $result =~ ^0 ]]; then 
+    # trim the first character from the string
+    local installs="${result:1}"
+     # Trim the next three characters in the string (there are only three possible front end scaffolding)
+     # and gnore any other installs besides front end scaffolding and phpmyadmin (the rest of the string)
+    local scaff_installs=$(echo ${installs:0:3})
+    # if the trimmed string is all zeros
+    if [[ $scaff_installs =~ $all_zeros ]]; then
+      # no frontend scaffolding is installed
+      echo 0
+    else
+      # only frontend scaffolding is installed
+      echo 1
+    fi
+  else
+    # More than frontend scaffolding is installed
+    echo 0
+  fi
+}
 
 
 # Call functions from this script gracefully
