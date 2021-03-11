@@ -80,12 +80,13 @@ if [ "$install_react" == 1 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
       log "  --> Installing node modules"
       # note: the dev sscript to run laravel mis: npm run dev MUST be run with npm or there is an errow exitcode 1 message in the output
-      yarn install && npm run dev && sleep 1 && npm run dev
+      yarn install #&& npm run dev && sleep 1 && npm run dev
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade react@$version react-dom@$version
       fi
+      run_laraval_mix_twice
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
       [ "$install_vue" == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
