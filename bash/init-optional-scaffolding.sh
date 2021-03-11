@@ -90,7 +90,7 @@ if [ "$install_react" == 1 ]; then
         # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade react@$version react-dom@$version
       fi
-      log "Running laravel Mix twice" && npm run dev && sleep 1 && npm run dev
+      log "Running laravel Mix once" && npm run dev && sleep 4 && log "Running laravel Mix AGAIN" && npm run dev
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
       [ "$install_vue" == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
