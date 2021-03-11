@@ -92,9 +92,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log " --> Installing node packages..."
     yarn install
     log " --> Node packages installed"
-    log " --> Running Laravel Mix..."
+    #log " --> Running Laravel Mix..."
     #yarn run dev
-    log " --> Running of Laravel Mix complete"
+    #log " --> Running of Laravel Mix complete"
   fi
 
   # BEGIN: Optional configurations

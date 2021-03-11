@@ -43,16 +43,16 @@ if [[ $install_react == 1 || $install_bootstrap  == 1 ]]; then
   if [ "$__ui" == 1 ]; then
     log "However it appears that laravel/ui has already been installed, skipping this installation."
   else
-    log "Installing laravel/ui scaffolding"
+    log "Installing laravel/ui scaffolding via Composer"
     composer require laravel/ui:^3.2.0
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: laravel/ui scaffolding installed"
       #log "Compiling fresh scaffolding and running Laravel Mix"
-      log "  -> Installing node modules and running Laravel Mix"
-      yarn install && yarn run dev
+      log "  -> Installing node modules" #and running Laravel Mix"
+      yarn install #&& yarn run dev
     else
-      log "ERROR $err_code: There was a problem installing laravel/ui" -e
+      log "ERROR $err_code: There was a problem installing laravel/ui via Composer" -e
     fi
   fi
 fi
@@ -78,8 +78,9 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
-      log "Compiling fresh scaffolding" #and running Laravel Mix"
-      yarn install #&& yarn run dev && sleep 1 && yarn run dev
+      log "  --> Installing node modules"
+      # note: the dev sscript to run laravel mis: npm run dev MUST be run with npm or there is an errow exitcode 1 message in the output
+      yarn install && npm run dev
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
