@@ -72,31 +72,19 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # TODO: think more about making this dynamic as per .env
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
-    __laravel_db_msg="Creating database: laravel"
-    log_silent "$__laravel_db_msg..." && start_spinner "$__laravel_db_msg..."
+    msg="Creating database: laravel"
+    log_silent "$_msg..." && start_spinner "$msg..."
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      log "ERROR: $__laravel_db_msg" -e
+      log "ERROR: $msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: $__laravel_db_msg"
+      log "SUCCESS: $msg"
     fi
   fi
   
-  # Install node packages if needed, in case the Laravel Ui front end is already in version control
-  __has_installs=$(bash bash/helpers.sh has_installs)
-  if [[ -f "package.json"  && ! -d "node_modules" && "$__has_installs" == 0 ]]; then
-    log "Found a package.json but there are no node modules installed"
-    log " --> Installing node packages..."
-    yarn install
-    log " --> Node packages installed"
-    #log " --> Running Laravel Mix..."
-    #yarn run dev
-    #log " --> Running of Laravel Mix complete"
-  fi
-
   # BEGIN: Optional configurations
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
@@ -108,6 +96,25 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: Optional configurations
 
+  # Install node packages if needed, in case the Laravel Ui front end is already in version control
+  # For performance: only do this step if nothing else will be installed that will call yarn install
+  # before laravel mix is run
+  __has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
+  if [[ -f "package.json"  && ! -d "node_modules" && "$__has_frontend_scaffolding_installs" == 0 ]]; then
+    msg="Installing node modules for the main project scaffolding"
+    log "$msg..."
+    yarn install
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      log "ERROR $?: $msg" -e
+    else
+      log "SUCCESS: $?"
+    fi
+    #log " --> Running Laravel Mix..."
+    #yarn run dev
+    #log " --> Running of Laravel Mix complete"
+  fi
+
   # Move and merge necessary files, then cleanup
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
   rm -rf ~/test-app
@@ -116,6 +123,6 @@ fi
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] &&
-log "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
-log "See starter.ini (github_changelog_generator section) for configurable options" &&
-log "For a full list of options see the github-changelog-generator repository on github"
+log_silent "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
+log_silent "See starter.ini (github_changelog_generator section) for configurable options" &&
+log_silent "For a full list of options see the github-changelog-generator repository on github"
