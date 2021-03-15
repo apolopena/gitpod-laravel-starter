@@ -102,17 +102,17 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   __has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules for the main project scaffolding"
-    log "$msg..."
-    yarn install
+    #log "$msg..."
+    #yarn install
     err_code=$?
     if [ $err_code != 0 ]; then
-      log "ERROR $?: $msg" -e
+     # log "ERROR $?: $msg" -e
     else
-      log "SUCCESS: $?"
+     # log "SUCCESS: $?"
     fi
-    log " --> Running Laravel Mix..."
-    npm run dev
-    log " --> Running of Laravel Mix complete"
+    #log " --> Running Laravel Mix..."
+    #npm run dev
+    #log " --> Running of Laravel Mix complete"
   fi
 
   # Move and merge necessary files, then cleanup
