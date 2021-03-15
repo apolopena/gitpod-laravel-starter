@@ -96,7 +96,24 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: Optional configurations
 
-
+  # Install node packages if needed, in case the Laravel Ui front end is already in version control
+  # For performance: only do this step if nothing else will be installed that will call yarn install
+  # before laravel mix is run
+  #__has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
+  #if [[ -f "package.json"  && ! -d "node_modules" ]]; then
+   # msg="Installing node modules for the main project scaffolding"
+   # log "$msg..."
+   # yarn install
+   # err_code=$?
+   # if [ $err_code != 0 ]; then
+    #  log "ERROR $?: $msg" -e
+    #else
+    #  log "SUCCESS: $?"
+    #fi
+    #log " --> Running Laravel Mix..."
+    #npm run dev
+    #log " --> Running of Laravel Mix complete"
+  #fi
 
   # Move and merge necessary files, then cleanup
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
