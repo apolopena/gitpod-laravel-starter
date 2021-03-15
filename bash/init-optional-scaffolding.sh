@@ -54,8 +54,8 @@ if [[ $has_frontend_scaffolding_install ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: laravel/ui scaffolding installed"
       #log "Compiling fresh scaffolding and running Laravel Mix"
-      log "  -> Installing node modules" #and running Laravel Mix"
-      yarn install #&& yarn run dev
+      #log "  -> Installing node modules" #and running Laravel Mix"
+      #yarn install #&& yarn run dev
     else
       log "ERROR $err_code: There was a problem installing laravel/ui via Composer" -e
     fi
@@ -85,13 +85,13 @@ if [ "$install_react" == 1 ]; then
       log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
       log "  --> Installing node modules"
       # note: the dev sscript to run laravel mis: npm run dev MUST be run with npm or there is an errow exitcode 1 message in the output
-      yarn install #&& npm run dev && sleep 1 && npm run dev
+      yarn install && npm run dev && sleep 1 && npm run dev
       if [ ! -z "$version" ]; then
         log "Setting react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade react@$version react-dom@$version
       fi
-      log "Running laravel Mix once" && npm run dev && sleep 4 && log "Running laravel Mix AGAIN" && npm run dev
+      #log "Running laravel Mix once" && npm run dev && sleep 4 && log "Running laravel Mix AGAIN" && npm run dev
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
       [ "$install_vue" == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
@@ -122,7 +122,7 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: Vue$version_msg$auth_msg has been installed"
       log "Compiling fresh scaffolding and running Laravel Mix"
-      yarn install && yarn run dev && sleep 1 && yarn run dev
+      yarn install && npm run dev && sleep 1 && npm run dev
       if [ ! -z "$version" ]; then
         log "Setting vue to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -157,7 +157,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   if [ $err_code == 0 ]; then
     log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
     log "Compiling fresh scaffolding and running Laravel Mix"
-    yarn install && yarn run dev && sleep 1 && yarn run dev
+    yarn install && npm run dev && sleep 1 && npm run dev
     if [ ! -z "$version" ]; then
       log "Setting bootstrap to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
