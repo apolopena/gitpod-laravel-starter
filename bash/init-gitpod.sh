@@ -97,8 +97,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # END: Optional configurations
 
   # Install node packages if needed, in case the Laravel Ui front end is already in version control
-  # for performance only do this if there are no other installs that would call yarn install and 
-  # npm run dev, so check for has_frontend_scaffolding_install
+  # but still needs setup. Ror performance only do this if there are no other installs that would call 
+  # yarn install and npm run dev, so check for has_frontend_scaffolding_install
   __has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
   if [[ -f "package.json"  && ! -d "node_modules" && $__has_frontend_scaffolding_installs == 0 ]]; then
     msg="Installing node modules for the main project scaffolding"
