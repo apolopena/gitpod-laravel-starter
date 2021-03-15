@@ -113,7 +113,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log " --> Running Laravel Mix..."
     npm run dev
     log " --> Running of Laravel Mix complete"
-  #fi
+  fi
 
   # Move and merge necessary files, then cleanup
   mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
