@@ -81,7 +81,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       log "ERROR: $msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: $msg"
+      log_silent "SUCCESS: $msg"
     fi
   fi
   
@@ -107,8 +107,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     err_code=$?
     if [ $err_code != 0 ]; then
       log "ERROR $?: $msg" -e
-    else
-      log "SUCCESS: $?"
+    else4
+      log "SUCCESS: msg"
     fi
     log " --> Running Laravel Mix..."
     npm run dev

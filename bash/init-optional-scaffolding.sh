@@ -34,12 +34,11 @@ parse="bash bash/utils.sh parse_ini_value starter.ini"
 install_react=$(eval $parse react install)
 install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
-install_only_frontend_scaffolding=$(bash bash/helpers.sh has_only_frontend_scaffolding_install)
 
 # BEGIN: optional frontend scaffolding installations
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-if [[ $has_frontend_scaffolding_install ]]; then
+if [[ $has_frontend_scaffolding_install == 1 ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
 
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
