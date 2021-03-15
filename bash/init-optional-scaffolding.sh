@@ -40,10 +40,8 @@ install_bootstrap=$(eval $parse bootstrap install)
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
 if [[ $has_frontend_scaffolding_install == 1 ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
-
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
-
   if [ "$__ui" == 1 ]; then
     log "However it appears that laravel/ui has already been installed, skipping this installation."
   else
@@ -52,9 +50,6 @@ if [[ $has_frontend_scaffolding_install == 1 ]]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: laravel/ui scaffolding installed"
-      #log "Compiling fresh scaffolding and running Laravel Mix"
-      #log "  -> Installing node modules" #and running Laravel Mix"
-      #yarn install #&& yarn run dev
     else
       log "ERROR $err_code: There was a problem installing laravel/ui via Composer" -e
     fi
@@ -73,7 +68,7 @@ if [ "$install_react" == 1 ]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
-    log "Installing React and React DOM"
+    log "Installing React and React DOM$auth_msg ..."
     if [ "$auth" == 1 ]; then
       php artisan ui react --auth
     else
@@ -81,20 +76,18 @@ if [ "$install_react" == 1 ]; then
     fi
     err_code=$?
     if [ $err_code == 0 ]; then
-      log "SUCCESS: React and React DOM$version_msg$auth_msg has been installed"
-      log "  --> Installing node modules"
-      # note: the dev sscript to run laravel mis: npm run dev MUST be run with npm or there is an errow exitcode 1 message in the output
+      log "SUCCESS: React and React DOM$auth_msg have been installed"
+      log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev && sleep 1 && npm run dev
       if [ ! -z "$version" ]; then
-        log "Setting react and react-dom to$version_msg"
+        log "Upgrading react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade react@$version react-dom@$version
       fi
-      #log "Running laravel Mix once" && npm run dev && sleep 4 && log "Running laravel Mix AGAIN" && npm run dev
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
       [ "$install_vue" == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
-      log "ERROR $err_code: There was a problem installing React/React DOM$version_msg$auth_msg" -e
+      log "ERROR $err_code: There was a problem installing React/React DOM$auth_msg" -e
     fi
   fi
 fi
@@ -111,7 +104,7 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that Vue has already been installed, skipping this installation."
   else
-    log "Installing Vue..."
+    log "Installing vue$auth_msg ..."
     if [ "$auth" == 1 ]; then
       php artisan ui vue --auth
     else
@@ -119,26 +112,23 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     fi
     err_code=$?
     if [ $err_code == 0 ]; then
-      log "SUCCESS: Vue$version_msg$auth_msg has been installed"
-      log "Compiling fresh scaffolding and running Laravel Mix"
+      log "SUCCESS: Vue$auth_msg has been installed"
+      log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev && sleep 1 && npm run dev
       if [ ! -z "$version" ]; then
-        log "Setting vue to$version_msg"
+        log "Upgrading vue to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade vue@$version
       fi
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed."
     else
-      log "ERROR $err_code: There was a problem installing Vue$version_msg$auth_msg" -e
+      log "ERROR $err_code: There was a problem installing vue$auth_msg" -e
     fi
   fi
 fi
 # END: Optional vue install
 
-# TODO: test bootstrap install without any detection for an existing install.
-# If nothing is affected like app.js then install wont need to be skipped.
-# otherwise implement the same fix for existing installs that we have for react and vue.
-
+# TODO: log message when bootstrap is told to install but wont because of a prior installation of react or vue
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
   version=$(eval $parse bootstrap version)
@@ -146,7 +136,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Bootstrap install directive found in starter.ini"
-  log "Installing Bootstrap"
+  log "Installing Bootstrap$auth_msg ..."
   if [ "$auth" == 1 ]; then
     php artisan ui bootstrap --auth
   else
@@ -155,15 +145,15 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   err_code=$?
   if [ $err_code == 0 ]; then
     log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
-    log "Compiling fresh scaffolding and running Laravel Mix"
+    log "  --> Installing node modules and running Laravel Mix"
     yarn install && npm run dev && sleep 1 && npm run dev
     if [ ! -z "$version" ]; then
-      log "Setting bootstrap to$version_msg"
+      log "Upgrading bootstrap to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
       yarn upgrade bootstrap@$version
     fi
   else
-    >&2 log "ERROR $err_code: There was a problem installing Bootstrap$version_msg$auth_msg"
+    >&2 log "ERROR $err_code: There was a problem installing Bootstrap$auth_msg"
   fi
 else
   version=$(eval $parse bootstrap version)
