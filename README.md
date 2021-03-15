@@ -60,13 +60,13 @@ You may also just fork this repository if you simply want to test out making som
    - Make sure you replace the `PLACEHOLDER` values with your GitHub user name and new GitHub repository name
 
 ```bash
-__new_repo_project_name=PLACEHOLDER; __github_username=PLACEHOLDER; mkdir "$__new_repo_project_name" && cd "$__github_username" && git clone https://github.com/apolopena/gitpod-laravel8-starter.git . && rm -rf .git && git init && git add -A && git commit -m "initial commit built from https://github.com/apolopena/gitpod-laravel8-starter" && git remote add origin "https://github.com/$__github_username/$__new_repo_project_name.git" && git branch -m main && git push -u origin main
+__new_repo_project_name=PLACEHOLDER; __github_username=PLACEHOLDER; mkdir "$__new_repo_project_name" && cd "$__new_repo_project_name" && git clone https://github.com/apolopena/gitpod-laravel8-starter.git . && rm -rf .git && git init && git add -A && git commit -m "initial commit built from https://github.com/apolopena/gitpod-laravel8-starter" && git remote add origin "https://github.com/$__github_username/$__new_repo_project_name.git" && git branch -m main && git push -u origin main
 ```
 
-**Note**: You may also create a new project from a *branch* of this repository by using the below one-liner. Make sure you replace the `PLACEHOLDER` values with your branch name, GitHub user name and new GitHub repository name respectively. The branch name must be a valid remote branch.
+**Note**: You may also create a new project from a *branch* of this repository by using the below one-liner. Make sure you replace the `PLACEHOLDER` values with your branch name, new GitHub repository name and GitHub user name respectively. The branch name must be a valid remote branch.
 
 ```bash
-__branch=PLACEHOLDER; __new_repo_project_name=PLACEHOLDER; __github_username=PLACEHOLDER; mkdir "$__new_repo_project_name" && cd "$__github_username" && git clone -b "$__branch" --single-branch https://github.com/apolopena/gitpod-laravel8-starter.git . && rm -rf .git && git init && git add -A && git commit -m "initial commit built from the $__branch branch of https://github.com/apolopena/gitpod-laravel8-starter" && git remote add origin "https://github.com/$__github_username/$__new_repo_project_name.git" && git branch -m main && git push -u origin main
+__branch=PLACEHOLDER; __new_repo_project_name=PLACEHOLDER; __github_username=PLACEHOLDER; mkdir "$__new_repo_project_name" && cd "$__new_repo_project_name" && git clone https://github.com/apolopena/gitpod-laravel8-starter.git -b "$__branch" --single-branch . && rm -rf .git && git init && git add -A && git commit -m "initial commit built from the $__branch branch of  https://github.com/apolopena/gitpod-laravel8-starter" && git remote add origin "https://github.com/$__github_username/$__new_repo_project_name.git" && git branch -m main && git push -u origin main
 ```
  You can now skip to the section of how to [initialize your Gitpod workspace](#creating-a-new-workspace-in-gitpod-from-your-new-github-project-repositor) if you like or just read on.
 
