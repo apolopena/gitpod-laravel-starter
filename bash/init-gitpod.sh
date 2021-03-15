@@ -100,7 +100,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # For performance: only do this step if nothing else will be installed that will call yarn install
   # before laravel mix is run
   __has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-  if [[ -f "package.json"  && ! -d "node_modules" && "$__has_frontend_scaffolding_installs" == 0 ]]; then
+  if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules for the main project scaffolding"
     log "$msg..."
     yarn install
