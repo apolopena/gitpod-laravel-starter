@@ -110,9 +110,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     else
       log "SUCCESS: $?"
     fi
-    #log " --> Running Laravel Mix..."
-    #yarn run dev
-    #log " --> Running of Laravel Mix complete"
+    log " --> Running Laravel Mix..."
+    npm run dev
+    log " --> Running of Laravel Mix complete"
   fi
 
   # Move and merge necessary files, then cleanup
