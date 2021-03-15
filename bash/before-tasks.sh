@@ -28,7 +28,7 @@ if [ "$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generato
   log "$msg..." &&
   bash bash/init-rake-tasks.sh
   if [ $? == 0 ]; then 
-    log "SUCCESS: $msg"
+    log_silent "SUCCESS: $msg"
   else
     log "ERROR: $msg" -e
   fi
@@ -47,7 +47,7 @@ msg="Creating grc color configuration file for apache logs: ~/apache-log-colors.
 log "$msg..." &&
 cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf
 if [ $? == 0 ]; then
-  log "SUCCESS: $msg"
+  log_silent "SUCCESS: $msg"
 else
   log "ERROR: $msg" -e
 fi
