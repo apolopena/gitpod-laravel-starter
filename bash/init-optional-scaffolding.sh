@@ -22,10 +22,6 @@ log_silent () {
   fi
 }
 
-run_laraval_mix_twice() {
-  log "Running laravel Mix" && npm run dev && sleep 1 && npm run dev
-}
-
 # Load spinner
 . bash/third-party/spinner.sh
 
