@@ -96,19 +96,21 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: Optional configurations
 
-  # Install node packages if needed, in case the Laravel Ui front end is already in version control
-  # but still needs setup. Ror performance only do this if there are no other installs that would call 
-  # yarn install and npm run dev, so check for has_frontend_scaffolding_install
-  __has_frontend_scaffolding_installs=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-  if [[ -f "package.json"  && ! -d "node_modules" && $__has_frontend_scaffolding_installs == 0 ]]; then
-    msg="Installing node modules for the main project scaffolding"
+  # Install node packages and run laravel mix blindly here since at this stage there is no viable
+  # hook for when laravel/ui frontend scaffolding (react, vue or bootstrap) is in version control but the
+  # workspace is initializing for the first time. This is the only way we can establish a hook
+  # for init-optional-scaffolding.sh to determine if it should bypass the php artisan ui command
+  # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
+  # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
+  if [[ -f "package.json"  && ! -d "node_modules" ]]; then
+    msg="Installing node modules"
     log "$msg..."
     yarn install
     err_code=$?
     if [ $err_code != 0 ]; then
       log "ERROR $?: $msg" -e
     else
-      log "SUCCESS: msg"
+      log "SUCCESS: $msg"
     fi
     log " --> Running Laravel Mix..."
     npm run dev
