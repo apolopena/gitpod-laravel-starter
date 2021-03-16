@@ -107,7 +107,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     err_code=$?
     if [ $err_code != 0 ]; then
       log "ERROR $?: $msg" -e
-    else4
+    else
       log "SUCCESS: msg"
     fi
     log " --> Running Laravel Mix..."
