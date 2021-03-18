@@ -193,7 +193,7 @@ if [ "$installed_phpmyadmin" == 1 ]; then
     # Setup storage configuration
     msg="Uncommenting storage configuration in public/phpmyadmin/config.inc.php"
     log_silent "$msg ..." && start_spinner "$msg ..."
-    sed -i "/'controluser'/,/End of servers configuration/ s/^\/\/ *//" test.php
+    sed -i "/'controluser'/,/End of servers configuration/ s/^\/\/ *//" public/phpmyadmin/config.inc.php
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
