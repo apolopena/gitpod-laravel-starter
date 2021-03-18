@@ -166,7 +166,7 @@ fi
 installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
 if [ "$installed_phpmyadmin" == 1 ]; then
   if [ -e public/phpmyadmin/config.sample.inc.php ]; then
-    msg="Creating public/phpmyadmin/config.inc.php"
+    msg="Creating file public/phpmyadmin/config.inc.php"
     log_silent "$msg ..." && start_spinner "$msg ..."
     cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
     err_code=$?
@@ -175,9 +175,10 @@ if [ "$installed_phpmyadmin" == 1 ]; then
       log "ERROR: Failed $msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: $msg"
+      log_silent "SUCCESS: $msg"
     fi
-    msg="Parsing public/phpmyadmin/config.inc.php"
+    # Setup Blowfish secret
+    msg="Parsing blowfish secrect in public/phpmyadmin/config.inc.php"
     log_silent "$msg ..." && start_spinner "$msg ..."
     __bfs=$(bash bash/utils.sh generate_string 32)
     sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
@@ -187,17 +188,33 @@ if [ "$installed_phpmyadmin" == 1 ]; then
       log "ERROR: Failed $msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: $msg"
+      log_silent "SUCCESS: $msg"
+    fi
+    # Setup storage configuration
+    msg="Uncommenting storage configuration in public/phpmyadmin/config.inc.php"
+    log_silent "$msg ..." && start_spinner "$msg ..."
+    sed -i "/'controluser'/,/End of servers configuration/ s/^\/\/ *//" test.php
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
+      log "ERROR: Failed $msg" -e
+    else
+      stop_spinner $err_code
+      log_silent "SUCCESS: $msg"
     fi
   fi
-  # phpmyadmin db
-  mysql -e "CREATE DATABASE phpmyadmin;"
-  err_code=$?
+  # Setup phpmyadmin db and storage tables
+  msg='Configuring phpmyadmin db and storage tables'
+  log_silent "$msg ..." && start_spinner "$msg ..."
+  mysql < public/phpmyadmin/sql/create_tables.sql
   if [ $err_code != 0 ]; then
-    log "ERROR: Failed to move created mysql database: phpmyadmin" -e
+    stop_spinner $err_code
+    log "ERROR: $msg" -e
   else
-    log "SUCCESS: created mysql database: phpmyadmin"
+    stop_spinner $err_code
+    log_silent "SUCCESS: $msg"
   fi
+
   # Super user account for phpmyadmin
   msg="Creating phpmyadmin superuser: pmasu"
   log_silent "$msg" && start_spinner "$msg"
@@ -210,6 +227,24 @@ if [ "$installed_phpmyadmin" == 1 ]; then
   else
     stop_spinner $err_code
   fi
+  # Control user account for phpmyadmin (used for storage features)
+  msg="Creating phpmyadmin control user"
+  extra_msg1="\nFor security change the control user and password to something else"
+  extra_msg2="\nEnsure that any changes you make to the control user are updated in public/phpmyadmin/config.inc.php"
+  log_silent "$msg..." && start_spinner "$msg.."
+  mysql -e "CREATE USER 'pma'@'localhost' IDENTIFIED BY 'pmapass';"
+  mysql -e "GRANT ALL PRIVILEGES ON `phpmyadmin`.* TO 'pma'@'localhost' WITH GRANT OPTION;"
+  mysql -e "FLUSH PRIVILEGES;"
+  err_code=$?
+  if [ $err_code != 0 ]; then
+    stop_spinner $err_code
+    log "ERROR: $msg" -e
+  else
+    stop_spinner $err_code
+    log "SUCCESS: $msg$extra_msg1$extra_msg2"
+  fi
+  
+  # Install node modules
   if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log "phpmyadmin node modules have not yet been installed, installing now..."
     cd public/phpmyadmin && yarn install && cd ../../
