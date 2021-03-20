@@ -13,7 +13,7 @@
 #
 
 version () {
-  echo "helpers.sh version 0.0.4"
+  echo "helpers.sh version 0.0.5"
 }
 
 # start_server
@@ -128,7 +128,7 @@ show_first_run_summary() {
 #
 # Usage (output will either be the value of the key or an error message):
 # value="$(get_starter_env_value PHPMYADMIN_CONTROL_PW)"
-# echo $value 
+# echo $value
 get_starter_env_val() {
   local err='get_starter_env_val ERROR:'
   local file='.starter.env'
@@ -138,19 +138,19 @@ get_starter_env_val() {
     '0')
       echo $value
       ;;
-    
+
     '3')
       echo "$err no file: $file"
       exit 1
       ;;
 
     '4')
-      echo -e "$err no var '$1' in file $file"
+      echo -e "$err no var '$1' found in file $file"
       exit 1
       ;;
 
     '5')
-      echo "$err no value for var: '$1' in file $file"
+      echo "$err no value found for '$1' found in file $file"
       exit 1
       ;;
 
@@ -226,11 +226,11 @@ get_installs() {
 # parses starter.ini for installation information
 # Echos 1 if any install key in list (see installs varaible in get_install function) in starter.ini
 # has a value of 1.
-# Echos 0 if no keys in the list have a value of 1 
+# Echos 0 if no keys in the list have a value of 1
 has_installs() {
   local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
   local pattern='.*[1-9].*'
-  if [[ $result =~ $pattern ]]; then 
+  if [[ $result =~ $pattern ]]; then
     echo 1
   else
     echo 0
@@ -246,7 +246,7 @@ has_only_phpmyadmin_install() {
   local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
   local all_zeros='^0$|^0*0$'
   # if the string starts with a 1 phpmyadmin is installed
-  if [[ $result =~ ^1 ]]; then 
+  if [[ $result =~ ^1 ]]; then
     # trim the first character from the string
     local installs="${result:1}"
     # if the trimmed string is all zeros
@@ -271,7 +271,7 @@ has_only_frontend_scaffolding_install() {
   local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
   local all_zeros='^0$|^0*0$'
   # if the string starts with a 0 phpmyadmin is not installed
-  if [[ $result =~ ^0 ]]; then 
+  if [[ $result =~ ^0 ]]; then
     # trim the first character from the string
     local installs="${result:1}"
      # Trim the next three characters in the string (there are only three possible front end scaffolding)
