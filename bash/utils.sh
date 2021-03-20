@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.6"
+  echo "utils.sh version 0.0.7"
 }
 
 # Use absolute paths or paths relative to this script
@@ -200,6 +200,55 @@ node_package_exists () {
 generate_string () {
   [ "$1" -ge 0 ] 2>/dev/null && local count=$1 || local count=32
   echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$+,:;=?|<>.^*()%-' | fold -w $count | head -n 1)
+}
+
+# get_env_value
+# Description:
+# Get the value of a key ($1) value pair as set in a env style file ($2)
+# If no file ($2) argument is given then the file .starter.env will be used
+# 
+# Exit codes:
+# 3 --> File ($2 or the default .starter.env) does not exist
+# 4 --> Variable ($1) does not exist in file ($2 or the default .starter.env)
+# 5 --> Value for the variable ($2) was not set or contained only whitespace
+#
+# Usage:
+# Example 1 (with optional error handling): 
+# # Get the value of PHP_PW from .starter.env, assuming the file contains PHP_PW=secret007
+# # If there are no errors then the output would be secret007
+# err="get_env_value Error:"
+# value="$(get_env_value PHP_PW)"
+# case "$?" in
+#   '0')
+#     echo $value
+#     ;;
+#   '3')
+#     echo "$err No file .starter.env"
+#     ;;
+#   '4')
+#     echo "$err No variable: PHP_PW"
+#     ;;
+#   '5')
+#     echo "$err No value for variable: PHP_PW"
+#     ;;
+#   *)
+#     echo "$err unidentified exit code: $?"
+#     ;;
+# esac 
+#
+# Example 2 (no error handling): 
+# # Get the value of FOO from .bar (assume the file .bar contains FOO=foobarbaz)
+# # If there are no errors the output would be foobarbaz, otherwise there would be no output.
+# get_env_value FOO .bar
+# 
+get_env_value() {
+  [ -z "$2" ] && local file='.starter.env' || local file="$2"
+  [ ! -f "$file" ] && exit 3
+  grep -q "$1=" $file
+  [ $? != 0 ] && exit 4
+  local val=$(grep "$1=" .starter.env | cut -d '=' -f2)
+  [ -z $val ] && exit 5
+  echo $val
 }
 
 

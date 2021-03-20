@@ -120,6 +120,47 @@ show_first_run_summary() {
   echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
 }
 
+# get_starter_env_val
+# Description:
+# Outputs a value for a key ($1) set in .starter.env
+# Verbose error reporting for various edge cases
+# and /var/log/workspace-init.log
+#
+# Usage (output will either be the value of the key or an error message):
+# value="$(get_starter_env_value PHPMYADMIN_CONTROL_PW)"
+# echo $value 
+get_starter_env_val() {
+  local err='get_starter_env_val ERROR:'
+  local file='.starter.env'
+  local value
+  value="$(bash bash/utils.sh get_env_value $1 $file)"
+  case "$?" in
+    '0')
+      echo $value
+      ;;
+    
+    '3')
+      echo "$err no file: $file"
+      exit 1
+      ;;
+
+    '4')
+      echo -e "$err no var '$1' in file $file"
+      exit 1
+      ;;
+
+    '5')
+      echo "$err no value for var: '$1' in file $file"
+      exit 1
+      ;;
+
+    *)
+      echo "$err unidentified error $?"
+      exit 1
+      ;;
+  esac
+}
+
 # Begin: persistance hacks
 get_store_root() {
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
