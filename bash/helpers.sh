@@ -13,7 +13,7 @@
 #
 
 version () {
-  echo "helpers.sh version 0.0.5"
+  echo "helpers.sh version 0.0.6"
 }
 
 # start_server
@@ -117,7 +117,11 @@ show_first_run_summary() {
   echo ''
   cat $init_log
   echo -en "\e[0m"
-  echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
+  [ -d 'public/phpmyadmin' ] &&
+  echo -en "\e[38;5;208m" &&
+  cat bash/snippets/messages/phpmyadmin-security.txt &&
+  echo -e "\e[0m"
+  echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
 }
 
 # get_starter_env_val
