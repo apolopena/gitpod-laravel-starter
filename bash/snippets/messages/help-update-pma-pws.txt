@@ -3,4 +3,4 @@ The following steps are required to run the `update_phpmyadmin_pws` alias withou
   2. Copy and paste all the keys containing `PHPMYADMIN` from `.starter.env.example` to `.starter.env`
   3. In .starter.ini, set password values for the `PHPMYADMIN` keys and save the file.
   4. In a terminal run the alias: `update_phpmyadmin_pws`
-This information can also be found at visit https://github.com/apolopena/gitpod-laravel8-starter/blob/main/README.md#securing-phpmyadmin
+This information can also be found at https://github.com/apolopena/gitpod-laravel8-starter/blob/main/README.md#securing-phpmyadmin
