@@ -47,6 +47,31 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
   # BEGIN: parse configurations
 
+  # BEGIN Laravel .env injection
+  if [ -e .env ]; then
+    msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
+    start_spinner "$msg"
+    default_server_port=$(bash bash/helpers.sh get_default_server_port)
+    url=$(gp url $default_server_port)
+    sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner 1
+      log "ERROR: Could not inject Larvel .env file with the url $url" -e
+    else
+      stop_spinner $err_code
+      log "SUCCESS: Laravel .env APP_URL and ASSET_URL should be set to $url"
+      log_silent "  You should check .env to make sure the values are set correctly."
+      log_silent "  If you change the server then the port number will need to be"
+      log_silent "  changed in .env for APP_URL and ASSET_URL"
+    fi
+  else
+    log 'ERROR: no Laravel .env file to inject'
+  fi
+  msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
+  start_spinner "$msg"
+  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+  # BEGIN Laravel .env injection
   # Configure .editorconfig
   if [ -e .editorconfig ]; then
     ec_type=$(bash bash/utils.sh parse_ini_value starter.ini .editorconfig type)
@@ -62,9 +87,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       ;;
     esac
   fi
-
-  # Laravel .env
-  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   # END: parse configurations
 
   # Create laravel database if it does not exist

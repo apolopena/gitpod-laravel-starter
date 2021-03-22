@@ -165,6 +165,22 @@ get_starter_env_val() {
   esac
 }
 
+get_default_server_port() {
+  local server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
+  server=$(echo $server | tr '[:upper:]' '[:lower:]')
+  case "$server" in
+    'php')
+      echo 8000
+      ;;
+    'apache')
+      echo 8001
+      ;;
+    *)
+      # Ignore invalid server types
+      ;;
+  esac
+}
+
 # Begin: persistance hacks
 get_store_root() {
   echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
