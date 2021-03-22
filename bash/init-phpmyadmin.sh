@@ -93,6 +93,7 @@ if [ "$installed_phpmyadmin" == 1 ]; then
     stop_spinner $err_code
     log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
   else
+    log_silent "SUCCESS: $msg"
     stop_spinner $err_code
   fi
   # Control user account for phpmyadmin (used for storage features)
