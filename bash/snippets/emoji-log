@@ -6,6 +6,8 @@
 # See https://github.com/ahmadawais/Emoji-Log
 # Git Commit, Add all and Push — in one step.
 cap = "!f() { git add .; git commit -m \"$@\"; git push; }; f"
+# Git Commit and Push. Assumes files have already been added
+noadd = "!f() { git commit -m \"$@\"; git push; }; f"
 # NEW: any initial commit
 new = "!f() { git cap \"📦 NEW: $@\"; }; f"
 # IMPROVE: Any feature or enhancement
@@ -45,3 +47,23 @@ rem = "!f() { git cap \"⚰️ REMOVE: $@\"; }; f"
 # ADD: Add libs, code, etc
 add = "!f() { git cap \"➕ ADD: $@\"; }; f"
 # END: Additional Gitmojis
+# BEGIN: commit and push only, no add (use for groups of files that need different commit messages)
+new-c = "!f() { git noadd \"📦 NEW: $@\"; }; f"
+imp-c = "!f() { git noadd \"👌 IMPROVE: $@\"; }; f"
+fix-c = "!f() { git noadd \"🐛 FIX: $@\"; }; f"
+rlz-c = "!f() { git noadd \"🚀 RELEASE: $@\"; }; f"
+doc-c = "!f() { git noadd \"📖 DOC: $@\"; }; f"
+tst-c = "!f() { git noadd \"🤖 TEST: $@\"; }; f"
+brk-c = "!f() { git noadd \"‼️ BREAKING: $@\"; }; f"
+ref-c = "!f() { git noadd \"♻️ REFACTOR: $@\"; }; f"
+typ-c = "!f() { git noadd \"✏️ FIX TYPO: $@\"; }; f"
+rev-c = "!f() { git noadd \"⏪ REVERT: $@\"; }; f"
+mer-c = "!f() { git noadd \"🔀 MERGE: $@\"; }; f"
+mvr-c = "!f() { git noadd \"🚚 MOVE/RENAME: $@\"; }; f"
+com-c = "!f() { git noadd \"💡 UPDATE COMMENTS: $@\"; }; f"
+dat-c = "!f() { git noadd \"🗃️ DATABASE: $@\"; }; f"
+ign-c = "!f() { git noadd \"🙈 GITIGNORE: $@\"; }; f"
+wrk-c = "!f() { git noadd \"🩹 TEMP FIX: $@\"; }; f"
+rem-c = "!f() { git noadd \"⚰️ REMOVE: $@\"; }; f"
+add-c = "!f() { git noadd \"➕ ADD: $@\"; }; f"
+# END: commit and push only, no add
