@@ -35,7 +35,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
   grc -c bash/snippets/grc/rsync-stats \
-  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter $GITPOD_REPO_ROOT
+  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
