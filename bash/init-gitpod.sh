@@ -73,7 +73,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     msg="Creating database: laravel"
-    log_silent "$_msg..." && start_spinner "$msg..."
+    log_silent "$msg..." && start_spinner "$msg..."
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
