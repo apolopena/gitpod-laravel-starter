@@ -30,20 +30,19 @@ stop_spinner $?
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nrsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  msg="\nrsync Laravel 8 scaffolding from /home/gitpod/laravel8-starter to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
-  #rsync -rlptgoDP --ignore-existing --info=name0 --no-i-r ~/test-app/ $GITPOD_REPO_ROOT | xargs -L1 printf "\33[2K\r%s"
   grc -c bash/snippets/grc/rsync-stats \
-  rsync -rlptgoD --ignore-existing --stats --human-readable ~/test-app/ $GITPOD_REPO_ROOT
+  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed to rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
+    log "ERROR: $msg" -e
   else
     stop_spinner $err_code
-    log_silent "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+    log_silent "SUCCESS: $msg"
   fi
 
   # BEGIN: parse configurations
@@ -118,8 +117,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
 
   # Move and merge necessary files, then cleanup
-  mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
-  rm -rf ~/test-app
+  mv /home/gitpod/laravel8-starter/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
+  rm -rf /home/gitpod/laravel8-starter
+  [ $? == 0 ] && log_silent "CLEANUP SUCCESS: removed /home/gitpod/laravel8-starter"
 fi
 # END: Bootstrap Laravel scaffolding
 
