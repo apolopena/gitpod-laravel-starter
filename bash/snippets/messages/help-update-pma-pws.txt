@@ -1,0 +1,5 @@
+The following steps are required to run the `update_phpmyadmin_pws` alias without failures:
+  1. Create a file in the root of the project named `.starter.env`
+  2. Copy and paste all the keys containing `PHPMYADMIN` from `.starter.env.example` to `.starter.env`
+  3. In .starter.ini, set password values for the `PHPMYADMIN` keys and save the file.
+  4. In a terminal run the alias: `update_phpmyadmin_pws`
