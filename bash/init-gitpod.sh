@@ -68,9 +68,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   else
     log 'ERROR: no Laravel .env file to inject'
   fi
-  msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
-  start_spinner "$msg"
-  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   # BEGIN Laravel .env injection
   # Configure .editorconfig
   if [ -e .editorconfig ]; then
@@ -94,7 +91,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     msg="Creating database: laravel"
-    log_silent "$msg..." && start_spinner "$msg..."
+    log_silent "$msg..." && start_spinner "$msg"
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -147,6 +144,6 @@ fi
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] &&
-log_silent "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
+log_silent "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]" &&
 log_silent "See starter.ini (github_changelog_generator section) for configurable options" &&
 log_silent "For a full list of options see the github-changelog-generator repository on github"
