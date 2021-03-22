@@ -44,8 +44,8 @@ ign = "!f() { git cap \"🙈 GITIGNORE: $@\"; }; f"
 wrk = "!f() { git cap \"🩹 TEMP FIX: $@\"; }; f"
 # REM: Remove ddead/unused code
 rem = "!f() { git cap \"⚰️ REMOVE: $@\"; }; f"
-# ADD: Add libs, code, etc
-add = "!f() { git cap \"➕ ADD: $@\"; }; f"
+# AD: Add libs, code, etc
+ad = "!f() { git cap \"➕ ADD: $@\"; }; f"
 # END: Additional Gitmojis
 # BEGIN: commit and push only, no add (use for groups of files that need different commit messages)
 new-c = "!f() { git noadd \"📦 NEW: $@\"; }; f"
