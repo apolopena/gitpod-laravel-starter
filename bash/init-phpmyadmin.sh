@@ -97,8 +97,6 @@ if [ "$installed_phpmyadmin" == 1 ]; then
   fi
   # Control user account for phpmyadmin (used for storage features)
   msg="Creating phpmyadmin control user"
-  extra_msg1="\n  For security change the control user and password to something else"
-  extra_msg2="\n  Ensure that any changes you make to the control user are updated in public/phpmyadmin/config.inc.php"
   error_codes=()
   log_silent "$msg..." && start_spinner "$msg.."
   mysql -e "CREATE USER 'pma'@'localhost' IDENTIFIED BY 'pmapass';"
@@ -110,7 +108,7 @@ if [ "$installed_phpmyadmin" == 1 ]; then
   error_codes=$(echo ${error_codes[*]} | tr -d '[:space:]')
   if [[ $error_codes =~ $all_zeros_reg ]]; then
     stop_spinner $err_code
-    log "SUCCESS: $msg$extra_msg1$extra_msg2"
+    log_silent "SUCCESS: $msg"
   else
     stop_spinner 0
     log "ERROR: $msg" -e
