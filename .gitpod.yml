@@ -45,8 +45,8 @@ tasks:
       start_spinner "Opening preview when system is ready..."
       gp sync-await gitpod-inited &&
       default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
-      open_preview $default_server &&
-      stop_spinner $?
+      open_preview $default_server
+      stop_spinner 0
     name: Main Terminal
 
 vscode:
