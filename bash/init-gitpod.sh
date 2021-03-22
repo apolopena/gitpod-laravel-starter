@@ -60,7 +60,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       log "ERROR: Could not inject Larvel .env file with the url $url" -e
     else
       stop_spinner $err_code
-      log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL should be set to $url"
+      log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
       log_silent "  You should check .env to make sure the values are set correctly."
       log_silent "  If you change the server then the port number will need to be"
       log_silent "  changed in .env for APP_URL and ASSET_URL"
