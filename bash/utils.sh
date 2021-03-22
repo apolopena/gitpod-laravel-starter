@@ -125,9 +125,9 @@ parse_ini_value() {
 #
 log () {
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    >&2 echo -e "$1" && printf "$1\n" >> "$2"
+    >&2 echo -e "$1" && printf -- "$1\n" >> "$2"
   else
-    echo -e "$1" && printf "$1\n" >> "$2"
+    echo -e "$1" && printf -- "$1\n" >> "$2"
   fi
 }
 
@@ -148,9 +148,9 @@ log () {
 #
 log_silent () {
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    1>&2 printf "$1\n" >> "$2"
+    1>&2 printf -- "$1\n" >> "$2"
   else
-    printf "$1\n" >> "$2"
+    printf -- "$1\n" >> "$2"
   fi
 }
 
