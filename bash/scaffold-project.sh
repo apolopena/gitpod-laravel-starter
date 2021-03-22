@@ -23,7 +23,7 @@ else
   chown -R gitpod:gitpod "$SCAFF_DEST"
   cd "$SCAFF_DEST"
   VER=`php artisan --version`
-  echo "  SUCCESS: $VER project scaffolding created created in $SCAFF_DEST" | tee -a $LOG
+  echo "  SUCCESS: $VER project scaffolding created in $SCAFF_DEST" | tee -a $LOG
 
   # Handle optional install of phpmyadmin
   install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install);
