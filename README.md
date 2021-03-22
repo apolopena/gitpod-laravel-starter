@@ -27,7 +27,7 @@
    - 9.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
 10. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
 11. [Ruby Gems](#ruby-gems)
-12. [Emoji-log](#emoji-log)
+12. [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
 13. [Local Development Outside of Gitpod](#local-development-outside-of-gitpod)
 14. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
 15. [Thanks](#thanks)
@@ -350,9 +350,9 @@ Currently until gitpod fixes the [issue](https://github.com/apolopena/gitpod-lar
 
 <br />
 
-## Emoji-log
+## Emoji-log and Gitmoji
 
-[Emoji-log](https://github.com/ahmadawais/Emoji-Log) git aliases are included, use them as you like from the command line.
+A compilation of git aliases from [Emoji-log](https://github.com/ahmadawais/Emoji-Log) and [Gitmoji](https://gitmoji.dev/) are included, use them as you like from the command line. There is also a separate set of emoji based git aliases that will commit the files with a message and push them to the repository *without* adding the files. Use these aliases for dealing with groups of files that need different commit messages but still want to use to Emoji-log, Gitmoji standards. You can get a list of all the emoji based git alias with the command: `git a`
 
 <br />
 
