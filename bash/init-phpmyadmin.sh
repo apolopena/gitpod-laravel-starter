@@ -119,11 +119,13 @@ if [ "$installed_phpmyadmin" == 1 ]; then
     cd public/phpmyadmin && yarn install && cd ../../
     if [ $? == 0 ]; then
       __pmaurl=$(gp url 8001)/phpmyadmin
-      log "phpmyadmin node modules installed."
-      log "To login to phpmyadmin:"
-      log "  --> 1. Make sure you are serving it with apache"
-      log "  --> 2. In the browser go to $__pmaurl"
-      log "  --> 3. You should be able to login here using the default account. user: pmasu, pw: 123456"
+      log_silent "phpmyadmin node modules installed."
+      log_silent "To login to phpmyadmin:"
+      log_silent "  --> 1. Make sure you are serving it with apache"
+      log_silent "  --> 2. In the browser go to $__pmaurl"
+      log_silent "  --> 3. You should be able to login here using the defaults. user: pmasu, pw: 123456"
+      log_silent "Make sure you change the default passwords for the phpmyadmin accounts."
+      log_silent "For help with updating phpmyadmin passwords, run the alias help_update_pma_pws"
     else
       log "ERROR: installing phpmyadmin node modules. Try installing them manually." -e
     fi
