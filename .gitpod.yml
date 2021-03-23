@@ -48,7 +48,6 @@ tasks:
       __port=$(bash bash/helpers.sh get_default_server_port); \
       gp await-port $__port &&
       gp preview $(gp url $__port)
-      echo "Preview browser is open and using port $__port"
     name: Main Terminal
 
 vscode:
