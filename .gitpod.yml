@@ -48,6 +48,7 @@ tasks:
       default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
       gp await-port 8001 &&
       gp preview $(gp url 8001)
+      echo "Preview browser is open"
     name: Main Terminal
 
 vscode:
