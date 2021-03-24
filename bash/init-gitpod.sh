@@ -30,22 +30,45 @@ stop_spinner $?
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nrsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+  msg="\nrsync Laravel 8 scaffolding from /home/gitpod/laravel8-starter to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg..." && start_spinner "$msg..."
   shopt -s dotglob
-  rsync -rlptgoD --ignore-existing ~/test-app/ $GITPOD_REPO_ROOT
+  grc -c bash/snippets/grc/rsync-stats \
+  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ $GITPOD_REPO_ROOT
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed to rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT" -e
+    log "ERROR: $msg" -e
   else
     stop_spinner $err_code
-    log "SUCCESS: rsync Laravel project from ~/temp-app to $GITPOD_REPO_ROOT"
+    log_silent "SUCCESS: $msg"
   fi
 
   # BEGIN: parse configurations
 
+  # BEGIN Laravel .env injection
+  if [ -e .env ]; then
+    msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
+    start_spinner "$msg"
+    default_server_port=$(bash bash/helpers.sh get_default_server_port)
+    url=$(gp url $default_server_port)
+    sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner 1
+      log "ERROR: Could not inject Larvel .env file with the url $url" -e
+    else
+      stop_spinner $err_code
+      log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
+      log_silent "  You should check .env to make sure the values are set correctly."
+      log_silent "  If you change the server then the port number will need to be"
+      log_silent "  changed in .env for APP_URL and ASSET_URL"
+    fi
+  else
+    log 'ERROR: no Laravel .env file to inject'
+  fi
+  # BEGIN Laravel .env injection
   # Configure .editorconfig
   if [ -e .editorconfig ]; then
     ec_type=$(bash bash/utils.sh parse_ini_value starter.ini .editorconfig type)
@@ -61,68 +84,26 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       ;;
     esac
   fi
-
-  # Laravel .env
-  [ -e .env ] && url=$(gp url 8000); sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
   # END: parse configurations
 
   # Create laravel database if it does not exist
   # TODO: think more about making this dynamic as per .env
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
-    __laravel_db_msg="laravel database did not exist in mysql. Creating database: laravel"
-    log_silent "$__laravel_db_msg..." && start_spinner "$__laravel_db_msg..."
+    msg="Creating database: laravel"
+    log_silent "$msg..." && start_spinner "$msg"
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      log "ERROR: Failed to move createe mysql database: laravel" -e
+      log "ERROR: $msg" -e
     else
       stop_spinner $err_code
-      log "SUCCESS: created mysql database: laravel"
+      log_silent "SUCCESS: $msg"
     fi
   fi
-  # Install node packages if needed, in case the Laravel Ui front end is already in version control
-  if [[ -f "package.json"  && ! -d "node_modules" ]]; then
-    log "Found a package.json but there are no node modules installed"
-    log " --> Installing node packages..."
-    yarn install
-    log " --> Node packages installed"
-    log " --> Running Laravel Mix..."
-    yarn run dev
-    log " --> Running of Laravel Mix complete"
-  fi
-
+  
   # BEGIN: Optional configurations
-  # Super user account for phpmyadmin
-  installed_phpmyadmin=$(. bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
-  if [ "$installed_phpmyadmin" == 1 ]; then
-    msg="Creating phpmyadmin superuser: pmasu"
-    log_silent "$msg" && start_spinner "$msg"
-    mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
-    mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
-    err_code=$?
-    if [ $err_code != 0 ]; then
-      stop_spinner $err_code
-      log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
-    else
-      stop_spinner $err_code
-    fi
-    if [ ! -d 'public/phpmyadmin/node_modules' ]; then
-      log "phpmyadmin node modules have not yet been installed, installing now..."
-      cd public/phpmyadmin && yarn install && cd ../../
-      if [ $? == 0 ]; then
-        __pmaurl=$(gp url 8001)/phpmyadmin
-        log "phpmyadmin node modules installed."
-        log "To login to phpmyadmin:"
-        log "  --> 1. Make sure you are serving it with apache"
-        log "  --> 2. In the browser go to $__pmaurl"
-        log "  --> 3. You should be able to login here using the default account. user: pmasu, pw: 123456"
-      else
-        log "ERROR: installing phpmyadmin node modules. Try installing them manually." -e
-      fi
-    fi
-  fi
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
@@ -133,14 +114,36 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: Optional configurations
 
+  # Install node packages and run laravel mix blindly here since at this stage there is no viable
+  # hook for when laravel/ui frontend scaffolding (react, vue or bootstrap) is in version control but the
+  # workspace is initializing for the first time. This is the only way we can establish a hook
+  # for init-optional-scaffolding.sh to determine if it should bypass the php artisan ui command
+  # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
+  # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
+  if [[ -f "package.json"  && ! -d "node_modules" ]]; then
+    msg="Installing node modules"
+    log "$msg..."
+    yarn install
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      log "ERROR $?: $msg" -e
+    else
+      log "SUCCESS: $msg"
+    fi
+    log " --> Running Laravel Mix..."
+    npm run dev
+    log " --> Running of Laravel Mix complete"
+  fi
+
   # Move and merge necessary files, then cleanup
-  mv ~/test-app/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
-  rm -rf ~/test-app
+  mv /home/gitpod/laravel8-starter/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
+  rm -rf /home/gitpod/laravel8-starter
+  [ $? == 0 ] && log_silent "CLEANUP SUCCESS: removed /home/gitpod/laravel8-starter"
 fi
 # END: Bootstrap Laravel scaffolding
 
 # Messages for github_changelog_generator
 [ "$installed_changelog_gen" == 1 ] &&
-log "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]\n" &&
-log "See starter.ini (github_changelog_generator section) for configurable options" &&
-log "For a full list of options see the github-changelog-generator repository on github"
+log_silent "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]" &&
+log_silent "See starter.ini (github_changelog_generator section) for configurable options" &&
+log_silent "For a full list of options see the github-changelog-generator repository on github"

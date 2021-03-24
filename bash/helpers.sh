@@ -13,7 +13,7 @@
 #
 
 version () {
-  echo "helpers.sh version 0.0.3"
+  echo "helpers.sh version 0.0.6"
 }
 
 # start_server
@@ -117,7 +117,68 @@ show_first_run_summary() {
   echo ''
   cat $init_log
   echo -en "\e[0m"
-  echo -en "\n\e[38;5;171mALL DONE 🚀\e[0m\n"
+  [ -d 'public/phpmyadmin' ] &&
+  echo -en "\e[38;5;208m" &&
+  cat bash/snippets/messages/phpmyadmin-security.txt &&
+  echo -e "\e[0m"
+  echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
+}
+
+# get_starter_env_val
+# Description:
+# Outputs a value for a key ($1) set in .starter.env
+# Verbose error reporting for various edge cases
+# and /var/log/workspace-init.log
+#
+# Usage (output will either be the value of the key or an error message):
+# value="$(get_starter_env_value PHPMYADMIN_CONTROL_PW)"
+# echo $value
+get_starter_env_val() {
+  local err='get_starter_env_val ERROR:'
+  local file='.starter.env'
+  local value
+  value="$(bash bash/utils.sh get_env_value $1 $file)"
+  case "$?" in
+    '0')
+      echo $value
+      ;;
+
+    '3')
+      echo "$err no file: $file"
+      exit 1
+      ;;
+
+    '4')
+      echo -e "$err no var '$1' found in file $file"
+      exit 1
+      ;;
+
+    '5')
+      echo "$err no value found for '$1' found in file $file"
+      exit 1
+      ;;
+
+    *)
+      echo "$err unidentified error $?"
+      exit 1
+      ;;
+  esac
+}
+
+get_default_server_port() {
+  local server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
+  server=$(echo $server | tr '[:upper:]' '[:lower:]')
+  case "$server" in
+    'php')
+      echo 8000
+      ;;
+    'apache')
+      echo 8001
+      ;;
+    *)
+      # Ignore invalid server types
+      ;;
+  esac
 }
 
 # Begin: persistance hacks
@@ -161,8 +222,113 @@ is_inited() {
 }
 # End: persistance hacks
 
+# Begin: installation information API
+# parses starter.ini for installation for the install key of a section ($1)
+get_install() {
+  echo "$(bash bash/utils.sh parse_ini_value starter.ini $1 install)"
+}
 
+# parses starter.ini and echos a string showing installtaion information for any installs key in the list.
+# The install key list is set in this function. The install key list is order specific.
+# phpmyadmin needs to be first, the next three installs are the frontend scaffolding installs.
+# You can add any additional installs to the end of this string delimited by a space character.
+get_installs() {
+  # Space delimited list of installs to check
+  # starter.ini must have a section named by the string and a key named install
+  # So not change the order of installs in this string, just add more to the end if needed
+  local installs='phpmyadmin react vue bootstrap'
+  for i in $installs; do
+    data+=$i:$(get_install $i)
+  done
+  echo $data
+}
 
+# parses starter.ini for installation information
+# Echos 1 if any install key in list (see installs varaible in get_install function) in starter.ini
+# has a value of 1.
+# Echos 0 if no keys in the list have a value of 1
+has_installs() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local pattern='.*[1-9].*'
+  if [[ $result =~ $pattern ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+# parses starter.ini for installation information
+# Echos 1 if the install key for phpmyadmin is set to 1 and no frontend scaffolding keys are set to 1
+# There are three possible frontend scaffolding keys: react, vue and bootstrap
+# Echos 0 if the install key for phpmyadmin is not set to 1 or if it is set to 0 but any frontend
+# scaffolding key is set to 1
+has_only_phpmyadmin_install() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local all_zeros='^0$|^0*0$'
+  # if the string starts with a 1 phpmyadmin is installed
+  if [[ $result =~ ^1 ]]; then
+    # trim the first character from the string
+    local installs="${result:1}"
+    # if the trimmed string is all zeros
+    if [[ $installs =~ $all_zeros ]]; then
+      # only phpmyadmin is installed
+      echo 1
+    else
+      # phpmyadmin is not the only install
+      echo 0
+    fi
+  else
+    # phpmyadmin is not the only install
+    echo 0
+  fi
+}
+
+# parses starter.ini for installation information
+# Echos 1 if the install key for phpmyadmin is set to 0 and any frontend scaffolding key is set to 1
+# There are three possible frontend scaffolding keys: react, vue and bootstrap
+# Echos 0 if the install key for phpmyadmin is set to 1 and any frontend scaffolding key is set to 1
+has_only_frontend_scaffolding_install() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local all_zeros='^0$|^0*0$'
+  # if the string starts with a 0 phpmyadmin is not installed
+  if [[ $result =~ ^0 ]]; then
+    # trim the first character from the string
+    local installs="${result:1}"
+     # Trim the next three characters in the string (there are only three possible front end scaffolding)
+     # and gnore any other installs besides front end scaffolding and phpmyadmin (the rest of the string)
+    local scaff_installs=$(echo ${installs:0:3})
+    # if the trimmed string is all zeros
+    if [[ $scaff_installs =~ $all_zeros ]]; then
+      # no frontend scaffolding is installed
+      echo 0
+    else
+      # only frontend scaffolding is installed
+      echo 1
+    fi
+  else
+    # More than frontend scaffolding is installed
+    echo 0
+  fi
+}
+
+# parses starter.ini for installation information
+# Echos 1 if the install key either react, vue or bootrap is set to 1
+# There are three possible frontend scaffolding keys: react, vue and bootstrap
+# Echos 0 if neither react, vue or bootrap has an install key value of 1
+has_frontend_scaffolding_install() {
+  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local all_zeros='^0$|^0*0$'
+  # Trim the first character from the string (this is the phpmyadmin value)
+  local installs="${result:1}"
+  # Trim the next three characters in the string (there are only three possible front end scaffolding)
+  local scaff_installs=$(echo ${installs:0:3})
+  if [[ $scaff_installs =~ $all_zeros ]]; then
+    echo 0
+  else
+    echo 1
+  fi
+}
+# End: installation information API
 
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null

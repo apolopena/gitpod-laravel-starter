@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.5"
+  echo "utils.sh version 0.0.7"
 }
 
 # Use absolute paths or paths relative to this script
@@ -125,9 +125,9 @@ parse_ini_value() {
 #
 log () {
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    >&2 echo -e "$1" && printf "$1\n" >> "$2"
+    >&2 echo -e "$1" && printf -- "$1\n" >> "$2"
   else
-    echo -e "$1" && printf "$1\n" >> "$2"
+    echo -e "$1" && printf -- "$1\n" >> "$2"
   fi
 }
 
@@ -148,9 +148,9 @@ log () {
 #
 log_silent () {
   if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    1>&2 printf "$1\n" >> "$2"
+    1>&2 printf -- "$1\n" >> "$2"
   else
-    printf "$1\n" >> "$2"
+    printf -- "$1\n" >> "$2"
   fi
 }
 
@@ -182,6 +182,73 @@ log_silent () {
 node_package_exists () {
   [ -z $2 ] && local path='node_modules' || local path="$2/node_modules"
   ls "$path" 2>/dev/null | grep -w $1 >/dev/null 2>&1 && echo "1" || echo "0"
+}
+
+# generate_string
+# Description:
+# Generates a string of random alphanumeric and special charaters of any length ($1)
+# The length of the string defaults to 32 if no argument is passed in
+# or if the argument passed in is empty or not a valid positive integer
+#
+# Usage:
+# Example 1: generate a random string with a length of 8
+# generate_string 8
+#
+# Example 2: generate a random string with a length of 32
+# generate_string
+#
+generate_string () {
+  [ "$1" -ge 0 ] 2>/dev/null && local count=$1 || local count=32
+  echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$+,:;=?|<>.^*()%-' | fold -w $count | head -n 1)
+}
+
+# get_env_value
+# Description:
+# Get the value of a key ($1) value pair as set in a env style file ($2)
+# If no file ($2) argument is given then the file .starter.env will be used
+# 
+# Exit codes:
+# 3 --> File ($2 or the default .starter.env) does not exist
+# 4 --> Variable ($1) does not exist in file ($2 or the default .starter.env)
+# 5 --> Value for the variable ($2) was not set or contained only whitespace
+#
+# Usage:
+# Example 1 (with optional error handling): 
+# # Get the value of PHP_PW from .starter.env, assuming the file contains PHP_PW=secret007
+# # If there are no errors then the output would be secret007
+# err="get_env_value Error:"
+# value="$(get_env_value PHP_PW)"
+# case "$?" in
+#   '0')
+#     echo $value
+#     ;;
+#   '3')
+#     echo "$err No file .starter.env"
+#     ;;
+#   '4')
+#     echo "$err No variable: PHP_PW"
+#     ;;
+#   '5')
+#     echo "$err No value for variable: PHP_PW"
+#     ;;
+#   *)
+#     echo "$err unidentified exit code: $?"
+#     ;;
+# esac 
+#
+# Example 2 (no error handling): 
+# # Get the value of FOO from .bar (assume the file .bar contains FOO=foobarbaz)
+# # If there are no errors the output would be foobarbaz, otherwise there would be no output.
+# get_env_value FOO .bar
+# 
+get_env_value() {
+  [ -z "$2" ] && local file='.starter.env' || local file="$2"
+  [ ! -f "$file" ] && exit 3
+  grep -q "$1=" $file
+  [ $? != 0 ] && exit 4
+  local val=$(grep "$1=" .starter.env | cut -d '=' -f2)
+  [ -z $val ] && exit 5
+  echo $val
 }
 
 

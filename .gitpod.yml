@@ -14,9 +14,10 @@ ports:
 tasks:
   - before: bash bash/before-tasks.sh
     init: |
-      bash bash/init-gitpod.sh &&
-      bash bash/init-optional-scaffolding.sh &&
-      bash bash/init-project.sh &&
+      bash bash/init-gitpod.sh
+      bash bash/init-optional-scaffolding.sh
+      bash bash/init-phpmyadmin.sh
+      bash bash/init-project.sh
       bash bash/init-complete.sh
     name: Startup
   - openMode: split-left
@@ -43,9 +44,10 @@ tasks:
       . bash/third-party/spinner.sh &&
       start_spinner "Opening preview when system is ready..."
       gp sync-await gitpod-inited &&
-      default_server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
-      open_preview $default_server &&
-      stop_spinner $?
+      stop_spinner 0 &&
+      __port=$(bash bash/helpers.sh get_default_server_port); \
+      gp await-port $__port &&
+      gp preview $(gp url $__port)
     name: Main Terminal
 
 vscode:
