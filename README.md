@@ -1,3 +1,14 @@
+## Introduction: Laravel 8 Gitpod Starter
+
+🚀
+Laravel 8 Gitpod Starter is a [Laravel 8](https://laravel.com/docs/8.x/) 'starter project' designed to be developed in the cloud on the [Gitpod](https://www.gitpod.io/) platform. The core of this project is a simple configuration file and a series of bash scripts that set up a [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) stack in the cloud with options to install and auto-configure various popular libraries, authorization, and front-end project scaffolding such as React, Vue, and Bootstrap.
+Just [copy this repository](#tldr-quick-setup---create-a-new-project-repository-from-this-repository) into a new project repository of your own, edit the `starter.ini` file to your liking and you are ready to develop your project in the cloud.
+
+[![Try it out on on Gitpod.io](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://github.com/apolopena/gitpod-laravel8-starter) with [![emoji-log](https://cdn.rawgit.com/ahmadawais/stuff/ca97874/emoji-log/flat-round.svg)](https://github.com/ahmadawais/Emoji-Log/) built into the environment.
+
+
+<br />
+
 # Table of Contents
 
 1. [Introduction: Laravel 8 Gitpod Starter](#introduction-laravel-8-gitpod-starter)
@@ -21,8 +32,9 @@
    - 7.4 [Debugging Blade templates](#debugging-blade-templates)
    - 7.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
 8. [phpMyAdmin](#phpmyadmin)
-   - 8.1 [Security Concerns](#security-concerns)
-   - 8.2 [Securing phpMyAdmin](#securing-phpmyadmin)
+   - 8.1 [Installing phpMyAdmin](#installing-phpmyadmin)
+   - 8.2 [Security Concerns](#security-concerns)
+   - 8.3 [Securing phpMyAdmin](#securing-phpmyadmin)
 9. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
    - 9.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
 10. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
@@ -31,17 +43,6 @@
 13. [Local Development Outside of Gitpod](#local-development-outside-of-gitpod)
 14. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
 15. [Thanks](#thanks)
-
-<br />
-
-## Introduction: Laravel 8 Gitpod Starter
-
-🚀
-This a Laravel 8 starter project designed as a starting point for you. Once you have properly copied this repository you may add and change the codebase to your hearts desire 💞. You may also want to save any of the information you find useful on this README page before you overwrite it with information about your own project.
-
-[![Try it out on on Gitpod.io](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://github.com/apolopena/gitpod-laravel8-starter) with [![emoji-log](https://cdn.rawgit.com/ahmadawais/stuff/ca97874/emoji-log/flat-round.svg)](https://github.com/ahmadawais/Emoji-Log/) built into the Gitpod environment.
-
-This project is designed to be deployed and be developed in a [Gitpod](https://gitpod.io/) environment but can also be developed locally and deploy the project where you like. See the **local development outside of Gitpod** section for more details. Live deployment of this project can of course be done anywhere and that is up to you. The project will be running live on Gitpod, however the project only stays open for a small amount of time (usually 30 minutes) which is counted against your Gitpod account hours (unless you have an unlimited plan). A free Gitpod account gets you 50 hours of workspace time a week.
 
 <br />
 
@@ -55,9 +56,9 @@ This project is designed to be deployed and be developed in a [Gitpod](https://g
 
 ## Setting Up
 
-Gitpod will use the name of GitHub repository you use as the name of the project so make sure you name your new repository accordingly. There are many ways to copy a repository, blast away the history and name it something new and call it your own. 
+Gitpod will use the name of your GitHub repository as the Laravel project name so make sure you name your project repository accordingly. There are many ways to copy a repository but when using this starter proejct it is advised that you copy it, delete the git history and give it a new name. 
 
-You may also just fork this repository if you simply want to test out making some changes to the starter but do no intend to make it a standalone project with it's own name. 
+You may also just fork this repository if you simply want to dabble with the starter project but do no intend to make it a standalone project with it's own name. 
 
 ### Tl;dr Quick Setup - Create a new project repository from this repository
 
@@ -79,7 +80,7 @@ __branch=PLACEHOLDER; __new_repo_project_name=PLACEHOLDER; __github_username=PLA
 
 ### Breakdown of the steps for creating a new project from this repository
 
-*Copy this GitHub repository into a new GitHub repository of your own and of course be sure to name that repository as the name of your project. These instructions assume you have a bash or bash like shell to work with but if you don't you will have to figure out the equivalent commands on your own.*
+*Copy this GitHub repository into a new GitHub repository of your own and of course be sure to name that repository with the name of your project. These instructions assume you have a bash or bash like shell to work with but if you don't you will have to figure out the equivalent commands on your own.*
 
  1. In a web browser, [make a new repository in GitHub](https://docs.github.com/en/github/getting-started-with-github/create-a-repo).
 
@@ -127,26 +128,27 @@ __branch=PLACEHOLDER; __new_repo_project_name=PLACEHOLDER; __github_username=PLA
 
 ### Creating a new workspace in Gitpod from your new GitHub project repository
 
-*Create a Gitpod workspace for the first time. Gitpod makes this easy. One simple URL deploys the entire system. Lets call this URL the Gitpod workspace build URL.*
+Create a Gitpod workspace for the first time. Gitpod makes this easy. One simple URL deploys the entire system.
 
-    1. Paste URL your newly created GitHub repository to the end of the special Gitpod URL, **https://gitpod.io/#/**.
-
-    - For example if your repository URL is **https://github.com/myusername/myprojectname** then the Gitpod workspace build URL needs to look like this: 
+   - Paste URL your newly created GitHub repository to the end of the special Gitpod URL, **https://gitpod.io/#/**.
+      - For example if your repository URL is **https://github.com/myusername/myprojectname** then the Gitpod workspace build URL needs to look like this: 
       - **https://gitpod.io/#/https://github.com/myusername/myprojectname**
       - Note: Gitpod also supports creating a workspace from a branch by using the branch URL.
 
-*Finally initialize the Gitpod workspace by pasting the Gitpod you obtained in the previous step into your browser and hit enter.*
 
-    1. The first time around an entire online development environment complete with and IDE is deployed from a custom docker container so this will take some time. Scaffolding for the Laravel 8 project and debugging capabilities are also created the first time you build the workspace so it will be up to you to commit those newly created files to your repository once you see that the build was successful.
-    2. Gitpod will cache subsequent requests to your workspace and when you restart the workspace it will be much quicker than the initial build.
+Initialize the Gitpod workspace by pasting the Gitpod URL you created in the previous step into your browser.
+
+Initializing the workspace for the first time can take up to 5 or 6 minutes. Subsequent starts of the workspace should be much quicker due to caching mechanisms.
+
+   - When the workspace is created for the first time an entire online development environment complete with an IDE is deployed along with an addtional installations you have set in `starter.ini`. Scaffolding files for the Laravel 8 project and debugging capabilities are also created the first time you build the workspace so it will be up to you to push those newly created files to your repository before you get started developing your project.
 
 <br />
 
 ## Running the Client
 
-A preview browser should automatically open and display the Laravel start page. This page is being served by the default web server. The code for this page is in `/resources/views/welcome.blade.php` Please read the [Gitpod documentation](https://www.gitpod.io/docs/) if you want to use this amazing system to its fullest potential. In the IDE there is a UI for hiding the preview browser panel and for launching the preview browser in a separate window. Look on the right side area of the IDE for these controls.
+A preview browser should automatically open and display the Laravel start page. This page is being served by the default web server which is set in `starter.ini`. The code for this page is in `/resources/views/welcome.blade.php` In the IDE there is a UI for hiding the preview browser panel and for launching the preview browser in a separate window. Look on the right side area of the IDE for these controls.
 
-Note: Gitpod is constantly being improved. for example you can choose what type of IDE container you want to use. Because of this instructions may vary from IDE to IDE. Currently the preview browser is not available with the VSCode IDE.
+Note: Gitpod is constantly being improved such as being able to choose the IDE container you want to use. Because of this instructions may vary from IDE to IDE. Currently the preview browser is not available with the VSCode IDE.
 
 <br />
 
@@ -172,19 +174,19 @@ you may encounter an error that looks something like this:
 
 The easiest way to get past this error is to uncheck the box labeled "**Block command line pushes that expose my email**" under Settings-->Emails in your GitHub account.
 
-If you don't want to do this then you can edit the `~/.gitconfig` file in your Gitpod workspace to use your protected email address as Gitpod defaults to using the unprotected email address for your GitHub account. Please note that if you do this you will have to make this change for _every_ workspace you create and that become cumbersome.
+If you don't want to do this then you can edit the `~/.gitconfig` file in your Gitpod workspace to use your protected email address since Gitpod defaults to using the unprotected email address for your GitHub account. Please note that if you do this you will have to make this change for _every_ workspace you create.
 
 <br />
 
 ## Starter Project Configuration
 
-This starter project is not fully opinionated.  You can control many aspects of the development environment and the Laravel project scaffolding. 
+This starter project tries to be as less opinionated as possible. A configuration file has been provided to allow you to control many aspects of the development environment and the Laravel project scaffolding. 
 
-The file `starter.ini` in the root of the project allow you to configure optional installations and other configurations. See the comments in that file for what you can do. Simply change values in `starter.ini`, push those changes to your repo and create a new Gitpod workspace from that repo and your new configurations will be enabled.
+The file `starter.ini` in the root of the project allows you to configure optional installations and other various configurations. See the comments in `starter.ini` for what you can do with it. Simply change values in `starter.ini`, push those changes to your repository, create a new Gitpod workspace from that repo and your new configurations will be enabled.
 
-The exception right now is the optional installation of `phpmyadmin`. This optional installation works however please see this [issue](https://github.com/apolopena/gitpod-laravel8-starter/issues/28) for more details.
+There is an exception regarding the installation of `phpmyadmin`. This optional installation works however it is prone to be cached by Docker. Please see this [issue](https://github.com/apolopena/gitpod-laravel8-starter/issues/28) for more details.
 
-In general it is best to set values in `starter.ini` just the one time before you commit your project scaffolding.
+In general it is best to set values in `starter.ini` just once before you create your workspace for the first time.
 
 ### Development Servers
 
@@ -193,7 +195,7 @@ This starter project comes pre packaged with two development servers.
 - Apache2
 - PHP Development Sever
 
-By default the server listed in `starter.ini` will be the server used. You can however run both servers at the same time or change your default sever.
+By default the server listed in `starter.ini` will be the server used. You can however run both servers at the same time or change your default server.
 
 You may also run the PHP Development server manually via the command `php artisan serve`.
 
@@ -215,7 +217,7 @@ The system will show apache logs with either `multitail` or a colorized tail (us
 
 Change the value of `apache_log_monitor` in the `development` section of `starter.ini` to either `tail` or `multitail`
 
-Note: `multitail` is prone to [issues](https://github.com/apolopena/gitpod-laravel8-starter/issues/53) depending on the size of the terminal it is launched in so the default  it a colorized `tail`.
+Note: `multitail` is prone to [issues](https://github.com/apolopena/gitpod-laravel8-starter/issues/53) depending on the size of the terminal it is launched in so the default is a colorized `tail`.
 
 ### Running more than one server at a time
 
@@ -226,6 +228,8 @@ If you have the Apache server running and you want to run the PHP development se
 `start_server php`
 
 Now the PHP server will be running in parallel.
+
+Note: Laravel requires a url to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The url set in the `.env` file contains the server port so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
 <br />
 
@@ -252,12 +256,12 @@ If you are running more than one development server at the same time or you are 
 
 - Once the preview browser is open, You can set a breakpoint in the Gitpod IDE by clicking in the gutter next to the line of code you want in any PHP file in the `public` folder (or deeper) 
 - Then in the Gitpod IDE in the browser:
-  2. Hit the debug icon in the left side panel to open the Debug panel.
-  3. Choose "Listen for XDebug" from the dropdown list.
-  4. Hit the green play button (you should see the status "RUNNING" in the Threads panel)
-  5. Refresh the preview browser and you should now hit your breakpoint.
+  1. Hit the debug icon in the left side panel to open the Debug panel.
+  2. Choose "Listen for XDebug" from the dropdown list.
+  3. Hit the green play button (you should see the status "RUNNING" in the Threads panel)
+  4. Refresh the preview browser and you should now hit your breakpoint in the IDE.
 
-All debugging is subject to server timeout, refreshing the preview browser will make this go away.
+All debugging is subject to server timeout, just refreshing preview browser if this happens.
 
 ### Debugging Blade templates
 
@@ -269,21 +273,25 @@ You may also debug blade templates by placing the following snippet above where 
 
 Save the file and refresh the preview browser when the debugger is in the IDE.
 
-If all else fails stop the debugger, launch the "Listen for Xdebug" launch configuration again and refresh the preview browser.
-This will open a temporary PHP file that has all the blade directives converted to `php` tags, you may set additional breakpoints in this code as well. Do not edit the code in these temporary files as it they be disposed and are only derived for that debugging session.
+This will open a temporary PHP file that has all the blade directives converted to `php` tags, you may set additional breakpoints in this code as well. Do not edit the code in these temporary files as it they be disposed at any time and are only derived for that debugging session.
+
+If you are having trouble, launch the "Listen for Xdebug" launch configuration again and refresh the preview browser.
 
 <br />
 
 ## Tailing the Xdebug Log
 
-    1. Open a new terminal in gitpod
-    2. Run the command: `tail -f /var/log/xdebug.log`
+   1. Open a new terminal in gitpod
+   2. Run the command: `tail -f /var/log/xdebug.log`
 
 <br />
 
 ## phpMyAdmin ##
 
 phpMyAdmin is a tool that handles MySQL administration over the web. This tool is very powerful and can be essential when developing MySQL powered systems especially in the cloud. For more information on what phpMyAdmin can do, check out the [official documentation](https://www.phpmyadmin.net/docs/), the [user guide](https://docs.phpmyadmin.net/en/latest/user.html) or just dabble around on the [demo server](https://www.phpmyadmin.net/try/).
+
+### Installing phpMyAdmin
+phpMyAdmin is installed automatically by default. A phpMyAdmin installation directive is available in `starter.ini` that allows you to omit the installation if you like. The phpMyAdmin installation is done in the Docker image which makes it prone to caching so special steps may need to be taken in order to get the phpmyadmin installation directive in `starter.ini` to work properly. See [here](https://github.com/apolopena/gitpod-laravel8-starter/issues/28) for more details.
 
 ### Security Concerns
 
@@ -317,7 +325,7 @@ You can generate a `CHANGELOG.md` by running the command:
 `rake changelog`
 Currently generating a changelog can only be done when the workspace is built for the first time. See [here](https://github.com/apolopena/gitpod-laravel8-starter/issues/57) for more details
 See [github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator) for more information on what you can do with it.
-Note: any options you may need to pass in can be passed in through the rake command.
+Note: any options you may need to pass in can be passed in through the rake command: `rake changelog`.
 
 ### Setting up an Access Token for github-changelog-generator
 
@@ -352,7 +360,7 @@ Currently until gitpod fixes the [issue](https://github.com/apolopena/gitpod-lar
 
 ## Emoji-log and Gitmoji
 
-A compilation of git aliases from [Emoji-log](https://github.com/ahmadawais/Emoji-Log) and [Gitmoji](https://gitmoji.dev/) are included, use them as you like from the command line. There is also a separate set of emoji based git aliases that will commit the files with a message and push them to the repository *without* adding the files. Use these aliases for dealing with groups of files that need different commit messages but still want to use to Emoji-log, Gitmoji standards. You can get a list of all the emoji based git alias with the command: `git a`
+A compilation of git aliases from [Emoji-log](https://github.com/ahmadawais/Emoji-Log) and [Gitmoji](https://gitmoji.dev/) are included, use them as you like from the command line. There is also a separate set of emoji based git aliases that will commit the files with a message and push them to the repository *without* adding the files. Use these aliases for dealing with groups of files that need different commit messages but still need to use to Emoji-log and or Gitmoji standards. You can get a list of all the emoji based git alias with the command: `git a`
 
 <br />
 
@@ -367,6 +375,14 @@ For now this will be something you need to figure out. Eventually some guideline
 For now this will be something you need to figure out. Eventually some guidelines for how to do that will be added here.
 
 <br />
+
+## Gitpod Caveats
+Gitpod is an amazing and dynamic platform however at times, and especially during it's peak hours, latency can affect the workspace. Here are a few symptoms that you can try to remedy by recreating the workspace or waiting for some time before trying to open or create a workspace. This section will be updated as Gitpod progresses.
+  - **Symptom**: Workspace loads, IDE displays, however one or more terminals are blank.
+    - **Possible Fix**: Delete the workspace in your Gitpod dashboard and then [recreate the workspace](#creating-a-new-workspace-in-gitpod-from-your-new-github-project-repository).
+  - **Symptom**: Workspace loads, IDE displays, however no ports become available and or the spinner stays spinning in the terminal even after a couple of minutes.
+    - **Possible Fix**: Refresh the browser
+
 
 ## Thanks
 
