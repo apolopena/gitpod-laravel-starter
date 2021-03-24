@@ -31,7 +31,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=130
+ENV INVALIDATE_CACHE=131
 
 COPY --chown=gitpod:gitpod bash/.bash_aliases /home/gitpod
 COPY --chown=gitpod:gitpod bash/utils.sh /tmp
