@@ -42,7 +42,8 @@ Just [copy this repository](#tldr-quick-setup---create-a-new-project-repository-
 12. [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
 13. [Local Development Outside of Gitpod](#local-development-outside-of-gitpod)
 14. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
-15. [Thanks](#thanks)
+15. [Gitpod Caveats](#gitpod-caveats)
+16. [Thanks](#thanks)
 
 <br />
 
@@ -377,7 +378,7 @@ For now this will be something you need to figure out. Eventually some guideline
 <br />
 
 ## Gitpod Caveats
-Gitpod is an amazing and dynamic platform however at times, and especially during it's peak hours, latency can affect the workspace. Here are a few symptoms that you can try to remedy by recreating the workspace or waiting for some time before trying to open or create a workspace. This section will be updated as Gitpod progresses.
+Gitpod is an amazing and dynamic platform however at times, and especially during it's peak hours latency can affect the workspace. Here are a few symptoms that you can try to remedy by recreating the workspace or waiting for some time before trying to open or create a workspace. This section will be updated as Gitpod progresses.
   - **Symptom**: Workspace loads, IDE displays, however one or more terminals are blank.
     - **Possible Fix**: Delete the workspace in your Gitpod dashboard and then [recreate the workspace](#creating-a-new-workspace-in-gitpod-from-your-new-github-project-repository).
   - **Symptom**: Workspace loads, IDE displays, however no ports become available and or the spinner stays spinning in the terminal even after a couple of minutes.
