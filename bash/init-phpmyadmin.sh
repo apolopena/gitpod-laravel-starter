@@ -35,7 +35,7 @@ installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin
 if [ "$installed_phpmyadmin" == 1 ]; then
   if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     msg="Creating file public/phpmyadmin/config.inc.php"
-    log_silent "$msg ..." && start_spinner "$msg ..."
+    log_silent "$msg" && start_spinner "$msg"
     cp public/phpmyadmin/config.sample.inc.php public/phpmyadmin/config.inc.php
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -60,7 +60,7 @@ if [ "$installed_phpmyadmin" == 1 ]; then
     fi
     # Setup storage configuration
     msg="Uncommenting storage configuration in public/phpmyadmin/config.inc.php"
-    log_silent "$msg ..." && start_spinner "$msg ..."
+    log_silent "$msg" && start_spinner "$msg"
     sed -i "/'controluser'/,/End of servers configuration/ s/^\/\/ *//" public/phpmyadmin/config.inc.php
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -73,7 +73,7 @@ if [ "$installed_phpmyadmin" == 1 ]; then
   fi
   # Setup phpmyadmin db and storage tables
   msg='Configuring phpmyadmin db and storage tables'
-  log_silent "$msg ..." && start_spinner "$msg ..."
+  log_silent "$msg ..." && start_spinner "$msg"
   mysql < public/phpmyadmin/sql/create_tables.sql
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
