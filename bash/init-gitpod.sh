@@ -44,6 +44,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log_silent "SUCCESS: $msg"
   fi
 
+  # Cleanup any cached phpmyadmin installation from the workspace image if needed
+  if [ $(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
+    [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
+  fi
+
   # BEGIN: parse configurations
 
   # BEGIN Laravel .env injection

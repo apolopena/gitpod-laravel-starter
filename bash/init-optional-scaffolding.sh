@@ -36,14 +36,9 @@ install_bootstrap=$(eval $parse bootstrap install)
 
 # BEGIN: optional frontend scaffolding installations
 
-# BEGIN: phpmyadmin
+# phpmyadmin
 installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
-if [ "$installed_phpmyadmin" == 1 ]; then
-  . bash/init-phpmyadmin.sh
-else
-  [ -d "public/phpmyadmin" ] && rm -f public/phpmyadmin
-fi
-# END: phpmyadmin
+[ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
