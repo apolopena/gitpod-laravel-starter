@@ -35,6 +35,7 @@ if [[ ! -d "public/phpmyadmin" ]]; then
     log "ERROR: $msg" -e
     exit 1
   else
+    cd ..
     log "SUCCESS: $msg"
   fi
 fi
