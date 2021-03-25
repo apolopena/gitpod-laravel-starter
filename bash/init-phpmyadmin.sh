@@ -27,16 +27,16 @@ all_zeros_reg='^0$|^0*0$'
 
 parse="bash bash/utils.sh parse_ini_value starter.ini"
 
-# HOTFIX:
-# remove any residual phpmyadmin files
-# HOTFIX: Handle the edge case where workspace image has cached starter.ini and 
-# phpymadmin was not installed when it should have been. Abort.
-# TODO: move phpmyadmin out of .gitpod.Dockerfile
+# Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
-  log "ERROR: The workspace image has cached the phpmyadmin install directive." -e
-  log "   --> Force the workspace image to build again by incrementing INVALIDATE_CACHE" -e
-  log "       in .gitpod.Dockerfile, push the change, and try again with a new workspace." -e
-  exit 0
+  msg="Installing phpmyadmin"
+  cd public && composer create-project phpmyadmin/phpmyadmin
+  if [ $? != 0 ]; then
+    log "ERROR: $msg" -e
+    exit 1
+  else
+    log "SUCCESS: $msg"
+  fi
 fi
 
 # Load spinner

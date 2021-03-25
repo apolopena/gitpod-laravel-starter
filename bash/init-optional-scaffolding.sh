@@ -35,9 +35,10 @@ install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
 
 # BEGIN: optional frontend scaffolding installations
+
 # phpmyadmin
 installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
-[ "$installed_phpmyadmin" ] && . bash/init-phpmyadmin.sh
+[ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
