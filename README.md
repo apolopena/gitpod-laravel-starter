@@ -292,11 +292,11 @@ If you are having trouble, launch the "Listen for Xdebug" launch configuration a
 phpMyAdmin is a tool that handles MySQL administration over the web. This tool is very powerful and can be essential when developing MySQL powered systems especially in the cloud. For more information on what phpMyAdmin can do, check out the [official documentation](https://www.phpmyadmin.net/docs/), the [user guide](https://docs.phpmyadmin.net/en/latest/user.html) or just dabble around on the [demo server](https://www.phpmyadmin.net/try/).
 
 ### Installing phpMyAdmin
-phpMyAdmin is installed automatically by default. A phpMyAdmin installation directive is available in `starter.ini` that allows you to omit the installation if you like. The phpMyAdmin installation is done in the Docker image which makes it prone to caching so special steps may need to be taken in order to get the phpmyadmin installation directive in `starter.ini` to work properly. See [here](https://github.com/apolopena/gitpod-laravel8-starter/issues/28) for more details.
+phpMyAdmin is installed automatically by default. A phpMyAdmin installation directive is available in `starter.ini` that allows you to omit the installation if you like.
 
 ### Security Concerns
 
-phpMyAdmin also introduces some extra security concerns that should be addressed immediately after initialization of a new Gitpod workspace. If you have installed phpMyAdmin using install directive starter.ini then by default two MySQL accounts are created using default passwords stored in version control:
+phpMyAdmin also introduces some extra security concerns that should be addressed. If you have installed phpMyAdmin using install directive starter.ini then by default two MySQL accounts are created using default passwords stored in version control:
 
    - **pmasu**: This is the superuser account that a developer can use to log into phpMyAdmin in order to administer any MySQL database.
      - The default password for the user **pmasu** is: ***123456***
