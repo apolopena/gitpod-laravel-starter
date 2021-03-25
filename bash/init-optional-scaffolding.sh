@@ -36,9 +36,14 @@ install_bootstrap=$(eval $parse bootstrap install)
 
 # BEGIN: optional frontend scaffolding installations
 
-# phpmyadmin
+# BEGIN: phpmyadmin
 installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
-[ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
+if [ "$installed_phpmyadmin" == 1 ]; then
+  . bash/init-phpmyadmin.sh
+else
+  [ -d "public/phpmyadmin" ] && rm -f public/phpmyadmin
+fi
+# END: phpmyadmin
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
@@ -132,7 +137,6 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
 fi
 # END: Optional vue install
 
-# TODO: log message when bootstrap is told to install but wont because of a prior installation of react or vue
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
   version=$(eval $parse bootstrap version)
