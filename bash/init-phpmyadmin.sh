@@ -82,7 +82,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
 fi
 # Setup phpmyadmin db and storage tables
 msg='Configuring phpmyadmin db and storage tables'
-log_silent "$msg ..." && start_spinner "$msg"
+log_silent "$msg" && start_spinner "$msg"
 mysql < public/phpmyadmin/sql/create_tables.sql
 if [ $err_code != 0 ]; then
   stop_spinner $err_code
