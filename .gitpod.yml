@@ -16,7 +16,6 @@ tasks:
     init: |
       bash bash/init-gitpod.sh
       bash bash/init-optional-scaffolding.sh
-      bash bash/init-phpmyadmin.sh
       bash bash/init-project.sh
       bash bash/init-complete.sh
     name: Startup
