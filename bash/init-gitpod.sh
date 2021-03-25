@@ -21,7 +21,7 @@ log_silent () {
 # Load spinner
 . bash/third-party/spinner.sh
 
-# Let the user know there will a wait, then begin once MySql is initialized.
+# Let the user know there will be a wait, then begin once MySql is initialized.
 start_spinner "Initializing MySql..." &&
 gp await-port 3306 &&
 stop_spinner $?
@@ -30,9 +30,9 @@ stop_spinner $?
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nrsync Laravel 8 scaffolding from /home/gitpod/laravel8-starter to $GITPOD_REPO_ROOT"
+  msg="\nrsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
-  log_silent "$msg..." && start_spinner "$msg..."
+  log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   grc -c bash/snippets/grc/rsync-stats \
   rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ $GITPOD_REPO_ROOT
@@ -91,7 +91,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     msg="Creating database: laravel"
-    log_silent "$msg..." && start_spinner "$msg"
+    log_silent "$msg" && start_spinner "$msg"
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -122,7 +122,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules"
-    log "$msg..."
+    log "$msg"
     yarn install
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -130,7 +130,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     else
       log "SUCCESS: $msg"
     fi
-    log " --> Running Laravel Mix..."
+    log " --> Running Laravel Mix"
     npm run dev
     log " --> Running of Laravel Mix complete"
   fi

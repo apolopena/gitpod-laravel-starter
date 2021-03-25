@@ -56,7 +56,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   fi
   # Setup Blowfish secret
   msg="Parsing blowfish secrect in public/phpmyadmin/config.inc.php"
-  log_silent "$msg ..." && start_spinner "$msg ..."
+  log_silent "$msg" && start_spinner "$msg"
   __bfs=$(bash bash/utils.sh generate_string 32)
   sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
   err_code=$?
@@ -108,7 +108,7 @@ fi
 # Control user account for phpmyadmin (used for storage features)
 msg="Creating phpmyadmin control user"
 error_codes=()
-log_silent "$msg..." && start_spinner "$msg.."
+log_silent "$msg" && start_spinner "$msg"
 mysql -e "CREATE USER 'pma'@'localhost' IDENTIFIED BY 'pmapass';"
 error_codes+=($?)
 mysql -e "GRANT ALL PRIVILEGES ON \`phpmyadmin\`.* TO 'pma'@'localhost' WITH GRANT OPTION;"
@@ -125,11 +125,12 @@ else
 fi
 # Install node modules
 if [ ! -d 'public/phpmyadmin/node_modules' ]; then
-  log "phpmyadmin node modules have not yet been installed, installing now..."
+  msg="Installing phpmyadmin node modules"
+  log "$msg"
   cd public/phpmyadmin && yarn install && cd ../../
   if [ $? == 0 ]; then
     __pmaurl=$(gp url 8001)/phpmyadmin
-    log_silent "phpmyadmin node modules installed."
+    log_silent "SUCCESS: $msg"
     log_silent "To login to phpmyadmin:"
     log_silent "  --> 1. Make sure you are serving it with apache"
     log_silent "  --> 2. In the browser go to $__pmaurl"
@@ -137,7 +138,7 @@ if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log_silent "Make sure you change the default passwords for the phpmyadmin accounts."
     log_silent "For help with updating phpmyadmin passwords, run the alias help_update_pma_pws"
   else
-    log "ERROR: installing phpmyadmin node modules. Try installing them manually." -e
+    log "ERROR: $msg. Try installing them manually." -e
   fi
 fi
 # END: phpmyadmin setup if installed

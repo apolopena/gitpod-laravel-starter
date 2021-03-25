@@ -71,7 +71,7 @@ if [ "$install_react" == 1 ]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
-    log "Installing React and React DOM$auth_msg ..."
+    log "Installing React and React DOM$auth_msg"
     if [ "$auth" == 1 ]; then
       php artisan ui react --auth
     else
@@ -107,7 +107,7 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that Vue has already been installed, skipping this installation."
   else
-    log "Installing vue$auth_msg ..."
+    log "Installing vue$auth_msg"
     if [ "$auth" == 1 ]; then
       php artisan ui vue --auth
     else
@@ -139,7 +139,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Bootstrap install directive found in starter.ini"
-  log "Installing Bootstrap$auth_msg ..."
+  log "Installing Bootstrap$auth_msg"
   if [ "$auth" == 1 ]; then
     php artisan ui bootstrap --auth
   else
