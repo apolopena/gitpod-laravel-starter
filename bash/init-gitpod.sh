@@ -31,7 +31,6 @@ stop_spinner $?
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   msg="rsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
-  # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   grc -c bash/snippets/grc/rsync-stats \
@@ -87,7 +86,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # END: parse configurations
 
   # Create laravel database if it does not exist
-  # TODO: think more about making this dynamic as per .env
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     msg="Creating database: laravel"
