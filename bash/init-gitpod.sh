@@ -30,7 +30,7 @@ stop_spinner $?
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nrsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
+  msg="rsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
   # TODO: replace spinner with a real progress bar for coreutils
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
