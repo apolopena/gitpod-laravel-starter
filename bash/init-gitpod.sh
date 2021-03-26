@@ -124,6 +124,18 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
   # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
+    npm_ver='7.7.5'
+    msg="Updating npm to version $npm_ver"
+    log_silent "$msg" && start_spinner "$msg"
+    npm install -g "npm@$npm_ver" &>/dev/null
+    err_code=$?
+    if [ $err_code != 0 ]; then
+      stop_spinner $err_code
+      log "ERROR $?: $msg" -e
+    else
+      stop_spinner $err_code
+      log_silent "SUCCESS: $msg"
+    fi
     msg="Installing node modules"
     log "$msg"
     yarn install
