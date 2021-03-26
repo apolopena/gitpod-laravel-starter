@@ -82,7 +82,7 @@ if [ "$install_react" == 1 ]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$auth_msg have been installed"
       log "  --> Installing node modules and running Laravel Mix"
-      yarn install && npm run mix && npm run mix
+      yarn install && yarn run dev && sleep 2 && yarn run dev
       if [ ! -z "$version" ]; then
         log "Upgrading react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
