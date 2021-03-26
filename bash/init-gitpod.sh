@@ -136,6 +136,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log " --> Running Laravel Mix"
     npm run dev
     log " --> Running of Laravel Mix complete"
+    log "updating npm"
+    npm install -g npm
   fi
 
   # Move and merge necessary files, then cleanup
