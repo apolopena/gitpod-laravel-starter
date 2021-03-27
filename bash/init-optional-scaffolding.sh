@@ -119,7 +119,8 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: Vue$auth_msg has been installed"
       log "  --> Installing node modules and running Laravel Mix"
-      yarn install && npm run dev && sleep 1 && npm run dev
+      yarn install && npm run dev
+      npm run dev
       if [ ! -z "$version" ]; then
         log "Upgrading vue to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -150,7 +151,8 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   if [ $err_code == 0 ]; then
     log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
     log "  --> Installing node modules and running Laravel Mix"
-    yarn install && npm run dev && sleep 1 && npm run dev
+    yarn install && npm run dev
+    npm run dev
     if [ ! -z "$version" ]; then
       log "Upgrading bootstrap to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
