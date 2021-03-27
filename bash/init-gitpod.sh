@@ -26,6 +26,25 @@ start_spinner "Initializing MySql..." &&
 gp await-port 3306 &&
 stop_spinner $?
 
+# BEGIN: Update npm if needed
+target_npm_ver='7.7.5'
+current_npm_ver=$(npm -v)
+update_npm=$(bash bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
+if [ $update_npm == 1 ]; then
+  msg="Updating npm to version $target_npm_ver"
+  log_silent "$msg" && start_spinner "$msg"
+  npm install -g "npm@$target_npm_ver" &>/dev/null
+  err_code=$?
+  if [ $err_code != 0 ]; then
+    stop_spinner $err_code
+    log "ERROR $?: $msg" -e
+  else
+    stop_spinner $err_code
+    log_silent "SUCCESS: $msg"
+  fi
+fi
+# END: Update npm if needed
+
 # BEGIN: Bootstrap Laravel scaffolding
 
 # Move Laravel project files if they are not already in version control
@@ -124,18 +143,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
   # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
-    npm_ver='7.7.5'
-    msg="Updating npm to version $npm_ver"
-    log_silent "$msg" && start_spinner "$msg"
-    npm install -g "npm@$npm_ver" &>/dev/null
-    err_code=$?
-    if [ $err_code != 0 ]; then
-      stop_spinner $err_code
-      log "ERROR $?: $msg" -e
-    else
-      stop_spinner $err_code
-      log_silent "SUCCESS: $msg"
-    fi
     msg="Installing node modules"
     log "$msg"
     yarn install
