@@ -27,7 +27,7 @@ gp await-port 3306 &&
 stop_spinner $?
 
 # BEGIN: Update npm if needed
-target_npm_ver='7.7.5'
+target_npm_ver='6.14.10'
 current_npm_ver=$(npm -v)
 update_npm=$(bash bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
 if [ $update_npm == 1 ]; then
