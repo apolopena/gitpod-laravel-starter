@@ -31,7 +31,7 @@ target_npm_ver='7.7.5'
 current_npm_ver=$(npm -v)
 update_npm=$(bash bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
 if [ $update_npm == 1 ]; then
-  msg="Updating npm to version $target_npm_ver"
+  msg="Updating npm from $current_npm_ver to version $target_npm_ver"
   log_silent "$msg" && start_spinner "$msg"
   npm install -g "npm@$target_npm_ver" &>/dev/null
   err_code=$?
