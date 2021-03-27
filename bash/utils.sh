@@ -10,7 +10,7 @@
 
 
 version () {
-  echo "utils.sh version 0.0.7"
+  echo "utils.sh version 0.0.8"
 }
 
 # Use absolute paths or paths relative to this script
@@ -249,6 +249,84 @@ get_env_value() {
   local val=$(grep "$1=" .starter.env | cut -d '=' -f2)
   [ -z $val ] && exit 5
   echo $val
+}
+
+# split_ver
+# Description:
+# splits a version number ($1) into three numbers delimited by a space
+#
+# Notes:
+# Assumes the format of the version number will be:
+# <any # of digits>.<any # of digits>.<any # of digits>
+#
+# Usage:
+# split_ver 6.31.140
+# # outputs: 6 31 140 
+split_ver() {
+  local first=${1%%.*} # Delete first dot and what follows
+  local last=${1##*.} # Delete up to last dot
+  local mid=${1##$first.} # Delete first number and dot
+  mid=${mid%%.$last} # Delete dot and last number
+  echo $first $mid $last
+}
+
+
+# comp_ver_lt
+# Description:
+# Compares version number ($1) to version number ($2)
+# Echos 1 if version number ($1) is less than version number ($2)
+# Echos 0 if version number ($1) is greater than or equal to version number ($2)
+#
+# Notes:
+# Assumes the format of the version number will be:
+# <any # of digits>.<any # of digits>.<any # of digits>
+#
+# Usage:
+# comp_ver_lt 2.28.10 2.28.9
+# # outputs: 1
+# comp_ver_lt 0.0.1 0.0.0
+# # outputs: 0
+comp_ver_lt() {
+  local v1=($(split_ver $1))
+  local v2=($(split_ver $2))
+  [ ${v1[0]} -lt ${v2[0]} ] && echo 1 && exit
+  [ ${v1[0]} -eq ${v2[0]} ] && \
+  [ ${v1[1]} -lt ${v2[1]} ] && echo 1 && exit
+  [ ${v1[0]} -eq ${v2[0]} ] && \
+  [ ${v1[1]} -eq ${v2[1]} ] && \
+  [ ${v1[2]} -lt ${v2[2]} ] && echo 1 && exit
+  echo 0
+}
+
+# test_comp_ver_lt
+# Description:
+# test cases for comp_ver_lt
+#
+# Usage:
+# test_comp_ver_lt
+# outputs
+# 0.0.0 is less than 0.0.1  true
+# 1.0.0 is less than 1.0.0  false
+# 0.0.1 is less than 0.0.2  true
+# 1.0.1 is less than 1.1.0  true
+# 2.0.1 is less than 2.0.2  true
+# 3.99.1 is less than 98.0.0  true
+# 6.1.3 is less than 6.1.1  false
+# 2.2.2 is less than 2.2.2  false
+# 0.33.33 is less than 0.33.33  false
+# 0.33.33 is less than 0.33.32  false
+# 0.0.44 is less than 0.0.45  true
+test_comp_ver_lt() {
+  v1s=(0.0.0 1.0.0 0.0.1 1.0.1 2.0.1 3.99.1 6.1.3 2.2.2 0.33.33 0.33.33 0.0.44)
+  v2s=(0.0.1 1.0.0 0.0.2 1.1.0 2.0.2 98.0.0 6.1.1 2.2.2 0.33.33 0.33.32 0.0.45)
+  [ "${#v1s[@]}" -ne "${#v2s[@]}" ] && echo "Error: test arrays do not match in length." && exit 1
+  i=0
+  for v1 in "${v1s[@]}"; do
+    v2=${v2s[i]}
+    [ $(comp_ver_lt $v1 $v2) == 0 ] && tf=false || tf=true
+    echo "$v1 is less than $v2  $tf"
+    ((i++))
+  done
 }
 
 
