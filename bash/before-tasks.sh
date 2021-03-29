@@ -25,7 +25,7 @@ log_silent () {
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 if [ "$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)" ]; then
   msg="Writing rake tasks"
-  log_silent "$msg..." &&
+  log_silent "$msg" &&
   bash bash/init-rake-tasks.sh
   if [ $? == 0 ]; then 
     log_silent "SUCCESS: $msg"
@@ -44,7 +44,7 @@ log_silent "try: git a    or: git aliases to see what is available."
 
 # grc color configuration for apache logs
 msg="Creating grc color configuration file for apache logs in ~/apache-log-colors.conf"
-log_silent "$msg..." &&
+log_silent "$msg" &&
 cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf
 if [ $? == 0 ]; then
   log_silent "SUCCESS: $msg"

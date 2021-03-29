@@ -16,10 +16,9 @@ tasks:
     init: |
       bash bash/init-gitpod.sh
       bash bash/init-optional-scaffolding.sh
-      bash bash/init-phpmyadmin.sh
       bash bash/init-project.sh
       bash bash/init-complete.sh
-    name: Startup
+    name: Main Terminal
   - openMode: split-left
     command: |
       if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
@@ -48,7 +47,7 @@ tasks:
       __port=$(bash bash/helpers.sh get_default_server_port); \
       gp await-port $__port &&
       gp preview $(gp url $__port)
-    name: Main Terminal
+    name: Extra Terminal
 
 vscode:
   extensions:

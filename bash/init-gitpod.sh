@@ -21,18 +21,36 @@ log_silent () {
 # Load spinner
 . bash/third-party/spinner.sh
 
-# Let the user know there will a wait, then begin once MySql is initialized.
+# Let the user know there will be a wait, then begin once MySql is initialized.
 start_spinner "Initializing MySql..." &&
 gp await-port 3306 &&
 stop_spinner $?
+
+# BEGIN: Update npm if needed
+target_npm_ver='7.7.5'
+current_npm_ver=$(npm -v)
+update_npm=$(bash bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
+if [ $update_npm == 1 ]; then
+  msg="Updating npm from $current_npm_ver to $target_npm_ver"
+  log_silent "$msg" && start_spinner "$msg"
+  npm install -g "npm@$target_npm_ver" &>/dev/null
+  err_code=$?
+  if [ $err_code != 0 ]; then
+    stop_spinner $err_code
+    log "ERROR $?: $msg" -e
+  else
+    stop_spinner $err_code
+    log_silent "SUCCESS: $msg"
+  fi
+fi
+# END: Update npm if needed
 
 # BEGIN: Bootstrap Laravel scaffolding
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="\nrsync Laravel 8 scaffolding from /home/gitpod/laravel8-starter to $GITPOD_REPO_ROOT"
-  # TODO: replace spinner with a real progress bar for coreutils
-  log_silent "$msg..." && start_spinner "$msg..."
+  msg="rsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
+  log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   grc -c bash/snippets/grc/rsync-stats \
   rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ $GITPOD_REPO_ROOT
@@ -43,6 +61,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
+  fi
+
+  # Cleanup any cached phpmyadmin installation from the workspace image if needed
+  if [ $(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
+    [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
   fi
 
   # BEGIN: parse configurations
@@ -87,11 +110,10 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # END: parse configurations
 
   # Create laravel database if it does not exist
-  # TODO: think more about making this dynamic as per .env
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
   if [ $__laravel_db_exists == 0 ]; then
     msg="Creating database: laravel"
-    log_silent "$msg..." && start_spinner "$msg"
+    log_silent "$msg" && start_spinner "$msg"
     mysql -e "CREATE DATABASE laravel;"
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -122,7 +144,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules"
-    log "$msg..."
+    log "$msg"
     yarn install
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -130,9 +152,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     else
       log "SUCCESS: $msg"
     fi
-    log " --> Running Laravel Mix..."
+    log " --> Running Laravel Mix"
     npm run dev
     log " --> Running of Laravel Mix complete"
+    #log "updating npm"
+    #npm install -g npm
   fi
 
   # Move and merge necessary files, then cleanup

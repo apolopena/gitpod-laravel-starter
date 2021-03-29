@@ -35,6 +35,11 @@ install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
 
 # BEGIN: optional frontend scaffolding installations
+
+# phpmyadmin
+installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
+[ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
+
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
 if [[ $has_frontend_scaffolding_install == 1 ]]; then
@@ -67,7 +72,7 @@ if [ "$install_react" == 1 ]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
-    log "Installing React and React DOM$auth_msg ..."
+    log "Installing React and React DOM$auth_msg"
     if [ "$auth" == 1 ]; then
       php artisan ui react --auth
     else
@@ -77,7 +82,8 @@ if [ "$install_react" == 1 ]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$auth_msg have been installed"
       log "  --> Installing node modules and running Laravel Mix"
-      yarn install && npm run dev && sleep 1 && npm run dev
+      yarn install && npm run dev
+      npm run dev
       if [ ! -z "$version" ]; then
         log "Upgrading react and react-dom to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -103,7 +109,7 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
   if [ "$__installed" == 1 ]; then
     log "However it appears that Vue has already been installed, skipping this installation."
   else
-    log "Installing vue$auth_msg ..."
+    log "Installing vue$auth_msg"
     if [ "$auth" == 1 ]; then
       php artisan ui vue --auth
     else
@@ -113,7 +119,8 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: Vue$auth_msg has been installed"
       log "  --> Installing node modules and running Laravel Mix"
-      yarn install && npm run dev && sleep 1 && npm run dev
+      yarn install && npm run dev
+      npm run dev
       if [ ! -z "$version" ]; then
         log "Upgrading vue to$version_msg"
         # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -127,7 +134,6 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
 fi
 # END: Optional vue install
 
-# TODO: log message when bootstrap is told to install but wont because of a prior installation of react or vue
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
   version=$(eval $parse bootstrap version)
@@ -135,7 +141,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Bootstrap install directive found in starter.ini"
-  log "Installing Bootstrap$auth_msg ..."
+  log "Installing Bootstrap$auth_msg"
   if [ "$auth" == 1 ]; then
     php artisan ui bootstrap --auth
   else
@@ -145,7 +151,8 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   if [ $err_code == 0 ]; then
     log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
     log "  --> Installing node modules and running Laravel Mix"
-    yarn install && npm run dev && sleep 1 && npm run dev
+    yarn install && npm run dev
+    npm run dev
     if [ ! -z "$version" ]; then
       log "Upgrading bootstrap to$version_msg"
       # TODO:  validate semver and valid version for the package so users cant pass in junk
@@ -164,3 +171,4 @@ else
 fi
 # END: Optional bootstrap install
 # END: optional frontend scaffolding installations
+
