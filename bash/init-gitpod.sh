@@ -8,7 +8,7 @@
 # Tasks to be run when a gitpod workspace is created for the first time.
 
 # Load logger
-. workspace-init-log.sh
+. workspace-init-logger.sh
 
 # Load spinner
 . bash/third-party/spinner.sh

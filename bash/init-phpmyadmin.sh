@@ -8,7 +8,7 @@
 # Configures an existing phpmyadmin installation.
 
 # Load logger
-. workspace-init-log.sh
+. workspace-init-logger.sh
 
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
