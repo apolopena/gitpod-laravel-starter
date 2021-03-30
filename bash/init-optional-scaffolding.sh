@@ -25,13 +25,41 @@ installed_phpmyadmin=$(eval $parse starter.ini phpmyadmin install)
 install_react_router_dom=$(eval $parse react-router-dom install)
 rrd_ver=$(eval $parse react-router-dom version)
 
-# Any value for EXAMPLE will build the react/phpmyadmin questions and answers demo
+# Any value for set for EXAMPLE will build the react/phpmyadmin questions and answers demo
 # into the starter, thus superceding some directives in starter.ini
 if [ ! -z $EXAMPLE ]; then
-  install_react=1
-  installed_phpmyadmin=1
-  install_react_router_dom=1
-  rrd_ver='^5.2.0'
+  case $EXAMPLE in
+    1)
+      example_title="React Example with phpMyAdmin and extras - Questions and Answers"
+      example_script="bash/init-react-example.sh"
+      install_react=1
+      installed_phpmyadmin=1
+      install_react_router_dom=1
+      rrd_ver='^5.2.0'
+      ;;
+    2)
+      example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
+      example_script="bash/init-react-example.sh"
+      install_react=1
+      installed_phpmyadmin=0
+      install_react_router_dom=1
+      rrd_ver='^5.2.0'
+      ;;
+    *)
+      # Default example
+      # Keep this block identical to case 1)
+      example_title="React Example with phpMyAdmin and extras - Questions and Answers"
+      example_script="bash/init-react-example.sh"
+      install_react=1
+      installed_phpmyadmin=1
+      install_react_router_dom=1
+      rrd_ver='^5.2.0'
+      ;;
+  esac
+  log "EXAMPLE directive query parameter found"
+  log "  --> Some directives in starter.ini will be superceded"
+  log "Configuring the example project"
+  log "  --> $example_title"
 fi
 
 # phpmyadmin
@@ -182,5 +210,5 @@ fi
 # END: Optional bootstrap install
 # END: optional frontend scaffolding installations
 
-# Initialize optional example
-[ ! -z $EXAMPLE ] && . bash/init-react-example.sh
+# Initialize optional example project
+[ ! -z $example_script ] . $example_script
