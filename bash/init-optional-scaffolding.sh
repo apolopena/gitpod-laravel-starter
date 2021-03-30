@@ -81,6 +81,22 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$auth_msg have been installed"
+      install_react_router_dom=$(eval $parse react-router-dom install)
+      if [ $install_react_router_dom == 1 ]; then
+        rrd_ver=$(eval $parse react-router-dom version)
+        if [ -z "$rrd_ver" ]; then
+          sub_msg="Installing react-router-dom to the latest version"
+          yarn add react-router-dom
+        else
+          sub_msg="Installing react-router-dom to semantic version $rrd_ver"
+          yard add react-router-dom@$rrd_ver
+        fi
+        if [ $? == 0 ]; then
+          log "SUCCESS: $sub_msg"
+        else
+          log "ERROR: $sub_msg"
+        fi
+      fi
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
       npm run dev
