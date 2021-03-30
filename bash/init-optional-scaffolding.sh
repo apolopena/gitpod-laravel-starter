@@ -34,10 +34,25 @@ install_react=$(eval $parse react install)
 install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
 
-# BEGIN: optional frontend scaffolding installations
+installed_phpmyadmin=$(eval $parse starter.ini phpmyadmin install)
+install_react_router_dom=$(eval $parse react-router-dom install)
+rrd_ver=$(eval $parse react-router-dom version)
+
+# BEGIN: Examples, supercede starter.ini
+
+# Any value for EXAMPLE will build the react/phpmyadmin questions and answers demo
+# into the starter, thus superceding some directives in starter.ini
+if [ ! -z $EXAMPLE ]; then
+  install_react=1
+  installed_phpmyadmin=1
+  install_react_router_dom
+  rrd_ver='^5.2.0'
+fi
+
+
+# END: Examples, supercede starter.ini
 
 # phpmyadmin
-installed_phpmyadmin=$(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install)
 [ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
@@ -61,7 +76,7 @@ if [[ $has_frontend_scaffolding_install == 1 ]]; then
 fi
 # END: Install Laravel ui if needed
 
-# BEGIN: Optional react and react-dom install
+# BEGIN: Optional react, react-dom and react-router-dom installs
 if [ "$install_react" == 1 ]; then
   version=$(eval $parse react version)
   auth=$(eval $parse react auth)
@@ -81,9 +96,7 @@ if [ "$install_react" == 1 ]; then
     err_code=$?
     if [ $err_code == 0 ]; then
       log "SUCCESS: React and React DOM$auth_msg have been installed"
-      install_react_router_dom=$(eval $parse react-router-dom install)
       if [ $install_react_router_dom == 1 ]; then
-        rrd_ver=$(eval $parse react-router-dom version)
         if [ -z "$rrd_ver" ]; then
           sub_msg="Installing react-router-dom to the latest version"
           log "$sub_msg"
@@ -114,7 +127,7 @@ if [ "$install_react" == 1 ]; then
     fi
   fi
 fi
-# END: Optional react and react-dom install
+# END: Optional react, react-dom and react-router-dom installs
 
 # BEGIN: Optional vue install
 if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
@@ -190,3 +203,5 @@ fi
 # END: Optional bootstrap install
 # END: optional frontend scaffolding installations
 
+# Initialize optional example
+[ ! -z $EXAMPLE ] && . init-react-example.sh
