@@ -9,7 +9,7 @@
 
 
 # Load logger
-. workspace-init-logger.sh
+. bash/workspace-init-logger.sh
 
 # BEGIN example code block - migrate database
 # COMMENT: Load spinner

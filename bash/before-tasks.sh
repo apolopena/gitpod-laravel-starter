@@ -12,7 +12,7 @@
 # in everytime the workspace starts. We do this in the 'before' task in .gitpod.yml
 
 # Load logger
-. workspace-init-logger.sh
+. bash/workspace-init-logger.sh
 
 # Rake tasks (will be written to ~/.rake).
 # Some rake tasks are dynamic and depend on the configuration in starter.ini

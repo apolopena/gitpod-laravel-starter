@@ -8,7 +8,7 @@
 # Installs various packages and scaffolding according to the directive set in starter.ini
 
 # Load logger
-. workspace-init-logger.sh
+. bash/workspace-init-logger.sh
 
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'

@@ -8,7 +8,7 @@
 # Initial setup for the gitpod-laravel8-starter react example.
 
 # Load logger
-. workspace-init-logger.sh
+. bash/workspace-init-logger.sh
 
 declare -a exit_codes=()
 all_zeros='^0$|^0*0$'
