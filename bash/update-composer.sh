@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# update-composer.sh
+# Description:
+# Programatically updates composer to the latest version.
 
 LOG='/var/log/workspace-image.log'
 # BEGIN: update composer to the latest version

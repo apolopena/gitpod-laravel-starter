@@ -1,7 +1,15 @@
 #!/bin/bash
-
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# before-tasks.sh
+# Description:
+# Tasks that should be run everytime the worspace is created or started.
+# 
+# Notes:
 # Gitpod currently does not persist files in the home directory so we must write them 
-# in everytime the workspace starts. We do this in the  -before task in .gitpod.yml
+# in everytime the workspace starts. We do this in the 'before' task in .gitpod.yml
 
 # Load logger
 . workspace-init-log.sh

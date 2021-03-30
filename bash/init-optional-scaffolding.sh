@@ -1,8 +1,11 @@
 #!/bin/bash
-
-# init-optional-scaffoliding.sh
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# init-optional-scaffolding.sh
 # Description:
-# Installs various packages according to the configuration set in starter.ini
+# Installs various packages and scaffolding according to the directive set in starter.ini
 
 # Load logger
 . workspace-init-log.sh

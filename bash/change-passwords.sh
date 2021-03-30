@@ -1,15 +1,18 @@
 #!/bin/bash
 #
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
 # change-passwords.sh
-#
 # Description:
-# changes passwords for phpmyadmin from the defaults in version control to the values set in .starter.env
-# Author: Apolo Pena
+# Changes passwords for phpmyadmin from the defaults in version control to the values set in .starter.env
 #
-# NOTE:
+# Notes:
 # This script should be always run at least once by the user as an mandatory additional layer of security
-# This script requires the file .starter.env to exist along will all the key value pairs as set
-# in example.starter.ini
+# This script requires the file .starter.env to exist along will all the key value pairs set.
+#
+# See:
+# example.starter.ini
 
 # Load spinner
 . bash/third-party/spinner.sh

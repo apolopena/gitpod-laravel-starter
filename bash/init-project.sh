@@ -1,7 +1,15 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# init-gitpod.sh
+# Description:
+# Initial configuration for an existing phpmyadmin installation.
+
 
 # Load logger
-. workspace-init-log.sh
+. workspace-init-logger.sh
 
 # BEGIN example code block - migrate database
 # COMMENT: Load spinner

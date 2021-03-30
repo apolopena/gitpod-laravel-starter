@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# init-gitpod.sh
+# Description:
+# Tasks to be run when a gitpod workspace is created for the first time.
 
 # Load logger
 . workspace-init-log.sh

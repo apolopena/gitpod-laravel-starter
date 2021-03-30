@@ -1,12 +1,15 @@
 #!/bin/bash
 #
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
 # scaffold-project.sh
+# Description:
+# Creates the main Laravel 8 project scaffolding.
 #
-# Description:Creates all project files in /tmp
-# Author: Apolo Pena
-#
-# NOTE: This script assumes it is being run from .gitpod.Dockerfile
-# and all of this scripts dependencies have already been copied to /tmp
+# Notes:
+# This script assumes it is being run from .gitpod.Dockerfile and
+# that all of this scripts dependencies have already been copied to /tmp
 
 LOG='/var/log/workspace-image.log'
 SCAFF_NAME='laravel8-starter'
