@@ -8,7 +8,7 @@
 # Log wrapper for logging to workspace-init.log
 #
 # Usage:
-# . workspace-init-logger
+# . workspace-init-logger.sh
 # log "SUCCESS: Logging to workspace-init.log"
 # log "ERROR: something went wrong" - e
 
