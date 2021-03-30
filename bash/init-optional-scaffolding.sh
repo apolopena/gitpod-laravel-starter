@@ -211,4 +211,4 @@ fi
 # END: optional frontend scaffolding installations
 
 # Initialize optional example project
-[ ! -z $init_example ] . $init_example
+[ ! -z $init_example ] && . $init_example
