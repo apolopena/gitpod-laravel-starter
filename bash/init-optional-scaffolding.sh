@@ -45,7 +45,7 @@ rrd_ver=$(eval $parse react-router-dom version)
 if [ ! -z $EXAMPLE ]; then
   install_react=1
   installed_phpmyadmin=1
-  install_react_router_dom
+  install_react_router_dom=1
   rrd_ver='^5.2.0'
 fi
 
