@@ -31,7 +31,6 @@ else
   # Handle optional install of phpmyadmin
   install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install);
   if [ $install_phpmyadmin -eq 1 ]; then
-    echo "  Phpmyadmin installation directive found in starter.ini" | tee -a $LOG
     echo "  Installing phpmyadmin"  | tee -a $LOG
     cd "$SCAFF_DEST/public" && composer create-project phpmyadmin/phpmyadmin
     ERRCODE_PHPMYADMIN=$?
