@@ -86,11 +86,11 @@ if [ "$install_react" == 1 ]; then
         rrd_ver=$(eval $parse react-router-dom version)
         if [ -z "$rrd_ver" ]; then
           sub_msg="Installing react-router-dom to the latest version"
-          log $sub_msg
+          log "$sub_msg"
           yarn add react-router-dom --silent
         else
           sub_msg="Installing react-router-dom to semantic version $rrd_ver"
-          log $sub_msg
+          log "$sub_msg"
           yarn add react-router-dom@$rrd_ver --silent
         fi
         if [ $? == 0 ]; then
