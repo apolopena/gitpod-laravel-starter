@@ -33,12 +33,9 @@ parse="bash bash/utils.sh parse_ini_value starter.ini"
 install_react=$(eval $parse react install)
 install_vue=$(eval $parse vue install)
 install_bootstrap=$(eval $parse bootstrap install)
-
 installed_phpmyadmin=$(eval $parse starter.ini phpmyadmin install)
 install_react_router_dom=$(eval $parse react-router-dom install)
 rrd_ver=$(eval $parse react-router-dom version)
-
-# BEGIN: Examples, supercede starter.ini
 
 # Any value for EXAMPLE will build the react/phpmyadmin questions and answers demo
 # into the starter, thus superceding some directives in starter.ini
@@ -48,9 +45,6 @@ if [ ! -z $EXAMPLE ]; then
   install_react_router_dom=1
   rrd_ver='^5.2.0'
 fi
-
-
-# END: Examples, supercede starter.ini
 
 # phpmyadmin
 [ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
