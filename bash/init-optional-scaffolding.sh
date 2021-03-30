@@ -204,4 +204,4 @@ fi
 # END: optional frontend scaffolding installations
 
 # Initialize optional example
-[ ! -z $EXAMPLE ] && . init-react-example.sh
+[ ! -z $EXAMPLE ] && . bash/init-react-example.sh
