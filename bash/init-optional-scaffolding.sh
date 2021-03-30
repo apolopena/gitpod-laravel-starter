@@ -35,15 +35,15 @@ if [ ! -z $EXAMPLE ]; then
 fi
 
 # phpmyadmin
-[ "$installed_phpmyadmin" == 1 ] && . bash/init-phpmyadmin.sh
+[ $installed_phpmyadmin == 1 ] && . bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-if [[ $has_frontend_scaffolding_install == 1 ]]; then
+if [ $has_frontend_scaffolding_install == 1 ]; then
   log "Optional installations that require laravel/ui scaffolding were found"
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
-  if [ "$__ui" == 1 ]; then
+  if [ $__ui == 1 ]; then
     log "However it appears that laravel/ui has already been installed, skipping this installation."
   else
     log "Installing laravel/ui scaffolding via Composer"
@@ -59,18 +59,18 @@ fi
 # END: Install Laravel ui if needed
 
 # BEGIN: Optional react, react-dom and react-router-dom installs
-if [ "$install_react" == 1 ]; then
+if [ $install_react == 1 ]; then
   version=$(eval $parse react version)
   auth=$(eval $parse react auth)
   __installed=$(bash bash/utils.sh node_package_exists react)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
+  [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "React/React DOM install directive found in starter.ini"
-  if [ "$__installed" == 1 ]; then
+  if [ $__installed == 1 ]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
     log "Installing React and React DOM$auth_msg"
-    if [ "$auth" == 1 ]; then
+    if [ $auth == 1 ]; then
       php artisan ui react --auth
     else
       php artisan ui react
@@ -99,11 +99,10 @@ if [ "$install_react" == 1 ]; then
       npm run dev
       if [ ! -z "$version" ]; then
         log "Upgrading react and react-dom to$version_msg"
-        # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade react@$version react-dom@$version
       fi
-      [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
-      [ "$install_vue" == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
+      [ $install_bootstrap == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
+      [ $install_vue == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
       log "ERROR $err_code: There was a problem installing React/React DOM$auth_msg" -e
     fi
@@ -112,18 +111,18 @@ fi
 # END: Optional react, react-dom and react-router-dom installs
 
 # BEGIN: Optional vue install
-if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
+if [[ $install_vue == 1 && $install_react == 0 ]]; then
   version=$(eval $parse vue version)
   auth=$(eval $parse vue auth)
   __installed=$(bash bash/utils.sh node_package_exists vue)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
+  [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Vue install directive found in starter.ini"
-  if [ "$__installed" == 1 ]; then
+  if [ $__installed == 1 ]; then
     log "However it appears that Vue has already been installed, skipping this installation."
   else
     log "Installing vue$auth_msg"
-    if [ "$auth" == 1 ]; then
+    if [ $auth == 1 ]; then
       php artisan ui vue --auth
     else
       php artisan ui vue
@@ -136,7 +135,6 @@ if [[ "$install_vue" == 1 && "$install_react" == 0 ]]; then
       npm run dev
       if [ ! -z "$version" ]; then
         log "Upgrading vue to$version_msg"
-        # TODO:  validate semver and valid version for the package so users cant pass in junk
         yarn upgrade vue@$version
       fi
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed."
@@ -152,10 +150,10 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   version=$(eval $parse bootstrap version)
   auth=$(eval $parse bootstrap auth)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
-  [ "$auth" != 1 ] && auth_msg='' || auth_msg=' with --auth'
+  [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Bootstrap install directive found in starter.ini"
   log "Installing Bootstrap$auth_msg"
-  if [ "$auth" == 1 ]; then
+  if [ $auth == 1 ]; then
     php artisan ui bootstrap --auth
   else
     php artisan ui bootstrap
@@ -168,7 +166,6 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
     npm run dev
     if [ ! -z "$version" ]; then
       log "Upgrading bootstrap to$version_msg"
-      # TODO:  validate semver and valid version for the package so users cant pass in junk
       yarn upgrade bootstrap@$version
     fi
   else

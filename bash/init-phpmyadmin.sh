@@ -106,10 +106,10 @@ mysql -e "FLUSH PRIVILEGES;"
 error_codes+=($?)
 error_codes=$(echo ${error_codes[*]} | tr -d '[:space:]')
 if [[ $error_codes =~ $all_zeros_reg ]]; then
-  stop_spinner $err_code
+  stop_spinner 0
   log_silent "SUCCESS: $msg"
 else
-  stop_spinner 0
+  stop_spinner 1
   log "ERROR: $msg" -e
 fi
 # Install node modules

@@ -31,7 +31,7 @@ phpmyadmin() {
   for key in ${keys[@]}; do
     local value="$(bash bash/helpers.sh get_starter_env_val $key)"
     values+=("$(bash bash/helpers.sh get_starter_env_val $key)")
-    local code="$?"
+    local code=$?
     exit_codes+=$code
     # show error message of called function
     [ $code != 0 ] && echo "$value"

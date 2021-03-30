@@ -17,7 +17,7 @@
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "helpers.sh version 0.0.7"
+  echo "helpers.sh version 0.0.8"
 }
 
 # start_server
@@ -97,7 +97,7 @@ add_global_rake_task() {
 
   [[ -z $1 || -z $2 ]] && echo "$err requires exactly two arguments." && echo $usage && return
 
-  mkdir -p $root
+  mkdir -p "$root"
   touch -c "$root/$2"
   echo -e "$1" > "$root/$file"
 }
