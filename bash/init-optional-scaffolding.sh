@@ -87,11 +87,11 @@ if [ "$install_react" == 1 ]; then
         if [ -z "$rrd_ver" ]; then
           sub_msg="Installing react-router-dom to the latest version"
           log $sub_msg
-          yarn add react-router-dom
+          yarn add react-router-dom --silent
         else
           sub_msg="Installing react-router-dom to semantic version $rrd_ver"
           log $sub_msg
-          yarn add react-router-dom@$rrd_ver
+          yarn add react-router-dom@$rrd_ver --silent
         fi
         if [ $? == 0 ]; then
           log "SUCCESS: $sub_msg"
