@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Author: Tasos Latsas
-# From repo: https://github.com/tlatsas/bash-spinner
+# Modified by: Apolo Pena
+# Original repository: https://github.com/tlatsas/bash-spinner
 
 # spinner.sh
-#
+# Description:
 # Display an awesome 'spinner' while running your long shell commands
 #
+# Notes:
 # Do *NOT* call _spinner function directly.
 # Use {start,stop}_spinner wrapper functions
 
@@ -17,8 +19,6 @@
 #   3. run your command
 #   4. stop the spinner:
 #       stop_spinner [your command's exit status]
-#
-# Also see: test.sh
 
 
 function _spinner() {
