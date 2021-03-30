@@ -1,16 +1,19 @@
 #!/bin/bash
-
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
 # utils.sh
-# Author: Apolo Pena
-# Description: A variety of useful functions with no dependecies.
-# Note: Do not execute this script witout calling a function from it
+# Description:
+# A variety of useful functions with no dependecies.
+#
+# Notes:
+# Do not execute this script without calling a function from it.
 #
 # Usage: bash <function name> arg1 arg2 arg3 ...
-#
-
 
 version () {
-  echo "utils.sh version 0.0.8"
+  echo "utils.sh version 0.0.9"
 }
 
 # Use absolute paths or paths relative to this script

@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
 # workspace-init-logger.sh
 # Description:
 # Log wrapper for logging to workspace-init.log

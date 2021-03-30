@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# init-react-example.sh
+# Description:
+# Initial setup for the gitpod-laravel8-starter react example.
 
 # Load logger
 . workspace-init-log.sh

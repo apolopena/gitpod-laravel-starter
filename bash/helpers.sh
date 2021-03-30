@@ -1,19 +1,23 @@
 #!/bin/bash
-
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
 # helpers.sh
-# Author: Apolo Pena
-# Description: A variety of useful functions with that depend on gitpod
-# and other binaries, aliases and functions such as code in .bashrc
-# other than coreutils.
-# Note: Do not execute this script witout calling a function from it
+# Description:
+# A variety of useful functions that depend on Gitpod and other
+# binaries, aliases and functions such as code in .bashrc
+#
+# Notes:
+# Do not execute this script without calling a function from it
 # Additional Note: some functions use functions from .bashrc so the -i flag
 # is the safest way to invoke functions from this script.
+# Do not execute this script without calling a function from it.
 #
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
-#
 
 version () {
-  echo "helpers.sh version 0.0.6"
+  echo "helpers.sh version 0.0.7"
 }
 
 # start_server

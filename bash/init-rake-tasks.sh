@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: MIT
+# Copyright © 2021 Apolo Pena
+#
+# init-rake-tasks.sh
+# Description:
+# Creates rake tasks dynamically.
 
 parse="bash bash/utils.sh parse_ini_value starter.ini"
 
