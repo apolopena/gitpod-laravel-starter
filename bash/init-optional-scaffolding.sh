@@ -31,7 +31,7 @@ if [ ! -z $EXAMPLE ]; then
   case $EXAMPLE in
     1)
       example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      example_script="bash/init-react-example.sh"
+      init_example="bash/init-react-example.sh"
       install_react=1
       installed_phpmyadmin=1
       install_react_router_dom=1
@@ -39,7 +39,7 @@ if [ ! -z $EXAMPLE ]; then
       ;;
     2)
       example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
-      example_script="bash/init-react-example.sh"
+      init_example="bash/init-react-example.sh"
       install_react=1
       installed_phpmyadmin=0
       install_react_router_dom=1
@@ -49,7 +49,7 @@ if [ ! -z $EXAMPLE ]; then
       # Default example
       # Keep this block identical to case 1)
       example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      example_script="bash/init-react-example.sh"
+      init_example="bash/init-react-example.sh"
       install_react=1
       installed_phpmyadmin=1
       install_react_router_dom=1
@@ -211,4 +211,4 @@ fi
 # END: optional frontend scaffolding installations
 
 # Initialize optional example project
-[ ! -z $example_script ] . $example_script
+[ ! -z $init_example ] . $init_example
