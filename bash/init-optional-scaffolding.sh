@@ -67,7 +67,7 @@ fi
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-if [[ $has_frontend_scaffolding_install == 1 && -z $EXAMPLE ]]; then
+if [ $has_frontend_scaffolding_install == 1 ]; then
   log "Optional installations that require laravel/ui scaffolding were found"
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
@@ -94,7 +94,7 @@ if [ $install_react == 1 ]; then
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "React/React DOM install directive found in starter.ini"
-  if [ $__installed == 1 ]; then
+  if [[ $__installed == 1  || -z $EXAMPLE ]]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
     log "Installing React and React DOM$auth_msg"
