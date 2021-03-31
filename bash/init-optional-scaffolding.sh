@@ -94,7 +94,7 @@ if [ $install_react == 1 ]; then
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "React/React DOM install directive found in starter.ini"
-  if [[ $__installed == 1  || -z $EXAMPLE ]]; then
+  if [ $__installed == 1 ]; then
     log "However it appears that React/React DOM has already been installed, skipping this installation."
   else
     log "Installing React and React DOM$auth_msg"
