@@ -19,7 +19,7 @@ tasks:
       bash bash/init-project.sh
       bash bash/init-complete.sh
     name: Main Terminal
-  - openMode: split-left
+  - openMode: split-right
     command: |
       if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
         gp sync-done gitpod-inited
