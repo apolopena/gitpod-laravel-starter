@@ -13,7 +13,7 @@
 
 # BEGIN example code block - migrate database
 # COMMENT: Load spinner
-# . bash/third-party/spinner.sh
+# . bash/spinner.sh
 # __migrate_msg="Migrating database"
 # log_silent "$__migrate_msg" && start_spinner "$__migrate_msg"
 # php artisan migrate

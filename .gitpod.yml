@@ -24,7 +24,7 @@ tasks:
       if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
         gp sync-done gitpod-inited
       fi;
-      . bash/third-party/spinner.sh
+      . bash/spinner.sh
       UP=$(pgrep mysql | wc -l); \
       if [ "$UP" -ne 1 ]; then \
         start_spinner "Initializing MySql..." &&
@@ -40,7 +40,7 @@ tasks:
     name: Web Server
   - openMode: split-top
     command: |
-      . bash/third-party/spinner.sh &&
+      . bash/spinner.sh &&
       start_spinner "Opening preview when system is ready..."
       gp sync-await gitpod-inited &&
       stop_spinner 0 &&

@@ -15,7 +15,7 @@
 # example.starter.ini
 
 # Load spinner
-. bash/third-party/spinner.sh
+. bash/spinner.sh
 
 phpmyadmin() {
   # Keep keys in sequence. Add new keys to the end of the array

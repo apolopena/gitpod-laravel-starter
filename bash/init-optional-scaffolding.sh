@@ -14,7 +14,7 @@
 all_zeros_reg='^0$|^0*0$'
 
 # Load spinner
-. bash/third-party/spinner.sh
+. bash/spinner.sh
 
 parse="bash bash/utils.sh parse_ini_value starter.ini"
 

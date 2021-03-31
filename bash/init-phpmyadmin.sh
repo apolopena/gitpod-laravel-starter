@@ -29,7 +29,7 @@ if [[ ! -d "public/phpmyadmin" ]]; then
 fi
 
 # Load spinner
-. bash/third-party/spinner.sh
+. bash/spinner.sh
 
 if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   msg="Creating file public/phpmyadmin/config.inc.php"

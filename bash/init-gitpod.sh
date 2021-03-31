@@ -11,7 +11,7 @@
 . bash/workspace-init-logger.sh
 
 # Load spinner
-. bash/third-party/spinner.sh
+. bash/spinner.sh
 
 # Let the user know there will be a wait, then begin once MySql is initialized.
 start_spinner "Initializing MySql..." &&
