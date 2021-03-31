@@ -55,6 +55,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log_silent "SUCCESS: $msg"
   fi
 
+  # Move LICENSE to the bash folder
+  [[ -f "LICENSE" && -d "bash" ]] && mv -f LICENSE bash/LICENSE
+  
   # Cleanup any cached phpmyadmin installation from the workspace image if needed
   if [ $(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
     [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
