@@ -38,7 +38,7 @@ tasks:
       stop_spinner $? &&
       bash -i bash/helpers.sh start_server
     name: Web Server
-  - openMode: split-top
+  - openMode: split-right
     command: |
       . bash/spinner.sh &&
       start_spinner "Opening preview when system is ready..."
