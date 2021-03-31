@@ -67,7 +67,7 @@ fi
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
-if [ $has_frontend_scaffolding_install == 1 ]; then
+if [[ $has_frontend_scaffolding_install == 1 || ! -z $EXAMPLE ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
