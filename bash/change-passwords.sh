@@ -18,6 +18,7 @@
 . bash/spinner.sh
 
 phpmyadmin() {
+  [ ! -d public/apamyadmin ] && echo "No installation of phpmyadmin was found. Process aborted. " && exit 1
   # Keep keys in sequence. Add new keys to the end of the array
   local keys=(PHPMYADMIN_SUPERUSER_PW PHPMYADMIN_CONTROLUSER_PW)
 
@@ -28,23 +29,24 @@ phpmyadmin() {
   local exit_codes
   local values
 
-  for key in ${keys[@]}; do
-    local value="$(bash bash/helpers.sh get_starter_env_val $key)"
-    values+=("$(bash bash/helpers.sh get_starter_env_val $key)")
+  for key in "${keys[@]}"; do
+    local value
+    value="$(bash bash/helpers.sh get_starter_env_val "$key")"
+    values+=("$(bash bash/helpers.sh get_starter_env_val "$key")")
     local code=$?
     exit_codes+=$code
     # show error message of called function
     [ $code != 0 ] && echo "$value"
   done
 
-  if [[ ! $(echo ${exit_codes[@]} | tr -d '[:space:]') =~ $all_zeros ]]; then
+  if [[ ! $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ $all_zeros ]]; then
     echo "$err retrieving values, no passwords were changed."
     exit 1
   fi
 
   # Values have been set and there are no errors so far so change passwords
   i=0
-  for key in ${keys[@]}; do
+  for key in "${keys[@]}"; do
     case $key in
       "${keys[0]}")
         msg="Changing password for phpmyadmin user 'pmasu' to the value found in .starter.env"
@@ -65,9 +67,9 @@ phpmyadmin() {
           start_spinner "$msg"
           # Match the line where the password for the controluser is set
           line_num=$(awk '/^\$cfg.*'controlpass'.*=.*;$/ {print FNR}' $config_file)
-          if [ -z $line_num ]; then
+          if [ -z "$line_num" ]; then
             stop_spinner 1
-            echo "ERROR: No line found beginning with: $line \n\tin the file: $config_file"
+            echo -e "ERROR: No line found beginning with: $line \n\tin the file: $config_file"
             echo "You will need to manually update the control user password in $config_file"
           else
             sed -i "$line_num c\\$_edit" $config_file
@@ -104,5 +106,3 @@ else
   echo "utils.sh: '$1' is not a known function name." >&2
   exit 1
 fi
-
-#echo -e "$(change_phpmyadmin_passwords)"
