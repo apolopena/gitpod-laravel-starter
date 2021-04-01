@@ -133,6 +133,7 @@ if [ $install_react == 1 ]; then
       [ $install_vue == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
       log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
+    fi
   fi
 fi
 # END: Optional react, react-dom and react-router-dom installs
