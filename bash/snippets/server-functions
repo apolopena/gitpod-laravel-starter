@@ -1,3 +1,8 @@
+# shellcheck shell=bash
+
+# override linter for parsing pid: pgrep is too simple for this case
+# shellcheck disable=SC2009
+
 mtail_apache() {
   multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;
 }
@@ -7,12 +12,23 @@ tail_apache() {
   grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/apache2/access.log /var/log/apache2/error.log
 }
 
+mtail_nginx() {
+  multitail /var/log/nginx/access.log -I /var/log/nginx/error.log;
+}
+
+tail_nginx() {
+  # See bash/before-tasks.sh for setup of ~/apache-log-colors.conf
+  grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+}
+
 start_apache() {
   apachectl start
-  (( $? == 0 )) || return
-  local log_monitor_type="$(bash \
-  $GITPOD_REPO_ROOT/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
-  case "$log_monitor_type" in
+  local exit_code=$?
+  (( exit_code == 0 )) || return
+  local log_monitor_type=
+  log_monitor_type="$(bash \
+  "$GITPOD_REPO_ROOT"/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
+  case $log_monitor_type in
     'tail')
     tail_apache
     ;;
@@ -27,24 +43,28 @@ start_apache() {
 
 stop_apache() {
   apachectl stop
-  (( $? == 0 )) || return
+  local exit_code=$?
+  (( exit_code == 0 )) || return
   local pid
-  local log_monitor_type="$(bash \
-  $GITPOD_REPO_ROOT/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
-  case "$log_monitor_type" in
+  local log_monitor_type
+  log_monitor_type="$(bash \
+  "$GITPOD_REPO_ROOT"/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
+  case $log_monitor_type in
     'tail')
     # The grep string here must match the tail portion of the command given in the function start_apache
-    pid=$(ps axf | grep 'tail -f /var/log/apache2/access.log /var/log/apache2/error.log' | grep -v grep | awk '{print $1}' | sed 1q)
+    pid=$(ps axf  | grep 'tail -f /var/log/apache2/access.log /var/log/apache2/error.log' \
+    | grep -v grep | awk '{print $1}' | sed 1q)
     ;;
     'multitail')
     # The grep string here must match the command given in the function start_apache
-    pid=$(ps axf | grep 'multitail /var/log/apache2/access.log -I /var/log/apache2/error.log' | grep -v grep | awk '{print $1}' | sed 1q)
+    pid=$(ps axf | grep 'multitail /var/log/apache2/access.log -I /var/log/apache2/error.log' \
+    | grep -v grep | awk '{print $1}' | sed 1q)
     ;;
     *)
-    echo "ERROR start_apache: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
+    echo "ERROR stop_apache: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
     ;;
   esac
-  kill -2 $pid
+  [[ -n $pid ]] && kill -2 "$pid"
 }
 
 start_php_dev() {
@@ -55,6 +75,6 @@ stop_php_dev() {
   local pid
   # The grep string here must match the command given in the function start_php_dev
   pid=$(ps axf | grep 'php -S 127.0.0.1:8000 -t public/' | grep -v grep | awk '{print $1}' | sed 1q)
-  kill -2 $pid
+  [[ -n $pid ]] && kill -2 "$pid"
 }
 
