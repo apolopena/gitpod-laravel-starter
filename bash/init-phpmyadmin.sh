@@ -20,7 +20,7 @@ if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
   cd public && composer create-project phpmyadmin/phpmyadmin
   if [ $? != 0 ]; then
-    log "ERROR: $msg" -e
+    log -e "ERROR: $msg"
     exit 1
   else
     cd ..
@@ -38,7 +38,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed $msg" -e
+    log -e "ERROR: Failed $msg"
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
@@ -51,7 +51,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed $msg" -e
+    log -e "ERROR: Failed $msg"
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
@@ -63,7 +63,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: Failed $msg" -e
+    log -e "ERROR: Failed $msg"
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
@@ -75,7 +75,7 @@ log_silent "$msg" && start_spinner "$msg"
 mysql < public/phpmyadmin/sql/create_tables.sql
 if [ $err_code != 0 ]; then
   stop_spinner $err_code
-  log "ERROR: $msg" -e
+  log -e "ERROR: $msg"
 else
   stop_spinner $err_code
   log_silent "SUCCESS: $msg"
@@ -89,7 +89,7 @@ mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'pmasu'@'%';"
 err_code=$?
 if [ $err_code != 0 ]; then
   stop_spinner $err_code
-  log "ERROR: failed to create phpmyadmin superuser: pmasu" -e
+  log -e "ERROR: failed to create phpmyadmin superuser: pmasu"
 else
   log_silent "SUCCESS: $msg"
   stop_spinner $err_code
@@ -110,7 +110,7 @@ if [[ $error_codes =~ $all_zeros_reg ]]; then
   log_silent "SUCCESS: $msg"
 else
   stop_spinner 1
-  log "ERROR: $msg" -e
+  log -e "ERROR: $msg"
 fi
 # Install node modules
 if [ ! -d 'public/phpmyadmin/node_modules' ]; then
@@ -127,7 +127,7 @@ if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log_silent "Make sure you change the default passwords for the phpmyadmin accounts."
     log_silent "For help with updating phpmyadmin passwords, run the alias help_update_pma_pws"
   else
-    log "ERROR: $msg. Try installing them manually." -e
+    log -e "ERROR: $msg. Try installing them manually."
   fi
 fi
 # END: phpmyadmin setup if installed

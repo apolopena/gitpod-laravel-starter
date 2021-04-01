@@ -80,7 +80,7 @@ if [[ $has_frontend_scaffolding_install == 1 || ! -z $EXAMPLE ]]; then
     if [ $err_code == 0 ]; then
       log "SUCCESS: laravel/ui scaffolding installed"
     else
-      log "ERROR $err_code: There was a problem installing laravel/ui via Composer" -e
+      log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
     fi
   fi
 fi
@@ -119,7 +119,7 @@ if [ $install_react == 1 ]; then
         if [ $? == 0 ]; then
           log "SUCCESS: $sub_msg"
         else
-          log "ERROR: $sub_msg"
+          log -e "ERROR: $sub_msg"
         fi
       fi
       log "  --> Installing node modules and running Laravel Mix"
@@ -132,8 +132,7 @@ if [ $install_react == 1 ]; then
       [ $install_bootstrap == 1 ] && log "Bootstrap install directive found but ignored. Already installed"
       [ $install_vue == 1 ] && log "Vue install directive found but ignored. The install of react superceded this"
     else
-      log "ERROR $err_code: There was a problem installing React/React DOM$auth_msg" -e
-    fi
+      log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
   fi
 fi
 # END: Optional react, react-dom and react-router-dom installs
@@ -167,7 +166,7 @@ if [[ $install_vue == 1 && $install_react == 0 ]]; then
       fi
       [ "$install_bootstrap" == 1 ] && log "Bootstrap install directive found but ignored. Already installed."
     else
-      log "ERROR $err_code: There was a problem installing vue$auth_msg" -e
+      log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
     fi
   fi
 fi
@@ -197,7 +196,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
       yarn upgrade bootstrap@$version
     fi
   else
-    >&2 log "ERROR $err_code: There was a problem installing Bootstrap$auth_msg"
+    log -e "ERROR $err_code: There was a problem installing Bootstrap$auth_msg"
   fi
 else
   version=$(eval $parse bootstrap version)

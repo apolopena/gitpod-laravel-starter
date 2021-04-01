@@ -20,7 +20,7 @@
 # err_code=$?
 # if [ $err_code != 0 ]; then
 #  stop_spinner $err_code
-#  log "ERROR: Failed to migrate database" -e
+#  log -e "ERROR: Failed to migrate database"
 # else
 #  stop_spinner $err_code
 #  log "SUCCESS: migrated database"

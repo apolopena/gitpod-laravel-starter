@@ -22,7 +22,7 @@ if [[ $(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generato
   if bash bash/init-rake-tasks.sh; then 
     log_silent "SUCCESS: $msg"
   else
-    log "ERROR: $msg" -e
+    log -e "ERROR: $msg"
   fi
 fi
 
@@ -40,7 +40,7 @@ log_silent "$msg" &&
 if cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf; then
   log_silent "SUCCESS: $msg"
 else
-  log "ERROR: $msg" -e
+  log -e "ERROR: $msg"
 fi
 
 # Restore files marked as persistant such as workspace-init.log

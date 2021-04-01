@@ -31,7 +31,7 @@ exit_codes+=($?)
 if [[ $(echo ${exit_codes[@]} | tr -d '[:space:]') =~ $all_zeros ]]; then
   log "SUCCESS: $task_msg"
 else
-  log "ERROR: $task_msg"
+  log -e "ERROR: $task_msg"
 fi
 
 

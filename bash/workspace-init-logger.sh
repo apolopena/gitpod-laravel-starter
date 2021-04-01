@@ -10,14 +10,14 @@
 # Usage:
 # . workspace-init-logger.sh
 # log "SUCCESS: Logging to workspace-init.log"
-# log "ERROR: something went wrong" - e
+# log -e "ERROR: something went wrong"
 
 # Log to the console and a file
 log () {
   if [ -z "$2" ]; then
     bash bash/utils.sh log "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log "$1" /var/log/workspace-init.log -e
+    bash bash/utils.sh log -e "$1" /var/log/workspace-init.log
   fi
 }
 
@@ -26,6 +26,6 @@ log_silent () {
   if [ -z "$2" ]; then
     bash bash/utils.sh log_silent "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log_silent "$1" /var/log/workspace-init.log -e
+    bash bash/utils.sh log_silent -e "$1" /var/log/workspace-init.log
   fi
 }

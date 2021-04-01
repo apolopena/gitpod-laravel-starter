@@ -29,7 +29,7 @@ if [ $update_npm == 1 ]; then
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR $?: $msg" -e
+    log -e "ERROR $?: $msg"
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
@@ -49,7 +49,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
-    log "ERROR: $msg" -e
+    log -e "ERROR: $msg"
   else
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
@@ -75,7 +75,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner 1
-      log "ERROR: Could not inject Larvel .env file with the url $url" -e
+      log -e "ERROR: Could not inject Larvel .env file with the url $url"
     else
       stop_spinner $err_code
       log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
@@ -113,7 +113,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     err_code=$?
     if [ $err_code != 0 ]; then
       stop_spinner $err_code
-      log "ERROR: $msg" -e
+      log -e "ERROR: $msg"
     else
       stop_spinner $err_code
       log_silent "SUCCESS: $msg"
@@ -143,7 +143,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     yarn install
     err_code=$?
     if [ $err_code != 0 ]; then
-      log "ERROR $?: $msg" -e
+      log -e "ERROR $?: $msg"
     else
       log "SUCCESS: $msg"
     fi
