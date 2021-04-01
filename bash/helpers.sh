@@ -182,16 +182,17 @@ get_default_server_port() {
 
 # Begin: persistance hacks
 get_store_root() {
-  echo "/workspace/$(basename $GITPOD_REPO_ROOT)--store"
+  echo "/workspace/$(basename "$GITPOD_REPO_ROOT")--store"
 }
 
 persist_file() {
   local err="helpers.sh: persist: error:"
-  local store=$(get_store_root)
-  local dest="$store/$(dirname ${1#/})"
-  local file="$dest/$(basename "$1")"
-  mkdir -p $store && mkdir -p $dest
-  [ -f $1 ] && cp $1 $file || echo "$err $1 does not exist"
+  local store dest file
+  store=$(get_store_root)
+  dest="$store/$(dirname "${1#/}")"
+  file="$dest/$(basename "$1")"
+  mkdir -p "$store" && mkdir -p "$dest"
+  [[ -f $1 ]] && cp "$1" "$file" || echo "$err $1 does not exist"
 }
 
 # For some reason $GITPOD_REPO_ROOT is not avaialable when this is called (from before task)
@@ -200,9 +201,10 @@ restore_persistent_files() {
   local err="helpers.sh: restore_persistent_files: error:"
   # TODO make this dynamic
   local init_log_orig=/var/log/workspace-init.log
-  local store="/workspace/$(basename $1)--store"
+  local store
+  store="/workspace/$(basename "$1")--store"
   local init_log="$store$init_log_orig"
-  [ -e $init_log ] && cp $init_log $init_log_orig || echo "$err $init_log NOT FOUND"
+  [[ -e $init_log ]] && cp "$init_log" $init_log_orig || echo "$err $init_log NOT FOUND"
 }
 
 inited_file () {
@@ -210,21 +212,22 @@ inited_file () {
 }
 
 mark_as_inited() {
-  local file=$(inited_file)
-  local store=$(get_store_root)
-  mkdir -p $(get_store_root)
-  [ ! -e $file ] && touch $file
+  local file store
+  file=$(inited_file)
+  store=$(get_store_root)
+  mkdir -p "$(get_store_root)"
+  [[ ! -e $file ]] && touch "$file"
 }
 
 is_inited() {
-  [ -e $(inited_file) ] && echo 1 || echo 0
+  [[ -e $(inited_file) ]] && echo 1 || echo 0
 }
 # End: persistance hacks
 
 # Begin: installation information API
 # parses starter.ini for installation for the install key of a section ($1)
 get_install() {
-  echo "$(bash bash/utils.sh parse_ini_value starter.ini $1 install)"
+  bash bash/utils.sh parse_ini_value starter.ini "$1" install
 }
 
 # parses starter.ini and echos a string showing installtaion information for any installs key in the list.
@@ -237,9 +240,9 @@ get_installs() {
   # So not change the order of installs in this string, just add more to the end if needed
   local installs='phpmyadmin react vue bootstrap'
   for i in $installs; do
-    data+=$i:$(get_install $i)
+    data+=$i:$(get_install "$i")
   done
-  echo $data
+  echo "$data"
 }
 
 # parses starter.ini for installation information
@@ -247,7 +250,8 @@ get_installs() {
 # has a value of 1.
 # Echos 0 if no keys in the list have a value of 1
 has_installs() {
-  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local result
+  result=$(get_installs | grep -oP '\d' | tr -d '[:space:]')
   local pattern='.*[1-9].*'
   if [[ $result =~ $pattern ]]; then
     echo 1
@@ -257,70 +261,17 @@ has_installs() {
 }
 
 # parses starter.ini for installation information
-# Echos 1 if the install key for phpmyadmin is set to 1 and no frontend scaffolding keys are set to 1
-# There are three possible frontend scaffolding keys: react, vue and bootstrap
-# Echos 0 if the install key for phpmyadmin is not set to 1 or if it is set to 0 but any frontend
-# scaffolding key is set to 1
-has_only_phpmyadmin_install() {
-  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
-  local all_zeros='^0$|^0*0$'
-  # if the string starts with a 1 phpmyadmin is installed
-  if [[ $result =~ ^1 ]]; then
-    # trim the first character from the string
-    local installs="${result:1}"
-    # if the trimmed string is all zeros
-    if [[ $installs =~ $all_zeros ]]; then
-      # only phpmyadmin is installed
-      echo 1
-    else
-      # phpmyadmin is not the only install
-      echo 0
-    fi
-  else
-    # phpmyadmin is not the only install
-    echo 0
-  fi
-}
-
-# parses starter.ini for installation information
-# Echos 1 if the install key for phpmyadmin is set to 0 and any frontend scaffolding key is set to 1
-# There are three possible frontend scaffolding keys: react, vue and bootstrap
-# Echos 0 if the install key for phpmyadmin is set to 1 and any frontend scaffolding key is set to 1
-has_only_frontend_scaffolding_install() {
-  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
-  local all_zeros='^0$|^0*0$'
-  # if the string starts with a 0 phpmyadmin is not installed
-  if [[ $result =~ ^0 ]]; then
-    # trim the first character from the string
-    local installs="${result:1}"
-     # Trim the next three characters in the string (there are only three possible front end scaffolding)
-     # and gnore any other installs besides front end scaffolding and phpmyadmin (the rest of the string)
-    local scaff_installs=$(echo ${installs:0:3})
-    # if the trimmed string is all zeros
-    if [[ $scaff_installs =~ $all_zeros ]]; then
-      # no frontend scaffolding is installed
-      echo 0
-    else
-      # only frontend scaffolding is installed
-      echo 1
-    fi
-  else
-    # More than frontend scaffolding is installed
-    echo 0
-  fi
-}
-
-# parses starter.ini for installation information
 # Echos 1 if the install key either react, vue or bootrap is set to 1
 # There are three possible frontend scaffolding keys: react, vue and bootstrap
 # Echos 0 if neither react, vue or bootrap has an install key value of 1
 has_frontend_scaffolding_install() {
-  local result=$(echo $(get_installs) | grep -oP '\d' | tr -d '[:space:]')
+  local result scaff_installs
+  result=$(get_installs | grep -oP '\d' | tr -d '[:space:]')
   local all_zeros='^0$|^0*0$'
   # Trim the first character from the string (this is the phpmyadmin value)
   local installs="${result:1}"
   # Trim the next three characters in the string (there are only three possible front end scaffolding)
-  local scaff_installs=$(echo ${installs:0:3})
+  scaff_installs="${installs:0:3}"
   if [[ $scaff_installs =~ $all_zeros ]]; then
     echo 0
   else
