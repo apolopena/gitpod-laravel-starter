@@ -2,6 +2,8 @@ FROM gitpod/workspace-mysql
 
 USER gitpod
 
+RUN brew install shellcheck
+
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log
 

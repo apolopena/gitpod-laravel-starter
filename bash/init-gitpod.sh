@@ -37,17 +37,6 @@ if [ $update_npm == 1 ]; then
 fi
 # END: Update npm if needed
 
-# BEGIN: install shellcheck
-if [[ $(bash bash/utils.sh parse_ini_value starter.ini shellcheck install) == 1 ]]; then
-  msg="Installing shellcheck"
-  if npm install -g shellcheck --silent; then
-    log_silent "SUCCESS: $msg $(shellcheck -V | grep version:)"
-  else
-    log "ERROR: $msg"
-  fi
-fi
-# END: install shellcheck
-
 # BEGIN: Bootstrap Laravel scaffolding
 
 # Move Laravel project files if they are not already in version control

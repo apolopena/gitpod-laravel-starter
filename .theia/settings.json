@@ -1,6 +1,5 @@
 {
   "shellcheck.exclude": ["1091"],
-  "shellcheck.executablePath": "/home/gitpod/.nvm/versions/node/v14.16.0/bin/shellcheck",
   "files.associations": {
       /* BEGIN: hack to make files with no extension use bash syntax highlighting */
       "[!.]": "shellscript",
