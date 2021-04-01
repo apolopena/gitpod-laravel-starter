@@ -17,7 +17,7 @@
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "helpers.sh version 0.0.8"
+  echo "helpers.sh version 1.0.8"
 }
 
 # start_server
@@ -33,38 +33,30 @@ version () {
 # start_server
 start_server() {
   local usage='Usage: start_server [server-type]'
-  local err='Error: start_server():'
-  local server
-  local s
+  local err_prefix='Error: start_server():'
+  local server s err_msg
   s=$(bash bash/utils.sh parse_ini_value starter.ini development default_server)
-  # Bump the value of the default_server in starter.ini to lowercase
-  server=$(echo "$s" | tr '[:upper:]' '[:lower:]')
-  if [ -z "$1" ]; then
-  case "$server" in
-    'php')
-    start_php_dev
-    ;;
-    'apache')
-    start_apache
-    ;;
-    *)
-    echo "$err invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
-    ;;
-  esac
+  if [[ -z "$1" ]]; then
+    server=$(echo "$s" | tr '[:upper:]' '[:lower:]')
+    err_msg="$err_prefix invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
   else
-  echo $(echo "$1" | tr '[:upper:]' '[:lower:]')
-  case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
+    server=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    err_msg="$err_prefix invalid server type: $1"
+  fi 
+  case $server in
     'php')
     start_php_dev
     ;;
     'apache')
     start_apache
     ;;
+    'nginx')
+    start_nginx
+    ;;
     *)
-    echo "$err invalid server type: $1"
+    echo "$err_msg"
     ;;
   esac
-  fi
 }
 
 # add_global_rake_task
@@ -95,7 +87,7 @@ add_global_rake_task() {
   local err="Helpers.sh: Error: add_global_rake_task:"
   local usage="Usage: add_global_rake_task task file.rake"
 
-  [[ -z $1 || -z $2 ]] && echo "$err requires exactly two arguments." && echo $usage && return
+  [[ -z $1 || -z $2 ]] && echo "$err requires exactly two arguments." && echo "$usage" && return
 
   mkdir -p "$root"
   touch -c "$root/$2"
@@ -140,10 +132,10 @@ get_starter_env_val() {
   local err='get_starter_env_val ERROR:'
   local file='.starter.env'
   local value
-  value="$(bash bash/utils.sh get_env_value $1 $file)"
+  value="$(bash bash/utils.sh get_env_value "$1" $file)"
   case "$?" in
     '0')
-      echo $value
+      echo "$value"
       ;;
 
     '3')
@@ -169,14 +161,18 @@ get_starter_env_val() {
 }
 
 get_default_server_port() {
-  local server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
-  server=$(echo $server | tr '[:upper:]' '[:lower:]')
-  case "$server" in
+  local server
+  server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
+  server=$(echo "$server" | tr '[:upper:]' '[:lower:]')
+  case $server in
     'php')
       echo 8000
       ;;
     'apache')
       echo 8001
+      ;;
+    'nginx')
+      echo 8002
       ;;
     *)
       # Ignore invalid server types
