@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # This file is sourced into ~/.bashrc
 # Add any alias you would like here
 
