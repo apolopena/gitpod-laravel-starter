@@ -5,7 +5,7 @@
 #
 # utils.sh
 # Description:
-# A variety of useful functions with no dependecies.
+# A variety of useful bash functions with no dependecies.
 #
 # Notes:
 # Do not execute this script without calling a function from it.
@@ -13,10 +13,8 @@
 # Usage: bash <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "utils.sh version 0.0.9"
+  echo "utils.sh version 1.0.9"
 }
-
-# Use absolute paths or paths relative to this script
 
 # check_files_exist
 # Description:
@@ -30,9 +28,6 @@ version () {
 # Error code 1 if any file doesn't exist. Function exits on the first file that doesn't exist.
 # When a file does not exist a message is echoed to the console.
 #
-# Notes:
-# The marker is a regexp expression so it must have any regexp characters in it double escaped.
-#
 # Usage:
 # Example: check if any of these two files dont exist (assume they do exist)
 # check_files_exist .bashrc .bash_profile
@@ -45,10 +40,9 @@ version () {
 # if [ $? -eq 0 ]; then echo "all files exist"; fi
 check_files_exist () {
   for arg
-  do if [ ! -f "$arg" ]; then echo ERROR: the file $arg does not exist; exit 1; fi
+  do if [[ ! -f $arg ]]; then echo ERROR: the file "$arg" does not exist; exit 1; fi
   done
 }
-
 
 # add_file_to_file_before
 # Description:
@@ -59,12 +53,11 @@ check_files_exist () {
 #
 # Usage:
 # Example: add the contents of git-alises.txt to .gitconfig before the marker [aliases]
-# add_file_to_file_before \\[alias\\] git-aliases.txt .gitconfig
+# add_file_to_file_before "\\[alias\\]" git-aliases.txt .gitconfig
 #
 add_file_to_file_before() {
-  check_files_exist $2 $3 && if [ $? -ne 0 ]; then exit 1; fi
-  awk "/$1/{while(getline line<\"$2\"){print line}} //" $3 >__tmp &&
-  mv __tmp $3
+  check_files_exist "$2" "$3" && local c=$?; if [[ $c -ne 0 ]]; then exit 1; fi
+  awk "/$1/{while(getline line<\"$2\"){print line}} //" "$3" >__tmp && mv __tmp "$3"
 }
 
 # add_file_to_file_after
@@ -79,9 +72,8 @@ add_file_to_file_before() {
 # add_file_to_file_before \\[alias\\] git-aliases.txt .gitconfig
 #
 add_file_to_file_after() {
-  check_files_exist $2 $3 && if [ $? -ne 0 ]; then exit 1; fi
-  awk "//; /$1/{while(getline<\"$2\"){print}}" $3 >__tmp
-  mv __tmp $3
+  check_files_exist "$2" "$3" && local c=$?; if [ $c -ne 0 ]; then exit 1; fi
+  awk "//; /$1/{while(getline<\"$2\"){print}}" "$3" >__tmp && mv __tmp "$3"
 }
 
 # parse_ini_value
@@ -106,13 +98,14 @@ add_file_to_file_after() {
 # // outputs: 1
 #
 parse_ini_value() {
-  echo $(sed -nr '/^#|^;/b;/\['"$2"'\]/,/\[.*\]/{/\<'"$3"'\>/s/(.*)=(.*)/\2/p}' "$1")
+  sed -nr '/^#|^;/b;/\['"$2"'\]/,/\[.*\]/{/\<'"$3"'\>/s/(.*)=(.*)/\2/p}' "$1"
 }
 
 # log
 # Description:
-# Log a message ($1) to the console and an output file ($2). Logs to stdout if no -e option ($3) is passed in.
-# Logs to stdout and stderr if the -e option is passed in.
+# Log a message ($1) to the console and an output file ($2).
+# Logs to stdout and stderr if the -e or --error option is passed in as ($1) then
+# the parameters shift and the message becomes ($2) and the output file becomes ($3)
 #
 # Notes:
 # The output file must already exist.
@@ -120,24 +113,25 @@ parse_ini_value() {
 # and the output file (e.g., they are not printed literally).
 #
 # Usage:
-# Example 1: log a standard message to the console and an output file
-# log "Hello World" /var/log/test.log
+# Example 1: log a standard message an output file
+# log_silent "Hello World" /var/log/test.log
 #
-# Example 2: log an error message to the console and an output file
-# log "Hello World" /var/log/test.log -e
+# Example 2: log an error message an output file
+# log_silent -e "Hello World" /var/log/test.log
 #
 log () {
-  if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    >&2 echo -e "$1" && printf -- "$1\n" >> "$2"
+  if [[ "$1" == '-e' || "$1" == '--error' ]]; then
+    >&2 echo -e "$2" && printf -- '%b\n' "$2" >> "$3"
   else
-    echo -e "$1" && printf -- "$1\n" >> "$2"
+    echo -e "$1" && printf -- '%b\n' "$1" >> "$2"
   fi
 }
 
 # log_silent
 # Description:
-# Log a message ($1) to the console. Logs to stdout if no -e option ($2) is passed in.
-# Logs to stdout and stderr if the -e option is passed in.
+# Log a message ($1) to an output file ($2).
+# If the -e or --error option is passed in as ($1) then the parameters shift 
+# and the message becomes ($2) and the output file becomes ($3)
 #
 # Notes:
 # Backslash escapes are interpreted in the output file (e.g., they are not printed literally).
@@ -150,10 +144,10 @@ log () {
 # log "Hello World" -e
 #
 log_silent () {
-  if [[ "$3" == '-e' || "$3" == '--error' ]]; then
-    1>&2 printf -- "$1\n" >> "$2"
+  if [[ "$1" == '-e' || "$1" == '--error' ]]; then
+    1>&2 printf -- '%b\n' "$2" >> "$3"
   else
-    printf -- "$1\n" >> "$2"
+    printf -- '%b\n' "$1" >> "$2"
   fi
 }
 
@@ -183,8 +177,11 @@ log_silent () {
 # node_package_is_installed react foo/bar/baz # echos 1
 
 node_package_exists () {
-  [ -z $2 ] && local path='node_modules' || local path="$2/node_modules"
-  ls "$path" 2>/dev/null | grep -w $1 >/dev/null 2>&1 && echo "1" || echo "0"
+  [[ -z $1 ]] && echo "0" && exit 1
+  local path
+  path="$(pwd)/${2}/node_modules"
+  [[ -z $2 ]] && path="$(pwd)/${2}node_modules"
+  [[ -d $path/$1 ]] && echo "1" || echo "0"
 }
 
 # generate_string
@@ -201,8 +198,9 @@ node_package_exists () {
 # generate_string
 #
 generate_string () {
-  [ "$1" -ge 0 ] 2>/dev/null && local count=$1 || local count=32
-  echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9$+,:;=?|<>.^*()%-' | fold -w $count | head -n 1)
+  local count=32
+  [ "$1" -ge 0 ] 2>/dev/null && count=$1
+  tr -dc 'a-zA-Z0-9$+,:;=?|<>.^*()%-' < /dev/urandom | fold -w "$count" | head -n 1
 }
 
 # get_env_value
@@ -245,13 +243,14 @@ generate_string () {
 # get_env_value FOO .bar
 # 
 get_env_value() {
-  [ -z "$2" ] && local file='.starter.env' || local file="$2"
+  local file="$2"
+  [[ -z $2 ]] && file='.starter.env'
   [ ! -f "$file" ] && exit 3
-  grep -q "$1=" $file
-  [ $? != 0 ] && exit 4
-  local val=$(grep "$1=" .starter.env | cut -d '=' -f2)
-  [ -z $val ] && exit 5
-  echo $val
+  grep -q "$1=" "$file"; local c=$? && [[ $c != 0 ]] && exit 4
+  local val
+  val=$(grep "$1=" .starter.env | cut -d '=' -f2)
+  [[ -z $val ]] && exit 5
+  echo "$val"
 }
 
 # split_ver
@@ -270,7 +269,7 @@ split_ver() {
   local last=${1##*.} # Delete up to last dot
   local mid=${1##$first.} # Delete first number and dot
   mid=${mid%%.$last} # Delete dot and last number
-  echo $first $mid $last
+  echo "$first $mid $last"
 }
 
 
@@ -290,14 +289,16 @@ split_ver() {
 # comp_ver_lt 0.0.1 0.0.0
 # # outputs: 0
 comp_ver_lt() {
-  local v1=($(split_ver $1))
-  local v2=($(split_ver $2))
-  [ ${v1[0]} -lt ${v2[0]} ] && echo 1 && exit
-  [ ${v1[0]} -eq ${v2[0]} ] && \
-  [ ${v1[1]} -lt ${v2[1]} ] && echo 1 && exit
-  [ ${v1[0]} -eq ${v2[0]} ] && \
-  [ ${v1[1]} -eq ${v2[1]} ] && \
-  [ ${v1[2]} -lt ${v2[2]} ] && echo 1 && exit
+  local v1=()
+  local v2=()
+  IFS=" " read -r -a v1 <<< "$(split_ver "$1")"
+  IFS=" " read -r -a v2 <<< "$(split_ver "$2")"
+  [[ ${v1[0]} -lt ${v2[0]} ]] && echo 1 && exit
+  [[ ${v1[0]} -eq ${v2[0]} ]] && \
+  [[ ${v1[1]} -lt ${v2[1]} ]] && echo 1 && exit
+  [[ ${v1[0]} -eq ${v2[0]} ]] && \
+  [[ ${v1[1]} -eq ${v2[1]} ]] && \
+  [[ ${v1[2]} -lt ${v2[2]} ]] && echo 1 && exit
   echo 0
 }
 
@@ -320,14 +321,14 @@ comp_ver_lt() {
 # 0.33.33 is less than 0.33.32  false
 # 0.0.44 is less than 0.0.45  true
 test_comp_ver_lt() {
-  v1s=(0.0.0 1.0.0 0.0.1 1.0.1 2.0.1 3.99.1 6.1.3 2.2.2 0.33.33 0.33.33 0.0.44)
-  v2s=(0.0.1 1.0.0 0.0.2 1.1.0 2.0.2 98.0.0 6.1.1 2.2.2 0.33.33 0.33.32 0.0.45)
+  local v1s=(0.0.0 1.0.0 0.0.1 1.0.1 2.0.1 3.99.1 6.1.3 2.2.2 0.33.33 0.33.33 0.0.44)
+  local v2s=(0.0.1 1.0.0 0.0.2 1.1.0 2.0.2 98.0.0 6.1.1 2.2.2 0.33.33 0.33.32 0.0.45)
   [ "${#v1s[@]}" -ne "${#v2s[@]}" ] && echo "Error: test arrays do not match in length." && exit 1
   i=0
-  for v1 in "${v1s[@]}"; do
-    v2=${v2s[i]}
-    [ $(comp_ver_lt $v1 $v2) == 0 ] && tf=false || tf=true
-    echo "$v1 is less than $v2  $tf"
+  for v1a in "${v1s[@]}"; do
+    local v1b=${v2s[i]}
+    [[ $(comp_ver_lt "$v1a" "$v1b") == 0 ]] && tf=false || tf=true
+    echo "$v1a is less than $v1b  $tf"
     ((i++))
   done
 }
