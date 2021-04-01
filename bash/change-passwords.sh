@@ -18,7 +18,7 @@
 . bash/spinner.sh
 
 phpmyadmin() {
-  [ ! -d public/apamyadmin ] && echo "No installation of phpmyadmin was found. Process aborted. " && exit 1
+  [ ! -d public/phpmyadmin ] && echo "No installation of phpmyadmin was found. Process aborted. " && exit 1
   # Keep keys in sequence. Add new keys to the end of the array
   local keys=(PHPMYADMIN_SUPERUSER_PW PHPMYADMIN_CONTROLUSER_PW)
 
