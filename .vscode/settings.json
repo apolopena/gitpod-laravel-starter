@@ -1,5 +1,27 @@
 {
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [
+    106 /*140: landscape, 106: portrait (with line numbers)*/
+  ],
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "workbench.colorTheme": "Default Dark+",
   "shellcheck.exclude": ["1091"],
+  "shellcheck.ignorePatterns": {
+      "**/*.zsh": true,
+      "**/*.zshrc": true,
+      "**/zshrc": true,
+      "**/*.zprofile": true,
+      "**/zprofile": true,
+      "**/*.zlogin": true,
+      "**/zlogin": true,
+      "**/*.zlogout": true,
+      "**/zlogout": true,
+      "**/*.zshenv": true,
+      "**/zshenv": true,
+      "**/*.zsh-theme": true
+  },
   "files.associations": {
       /* BEGIN: hack to make files with no extension use bash syntax highlighting */
       "[!.]": "shellscript",
@@ -23,13 +45,5 @@
       "[!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.]": "shellscript",
       "[!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.][!.]": "shellscript"
       /* END: hack to make files with no extension use bash syntax highlighting */
-  },
-  "editor.renderWhitespace": "all",
-      "editor.rulers": [
-      106 /*140: landscape, 106: portrait (with line numbers)*/
-  ],
-  "editor.insertSpaces": true,
-  "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "workbench.colorTheme": "Default Dark+"
+  }
 }
