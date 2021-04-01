@@ -1,5 +1,6 @@
 {
   "shellcheck.exclude": ["1091"],
+  "shellcheck.executablePath": "shellcheck",
   "files.associations": {
       /* BEGIN: hack to make files with no extension use bash syntax highlighting */
       "[!.]": "shellscript",
