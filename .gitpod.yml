@@ -2,15 +2,17 @@ image:
   file: .gitpod.Dockerfile
 
 ports:
-  - port: 8002
-    onOpen: open-preview
-  - port: 8001
+  - port: 3306
     onOpen: ignore
   - port: 8000
     onOpen: ignore
-  - port: 9009
+  - port: 8001
     onOpen: ignore
-  - port: 3306
+  - port: 8002
+    onOpen: ignore
+  - port: 9000
+    onOpen: ignore
+  - port: 9009
     onOpen: ignore
 
 tasks:
