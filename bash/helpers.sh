@@ -17,7 +17,7 @@
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "helpers.sh version 1.0.9"
+  echo "helpers.sh version 1.1.0"
 }
 
 # start_server
@@ -181,6 +181,10 @@ get_default_server_port() {
   local server
   server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
   get_server_port "$(echo "$server" | tr '[:upper:]' '[:lower:]')"
+}
+
+get_default_gp_url() {
+  gp url "$(get_default_server_port)"
 }
 
 # Begin: persistance hacks
