@@ -160,11 +160,8 @@ get_starter_env_val() {
   esac
 }
 
-get_default_server_port() {
-  local server
-  server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
-  server=$(echo "$server" | tr '[:upper:]' '[:lower:]')
-  case $server in
+get_server_port() {
+  case $(echo "$1" | tr '[:upper:]' '[:lower:]') in
     'php')
       echo 8000
       ;;
@@ -175,9 +172,15 @@ get_default_server_port() {
       echo 8002
       ;;
     *)
-      # Ignore invalid server types
+      exit 127
       ;;
   esac
+}
+
+get_default_server_port() {
+  local server
+  server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
+  get_server_port "$(echo "$server" | tr '[:upper:]' '[:lower:]')"
 }
 
 # Begin: persistance hacks
