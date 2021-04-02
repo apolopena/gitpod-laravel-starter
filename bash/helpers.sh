@@ -17,7 +17,7 @@
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "helpers.sh version 1.0.8"
+  echo "helpers.sh version 1.0.9"
 }
 
 # start_server
