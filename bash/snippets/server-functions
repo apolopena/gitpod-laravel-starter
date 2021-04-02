@@ -76,10 +76,10 @@ start_nginx() {
   "$GITPOD_REPO_ROOT"/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
   case $log_monitor_type in
     'tail')
-    tail_apache
+    tail_nginx
     ;;
     'multitail')
-    mtail_apache
+    mtail_nginx
     ;;
     *)
     echo "ERROR start_nginx: invalid nginx_log_monitor type: $log_monitor_type. Check your starter.ini"
