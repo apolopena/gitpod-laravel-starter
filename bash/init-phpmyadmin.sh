@@ -120,7 +120,7 @@ if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log_silent "SUCCESS: $msg"
     log_silent "To login to phpmyadmin:"
     log_silent "  --> 1. Make sure you are serving it with apache"
-    log_silent "  --> 2. In the browser go to $(bash bash/helpers.sh get_default_gp_url)/phpmyadmin"
+    log_silent "  --> 2. In the browser go to $(bash bash/helpers.sh get_default_gp_url)/phpmyadmin/"
     log_silent "  --> 3. You should be able to login here using the defaults. user: pmasu, pw: 123456"
     log_silent "Make sure you change the default passwords for the phpmyadmin accounts."
     log_silent "For help with updating phpmyadmin passwords, run the alias help_update_pma_pws"
