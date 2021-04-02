@@ -26,22 +26,12 @@ if [[ $(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generato
   fi
 fi
 
-
 # Aliases for git
 msg="git aliases have been written"
 bash bash/utils.sh add_file_to_file_after "\\[alias\\]" bash/snippets/emoji-log ~/.gitconfig &&
 bash bash/utils.sh add_file_to_file_after "\\[alias\\]" bash/snippets/git-aliases ~/.gitconfig &&
 log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
-
-# grc color configuration for apache logs
-msg="Creating grc color configuration file for apache logs in ~/apache-log-colors.conf"
-log_silent "$msg" &&
-if cat bash/snippets/grc/apache-log-colors > ~/apache-log-colors.conf; then
-  log_silent "SUCCESS: $msg"
-else
-  log -e "ERROR: $msg"
-fi
 
 # Restore files marked as persistant such as workspace-init.log
 # See persist_file in bash/helpers.sh for how to system works

@@ -8,8 +8,8 @@ mtail_apache() {
 }
 
 tail_apache() {
-  # See bash/before-tasks.sh for setup of ~/apache-log-colors.conf
-  grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/apache2/access.log /var/log/apache2/error.log
+  grc -c "$GITPOD_REPO_ROOT/.gp/conf/grc/apache-log.conf" \
+  tail -f /var/log/apache2/access.log /var/log/apache2/error.log
 }
 
 mtail_nginx() {
@@ -17,8 +17,8 @@ mtail_nginx() {
 }
 
 tail_nginx() {
-  # See bash/before-tasks.sh for setup of ~/apache-log-colors.conf
-  grc -c /home/gitpod/apache-log-colors.conf tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+  grc -c "$GITPOD_REPO_ROOT/.gp/conf/grc/nginx-log.conf" \
+  tail -f /var/log/nginx/access.log /var/log/nginx/error.log
 }
 
 start_apache() {
@@ -68,7 +68,7 @@ stop_apache() {
 }
 
 start_nginx() {
-  apachectl start
+  nginx & /usr/sbin/php-fpm7.4 --fpm-config .gp/conf/php-fpm.conf
   local exit_code=$?
   (( exit_code == 0 )) || return
   local log_monitor_type=
@@ -82,13 +82,13 @@ start_nginx() {
     mtail_apache
     ;;
     *)
-    echo "ERROR start_nginx: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
+    echo "ERROR start_nginx: invalid nginx_log_monitor type: $log_monitor_type. Check your starter.ini"
     ;;
   esac
 }
 
 stop_nginx() {
-  apachectl stop
+  nginx -s stop && pkill php-fpm7.4
   local exit_code=$?
   (( exit_code == 0 )) || return
   local pid
@@ -107,7 +107,7 @@ stop_nginx() {
     | grep -v grep | awk '{print $1}' | sed 1q)
     ;;
     *)
-    echo "ERROR stop_enginx: invalid apache_log_monitor type: $log_monitor_type. Check your starter.ini"
+    echo "ERROR stop_enginx: invalid nginx_log_monitor type: $log_monitor_type. Check your starter.ini"
     ;;
   esac
   [[ -n $pid ]] && kill -2 "$pid"

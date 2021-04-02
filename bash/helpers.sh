@@ -111,7 +111,7 @@ show_first_run_summary() {
   echo ''
   echo -en "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥"
   echo ''
-  grc -c .gp/conf/grc/init-log-colors.conf cat $init_log
+  grc -c .gp/conf/grc/init-log.conf cat $init_log
   [ -d 'public/phpmyadmin' ] &&
   echo -en "\e[38;5;208m" &&
   cat bash/snippets/messages/phpmyadmin-security.txt &&

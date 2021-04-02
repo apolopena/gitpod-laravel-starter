@@ -44,8 +44,8 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   msg="rsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
-  grc -c bash/snippets/grc/rsync-stats \
-  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ $GITPOD_REPO_ROOT
+  grc -c .gp/conf/grc/rsync-stats.conf \
+  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ "$GITPOD_REPO_ROOT"
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
