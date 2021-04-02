@@ -14,9 +14,8 @@ RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
 RUN sudo apt-get update -q \
-    && sudo apt-get install -y rsync \
-    && sudo apt-get install -y grc \
-    && sudo apt-get install -y progress
+    && sudo apt-get -y install php7.4-fpm rsync grc \
+    && sudo apt-get clean
     
 RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
     && tar -xvzf xdebug-3.0.2.tgz \
@@ -35,6 +34,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 # just increment the value each time you want to bypass the cache system
 ENV INVALIDATE_CACHE=133
 
+COPY --chown=gitpod:gitpod .gp/nginx.conf /etc/nginx/nginx.conf
 COPY --chown=gitpod:gitpod bash/.bash_aliases /home/gitpod
 COPY --chown=gitpod:gitpod bash/utils.sh /tmp
 COPY --chown=gitpod:gitpod starter.ini /tmp
