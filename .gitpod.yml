@@ -40,7 +40,7 @@ tasks:
       start_spinner "Starting $__server web server when system is ready..." &&
       gp sync-await gitpod-inited &&
       stop_spinner $? &&
-      bash -i bash/helpers.sh start_server
+      bash -i .gp/bash/helpers.sh start_server
     name: Web Server
   - openMode: split-right
     command: |
