@@ -16,7 +16,7 @@ all_zeros_reg='^0$|^0*0$'
 # Load spinner
 . bash/spinner.sh
 
-parse="bash bash/utils.sh parse_ini_value starter.ini"
+parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
 
 install_react=$(eval $parse react install)
 install_vue=$(eval $parse vue install)
@@ -66,7 +66,7 @@ fi
 [ $installed_phpmyadmin == 1 ] && . bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
-has_frontend_scaffolding_install=$(bash bash/helpers.sh has_frontend_scaffolding_install)
+has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
 if [[ $has_frontend_scaffolding_install == 1 || ! -z $EXAMPLE ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
@@ -90,7 +90,7 @@ fi
 if [ $install_react == 1 ]; then
   version=$(eval $parse react version)
   auth=$(eval $parse react auth)
-  __installed=$(bash bash/utils.sh node_package_exists react)
+  __installed=$(bash .gp/bash/utils.sh node_package_exists react)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "React/React DOM install directive found in starter.ini"
@@ -142,7 +142,7 @@ fi
 if [[ $install_vue == 1 && $install_react == 0 ]]; then
   version=$(eval $parse vue version)
   auth=$(eval $parse vue auth)
-  __installed=$(bash bash/utils.sh node_package_exists vue)
+  __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
   [ -z "$version" ] && version_msg='' || version_msg=" version $version"
   [ $auth != 1 ] && auth_msg='' || auth_msg=' with --auth'
   log "Vue install directive found in starter.ini"

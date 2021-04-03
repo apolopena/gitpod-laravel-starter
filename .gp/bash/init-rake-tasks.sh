@@ -7,7 +7,7 @@
 # Description:
 # Creates rake tasks dynamically.
 
-parse="bash bash/utils.sh parse_ini_value starter.ini"
+parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
 
 # BEGIN: dynamic rake task functions
 add_changelog_rake() {
@@ -33,7 +33,7 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
 end
 EOF
 
-  bash bash/helpers.sh add_global_rake_task "$__task" "$rake"
+  bash .gp/bash/helpers.sh add_global_rake_task "$__task" "$rake"
 }
 # END: dynamic rake task functions
 

@@ -15,17 +15,17 @@
 # Log to the console and a file
 log () {
   if [ -z "$2" ]; then
-    bash bash/utils.sh log "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log -e "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log -e "$1" /var/log/workspace-init.log
   fi
 }
 
 # Log only to a file
 log_silent () {
   if [ -z "$2" ]; then
-    bash bash/utils.sh log_silent "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log_silent "$1" /var/log/workspace-init.log
   else
-    bash bash/utils.sh log_silent -e "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log_silent -e "$1" /var/log/workspace-init.log
   fi
 }

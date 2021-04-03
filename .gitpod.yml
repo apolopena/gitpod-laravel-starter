@@ -16,16 +16,16 @@ ports:
     onOpen: ignore
 
 tasks:
-  - before: bash bash/before-tasks.sh
+  - before: bash .gp/bash/before-tasks.sh
     init: |
-      bash bash/init-gitpod.sh
-      bash bash/init-optional-scaffolding.sh
-      bash bash/init-project.sh
-      bash bash/init-complete.sh
+      bash .gp/bash/init-gitpod.sh
+      bash .gp/bash/init-optional-scaffolding.sh
+      bash .gp/bash/init-project.sh
+      bash .gp/bash/init-complete.sh
     name: Main Terminal
   - openMode: split-right
     command: |
-      if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
+      if [ $(bash .gp/bash/helpers.sh is_inited) == 1 ]; then \
         gp sync-done gitpod-inited
       fi;
       . bash/spinner.sh
@@ -36,7 +36,7 @@ tasks:
         stop_spinner $?; \
       fi &&
       gp await-port 3306 &&
-      __server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
+      __server=$(bash .gp/bash/utils.sh parse_ini_value starter.ini development default_server); \
       start_spinner "Starting $__server web server when system is ready..." &&
       gp sync-await gitpod-inited &&
       stop_spinner $? &&
@@ -48,7 +48,7 @@ tasks:
       start_spinner "Opening preview when system is ready..."
       gp sync-await gitpod-inited &&
       stop_spinner 0 &&
-      __port=$(bash bash/helpers.sh get_default_server_port); \
+      __port=$(bash .gp/bash/helpers.sh get_default_server_port); \
       gp await-port $__port &&
       gp preview $(gp url $__port)
     name: Extra Terminal

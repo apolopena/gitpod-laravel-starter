@@ -35,7 +35,7 @@ start_server() {
   local usage='Usage: start_server [server-type]'
   local err_prefix='Error: start_server():'
   local server s err_msg
-  s=$(bash bash/utils.sh parse_ini_value starter.ini development default_server)
+  s=$(bash .gp/bash/utils.sh parse_ini_value starter.ini development default_server)
   if [[ -z "$1" ]]; then
     server=$(echo "$s" | tr '[:upper:]' '[:lower:]')
     err_msg="$err_prefix invalid default server: $server. Check the file $GITPOD_REPO_ROOT/starter.ini"
@@ -80,7 +80,7 @@ start_server() {
 #    puts "Hello $name, this is a global rake task"
 # end
 # EOF
-# bash bash/helpers.sh add_global_rake_task "$__task" "$rake_task_name"
+# bash .gp/bash/helpers.sh add_global_rake_task "$__task" "$rake_task_name"
 add_global_rake_task() {
   local root=~/.rake
   local file="$2.rake"
@@ -132,7 +132,7 @@ get_starter_env_val() {
   local err='get_starter_env_val ERROR:'
   local file='.starter.env'
   local value
-  value="$(bash bash/utils.sh get_env_value "$1" $file)"
+  value="$(bash .gp/bash/utils.sh get_env_value "$1" $file)"
   case "$?" in
     '0')
       echo "$value"
@@ -179,7 +179,7 @@ get_server_port() {
 
 get_default_server_port() {
   local server
-  server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server) ;
+  server=$(bash .gp/bash/utils.sh parse_ini_value starter.ini development default_server) ;
   get_server_port "$(echo "$server" | tr '[:upper:]' '[:lower:]')"
 }
 
@@ -234,7 +234,7 @@ is_inited() {
 # Begin: installation information API
 # parses starter.ini for installation for the install key of a section ($1)
 get_install() {
-  bash bash/utils.sh parse_ini_value starter.ini "$1" install
+  bash .gp/bash/utils.sh parse_ini_value starter.ini "$1" install
 }
 
 # parses starter.ini and echos a string showing installtaion information for any installs key in the list.

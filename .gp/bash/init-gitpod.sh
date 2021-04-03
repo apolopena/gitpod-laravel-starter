@@ -21,7 +21,7 @@ stop_spinner $?
 # BEGIN: Update npm if needed
 target_npm_ver='7.7.5'
 current_npm_ver=$(npm -v)
-update_npm=$(bash bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
+update_npm=$(bash .gp/bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
 if [ $update_npm == 1 ]; then
   msg="Updating npm from $current_npm_ver to $target_npm_ver"
   log_silent "$msg" && start_spinner "$msg"
@@ -55,11 +55,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log_silent "SUCCESS: $msg"
   fi
 
-  # Move LICENSE to the bash folder
-  [[ -f "LICENSE" && -d "bash" ]] && mv -f LICENSE bash/LICENSE
+  # Move LICENSE to the .gp folder
+  [[ -f "LICENSE" && -d ".gp" ]] && mv -f LICENSE .gp/LICENSE
   
   # Cleanup any cached phpmyadmin installation from the workspace image if needed
-  if [ $(bash bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
+  if [ $(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
     [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
   fi
 
@@ -69,7 +69,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
     start_spinner "$msg"
-    default_server_port=$(bash bash/helpers.sh get_default_server_port)
+    default_server_port=$(bash .gp/bash/helpers.sh get_default_server_port)
     url=$(gp url $default_server_port)
     sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     err_code=$?
@@ -89,7 +89,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # BEGIN Laravel .env injection
   # Configure .editorconfig
   if [ -e .editorconfig ]; then
-    ec_type=$(bash bash/utils.sh parse_ini_value starter.ini .editorconfig type)
+    ec_type=$(bash .gp/bash/utils.sh parse_ini_value starter.ini .editorconfig type)
     case $(echo "$ec_type" | tr '[:upper:]' '[:lower:]') in
       'laravel-js-2space')
         cp bash/snippets/editorconfig/laravel-js-2space .editorconfig
@@ -122,7 +122,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   
   # BEGIN: Optional configurations
   # Install https://github.com/github-changelog-generator/github-changelog-generator
-  installed_changelog_gen=$(bash bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
+  installed_changelog_gen=$(bash .gp/bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
     msg="Installing github-changelog-generator"
     log_silent "$msg" && start_spinner "$msg" &&

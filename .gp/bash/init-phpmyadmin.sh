@@ -13,7 +13,7 @@
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
 
-parse="bash bash/utils.sh parse_ini_value starter.ini"
+parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
 
 # Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
@@ -46,7 +46,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   # Setup Blowfish secret
   msg="Parsing blowfish secrect in public/phpmyadmin/config.inc.php"
   log_silent "$msg" && start_spinner "$msg"
-  __bfs=$(bash bash/utils.sh generate_string 32)
+  __bfs=$(bash .gp/bash/utils.sh generate_string 32)
   sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
   err_code=$?
   if [ $err_code != 0 ]; then
@@ -120,7 +120,7 @@ if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log_silent "SUCCESS: $msg"
     log_silent "To login to phpmyadmin:"
     log_silent "  --> 1. Make sure you are serving it with apache"
-    log_silent "  --> 2. In the browser go to $(bash bash/helpers.sh get_default_gp_url)/phpmyadmin/"
+    log_silent "  --> 2. In the browser go to $(bash .gp/bash/helpers.sh get_default_gp_url)/phpmyadmin/"
     log_silent "  --> 3. You should be able to login here using the defaults. user: pmasu, pw: 123456"
     log_silent "Make sure you change the default passwords for the phpmyadmin accounts."
     log_silent "For help with updating phpmyadmin passwords, run the alias help_update_pma_pws"
