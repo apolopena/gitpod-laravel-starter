@@ -63,7 +63,7 @@ if [ ! -z $EXAMPLE ]; then
 fi
 
 # phpmyadmin
-[ $installed_phpmyadmin == 1 ] && . bash/init-phpmyadmin.sh
+[ $installed_phpmyadmin == 1 ] && . .gp/bash/init-phpmyadmin.sh
 
 # BEGIN: Install Laravel ui if needed
 has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
