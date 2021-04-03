@@ -94,7 +94,7 @@ stop_nginx() {
   local pid
   local log_monitor_type
   log_monitor_type="$(bash \
-  "$GITPOD_REPO_ROOT".gp/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
+  "$GITPOD_REPO_ROOT"/.gp/bash/utils.sh parse_ini_value starter.ini development apache_log_monitor)"
   case $log_monitor_type in
     'tail')
     # The grep string here must match the tail portion of the command given in the function tail_apache
