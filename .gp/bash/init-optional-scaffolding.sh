@@ -8,13 +8,13 @@
 # Installs various packages and scaffolding according to the directive set in starter.ini
 
 # Load logger
-. bash/workspace-init-logger.sh
+. .gp/bash/workspace-init-logger.sh
 
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
 
 # Load spinner
-. bash/spinner.sh
+. .gp/bash/spinner.sh
 
 parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
 

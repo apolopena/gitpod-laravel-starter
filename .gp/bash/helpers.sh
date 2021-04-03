@@ -17,7 +17,7 @@
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
 version () {
-  echo "helpers.sh version 1.1.0"
+  echo "helpers.sh version 1.1.1"
 }
 
 # start_server
@@ -114,7 +114,7 @@ show_first_run_summary() {
   grc -c .gp/conf/grc/init-log.conf cat $init_log
   [ -d 'public/phpmyadmin' ] &&
   echo -en "\e[38;5;208m" &&
-  cat bash/snippets/messages/phpmyadmin-security.txt &&
+  cat .gp/bash/snippets/messages/phpmyadmin-security.txt &&
   echo -e "\e[0m"
   echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
 }

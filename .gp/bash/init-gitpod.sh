@@ -8,10 +8,10 @@
 # Tasks to be run when a gitpod workspace is created for the first time.
 
 # Load logger
-. bash/workspace-init-logger.sh
+. .gp/bash/workspace-init-logger.sh
 
 # Load spinner
-. bash/spinner.sh
+. .gp/bash/spinner.sh
 
 # Let the user know there will be a wait, then begin once MySql is initialized.
 start_spinner "Initializing MySql..." &&

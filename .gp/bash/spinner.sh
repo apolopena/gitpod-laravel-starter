@@ -1,2 +1,2 @@
 #!/bin/bash
-. bash/third-party/bash-spinner/spinner.sh
+. .gp/bash/third-party/bash-spinner/spinner.sh

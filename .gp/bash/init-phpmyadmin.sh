@@ -8,7 +8,10 @@
 # Configures an existing phpmyadmin installation.
 
 # Load logger
-. bash/workspace-init-logger.sh
+. .gp/bash/workspace-init-logger.sh
+
+# Load spinner
+. .gp/bash/spinner.sh
 
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
@@ -27,9 +30,6 @@ if [[ ! -d "public/phpmyadmin" ]]; then
     log "SUCCESS: $msg"
   fi
 fi
-
-# Load spinner
-. bash/spinner.sh
 
 if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   msg="Creating file public/phpmyadmin/config.inc.php"

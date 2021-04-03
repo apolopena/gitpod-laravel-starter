@@ -9,11 +9,11 @@
 
 
 # Load logger
-. bash/workspace-init-logger.sh
+. .gp/bash/workspace-init-logger.sh
 
 # BEGIN example code block - migrate database
 # COMMENT: Load spinner
-# . bash/spinner.sh
+# . .gp/bash/spinner.sh
 # __migrate_msg="Migrating database"
 # log_silent "$__migrate_msg" && start_spinner "$__migrate_msg"
 # php artisan migrate

@@ -15,7 +15,7 @@
 # example.starter.ini
 
 # Load spinner
-. bash/spinner.sh
+. .gp/bash/spinner.sh
 
 phpmyadmin() {
   [ ! -d public/phpmyadmin ] && echo "No installation of phpmyadmin was found. Process aborted. " && exit 1

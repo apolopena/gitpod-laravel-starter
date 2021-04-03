@@ -34,8 +34,7 @@ else
   if [ $COMP_VAL -ne 0 ]; then
     >&2 echo "  ERROR $COMP_VAL: Failed to install latest version of composer." | tee -a $LOG
   else
-    COMP_VER=`composer --version`
-    echo "  SUCCESS: latest version of composer installed: $COMP_VER" | tee -a $LOG
+    echo "  SUCCESS: latest version of composer installed: $(composer --version)" | tee -a $LOG
   fi
   rm composer-setup.php
 fi
