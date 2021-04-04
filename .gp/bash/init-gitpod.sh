@@ -69,7 +69,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
     start_spinner "$msg"
-    url=$(gp url "bash .gp/bash/helpers.sh get_default_server_port")
+    url=$(gp url bash "$(.gp/bash/helpers.sh get_default_server_port)")
     sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     err_code=$?
     if [ $err_code != 0 ]; then
