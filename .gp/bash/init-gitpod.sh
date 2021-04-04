@@ -140,7 +140,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # workspace is initializing for the first time. This is the only way we can establish a hook
   # for init-optional-scaffolding.sh to determine if it should bypass the php artisan ui command
   # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
-  # named react, vue or bootstrap. Without this hook project code such ass app.js gets overwitten.
+  # named react, vue or bootstrap. Without this hook project code such as app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules"
     log "$msg"
