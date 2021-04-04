@@ -21,8 +21,8 @@ stop_spinner $?
 # BEGIN: Update npm if needed
 target_npm_ver='7.7.5'
 current_npm_ver=$(npm -v)
-update_npm=$(bash .gp/bash/utils.sh comp_ver_lt $current_npm_ver $target_npm_ver)
-if [ $update_npm == 1 ]; then
+update_npm=$(bash .gp/bash/utils.sh comp_ver_lt "$current_npm_ver" "$target_npm_ver")
+if [[ $update_npm == 1 ]]; then
   msg="Updating npm from $current_npm_ver to $target_npm_ver"
   log_silent "$msg" && start_spinner "$msg"
   npm install -g "npm@$target_npm_ver" &>/dev/null
@@ -59,7 +59,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   [[ -f "LICENSE" && -d ".gp" ]] && mv -f LICENSE .gp/LICENSE
   
   # Cleanup any cached phpmyadmin installation from the workspace image if needed
-  if [ $(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install) == 0 ]; then
+  if [ "$(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install)" == 0 ]; then
     [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
   fi
 
@@ -69,8 +69,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
     start_spinner "$msg"
-    default_server_port=$(bash .gp/bash/helpers.sh get_default_server_port)
-    url=$(gp url $default_server_port)
+    url=$(gp url "bash .gp/bash/helpers.sh get_default_server_port")
     sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     err_code=$?
     if [ $err_code != 0 ]; then
@@ -106,7 +105,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
   # Create laravel database if it does not exist
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
-  if [ $__laravel_db_exists == 0 ]; then
+  if [[ $__laravel_db_exists == 0 ]]; then
     msg="Creating database: laravel"
     log_silent "$msg" && start_spinner "$msg"
     mysql -e "CREATE DATABASE laravel;"
