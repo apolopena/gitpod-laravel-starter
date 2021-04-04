@@ -72,7 +72,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     url=$(gp urlaa bash "$(.gp/bash/helpers.sh get_default_server_port)")
     sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
     err_code=$?
-    echo "SED ERROR CODE IS: $err_code"
     if [ $err_code != 0 ]; then
       stop_spinner 1
       log -e "ERROR: Could not inject Larvel .env file with the url $url"
