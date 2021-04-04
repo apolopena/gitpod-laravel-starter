@@ -7,7 +7,7 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "workbench.colorTheme": "Default Dark+",
-  "shellcheck.exclude": ["1091"],
+  "shellcheck.exclude": ["1090","1091"],
   "shellcheck.ignorePatterns": {
       "**/*.zsh": true,
       "**/*.zshrc": true,
