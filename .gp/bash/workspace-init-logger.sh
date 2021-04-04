@@ -17,7 +17,7 @@ log () {
   if [ -z "$2" ]; then
     bash .gp/bash/utils.sh log "$1" /var/log/workspace-init.log
   else
-    bash .gp/bash/utils.sh log -e "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log -e "$2" /var/log/workspace-init.log
   fi
 }
 
@@ -26,6 +26,6 @@ log_silent () {
   if [ -z "$2" ]; then
     bash .gp/bash/utils.sh log_silent "$1" /var/log/workspace-init.log
   else
-    bash .gp/bash/utils.sh log_silent -e "$1" /var/log/workspace-init.log
+    bash .gp/bash/utils.sh log_silent -e "$2" /var/log/workspace-init.log
   fi
 }
