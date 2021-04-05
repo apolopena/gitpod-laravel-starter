@@ -16,8 +16,6 @@
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
 
-parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
-
 # Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
@@ -110,7 +108,7 @@ if [[ $error_codes_flat =~ $all_zeros_reg ]]; then
   log_silent "SUCCESS: $msg"
 else
   stop_spinner 1
-  log -e "ERROR: $msg"
+  log -e "ERROR $error_codes_flat: $msg"
 fi
 # Install node modules
 if [ ! -d 'public/phpmyadmin/node_modules' ]; then
