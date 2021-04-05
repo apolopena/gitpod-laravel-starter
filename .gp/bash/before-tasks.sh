@@ -28,8 +28,8 @@ fi
 
 # Aliases for git
 msg="git aliases have been written"
-bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/bash/snippets/emoji-log ~/.gitconfig &&
-bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/bash/snippets/git-aliases ~/.gitconfig &&
+bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/bash/snippets/git/emoji-log ~/.gitconfig &&
+bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/bash/snippets/git/aliases ~/.gitconfig &&
 log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
 
