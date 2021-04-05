@@ -102,14 +102,13 @@ mysql -e "GRANT ALL PRIVILEGES ON \`phpmyadmin\`.* TO 'pma'@'localhost' WITH GRA
 error_codes+=($?)
 mysql -e "FLUSH PRIVILEGES;"
 error_codes+=($?)
-echo "errorcodes=${error_codes[*]}"
 error_codes_flat=$(echo "${error_codes[*]}" | tr -d '[:space:]')
 if [[ $error_codes_flat =~ $all_zeros_reg ]]; then
   stop_spinner 0
   log_silent "SUCCESS: $msg"
 else
   stop_spinner 1
-  log -e "ERROR $error_codes_flat: $msg"
+  log -e "ERROR ${error_codes[*]}: $msg"
 fi
 # Install node modules
 if [ ! -d 'public/phpmyadmin/node_modules' ]; then
