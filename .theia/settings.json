@@ -6,20 +6,5 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
-  "workbench.colorTheme": "Default Dark+",
-  "shellcheck.exclude": ["1090","1091"],
-  "shellcheck.ignorePatterns": {
-      "**/*.zsh": true,
-      "**/*.zshrc": true,
-      "**/zshrc": true,
-      "**/*.zprofile": true,
-      "**/zprofile": true,
-      "**/*.zlogin": true,
-      "**/zlogin": true,
-      "**/*.zlogout": true,
-      "**/zlogout": true,
-      "**/*.zshenv": true,
-      "**/zshenv": true,
-      "**/*.zsh-theme": true
-  }
+  "workbench.colorTheme": "Default Dark+"
 }
