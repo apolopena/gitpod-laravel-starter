@@ -69,18 +69,18 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
     log_silent "$msg" && start_spinner "$msg"
-    url=$(gp urlaa bash "$(bash .gp/bash/helpers.sh get_default_server_port)")
+    url=$(gp url bash "$(bash .gp/bash/helpers.sh get_default_server_port)")
     err_code=$?
     if [[ $url =~ ^https?:// ]];then
       sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
       err_code=$?
     else
       url="$(echo -e "$url" | head -1)"
-      log_silent -e " -->ERROR: malformed url: $url"
+      log_silent -e "ERROR: malformed url: $url"
     fi
     if [ $err_code != 0 ]; then
       stop_spinner 1
-      log -e "ERROR: Could not inject Larvel .env file with the url $url"
+      log -e "ERROR: Could not inject Larvel .env file with the url: $url"
     else
       stop_spinner 0
       log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
