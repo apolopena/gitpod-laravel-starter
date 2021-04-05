@@ -306,8 +306,8 @@ phpMyAdmin also introduces some extra security concerns that should be addressed
 At a minimum the default passwords that phpMyAdmin uses to administer the MySQL databases should be changed right after a Gitpod workspace has been created for the first time. An `update_phpmyadmin_pws` alias has been provided that automagically changes the default passwords.
 <br /><br />
 To change the phpMyAdmin  MySQL passwords using the `update_phpmyadmin_pws` alias, follow these steps:
-   1. Create a file in the root of the project named `.starter.env`
-   2. Copy and paste all the keys containing `PHPMYADMIN` from `.starter.env.example` to `.starter.env`
+   1. Create a file in .gp named `.starter.env`
+   2. Copy and paste all the keys containing `PHPMYADMIN` from `.gp/.starter.env.example` to `.starter.env`
    3. In .starter.ini, set password values for the `PHPMYADMIN` keys and save the file.
    4. In a terminal run the alias: `update_phpmyadmin_pws`
 
