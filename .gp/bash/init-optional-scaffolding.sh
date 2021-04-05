@@ -189,7 +189,7 @@ if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; th
   log "Installing Bootstrap$auth_msg"
   if [[ $auth == 1 ]]; then
     php artisan ui bootstrap --auth
-  else
+  elsegit 
     php artisan ui bootstrap
   fi
   err_code=$?
@@ -219,6 +219,4 @@ fi
 # Initialize optional example project
 if [[ -n  $init_example ]];then
   . "$init_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_example 2>&1 1>/dev/null)"
-else
-  log -e "ERROR: EXAMPLE was requested but the example script was not set"
 fi
