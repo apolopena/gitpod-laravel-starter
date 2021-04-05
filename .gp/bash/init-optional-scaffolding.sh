@@ -61,8 +61,13 @@ if [[ -n $EXAMPLE ]]; then
 fi
 
 # phpmyadmin
-if [[ $install_phpmyadmin == 1 ]];then 
-   . $init_phpmyadmin 2>/dev/null || log -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)" 
+if [[ $install_phpmyadmin == 1 ]];then
+  if [[ -n  $init_example ]];then
+    . "$init_phpmyadmin" 2>/dev/null || log_silent -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)"
+  else
+    log -e "ERROR: phpmyadmin should be configured but the script was not set"
+  fi
+   . $init_phpmyadmin 2>/dev/null || log_silent -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)" 
 fi
 
 # BEGIN: Install Laravel ui if needed
@@ -212,4 +217,8 @@ fi
 # END: optional frontend scaffolding installations
 
 # Initialize optional example project
-. $init_example 2>/dev/null || log -e "ERROR: $(. $init_example 2>&1 1>/dev/null)"
+if [[ -n  $init_example ]];then
+  . "$init_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_example 2>&1 1>/dev/null)"
+else
+  log -e "ERROR: EXAMPLE was requested but the example script was not set"
+fi
