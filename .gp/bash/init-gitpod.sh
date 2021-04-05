@@ -69,23 +69,24 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
     start_spinner "$msg"
-    url=$(gp urlaa bash "$(.gp/bash/helpers.sh get_default_server_port)")
-    sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+    url=$(gp urlaa bash "$(bash .gp/bash/helpers.sh get_default_server_port)")
     err_code=$?
+    if [[ $url =~ ^https?:// ]];then
+      sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
+      err_code=$?
+    else
+      url=$("${url} | head -1")
+      log_silent -e " -->ERROR: malformed url: $url"
+    fi
     if [ $err_code != 0 ]; then
       stop_spinner 1
       log -e "ERROR: Could not inject Larvel .env file with the url $url"
     else
-      if [[ -z  $url ]];then
-        stop_spinner 1
-        log_silent -e "ERROR: generating url to inject Laravel .env with"
-      else
-        stop_spinner 0
-        log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
-        log_silent "  You should check .env to make sure the values are set correctly."
-        log_silent "  If you change the server then the port number will need to be"
-        log_silent "  changed in .env for APP_URL and ASSET_URL"
-      fi
+      stop_spinner 0
+      log_silent "SUCCESS: Laravel .env APP_URL and ASSET_URL was set to $url"
+      log_silent "  You should double check .env to make sure the values are set correctly."
+      log_silent "  If you change the server then the port number will need to be changed"
+      log_silent "  in .env for APP_URL and ASSET_URL"
     fi
   else
     log 'ERROR: no Laravel .env file to inject'
