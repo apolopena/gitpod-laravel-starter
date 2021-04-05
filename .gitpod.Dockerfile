@@ -14,7 +14,7 @@ RUN sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
 RUN sudo apt-get update -q \
-    && sudo apt-get -y rsync grc \
+    && sudo apt-get -y install rsync grc \
     && sudo apt-get install php7.4-fpm \
     && sudo apt-get clean
     
