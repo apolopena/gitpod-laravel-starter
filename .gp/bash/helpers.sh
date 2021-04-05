@@ -128,7 +128,7 @@ get_starter_env_val() {
   local err='get_starter_env_val ERROR:'
   local file='.gp/.starter.env'
   local value
-  value="$(get_env_value "$1" "$file")"
+  value="$(bash .gp/bash/utils.sh get_env_value "$1" "$file")"
   case "$?" in
     '0')
       echo "$value"
