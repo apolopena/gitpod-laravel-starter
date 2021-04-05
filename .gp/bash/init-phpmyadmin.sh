@@ -102,7 +102,8 @@ mysql -e "GRANT ALL PRIVILEGES ON \`phpmyadmin\`.* TO 'pma'@'localhost' WITH GRA
 error_codes+=($?)
 mysql -e "FLUSH PRIVILEGES;"
 error_codes+=($?)
-error_codes_flat=$(echo "${error_codes_flat[*]}" | tr -d '[:space:]')
+echo "errorcodes=${error_codes[*]}"
+error_codes_flat=$(echo "${error_codes[*]}" | tr -d '[:space:]')
 if [[ $error_codes_flat =~ $all_zeros_reg ]]; then
   stop_spinner 0
   log_silent "SUCCESS: $msg"
