@@ -12,9 +12,6 @@
 #
 # Usage: bash <function name> arg1 arg2 arg3 ...
 
-version () {
-  echo "utils.sh version 1.0.9"
-}
 
 # check_files_exist
 # Description:
@@ -244,11 +241,12 @@ generate_string () {
 # 
 get_env_value() {
   local file="$2"
-  [[ -z $2 ]] && file='.starter.env'
+  [ -z "$2" ] && file='.gp/.starter.env'
   [ ! -f "$file" ] && exit 3
+  [ -z "$1" ] && exit 4
   grep -q "$1=" "$file"; local c=$? && [[ $c != 0 ]] && exit 4
   local val
-  val=$(grep "$1=" .starter.env | cut -d '=' -f2)
+  val=$(grep "$1=" "$file" | cut -d '=' -f2)
   [[ -z $val ]] && exit 5
   echo "$val"
 }

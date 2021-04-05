@@ -16,10 +16,6 @@
 #
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
-version () {
-  echo "helpers.sh version 1.1.1"
-}
-
 # start_server
 # Description:
 # Starts up the default server or a specific server ($1)
@@ -130,9 +126,9 @@ show_first_run_summary() {
 # echo $value
 get_starter_env_val() {
   local err='get_starter_env_val ERROR:'
-  local file='.starter.env'
+  local file='.gp/.starter.env'
   local value
-  value="$(bash .gp/bash/utils.sh get_env_value "$1" $file)"
+  value="$(get_env_value "$1" "$file")"
   case "$?" in
     '0')
       echo "$value"
@@ -144,12 +140,12 @@ get_starter_env_val() {
       ;;
 
     '4')
-      echo -e "$err no var '$1' found in file $file"
+      echo -e "$err no variable '$1' found in file $file"
       exit 1
       ;;
 
     '5')
-      echo "$err no value found for '$1' found in file $file"
+      echo "$err no value found for '$1' in file $file"
       exit 1
       ;;
 
