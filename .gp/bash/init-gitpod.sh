@@ -68,14 +68,14 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # BEGIN Laravel .env injection
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
-    start_spinner "$msg"
+    log_silent "$msg" && start_spinner "$msg"
     url=$(gp urlaa bash "$(bash .gp/bash/helpers.sh get_default_server_port)")
     err_code=$?
     if [[ $url =~ ^https?:// ]];then
       sed -i'' "s#^APP_URL=http://localhost*#APP_URL=$url\nASSET_URL=$url#g" .env
       err_code=$?
     else
-      url=$("${url} | head -1")
+      url="$(echo -e "$url" | head -1)"
       log_silent -e " -->ERROR: malformed url: $url"
     fi
     if [ $err_code != 0 ]; then
