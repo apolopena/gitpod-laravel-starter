@@ -12,7 +12,7 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/xdebug.log
 
 RUN sudo apt-get update -q \
-    && sudo apt-get -y install dialog apt-utils -y php7.4-fpm rsync grc \
+    && sudo apt-get -y install dialog apt-utils php7.4-fpm rsync grc \
     && sudo apt-get clean
     
 RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
