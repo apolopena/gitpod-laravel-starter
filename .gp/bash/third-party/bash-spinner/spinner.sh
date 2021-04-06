@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=2034,2086,2059,2004
 
 # Author: Tasos Latsas
 # Modified by: Apolo Pena
