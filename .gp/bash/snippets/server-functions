@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 
 # override linter for parsing pid: pgrep is too simple for this case
-# shellcheck disable=SC2009
+# shellcheck disable=2009
 
 mtail_apache() {
   multitail /var/log/apache2/access.log -I /var/log/apache2/error.log;

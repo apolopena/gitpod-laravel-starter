@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck source=/dev/null
 #
 # SPDX-License-Identifier: MIT
 # Copyright © 2021 Apolo Pena
@@ -24,13 +25,12 @@ if [ $ERRCODE -ne 0 ]; then
   >&2 echo "  ERROR $?: failed to create Laravel 8 project scaffolding in $SCAFF_DEST" | tee -a $LOG
 else
   chown -R gitpod:gitpod "$SCAFF_DEST"
-  cd "$SCAFF_DEST"
-  VER=`php artisan --version`
-  echo "  SUCCESS: $VER project scaffolding created in $SCAFF_DEST" | tee -a $LOG
+  cd "$SCAFF_DEST" || exit 1
+  echo "  SUCCESS: $(php artisan --version) project scaffolding created in $SCAFF_DEST" | tee -a $LOG
 
   # Handle optional install of phpmyadmin
   install_phpmyadmin=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini phpmyadmin install);
-  if [ $install_phpmyadmin -eq 1 ]; then
+  if [[ $install_phpmyadmin -eq 1 ]]; then
     echo "  Installing phpmyadmin"  | tee -a $LOG
     cd "$SCAFF_DEST/public" && composer create-project phpmyadmin/phpmyadmin
     ERRCODE_PHPMYADMIN=$?

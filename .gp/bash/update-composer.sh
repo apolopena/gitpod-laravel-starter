@@ -10,8 +10,7 @@
 LOG='/var/log/workspace-image.log'
 # BEGIN: update composer to the latest version
 echo "BEGIN: update composer" | tee -a $LOG
-COMP_ORIG_VER=`composer --version`
-echo "  Purging existing version of composer: $COMP_ORIG_VER" | tee -a $LOG
+echo "  Purging existing version of composer: $(composer --version)" | tee -a $LOG
 sudo apt-get --assume-yes purge composer
 COMP_PURGE=$?
 if [ $COMP_PURGE -ne 0 ]; then

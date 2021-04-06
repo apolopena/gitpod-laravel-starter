@@ -28,7 +28,7 @@ exit_codes+=($?)
 yarn run mix
 exit_codes+=($?)
 
-if [[ $(echo ${exit_codes[@]} | tr -d '[:space:]') =~ $all_zeros ]]; then
+if [[ $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ $all_zeros ]]; then
   log "SUCCESS: $task_msg"
 else
   log -e "ERROR: $task_msg"

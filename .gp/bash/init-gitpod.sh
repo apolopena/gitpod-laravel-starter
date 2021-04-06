@@ -158,9 +158,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
 
   # Move and merge necessary files, then cleanup
-  mv /home/gitpod/laravel8-starter/README.md $GITPOD_REPO_ROOT/README_LARAVEL.md
-  rm -rf /home/gitpod/laravel8-starter
-  [ $? == 0 ] && log_silent "CLEANUP SUCCESS: removed /home/gitpod/laravel8-starter"
+  mv /home/gitpod/laravel8-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+  if rm -rf /home/gitpod/laravel8-starter;then
+    log_silent "CLEANUP SUCCESS: removed /home/gitpod/laravel8-starter"
+  fi
+  
 fi
 # END: Bootstrap Laravel scaffolding
 

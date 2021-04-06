@@ -11,12 +11,11 @@ parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
 
 # BEGIN: dynamic rake task functions
 add_changelog_rake() {
-  local rake='changelog'
-  local project=$(basename $GITPOD_REPO_ROOT)
-  local since_tag
-  local future_release
-  since_tag=$(eval $parse github-changelog-generator since_tag)
-  future_release=$(eval $parse github-changelog-generator future_release)
+  local rake project since_tag future_release
+  rake='changelog'
+  project=$(basename "$GITPOD_REPO_ROOT")
+  since_tag=$(eval "$parse" github-changelog-generator since_tag)
+  future_release=$(eval "$parse" github-changelog-generator future_release)
 
   # this rake task cannot handle empty strings as values so handle them (whitespace is ok though)
   [ -z "$since_tag" ] && default_since_tag='' ||  default_since_tag="config.since_tag = '$since_tag'"
@@ -38,8 +37,7 @@ EOF
 # END: dynamic rake task functions
 
 # BEGIN: add rake tasks
-  add_changelog_rake
-  if [ $? != 0 ]; then
+  if ! add_changelog_rake; then
     exit 1
   fi
 # END: add rake tasks

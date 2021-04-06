@@ -20,7 +20,8 @@ all_zeros_reg='^0$|^0*0$'
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
   cd public && composer create-project phpmyadmin/phpmyadmin
-  if [ $? != 0 ]; then
+  err_code=$?
+  if [ $err_code != 0 ]; then
     log -e "ERROR: $msg"
     exit 1
   else
@@ -45,6 +46,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   msg="Parsing blowfish secrect in public/phpmyadmin/config.inc.php"
   log_silent "$msg" && start_spinner "$msg"
   __bfs=$(bash .gp/bash/utils.sh generate_string 32)
+  # shellcheck disable=2154,1087
   sed -i'' "s#\\$cfg['blowfish_secret'] = '';#\\$cfg['blowfish_secret'] = '$__bfs';#g" public/phpmyadmin/config.inc.php
   err_code=$?
   if [ $err_code != 0 ]; then

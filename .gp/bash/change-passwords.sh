@@ -65,6 +65,8 @@ phpmyadmin() {
           line="\$cfg['Servers'][\$i]['controlpass'] ="
           _edit="\$cfg['Servers'][\$i]['controlpass'] = '${values[$i]}';"
           start_spinner "$msg"
+          # The shellcheck SC2026 was not designed for awk so bypass it
+          # shellcheck disable=2026
           # Match the line where the password for the controluser is set
           line_num=$(awk '/^\$cfg.*'controlpass'.*=.*;$/ {print FNR}' $config_file)
           if [ -z "$line_num" ]; then
