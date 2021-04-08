@@ -20,7 +20,10 @@ all_zeros_reg='^0$|^0*0$'
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
   log "$msg"
-  cd public || log -e "ERROR: $msg: could not cd to public" && exit 1
+  if ! cd public; then
+    log -e "ERROR: $msg: could not cd to public"
+    exit 1
+  fi
   composer create-project phpmyadmin/phpmyadmin
   err_code=$?
   if [ $err_code != 0 ]; then
@@ -28,7 +31,7 @@ if [[ ! -d "public/phpmyadmin" ]]; then
     exit 1
   else
     cd ..
-    start_spinner "$msg" && stop_spinner 0
+    start_spinner "$msg" &&
     log_silent "SUCCESS: $msg"
   fi
 fi
