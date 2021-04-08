@@ -19,15 +19,16 @@ all_zeros_reg='^0$|^0*0$'
 # Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
-  log "$msg"
-  cd public
-  composer create-project phpmyadmin/phpmyadmin
+  log_silent "$msg" && start_spinner "$msg"
+  cd public &&  composer create-project phpmyadmin/phpmyadmin
   err_code=$?
   if [ $err_code != 0 ]; then
+    stop_spinner 1
     log -e "ERROR: $msg"
     exit 1
   else
     cd ..
+    stop_spinner 0
     log "SUCCESS: $msg"
   fi
 fi
