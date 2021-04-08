@@ -51,7 +51,7 @@ function _spinner() {
             #sp='\|/-'
             #sp='🕛🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚'
             sp='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-            delay=${SPINNER_DELAY:-0.15}
+            delay=${SPINNER_DELAY:-0.1}
 
             while :
             do
