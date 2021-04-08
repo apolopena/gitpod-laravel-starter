@@ -53,7 +53,7 @@ function _spinner() {
 
             while :
             do
-                printf "\b${colors[$(($i % 4))]}${sp:i++%${#sp}:1}$nc"
+                printf "\b${colors[$(($i % 4))]}${sp:i++%${#sp}:1}"; printf "$\e[0mm"
                 #printf "\b${sp:i++%${#sp}:1}"
                 sleep $delay
             done
