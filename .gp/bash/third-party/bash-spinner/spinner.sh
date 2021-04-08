@@ -49,11 +49,12 @@ function _spinner() {
             # start spinner
             i=1
             sp='\|/-'
-            delay=${SPINNER_DELAY:-0.05}
+            delay=${SPINNER_DELAY:-0.15}
 
             while :
             do
-                printf "\b${colors[$(($i % 4))]}${sp:i++%${#sp}:1}"&& printf "$nc"
+                #printf "\b${colors[$(($i % 4))]}${sp:i++%${#sp}:1}"&& printf "$nc"
+                printf "\b${sp:i++%${#sp}:1}"
                 sleep $delay
             done
             ;;
