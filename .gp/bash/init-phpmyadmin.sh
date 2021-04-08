@@ -42,6 +42,11 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
   fi
+
+  # Inject additional configuration into public/phpmyadmin/config.inc.php at line 71
+  sed "71r .gp/snippets/phpmyadmin/conf.snippet" < public/phpmyadmin/config.inc.php > __tmp
+  mv __tmp public/phpmyadmin/config.inc.php 
+
   # Setup Blowfish secret
   msg="Parsing blowfish secrect in public/phpmyadmin/config.inc.php"
   log_silent "$msg" && start_spinner "$msg"
@@ -56,6 +61,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
   fi
+
   # Setup storage configuration
   msg="Uncommenting storage configuration in public/phpmyadmin/config.inc.php"
   log_silent "$msg" && start_spinner "$msg"
@@ -69,6 +75,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     log_silent "SUCCESS: $msg"
   fi
 fi
+
 # Setup phpmyadmin db and storage tables
 msg='Configuring phpmyadmin db and storage tables'
 log_silent "$msg" && start_spinner "$msg"
@@ -94,6 +101,7 @@ else
   log_silent "SUCCESS: $msg"
   stop_spinner $err_code
 fi
+
 # Control user account for phpmyadmin (used for storage features)
 msg="Creating phpmyadmin control user"
 error_codes=()
@@ -112,6 +120,7 @@ else
   stop_spinner 1
   log -e "ERROR ${error_codes[*]}: $msg"
 fi
+
 # Install node modules
 if [ ! -d 'public/phpmyadmin/node_modules' ]; then
   msg="Installing phpmyadmin node modules"
