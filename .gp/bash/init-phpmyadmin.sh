@@ -28,7 +28,8 @@ if [[ ! -d "public/phpmyadmin" ]]; then
     exit 1
   else
     cd ..
-    log "SUCCESS: $msg"
+    start_spinner "$msg" && stop_spinner 0
+    log_silent "SUCCESS: $msg"
   fi
 fi
 
