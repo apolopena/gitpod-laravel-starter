@@ -19,6 +19,7 @@ all_zeros_reg='^0$|^0*0$'
 # Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
+  log "$msg"
   cd public && composer create-project phpmyadmin/phpmyadmin
   err_code=$?
   if [ $err_code != 0 ]; then
@@ -43,8 +44,8 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     log_silent "SUCCESS: $msg"
   fi
 
-  # Inject additional configuration into public/phpmyadmin/config.inc.php at line 71
-  sed "71r .gp/snippets/phpmyadmin/conf.snippet" < public/phpmyadmin/config.inc.php > __tmp
+  # Inject additional configuration into public/phpmyadmin/config.inc.php at line 69
+  sed "69r .gp/bash/snippets/phpmyadmin/conf.snippet" < public/phpmyadmin/config.inc.php > __tmp
   mv __tmp public/phpmyadmin/config.inc.php 
 
   # Setup Blowfish secret
