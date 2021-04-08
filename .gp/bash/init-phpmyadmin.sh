@@ -20,7 +20,7 @@ all_zeros_reg='^0$|^0*0$'
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
   log "$msg"
-  cd public || log -e "ERROR: $msg"; exit 1
+  cd public
   composer create-project phpmyadmin/phpmyadmin
   err_code=$?
   if [ $err_code != 0 ]; then
