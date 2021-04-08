@@ -12,8 +12,10 @@ ports:
     onOpen: ignore
   - port: 9000
     onOpen: ignore
+    visibility: private
   - port: 9009
     onOpen: ignore
+    visibility: private
 
 tasks:
   - before: bash .gp/bash/before-tasks.sh
