@@ -47,13 +47,7 @@ tasks:
     name: Web Server
   - openMode: split-right
     command: |
-      . .gp/bash/spinner.sh &&
-      start_spinner "Opening preview when system is ready..."
-      gp sync-await gitpod-inited &&
-      stop_spinner 0 &&
-      __port=$(bash .gp/bash/helpers.sh get_default_server_port); \
-      gp await-port $__port &&
-      gp preview $(gp url $__port)
+      bash .gp/bash/open-preview.sh && exit
     name: Extra Terminal
 
 vscode:
