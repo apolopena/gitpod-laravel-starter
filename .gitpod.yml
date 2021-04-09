@@ -49,11 +49,11 @@ tasks:
     command: |
       . .gp/bash/spinner.sh &&
       start_spinner "Opening preview when system is ready..."
-      gp sync-await gitpod-inited &&
+      gp sync-await gitpod-inited > /dev/null &&
       stop_spinner 0 &&
       __port=$(bash .gp/bash/helpers.sh get_default_server_port); \
-      gp await-port $__port &&
-      gp preview $(gp url $__port)
+      gp await-port $__port > /dev/null &&
+      gp preview $(gp url $__port) > /dev/null
     name: Extra Terminal
 
 vscode:
