@@ -41,7 +41,7 @@ COPY --chown=gitpod:gitpod .gp/bash/scaffold-project.sh /tmp
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Aliases
-COPY --chown=gitpod:gitpod .gp/bash/snippets/server-functions /tmp
-COPY --chown=gitpod:gitpod .gp/bash/snippets/browser-functions /tmp
-RUN cp /tmp/server-functions ~/.bashrc.d/server-functions \
-    && cp /tmp/browser-functions ~/.bashrc.d/browser-functions
+COPY --chown=gitpod:gitpod .gp/bash/snippets/server-functions.sh /tmp
+COPY --chown=gitpod:gitpod .gp/bash/snippets/browser-functions.sh /tmp
+RUN cp /tmp/server-functions.sh ~/.bashrc.d/server-functions \
+    && cp /tmp/browser-functions.sh ~/.bashrc.d/browser-functions
