@@ -31,7 +31,11 @@ tasks:
     name: Web Server
   - openMode: split-right
     command: |
-      bash .gp/bash/open-preview.sh && exit
+      if bash .gp/bash/open-preview.sh; then \
+        exit \
+      else \
+        echo -e "Gitpod Internal Error: gp preview\nIf the preview browser is not open you may open it or refresh it by running the alias: op" \
+      fi
     name: Extra Terminal
 
 vscode:
