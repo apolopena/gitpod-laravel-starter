@@ -31,7 +31,7 @@ tasks:
     name: Web Server
   - openMode: split-right
     command: |
-      if bash .gp/bash/open-preview.sh ; then exit ; else bash bash.gp/bash/hotfix.sh fi
+      if bash .gp/bash/open-preview.sh; then exit; else bash bash.gp/bash/hotfix.sh; fi
     name: Extra Terminal
 
 vscode:
