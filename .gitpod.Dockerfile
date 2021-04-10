@@ -24,7 +24,7 @@ RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
     && ./configure --enable-xdebug \
     && make \
     && sudo cp modules/xdebug.so /usr/lib/php/20190902/xdebug.so \
-    && cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
+    && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
 
 COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
