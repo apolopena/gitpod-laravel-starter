@@ -10,6 +10,6 @@ alias lint-starter-scripts='find "$GITPOD_REPO_ROOT/.gp" -type d \( -name node_m
 # See .starter.env.example for the required phpmyadmin keys
 alias update-pma-pws='bash $GITPOD_REPO_ROOT/.gp/bash/change-passwords.sh phpmyadmin'
 # Shows help for update_pma_pws
-alias update-pma-pws-help='cat "$GITPOD_REPO_ROOT/.gp/snippets/messages/update-pma-pws-help.txt"'
+alias update-pma-pws-help='echo -e "$(cat "$GITPOD_REPO_ROOT/.gp/snippets/messages/update-pma-pws-help.txt")"'
 # opens or refreshes the preview browser to the web root
 alias op='f(){ bash "$GITPOD_REPO_ROOT"/.gp/bash/open-preview.sh "$1";  unset -f f; }; f'
