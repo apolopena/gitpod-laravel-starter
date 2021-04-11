@@ -3,7 +3,7 @@
 # This file is sourced into ~/.bashrc
 # Add any alias you would like here
 
-alias lint-starter-scripts='find "$GITPOD_REPO_ROOT/.gp" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$GITPOD_REPO_ROOT/.gp" {} \;'
+alias lint-starter-scripts='f(){ bash "$GITPOD_REPO_ROOT"/.gp/bash/lint-scripts.sh "$1";  unset -f f; }; f'
 # Updates all passwords related to phpmyadmin from values set in .starter.env
 # Requires .starter.env to have all phpmyadmin related keys set with values
 # Empty string value will break the script
