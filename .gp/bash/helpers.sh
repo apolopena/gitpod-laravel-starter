@@ -104,13 +104,11 @@ show_first_run_summary() {
   echo -en "\e[38;5;194mResults of building the workspace image\e[0m \e[38;5;34m$workspace_log\e[0m ➥\n\e[38;5;183m"
   cat $workspace_log
   echo -en "\e[0m"
-  echo ''
   echo -en "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥"
-  echo ''
   grc -c .gp/conf/grc/init-log.conf cat $init_log
   [ -d 'public/phpmyadmin' ] &&
   echo -en "\e[38;5;208m" &&
-  cat .gp/snippets/messages/phpmyadmin-security.txt &&
+  echo -e "$(cat .gp/snippets/messages/phpmyadmin-security.txt)" &&
   echo -e "\e[0m"
   echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
 }
