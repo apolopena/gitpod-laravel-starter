@@ -68,7 +68,7 @@ stop_apache() {
 }
 
 start_nginx() {
-  nginx & /usr/sbin/php-fpm7.4 --fpm-config .gp/conf/php-fpm.conf
+  nginx & /usr/sbin/php-fpm7.4 --fpm-config .gp/conf/php-fpm/php-fpm.conf
   local exit_code=$?
   (( exit_code == 0 )) || return
   local log_monitor_type=
