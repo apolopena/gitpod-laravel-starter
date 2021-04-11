@@ -36,7 +36,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 # just increment the value each time you want to bypass the cache system
 ENV INVALIDATE_CACHE=151
 
-COPY --chown=gitpod:gitpod .gp/conf/nginx.conf /etc/nginx/nginx.conf
+COPY --chown=gitpod:gitpod .gp/conf/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --chown=gitpod:gitpod .gp/bash/.bash_aliases /home/gitpod
 COPY --chown=gitpod:gitpod .gp/bash/utils.sh /tmp
 COPY --chown=gitpod:gitpod starter.ini /tmp
