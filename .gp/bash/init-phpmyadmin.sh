@@ -47,7 +47,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   fi
 
   # Inject additional configuration into public/phpmyadmin/config.inc.php at line 69
-  sed "69r .gp/bash/snippets/phpmyadmin/conf.snippet" < public/phpmyadmin/config.inc.php > __tmp
+  sed "69r .gp/snippets/phpmyadmin/conf.snippet" < public/phpmyadmin/config.inc.php > __tmp
   mv __tmp public/phpmyadmin/config.inc.php 
 
   # Setup Blowfish secret
