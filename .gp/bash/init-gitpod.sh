@@ -97,7 +97,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     ec_type=$(bash .gp/bash/utils.sh parse_ini_value starter.ini .editorconfig type)
     case $(echo "$ec_type" | tr '[:upper:]' '[:lower:]') in
       'laravel-js-2space')
-        cp .gp/bash/snippets/editorconfig/laravel-js-2space .editorconfig
+        cp .gp/bash/conf/editorconfig/laravel-js-2space .editorconfig
       ;;
       'none')
         rm .editorconfig
