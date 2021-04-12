@@ -2,8 +2,6 @@ FROM gitpod/workspace-mysql
 
 USER gitpod
 
-RUN brew install shellcheck
-
 RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-image.log \
     && sudo touch /var/log/workspace-init.log \
@@ -13,7 +11,7 @@ RUN sudo touch /var/log/workspace-image.log \
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
-    && sudo apt-get -y install php7.4-fpm rsync grc \
+    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
     && sudo apt-get clean
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
