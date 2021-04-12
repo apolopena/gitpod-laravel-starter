@@ -41,11 +41,11 @@ fi
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="rsync Laravel 8 scaffolding from ~/laravel8-starter to $GITPOD_REPO_ROOT"
+  msg="rsync $(php artisan --version) from ~/laravel-starter to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   grc -c .gp/conf/grc/rsync-stats.conf \
-  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel8-starter/ "$GITPOD_REPO_ROOT"
+  rsync -rlptgoD --ignore-existing --stats --human-readable /home/gitpod/laravel-starter/ "$GITPOD_REPO_ROOT"
   err_code=$?
   if [ $err_code != 0 ]; then
     stop_spinner $err_code
@@ -158,9 +158,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
 
   # Move and merge necessary files, then cleanup
-  mv /home/gitpod/laravel8-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
-  if rm -rf /home/gitpod/laravel8-starter;then
-    log_silent "CLEANUP SUCCESS: removed /home/gitpod/laravel8-starter"
+  mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+  if rm -rf /home/gitpod/laravel-starter;then
+    log_silent "CLEANUP SUCCESS: removed ~/laravel-starter"
   fi
   
 fi
