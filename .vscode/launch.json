@@ -6,7 +6,7 @@
       "type": "php",
       "request": "launch",
       "port": 9009,
-      /* Bugfix: https://github.com/apolopena/gitpod-laravel8-starter/issues/99 */
+      /* Bugfix: https://github.com/apolopena/gitpod-laravel-starter/issues/99 */
       "ignore": [
         "**/vendor/**/*.php"
       ]

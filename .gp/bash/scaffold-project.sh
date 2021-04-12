@@ -13,7 +13,7 @@
 # that all of this scripts dependencies have already been copied to /tmp
 
 _log='/var/log/workspace-image.log'
-_scaff_name='laravel8-starter'
+_scaff_name='laravel-starter'
 _scaff_dest="/home/gitpod/$_scaff_name"
 _lv_default='8.*'
 _lv=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini laravel version)

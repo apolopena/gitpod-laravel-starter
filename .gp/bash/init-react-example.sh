@@ -5,7 +5,7 @@
 #
 # init-react-example.sh
 # Description:
-# Initial setup for the gitpod-laravel8-starter react example.
+# Initial setup for the gitpod-laravel-starter react example.
 
 # Load logger
 . .gp/bash/workspace-init-logger.sh
