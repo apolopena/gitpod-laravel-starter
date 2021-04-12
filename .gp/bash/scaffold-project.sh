@@ -17,8 +17,8 @@ SCAFF_NAME='laravel8-starter'
 SCAFF_DEST="/home/gitpod/$SCAFF_NAME"
 
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $LOG
-echo "  Creating Laravel 7.x project scaffolding in $SCAFF_DEST" | tee -a $LOG
-composer create-project --prefer-dist laravel/laravel "$SCAFF_NAME" "7.*"
+echo "  Creating Laravel 5.x project scaffolding in $SCAFF_DEST" | tee -a $LOG
+composer create-project --prefer-dist laravel/laravel "$SCAFF_NAME" "5.*"
 
 ERRCODE=$?
 if [ $ERRCODE -ne 0 ]; then
