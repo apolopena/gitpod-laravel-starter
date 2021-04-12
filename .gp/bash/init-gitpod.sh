@@ -41,7 +41,7 @@ fi
 
 # Move Laravel project files if they are not already in version control
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-  msg="rsync $(php artisan --version) from ~/laravel-starter to $GITPOD_REPO_ROOT"
+  msg="rsync $(php ~/laravel-starter/artisan --version) from ~/laravel-starter to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
   grc -c .gp/conf/grc/rsync-stats.conf \
