@@ -19,6 +19,9 @@ install_react=$(eval "$parse" react install)
 install_vue=$(eval "$parse" vue install)
 install_bootstrap=$(eval "$parse" bootstrap install)
 install_phpmyadmin=$(eval "$parse" starter.ini phpmyadmin install)
+react_auth=$(eval "$parse" react auth)
+vue_auth=$(eval "$parse" vue auth)
+bootstrap_auth=$(eval "$parse" bootstrap auth)
 install_react_router_dom=$(eval "$parse" react-router-dom install)
 rrd_ver=$(eval "$parse" react-router-dom version)
 laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
@@ -107,16 +110,15 @@ fi # end should install laravel ui check
 if [[ $laravel_major_ver != 5 ]]; then
   if [ $install_react == 1 ]; then
     version=$(eval "$parse" react version)
-    auth=$(eval "$parse" react auth)
     __installed=$(bash .gp/bash/utils.sh node_package_exists react)
     [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-    [[ $auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+    [[ $react_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
     log "React/React DOM install directive found in starter.ini"
     if [[ $__installed == 1 ]]; then
       log "However it appears that React/React DOM has already been installed, skipping this installation."
     else
       log "Installing React and React DOM$auth_msg"
-      if [[ $auth == 1 ]]; then
+      if [[ $react_auth == 1 ]]; then
         php artisan ui react --auth
       else
         php artisan ui react
@@ -160,16 +162,15 @@ if [[ $laravel_major_ver != 5 ]]; then
   # BEGIN: Optional vue install
   if [[ $install_vue == 1 && $install_react == 0 ]]; then
     version=$(eval "$parse" vue version)
-    auth=$(eval "$parse" vue auth)
     __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
     [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-    [[ $auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+    [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
     log "Vue install directive found in starter.ini"
     if [[ $__installed == 1 ]]; then
       log "However it appears that Vue has already been installed, skipping this installation."
     else
       log "Installing vue$auth_msg"
-      if [[ $auth == 1 ]]; then
+      if [[ $vue_auth == 1 ]]; then
         php artisan ui vue --auth
       else
         php artisan ui vue
@@ -195,12 +196,11 @@ if [[ $laravel_major_ver != 5 ]]; then
   # BEGIN: Optional bootstrap install
   if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
     version=$(eval "$parse" bootstrap version)
-    auth=$(eval "$parse" bootstrap auth)
     [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
-    [[ $auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+    [[ $bootstrap_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
     log "Bootstrap install directive found in starter.ini"
     log "Installing Bootstrap$auth_msg"
-    if [[ $auth == 1 ]]; then
+    if [[ $bootstrap_auth == 1 ]]; then
       php artisan ui bootstrap --auth
     elsegit 
       php artisan ui bootstrap
