@@ -281,6 +281,51 @@ has_frontend_scaffolding_install() {
 }
 # End: installation information API
 
+# Version to use when laravel version is set to an invalid or out of range value in starter.ini
+default_laravel_version() {
+  echo '8.*'
+}
+
+# Derives the Laravel sematic version from the value set in starter.ini
+# Echos the default_laravel_version if the version does not begin with an integer
+# Echos the default_laravel_version if the version is out of the acceptable range of 5-8
+# Echos the default_laravel_version if the version is not set (left blank) in starter.ini
+laravel_version() {
+  local ver major_ver
+  ver=$(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel version)
+  [[ -z $ver || ! $ver =~ ^[0-9] ]] && ver=$(default_laravel_version)
+  major_ver="${ver%%.*}"
+  (( major_ver < 5 || major_ver > 8 )) && ver=$(default_laravel_version)
+  echo "$ver"
+}
+
+# Derives the major version number from the value in starter.ini
+laravel_major_version() {
+  local ver
+  ver="$(laravel_version)"
+  echo "${ver%%.*}"
+}
+
+# Derives the laravel/ui sematic version to use based on the value set for the laravel version in starter.ini
+# Echos an empty string if the laravel major version is 5
+# Echos ^3.2.0 if the laravel major version in starter.ini is 8 or higher, lower than 5, or invalid.
+# Echos ^2.4 if the laravel major version in starter.ini is 7
+# Echos ^1.* if the laravel major version in starter.ini is 6
+laravel_ui_version() {
+  local lvm=
+  lvm=$(laravel_major_version)
+  if (( lvm >= 8 )); then
+    echo '^3.2.0' 
+  elif [[ $lvm -eq 7 ]]; then
+    echo '^2.4'
+  elif [[ $lvm -eq 6 ]]; then
+    echo '1.*'
+  else
+    # Won't get this far since laravel_major_version will use the default if out of the of range 5-8
+    echo 'helpers.sh laravel_ui_version(): Internal Error'
+  fi
+}
+
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
 then

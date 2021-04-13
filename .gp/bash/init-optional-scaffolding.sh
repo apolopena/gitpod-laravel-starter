@@ -21,6 +21,8 @@ install_bootstrap=$(eval "$parse" bootstrap install)
 install_phpmyadmin=$(eval "$parse" starter.ini phpmyadmin install)
 install_react_router_dom=$(eval "$parse" react-router-dom install)
 rrd_ver=$(eval "$parse" react-router-dom version)
+laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
+laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
 
 # Any value for set for EXAMPLE will build the react/phpmyadmin questions and answers demo
@@ -74,21 +76,27 @@ fi
 has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
 if [[ $has_frontend_scaffolding_install == 1 || -n $EXAMPLE ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
+  # Handle the case of Laravel 5 which does not support laravel/ui
+  [[ $laravel_major_ver == 5 ]] \
+  && log "WARNING: The laravel major version is set to 5 in starter.ini, laravel/ui will not be installed" 
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
-  if [ $__ui == 1 ]; then
+  if [[ $__ui == 1 && $laravel_major_ver != 5 ]]; then
     log "However it appears that laravel/ui has already been installed, skipping this installation."
   else
-    log "Installing laravel/ui scaffolding via Composer"
-    composer require laravel/ui:^3.2.0
-    err_code=$?
-    if [ $err_code == 0 ]; then
-      log "SUCCESS: laravel/ui scaffolding installed"
-    else
-      log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
-    fi
-  fi
-fi
+    if [[ $laravel_major_ver != 5 ]]; then
+      log "Installing laravel/ui:$laravel_ui_ver scaffolding via Composer"
+      composer require "laravel/ui:$laravel_ui_ver"
+      err_code=$?
+      if [ $err_code == 0 ]; then
+        log "SUCCESS: laravel/ui scaffolding installed"
+      else
+        log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
+      fi # end err_code check
+    fi # end laravel major version check
+  fi # end laravel/ui already installed check
+fi # end should install laravel ui check
+
 # END: Install Laravel ui if needed
 
 # BEGIN: Optional react, react-dom and react-router-dom installs
@@ -218,6 +226,9 @@ fi
 
 # Initialize optional example project
 if [[ -n  $init_example ]];then
+  [[ $laravel_major_ver -ne 8 ]] \
+  && log -e "WARNING: Examples are only supported with Laravel version 8. Your laravel version is $laravel_major_ver" \
+  && log -e "WARNING: Ignoring the example requested: $example_title"
   # shellcheck source=.gp/bash/init-react-example.sh
   . "$init_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_example 2>&1 1>/dev/null)"
 fi
