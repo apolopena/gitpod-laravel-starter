@@ -34,7 +34,7 @@ if [[ -n $EXAMPLE ]]; then
   case $EXAMPLE in
     1)
       example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      init_example=".gp/bash/init-react-example.sh"
+      init_react_example=".gp/bash/examples/init-react-example.sh"
       install_react=1
       install_phpmyadmin=1
       install_react_router_dom=1
@@ -42,17 +42,33 @@ if [[ -n $EXAMPLE ]]; then
       ;;
     2)
       example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
-      init_example=".gp/bash/init-react-example.sh"
+      init_react_example=".gp/bash/examples/init-react-example.sh"
       install_react=1
       install_phpmyadmin=0
       install_react_router_dom=1
       rrd_ver='^5.2.0'
       ;;
+    10)
+      example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
+      init_vue_example=".gp/bash/examples/init-vue-example.sh"
+      install_react=0
+      install_vue=1
+      vue_auth=1
+      install_phpmyadmin=1
+      ;;
+    11)
+      example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
+      init_vue_example=".gp/bash/examples/init-vue-example.sh"
+      install_react=0
+      install_vue=1
+      vue_auth=1
+      install_phpmyadmin=0
+      ;;
     *)
       # Default example
       # Keep this block identical to case 1)
       example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      init_example=".gp/bash/init-react-example.sh"
+      init_react_example=".gp/bash/examples/init-react-example.sh"
       install_react=1
       install_phpmyadmin=1
       install_react_router_dom=1
@@ -67,7 +83,7 @@ fi
 
 # phpmyadmin, test more for when this script fails in the middle with a non zero exit code
 if [[ $install_phpmyadmin == 1 ]];then
-  if [[ -n  $init_example ]];then
+  if [[ -n  $init_react_example || -n  $init_vue_example ]];then
     # shellcheck source=.gp/bash/init-phpmyadmin.sh
     . "$init_phpmyadmin" 2>/dev/null || log_silent -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)"
   else
@@ -230,11 +246,26 @@ if [[ $laravel_major_ver != 5 ]]; then
 fi
 # END: optional frontend scaffolding installations
 
-# Initialize optional example project
-if [[ -n  $init_example ]];then
+# BEGIN: optional example setup
+
+# Initialize optional react example project
+if [[ -n  $init_react_example ]];then
   [[ $laravel_major_ver -ne 8 ]] \
-  && log -e "WARNING: Examples are only supported with Laravel version 8. Your laravel version is $laravel_major_ver" \
+  && log -e "WARNING: React examples are only supported by Laravel version 8. Your Laravel version is $laravel_major_ver" \
   && log -e "WARNING: Ignoring the example requested: $example_title"
-  # shellcheck source=.gp/bash/init-react-example.sh
-  . "$init_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_example 2>&1 1>/dev/null)"
+  # shellcheck source=.gp/bash/examples/init-react-example.sh
+  . "$init_react_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_example 2>&1 1>/dev/null)"
+  exit
 fi
+
+# Initialize optional vue example project
+if [[ -n  $init_vue_example ]];then
+  (( laravel_major_ver < 6 )) \
+  && log -e "WARNING: Vue examples are only supported by Laravel version 6.* or higher. Your Laravel version is $laravel_major_ver" \
+  && log -e "WARNING: Ignoring the example requested: $example_title"
+  # shellcheck source=.gp/bash/examples/init-vue-example.sh
+  . "$init_vue_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_vue_example 2>&1 1>/dev/null)"
+  exit
+fi
+
+# END: optional example setup
