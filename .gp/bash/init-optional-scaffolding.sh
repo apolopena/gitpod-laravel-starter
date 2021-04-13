@@ -79,7 +79,10 @@ if [[ $has_frontend_scaffolding_install == 1 || -n $EXAMPLE ]]; then
   # Handle the case of Laravel 5 which does not support laravel/ui
   [[ $laravel_major_ver == 5 ]] \
   && log "WARNING: The laravel major version is set to 5 in starter.ini, laravel/ui will not be installed" \
-  && log "WARNING: Frontend scaffolding installation was skipped even though is was requested" 
+  && log "WARNING: Frontend scaffolding installation was skipped even though is was requested" \
+  && log_silent " However you can insall your own frontend scaffolding manually." \
+  && log_silent " Some Laravel 5.x preset frontends can be found at https://packagist.org/packages/laravel-frontend-presets/"
+
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
   if [[ $__ui == 1 && $laravel_major_ver != 5 ]]; then
