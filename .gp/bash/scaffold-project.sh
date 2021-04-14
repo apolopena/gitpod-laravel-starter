@@ -26,6 +26,7 @@ _lvm=${_lv%%.*}
 if (( _lvm < 5 || _lvm > 8 )); then
   echo "WARNING: Laravel version $_lvm is not supported" | tee -a $_log
   echo "Setting Laravel version to the default of $_lv_default"
+  _lv=_lv_default
 fi
 
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $_log
