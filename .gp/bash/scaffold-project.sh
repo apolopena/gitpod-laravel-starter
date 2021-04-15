@@ -29,8 +29,6 @@ if [[ ! $_lv =~ ^[6-8]*(\.\*)$ ]]; then
   echo "WARNING: The laravel version has been set to the default of $_lv_default" | tee -a $_log
   _lv="$_lv_default"
 fi
-echo version="$_lv"
-exit
 
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $_log
 echo "  Creating Laravel $_lv project scaffolding in $_scaff_dest" | tee -a $_log
