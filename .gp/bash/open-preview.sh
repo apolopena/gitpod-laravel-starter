@@ -12,7 +12,13 @@
 # Load spinner
 . .gp/bash/spinner.sh
 __path=
-[[ -n  $1 ]] && __path=/$1
+if [[ -n  $1 ]]; then
+  if [[ ! $1 =~ \/$ ]]; then
+    __path=/$1/
+  else
+    __path=/$1
+  fi
+fi
 __port=$(bash .gp/bash/helpers.sh get_default_server_port)
 if [[ $(bash .gp/bash/helpers.sh is_inited) == 0 ]]; then
   . .gp/bash/spinner.sh &&
