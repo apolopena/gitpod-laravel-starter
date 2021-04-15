@@ -20,14 +20,17 @@ _lv=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini laravel version)
 
 # Set default if laravel version was not set in starter.ini
 [[ -z $_lv ]] && _lv="$_lv_default"
-# Get the major laravel version by deleting the first dot and everthing that follows
-_lvm=${_lv%%.*}
-# Handle unsupported laravel versions
-if (( _lvm < 6 || _lvm > 8 )); then
-  echo "WARNING: Laravel version $_lvm is not supported" | tee -a $_log
-  echo "Setting Laravel version to the default of $_lv_default"
-  _lv=_lv_default
+
+# Set default laravel version if value in starter.ini was invalid/unsupported
+if [[ ! $_lv =~ ^[6-8]*(\.\*)$ ]]; then
+  echo "WARNING: unsupported or invalid laravel version value $_lv found in starter.ini" | tee -a $_log
+  echo -e "Supported laravel version values are:\n\t6.*\n\t7.*\n\t8.*" | tee -a $_log
+  echo "Specifying Minor and Patch versions in starter.ini is not supported." | tee -a $_log
+  echo "WARNING: The laravel version has been set to the default of $_lv_default" | tee -a $_log
+  _lv="$_lv_default"
 fi
+echo version="$_lv"
+exit
 
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $_log
 echo "  Creating Laravel $_lv project scaffolding in $_scaff_dest" | tee -a $_log
