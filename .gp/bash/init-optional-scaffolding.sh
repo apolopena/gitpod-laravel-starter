@@ -95,155 +95,146 @@ fi
 has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
 if [[ $has_frontend_scaffolding_install == 1 || -n $EXAMPLE ]]; then
   log "Optional installations that require laravel/ui scaffolding were found"
-  # Handle the case of Laravel 5 which does not support laravel/ui
-  [[ $laravel_major_ver == 5 ]] \
-  && log "WARNING: The laravel major version is set to 5 in starter.ini, laravel/ui is not supported and will not be installed." \
-  && log "WARNING: Frontend scaffolding installation was skipped even though it was requested" \
-  && log_silent "However you can install your own frontend scaffolding manually." \
-  && log_silent "Some Laravel 5.x preset frontends can be found at https://packagist.org/packages/laravel-frontend-presets/"
 
   # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
   composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
-  if [[ $__ui == 1 && $laravel_major_ver != 5 ]]; then
+  if [[ $__ui == 1 ]]; then
     log "However it appears that laravel/ui has already been installed, skipping this installation."
   else
-    if [[ $laravel_major_ver != 5 ]]; then
-      log "Installing laravel/ui:$laravel_ui_ver scaffolding via Composer"
-      composer require "laravel/ui:$laravel_ui_ver"
-      err_code=$?
-      if [ $err_code == 0 ]; then
-        log "SUCCESS: laravel/ui scaffolding installed"
-      else
-        log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
-      fi # end err_code check
-    fi # end laravel major version check
+    log "Installing laravel/ui:$laravel_ui_ver scaffolding via Composer"
+    composer require "laravel/ui:$laravel_ui_ver"
+    err_code=$?
+    if [ $err_code == 0 ]; then
+      log "SUCCESS: laravel/ui scaffolding installed"
+    else
+      log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
+    fi # end err_code check
   fi # end laravel/ui already installed check
 fi # end should install laravel ui check
 
 # END: Install Laravel ui if needed
 
 # BEGIN: Optional react, react-dom and react-router-dom installs
-if [[ $laravel_major_ver != 5 ]]; then
-  if [ $install_react == 1 ]; then
-    version=$(eval "$parse" react version)
-    __installed=$(bash .gp/bash/utils.sh node_package_exists react)
-    [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-    [[ $react_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
-    log "React/React DOM install directive found in starter.ini"
-    if [[ $__installed == 1 ]]; then
-      log "However it appears that React/React DOM has already been installed, skipping this installation."
+if [ $install_react == 1 ]; then
+  version=$(eval "$parse" react version)
+  __installed=$(bash .gp/bash/utils.sh node_package_exists react)
+  [[ -z $version ]] && version_msg='' || version_msg=" version $version"
+  [[ $react_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+  log "React/React DOM install directive found in starter.ini"
+  if [[ $__installed == 1 ]]; then
+    log "However it appears that React/React DOM has already been installed, skipping this installation."
+  else
+    log "Installing React and React DOM$auth_msg"
+    if [[ $react_auth == 1 ]]; then
+      php artisan ui react --auth
     else
-      log "Installing React and React DOM$auth_msg"
-      if [[ $react_auth == 1 ]]; then
-        php artisan ui react --auth
-      else
-        php artisan ui react
-      fi
-      err_code=$?
-      if [[ $err_code == 0 ]]; then
-        log "SUCCESS: React and React DOM$auth_msg have been installed"
-        if [ $install_react_router_dom == 1 ]; then
-          if [[ -z "$rrd_ver" ]]; then
-            sub_msg="Installing react-router-dom to the latest version"
-            log "$sub_msg"
-            yarn add react-router-dom --silent
-          else
-            sub_msg="Installing react-router-dom to semantic version $rrd_ver"
-            log "$sub_msg"
-            yarn add react-router-dom@$rrd_ver --silent
-          fi
-          err_code=$?
-          if [[ $err_code == 0 ]]; then
-            log "SUCCESS: $sub_msg"
-          else
-            log -e "ERROR: $sub_msg"
-          fi
-        fi
-        log "  --> Installing node modules and running Laravel Mix"
-        yarn install && npm run dev
-        npm run dev
-        if [[ -n $version ]]; then
-          log "Upgrading react and react-dom to$version_msg"
-          yarn upgrade "react@$version" "react-dom@$version"
-        fi
-        [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed"
-        [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superceded this"
-      else
-        log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
-      fi
-    fi
-  fi
-  # END: Optional react, react-dom and react-router-dom installs
-
-  # BEGIN: Optional vue install
-  if [[ $install_vue == 1 && $install_react == 0 ]]; then
-    version=$(eval "$parse" vue version)
-    __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
-    [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-    [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
-    log "Vue install directive found in starter.ini"
-    if [[ $__installed == 1 ]]; then
-      log "However it appears that Vue has already been installed, skipping this installation."
-    else
-      log "Installing vue$auth_msg"
-      if [[ $vue_auth == 1 ]]; then
-        php artisan ui vue --auth
-      else
-        php artisan ui vue
-      fi
-      err_code=$?
-      if [[ $err_code == 0 ]]; then
-        log "SUCCESS: Vue$auth_msg has been installed"
-        log "  --> Installing node modules and running Laravel Mix"
-        yarn install && npm run dev
-        npm run dev
-        if [[ -n $version ]]; then
-          log "Upgrading vue to$version_msg"
-          yarn upgrade "vue@$version"
-        fi
-        [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
-      else
-        log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
-      fi
-    fi
-  fi
-  # END: Optional vue install
-
-  # BEGIN: Optional bootstrap install
-  if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
-    version=$(eval "$parse" bootstrap version)
-    [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
-    [[ $bootstrap_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
-    log "Bootstrap install directive found in starter.ini"
-    log "Installing Bootstrap$auth_msg"
-    if [[ $bootstrap_auth == 1 ]]; then
-      php artisan ui bootstrap --auth
-    elsegit 
-      php artisan ui bootstrap
+      php artisan ui react
     fi
     err_code=$?
     if [[ $err_code == 0 ]]; then
-      log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
+      log "SUCCESS: React and React DOM$auth_msg have been installed"
+      if [ $install_react_router_dom == 1 ]; then
+        if [[ -z "$rrd_ver" ]]; then
+          sub_msg="Installing react-router-dom to the latest version"
+          log "$sub_msg"
+          yarn add react-router-dom --silent
+        else
+          sub_msg="Installing react-router-dom to semantic version $rrd_ver"
+          log "$sub_msg"
+          yarn add react-router-dom@$rrd_ver --silent
+        fi
+        err_code=$?
+        if [[ $err_code == 0 ]]; then
+          log "SUCCESS: $sub_msg"
+        else
+          log -e "ERROR: $sub_msg"
+        fi
+      fi
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
       npm run dev
-      if [[ -n "$version" ]]; then
-        log "Upgrading bootstrap to$version_msg"
-        yarn upgrade "bootstrap@$version"
+      if [[ -n $version ]]; then
+        log "Upgrading react and react-dom to$version_msg"
+        yarn upgrade "react@$version" "react-dom@$version"
       fi
+      [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed"
+      [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superceded this"
     else
-      log -e "ERROR $err_code: There was a problem installing Bootstrap$auth_msg"
-    fi
-  else
-    version=$(eval "$parse" bootstrap version)
-    [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
-    if [[ -n $version && $install_bootstrap == 1 ]]; then
-      log "Setting bootstrap to$version_msg"
-      yarn upgrade "bootstrap@$version"
+      log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
     fi
   fi
-  # END: Optional bootstrap install
 fi
+# END: Optional react, react-dom and react-router-dom installs
+
+# BEGIN: Optional vue install
+if [[ $install_vue == 1 && $install_react == 0 ]]; then
+  version=$(eval "$parse" vue version)
+  __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
+  [[ -z $version ]] && version_msg='' || version_msg=" version $version"
+  [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+  log "Vue install directive found in starter.ini"
+  if [[ $__installed == 1 ]]; then
+    log "However it appears that Vue has already been installed, skipping this installation."
+  else
+    log "Installing vue$auth_msg"
+    if [[ $vue_auth == 1 ]]; then
+      php artisan ui vue --auth
+    else
+      php artisan ui vue
+    fi
+    err_code=$?
+    if [[ $err_code == 0 ]]; then
+      log "SUCCESS: Vue$auth_msg has been installed"
+      log "  --> Installing node modules and running Laravel Mix"
+      yarn install && npm run dev
+      npm run dev
+      if [[ -n $version ]]; then
+        log "Upgrading vue to$version_msg"
+        yarn upgrade "vue@$version"
+      fi
+      [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
+    else
+      log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
+    fi
+  fi
+fi
+# END: Optional vue install
+
+# BEGIN: Optional bootstrap install
+if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
+  version=$(eval "$parse" bootstrap version)
+  [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
+  [[ $bootstrap_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+  log "Bootstrap install directive found in starter.ini"
+  log "Installing Bootstrap$auth_msg"
+  if [[ $bootstrap_auth == 1 ]]; then
+    php artisan ui bootstrap --auth
+  elsegit 
+    php artisan ui bootstrap
+  fi
+  err_code=$?
+  if [[ $err_code == 0 ]]; then
+    log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
+    log "  --> Installing node modules and running Laravel Mix"
+    yarn install && npm run dev
+    npm run dev
+    if [[ -n "$version" ]]; then
+      log "Upgrading bootstrap to$version_msg"
+      yarn upgrade "bootstrap@$version"
+    fi
+  else
+    log -e "ERROR $err_code: There was a problem installing Bootstrap$auth_msg"
+  fi
+else
+  version=$(eval "$parse" bootstrap version)
+  [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
+  if [[ -n $version && $install_bootstrap == 1 ]]; then
+    log "Setting bootstrap to$version_msg"
+    yarn upgrade "bootstrap@$version"
+  fi
+fi
+# END: Optional bootstrap install
+
 # END: optional frontend scaffolding installations
 
 # BEGIN: optional example setup
@@ -260,9 +251,6 @@ fi
 
 # Initialize optional vue example project
 if [[ -n  $init_vue_example ]];then
-  (( laravel_major_ver < 6 )) \
-  && log -e "WARNING: Vue examples are only supported by Laravel version 6.* or higher. Your Laravel version is $laravel_major_ver" \
-  && log -e "WARNING: Ignoring the example requested: $example_title"
   # shellcheck source=.gp/bash/examples/init-vue-example.sh
   . "$init_vue_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_vue_example 2>&1 1>/dev/null)"
   exit

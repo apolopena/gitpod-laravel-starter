@@ -23,7 +23,7 @@ _lv=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini laravel version)
 # Get the major laravel version by deleting the first dot and everthing that follows
 _lvm=${_lv%%.*}
 # Handle unsupported laravel versions
-if (( _lvm < 5 || _lvm > 8 )); then
+if (( _lvm < 6 || _lvm > 8 )); then
   echo "WARNING: Laravel version $_lvm is not supported" | tee -a $_log
   echo "Setting Laravel version to the default of $_lv_default"
   _lv=_lv_default
