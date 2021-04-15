@@ -83,12 +83,8 @@ fi
 
 # phpmyadmin, test more for when this script fails in the middle with a non zero exit code
 if [[ $install_phpmyadmin == 1 ]];then
-  if [[ -n  $init_react_example || -n  $init_vue_example ]];then
     # shellcheck source=.gp/bash/init-phpmyadmin.sh
     . "$init_phpmyadmin" 2>/dev/null || log_silent -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)"
-  else
-    log -e "ERROR: phpmyadmin should be configured but the script was not set"
-  fi 
 fi
 
 # BEGIN: Install Laravel ui if needed
