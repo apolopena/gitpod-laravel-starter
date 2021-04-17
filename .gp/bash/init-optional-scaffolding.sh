@@ -31,7 +31,8 @@ init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
 # Any value for set for EXAMPLE will build the react/phpmyadmin questions and answers demo
 # into the starter, thus superceding some directives in starter.ini
 if [[ -n $EXAMPLE ]]; then
-  if [ ! -e "$GITPOD_REPO_ROOT/routes/web.php/" ]; then
+  # Hook: If there is a routes folder in VCS then assume all Laravel scaffolding is in VCS
+  if git ls-files --error-unmatch routes > /dev/null 2>&1; then
     case $EXAMPLE in
       1)
         example_title="React Example with phpMyAdmin and extras - Questions and Answers"
@@ -81,11 +82,11 @@ if [[ -n $EXAMPLE ]]; then
     log "Creating the example project"
     log "  --> $example_title"
   else
-    log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seem to already be in version control"
+    log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seems to already be in version control"
     log "Skipping creation of the example project"
     log "  --> $example_title"
-  fi
-fi
+  fi # end check Laravel scaffolding in VCS
+fi # end check example query parameter
 
 # phpmyadmin, test more for when this script fails in the middle with a non zero exit code
 if [[ $install_phpmyadmin == 1 ]];then
