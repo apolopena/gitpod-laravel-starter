@@ -10,30 +10,9 @@
 # Notes:
 # Always call this file last from the 'init' command in .gitpod.yml
 
-# Laravel routes/web.php injection
-if ! grep -q "Injected from $laravel_web_snippet" "$laravel_web"; then
-  allow_mixed_web=$(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel install)
-  if [[ $allow_mixed_web != 0 ]]; then
-    laravel_web=routes/web.php
-    laravel_web_snippet=.gp/snippets/laravel/routes/web/allow-mixed-web.snippet
-    if [[ -e $laravel_web ]]; then
-      msg="Injecting $laravel_web file"
-      [[ ! -e $laravel_web_snippet ]] && fail=1 && msg="Missing injection file $laravel_web_snippet"
-      [[ $fail != 1 ]] && log_silent "$msg" && start_spinner "$msg"
-      cat "$laravel_web_snippet" >> "$laravel_web"
-      err_code=$?
-      if [[ $err_code != 0  || $fail == 1 ]]; then
-        [[ $fail == 1 ]] || stop_spinner 1
-        log -e "ERROR: $msg"
-      else
-        stop_spinner 0
-        log_silent "SUCCESS: $msg"
-      fi
-    else
-      log "ERROR: no $laravel_web file to inject"
-    fi # end check injection file exists
-  fi # end check file to inject exists
-fi # end check if file to inject is already injected
+# routes/web.php injection
+allow_mixed_web=$(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel allow_mixed_web)
+[[ $allow_mixed_web != 0 ]] && bash .gp/bash/directives/allow-mixed-web.sh
 
 # Summarize results
 bash .gp/bash/helpers.sh show_first_run_summary
