@@ -84,7 +84,6 @@ if [[ -n $EXAMPLE ]]; then
   else
     log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seems to already be in version control"
     log "Skipping creation of the example project"
-    log "  --> $example_title"
   fi # end check Laravel scaffolding is already in version control
 fi # end check EXAMPLE query parameter
 
