@@ -31,54 +31,60 @@ init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
 # Any value for set for EXAMPLE will build the react/phpmyadmin questions and answers demo
 # into the starter, thus superceding some directives in starter.ini
 if [[ -n $EXAMPLE ]]; then
-  case $EXAMPLE in
-    1)
-      example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      init_react_example=".gp/bash/examples/init-react-example.sh"
-      install_react=1
-      install_phpmyadmin=1
-      install_react_router_dom=1
-      rrd_ver='^5.2.0'
-      ;;
-    2)
-      example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
-      init_react_example=".gp/bash/examples/init-react-example.sh"
-      install_react=1
-      install_phpmyadmin=0
-      install_react_router_dom=1
-      rrd_ver='^5.2.0'
-      ;;
-    10)
-      example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
-      init_vue_example=".gp/bash/examples/init-vue-example.sh"
-      install_react=0
-      install_vue=1
-      vue_auth=1
-      install_phpmyadmin=1
-      ;;
-    11)
-      example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
-      init_vue_example=".gp/bash/examples/init-vue-example.sh"
-      install_react=0
-      install_vue=1
-      vue_auth=1
-      install_phpmyadmin=0
-      ;;
-    *)
-      # Default example
-      # Keep this block identical to case 1)
-      example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-      init_react_example=".gp/bash/examples/init-react-example.sh"
-      install_react=1
-      install_phpmyadmin=1
-      install_react_router_dom=1
-      rrd_ver='^5.2.0'
-      ;;
-  esac
-  log "EXAMPLE directive query parameter found"
-  log "  --> Some directives in starter.ini will be superceded"
-  log "Configuring the example project"
-  log "  --> $example_title"
+  if [ ! -e "$GITPOD_REPO_ROOT/routes/web.php/" ]; then
+    case $EXAMPLE in
+      1)
+        example_title="React Example with phpMyAdmin and extras - Questions and Answers"
+        init_react_example=".gp/bash/examples/init-react-example.sh"
+        install_react=1
+        install_phpmyadmin=1
+        install_react_router_dom=1
+        rrd_ver='^5.2.0'
+        ;;
+      2)
+        example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
+        init_react_example=".gp/bash/examples/init-react-example.sh"
+        install_react=1
+        install_phpmyadmin=0
+        install_react_router_dom=1
+        rrd_ver='^5.2.0'
+        ;;
+      10)
+        example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
+        init_vue_example=".gp/bash/examples/init-vue-example.sh"
+        install_react=0
+        install_vue=1
+        vue_auth=1
+        install_phpmyadmin=1
+        ;;
+      11)
+        example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
+        init_vue_example=".gp/bash/examples/init-vue-example.sh"
+        install_react=0
+        install_vue=1
+        vue_auth=1
+        install_phpmyadmin=0
+        ;;
+      *)
+        # Default example
+        # Keep this block identical to case 1)
+        example_title="React Example with phpMyAdmin and extras - Questions and Answers"
+        init_react_example=".gp/bash/examples/init-react-example.sh"
+        install_react=1
+        install_phpmyadmin=1
+        install_react_router_dom=1
+        rrd_ver='^5.2.0'
+        ;;
+    esac
+    log "EXAMPLE directive query parameter found"
+    log "  --> Some directives in starter.ini will be superceded"
+    log "Creating the example project"
+    log "  --> $example_title"
+  else
+    log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seem to already be in version control"
+    log "Skipping creation of the example project"
+    log "  --> $example_title"
+  fi
 fi
 
 # phpmyadmin, test more for when this script fails in the middle with a non zero exit code
@@ -88,25 +94,28 @@ if [[ $install_phpmyadmin == 1 ]];then
 fi
 
 # BEGIN: Install Laravel ui if needed
-has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
-if [[ $has_frontend_scaffolding_install == 1 || -n $EXAMPLE ]]; then
-  log "Optional installations that require laravel/ui scaffolding were found"
-
-  # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
-  composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
-  if [[ $__ui == 1 ]]; then
-    log "However it appears that laravel/ui has already been installed, skipping this installation."
-  else
-    log "Installing laravel/ui:$laravel_ui_ver scaffolding via Composer"
-    composer require "laravel/ui:$laravel_ui_ver"
-    err_code=$?
-    if [ $err_code == 0 ]; then
-      log "SUCCESS: laravel/ui scaffolding installed"
+if grep -q laravel/ui composer.json; then
+  composer install
+else
+  has_frontend_scaffolding_install=$(bash .gp/bash/helpers.sh has_frontend_scaffolding_install)
+  if [[ $has_frontend_scaffolding_install == 1 || -n $EXAMPLE ]]; then
+    log "Optional installations that require laravel/ui scaffolding were found"
+    # Assume we are using composer 2 or higher, check if the laravel/ui package has already been installed
+    composer show | grep laravel/ui >/dev/null && __ui=1 || __ui=0
+    if [[ $__ui == 1 ]]; then
+      log "However it appears that laravel/ui has already been installed, skipping this installation."
     else
-      log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
-    fi # end err_code check
-  fi # end laravel/ui already installed check
-fi # end should install laravel ui check
+      log "Installing laravel/ui:$laravel_ui_ver scaffolding via Composer"
+      composer require "laravel/ui:$laravel_ui_ver"
+      err_code=$?
+      if [ $err_code == 0 ]; then
+        log "SUCCESS: laravel/ui scaffolding installed"
+      else
+        log -e "ERROR $err_code: There was a problem installing laravel/ui via Composer"
+      fi # end check err_code 
+    fi # end check laravel/ui already installed 
+  fi # end check should install laravel ui 
+fi # end check laravel/ui already in vcs but needs composer install
 
 # END: Install Laravel ui if needed
 
