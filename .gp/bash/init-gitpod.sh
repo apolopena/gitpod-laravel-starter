@@ -92,31 +92,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log 'ERROR: no Laravel .env file to inject'
   fi
   # END: Laravel .env injection
-
-  # BEGIN: Laravel routes/web.php injection
-  allow_mixed_web=$(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel install)
-  if [[ $allow_mixed_web != 0 ]]; then
-    laravel_web=public/routes/web.php
-    laravel_web_snippet=.gp/snippets/laravel/routes/web/allow-mixed-web.snippet
-    if [[ -e $laravel_web ]]; then
-      msg="Injecting $laravel_web file"
-      [[ ! -e $laravel_web_snippet ]] && fail=1 && msg="Missing injection file $laravel_web_snippet"
-      [[ $fail != 1 ]] && log_silent "$msg" && start_spinner "$msg"
-      cat "$laravel_web_snippet" >> "$laravel_web"
-      err_code=$?
-      if [[ $err_code != 0  || $fail == 1 ]]; then
-        [[ $fail == 1 ]] || stop_spinner 1
-        log -e "ERROR: $msg"
-      else
-        stop_spinner 0
-        log_silent "SUCCESS: $msg"
-      fi
-    else
-      log "ERROR: no $laravel_web file to inject"
-    fi
-  fi
-  # END: Laravel routes/web.php injection
-
+  
   # Configure .editorconfig
   if [ -e .editorconfig ]; then
     ec_type=$(bash .gp/bash/utils.sh parse_ini_value starter.ini .editorconfig type)
