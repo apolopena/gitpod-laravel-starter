@@ -113,7 +113,7 @@ show_first_run_summary() {
   echo -e "\e[0m"
   show_powered_by
   echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
-  echo -e "\n\e[38;5;194mIf everything looks good in the above results then push any new\nproject files to your git repository. Happy coding 👨‍💻\e[0m"
+  echo -e "\n\e[38;5;194mIf everything looks good in the above results then push any new\nproject files to your git repository. Happy coding 👩‍💻👨‍💻\e[0m"
 }
 
 # show_powered_by
@@ -127,7 +127,8 @@ show_powered_by() {
   echo -e "\e[38;5;34m$(php artisan --version)\e[0m"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
-    local raw=$(grep laravel/ui/tree/ composer.lock)
+    local raw
+    raw=$(grep laravel/ui/tree/ composer.lock)
     local ver=${raw##*/}
     [[ -n $raw ]] && echo -e "\e[38;5;34mlaravel/ui ${ver::-1}\e[0m"
   fi
