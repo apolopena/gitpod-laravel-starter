@@ -307,20 +307,12 @@ default_laravel_version() {
   echo '8.*'
 }
 
-# Derives the Laravel sematic version from the value set in starter.ini
-# Echos the default_laravel_version if the version does not begin with an integer
-# Echos the default_laravel_version if the version is out of the acceptable range of 5-8
-# Echos the default_laravel_version if the version is not set (left blank) in starter.ini
+
 laravel_version() {
-  local ver major_ver
-  ver=$(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel version)
-  [[ -z $ver || ! $ver =~ ^[0-9] ]] && ver=$(default_laravel_version)
-  major_ver="${ver%%.*}"
-  (( major_ver < 5 || major_ver > 8 )) && ver=$(default_laravel_version)
-  echo "$ver"
+  [[ $(php artisan --version) =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "${BASH_REMATCH[1]}"
 }
 
-# Derives the major version number from the value in starter.ini
+
 laravel_major_version() {
   local ver
   ver="$(laravel_version)"
