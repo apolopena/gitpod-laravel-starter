@@ -123,4 +123,3 @@ stop_php_dev() {
   pid=$(ps axf | grep 'php -S 127.0.0.1:8000 -t public/' | grep -v grep | awk '{print $1}' | sed 1q)
   [[ -n $pid ]] && kill -2 "$pid"
 }
-
