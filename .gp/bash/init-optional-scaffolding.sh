@@ -116,7 +116,8 @@ else
     fi # end check laravel/ui already installed 
   fi # end check should install laravel ui 
 fi # end check laravel/ui already in vcs but needs composer install
-
+# Cleanup (since we use yarn)
+[ -f package-lock.json ] && rm package-lock.json
 # END: Install Laravel ui if needed
 
 # BEGIN: Optional react, react-dom and react-router-dom installs
