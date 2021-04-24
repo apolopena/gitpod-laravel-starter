@@ -163,7 +163,7 @@ if [ $install_react == 1 ]; then
         yarn upgrade "react@$version" "react-dom@$version"
       fi
       [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed"
-      [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superseded this"
+      [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superceded this"
     else
       log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
     fi
