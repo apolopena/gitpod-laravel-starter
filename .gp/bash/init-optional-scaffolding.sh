@@ -206,6 +206,9 @@ if (( laravel_major_ver > 7 )); then
       fi
     fi
   fi
+else
+  [[ $install_vue == 1 && $install_react != 1 ]] \
+  && log "Laravel $laravel_major_ver comes already installed with Vue, vue installation skipped"
 fi
 # END: Optional vue install
 
