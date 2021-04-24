@@ -118,20 +118,33 @@ show_first_run_summary() {
 
 # show_powered_by
 # Description:
-# Outputs a summary including Laravel and laravel/ui versions
+# Outputs a summary showing what is installed: Laravel, laravel/ui, react, react-dom and vue
 #
 # Usage:
 # show_powered_by
 show_powered_by() {
+  local raw ver file
   echo "This project is powered by:"
-  echo -e "\e[38;5;34m$(php artisan --version)\e[0m"
+  echo -e "\e[38;5;34m$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
-    local raw
     raw=$(grep laravel/ui/tree/ composer.lock)
-    local ver=${raw##*/}
-    [[ -n $raw ]] && echo -e "\e[38;5;34mlaravel/ui ${ver::-1}\e[0m"
+    ver=${raw##*/}
+    [[ -n $raw ]] && echo -e "\e[38;5;34mlaravel/ui ${ver::-1}"
   fi
+  file=node_modules/react/cjs/react.development.js
+  if [[ -e $file ]]; then
+    [[ $(head -n 1 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "react ${BASH_REMATCH[1]}"
+  fi
+  file=node_modules/react-dom/cjs/react-dom.development.js
+  if [[ -e $file ]]; then
+    [[ $(head -n 1 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "react-dom ${BASH_REMATCH[1]}"
+  fi
+  file=node_modules/vue/dist/vue.js
+  if [[ -e $file ]]; then
+    [[ $(head -n 2 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "vue ${BASH_REMATCH[1]}"
+  fi
+  echo -en "\e[0m"
 }
 
 # get_starter_env_val
@@ -307,7 +320,11 @@ default_laravel_version() {
   echo '8.*'
 }
 
-
+# laravel_version
+# Description:
+# Parses the larvel version from the command: php artisan --version
+#
+# Note: Do not call this function before Laravel has been installed!
 laravel_version() {
   [[ $(php artisan --version) =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "${BASH_REMATCH[1]}"
 }
