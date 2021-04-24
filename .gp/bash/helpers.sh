@@ -113,7 +113,7 @@ show_first_run_summary() {
   echo -e "\e[0m"
   show_powered_by
   echo -en "\e\n[38;5;171mALL DONE 🚀\e[0m\n"
-  echo -e "\n\e[38;5;194mIf everything looks good in the above results then push any new\nproject files to your git repository. Happy coding 👩‍💻👨‍💻\e[0m"
+  echo -e "\n\e[38;5;194mIf there are no errors in the summary above then push any new\nproject files to your git repository. Happy coding 👩‍💻👨‍💻\e[0m"
 }
 
 # show_powered_by
