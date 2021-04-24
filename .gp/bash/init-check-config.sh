@@ -33,7 +33,7 @@ if [[ -f ~/laravel-starter/artisan ]]; then
     else
       msg1="WARNING: Laravel Version mismatch: The laravel version set in starter.ini in the repository is $lv but the laravel version used in the docker image is $cached_major_lv.*"
       msg2="You need to break the docker image cache by incrementing INVALIDATE_CACHE in .gitpod.Dockerfile and then create a new workspace"
-      msg3="WARNING: Proceeding using laravel version $cached_major_lv.* which probably not what your were expecting"
+      msg3="WARNING: Proceeding using laravel version $cached_major_lv.* which is probably not what your were expecting"
     fi
     log -e "$msg1"
     log "$msg2"
