@@ -5,7 +5,7 @@
 #
 # init-optional-scaffolding.sh
 # Description:
-# Installs various packages and scaffolding according to the directive set in starter.ini
+# Installs various packages and scaffolding according to the values set in starter.ini
 
 # Load logger
 . .gp/bash/workspace-init-logger.sh
@@ -163,7 +163,7 @@ if [ $install_react == 1 ]; then
         yarn upgrade "react@$version" "react-dom@$version"
       fi
       [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed"
-      [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superceded this"
+      [[ $install_vue == 1 ]] && log "Vue install directive found but ignored. The install of react superseded this"
     else
       log -e "ERROR $err_code: There was a problem installing React/React DOM$auth_msg"
     fi
@@ -172,41 +172,44 @@ fi
 # END: Optional react, react-dom and react-router-dom installs
 
 # BEGIN: Optional vue install
-if [[ $install_vue == 1 && $install_react == 0 ]]; then
-  version=$(eval "$parse" vue version)
-  __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
-  [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-  [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
-  log "Vue install directive found in starter.ini"
-  if [[ $__installed == 1 ]]; then
-    log "However it appears that Vue has already been installed, skipping this installation."
-  else
-    log "Installing vue$auth_msg"
-    if [[ $vue_auth == 1 ]]; then
-      php artisan ui vue --auth
+# Only install vue if the laravel version is > 7 since laravel 6 and 7 come with vue by default
+if (( laravel_major_ver > 7 )); then
+  if [[ $install_vue == 1 && $install_react != 1 ]]; then
+    version=$(eval "$parse" vue version)
+    __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
+    [[ -z $version ]] && version_msg='' || version_msg=" version $version"
+    [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+    log "Vue install directive found in starter.ini"
+    if [[ $__installed == 1 ]]; then
+      log "However it appears that Vue has already been installed, skipping this installation."
     else
-      php artisan ui vue
-    fi
-    err_code=$?
-    if [[ $err_code == 0 ]]; then
-      log "SUCCESS: Vue$auth_msg has been installed"
-      log "  --> Installing node modules and running Laravel Mix"
-      yarn install && npm run dev
-      npm run dev
-      if [[ -n $version ]]; then
-        log "Upgrading vue to$version_msg"
-        yarn upgrade "vue@$version"
+      log "Installing vue$auth_msg"
+      if [[ $vue_auth == 1 ]]; then
+        php artisan ui vue --auth
+      else
+        php artisan ui vue
       fi
-      [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
-    else
-      log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
+      err_code=$?
+      if [[ $err_code == 0 ]]; then
+        log "SUCCESS: Vue$auth_msg has been installed"
+        log "  --> Installing node modules and running Laravel Mix"
+        yarn install && npm run dev
+        npm run dev
+        if [[ -n $version ]]; then
+          log "Upgrading vue to$version_msg"
+          yarn upgrade "vue@$version"
+        fi
+        [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
+      else
+        log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
+      fi
     fi
   fi
 fi
 # END: Optional vue install
 
 # BEGIN: Optional bootstrap install
-if [[ $install_bootstrap == 1 && $install_react == 0 && $install_vue == 0 ]]; then
+if [[ $install_bootstrap == 1 && $install_react != 1 && $install_vue != 1 ]]; then
   version=$(eval "$parse" bootstrap version)
   [[ -z "$version" ]] && version_msg='' || version_msg=" version $version"
   [[ $bootstrap_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
@@ -241,25 +244,4 @@ fi
 # END: Optional bootstrap install
 
 # END: optional frontend scaffolding installations
-
-# BEGIN: optional example setup
-
-# Initialize optional react example project
-if [[ -n  $init_react_example ]];then
-  [[ $laravel_major_ver -ne 8 ]] \
-  && log -e "WARNING: React examples are only supported by Laravel version 8. Your Laravel version is $laravel_major_ver" \
-  && log -e "WARNING: Ignoring the example requested: $example_title" \
-  && exit
-  # shellcheck source=.gp/bash/examples/init-react-example.sh
-  . "$init_react_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_example 2>&1 1>/dev/null)"
-  exit
-fi
-
-# Initialize optional vue example project
-if [[ -n  $init_vue_example ]];then
-  # shellcheck source=.gp/bash/examples/init-vue-example.sh
-  . "$init_vue_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_vue_example 2>&1 1>/dev/null)"
-  exit
-fi
-
-# END: optional example setup
+q
