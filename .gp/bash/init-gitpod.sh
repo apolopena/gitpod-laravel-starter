@@ -82,7 +82,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       url="$(echo -e "$url" | head -1)"
       log_silent -e "ERROR: malformed url: $url"
     fi
-    if [ $err_code != 0 ]; then
+    if [[ $err_code != 0 ]]; then
       stop_spinner 1
       log -e "ERROR: Could not inject Larvel .env file with the url: $url"
     else
@@ -135,8 +135,15 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ "$installed_changelog_gen" == 1 ]; then
     msg="Installing github-changelog-generator"
     log_silent "$msg" && start_spinner "$msg" &&
-    gem install github_changelog_generator --no-document --silent &&
-    stop_spinner $?
+    gem install github_changelog_generator --no-document --silent
+    err_code=$?
+    if [[ $err_code != 0 ]]; then
+      stop_spinner $err_code
+      log -e "ERROR: $msg"
+    else
+      stop_spinner $err_code
+      log "SUCCESS: $msg"
+    fi
   fi
   # END: Optional configurations
 
