@@ -5,7 +5,7 @@
 #
 # init-optional-scaffolding.sh
 # Description:
-# Installs various packages and scaffolding according to the values set in starter.ini
+# Installs frontend scaffolding, optional EXAMPLES and other packages as per the values set in starter.ini
 
 # Load logger
 . .gp/bash/workspace-init-logger.sh
@@ -28,8 +28,7 @@ laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
 laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
 
-# Any value for set for EXAMPLE will build the react/phpmyadmin questions and answers demo
-# into the starter, thus superceding some directives in starter.ini
+# Any value set for EXAMPLE will build an example project thus superceding some directives in starter.ini
 if [[ -n $EXAMPLE ]]; then
   # Hook: If there is no routes folder in version control then assume no scaffolding is in version control
   if ! git ls-files --error-unmatch routes > /dev/null 2>&1; then
@@ -87,7 +86,7 @@ if [[ -n $EXAMPLE ]]; then
   fi # end check Laravel scaffolding is already in version control
 fi # end check EXAMPLE query parameter
 
-# phpmyadmin, test more for when this script fails in the middle with a non zero exit code
+# Install phpMyAdmin if needed
 if [[ $install_phpmyadmin == 1 ]];then
     # shellcheck source=.gp/bash/init-phpmyadmin.sh
     . "$init_phpmyadmin" 2>/dev/null || log_silent -e "ERROR: $(. $init_phpmyadmin 2>&1 1>/dev/null)"
@@ -119,7 +118,6 @@ fi # end check laravel/ui already in vcs but needs composer install
 # Cleanup (since we use yarn)
 [ -f package-lock.json ] && rm package-lock.json
 # END: Install Laravel ui if needed
-
 # BEGIN: Optional react, react-dom and react-router-dom installs
 if [ $install_react == 1 ]; then
   version=$(eval "$parse" react version)
@@ -171,7 +169,6 @@ if [ $install_react == 1 ]; then
   fi
 fi
 # END: Optional react, react-dom and react-router-dom installs
-
 # BEGIN: Optional vue install
 # Only install vue if the laravel version is > 7 since laravel 6 and 7 come with vue by default
 if (( laravel_major_ver > 7 )); then
@@ -208,10 +205,9 @@ if (( laravel_major_ver > 7 )); then
   fi
 else
   [[ $install_vue == 1 && $install_react != 1 ]] \
-  && log "Laravel $laravel_major_ver comes already installed with Vue, vue installation skipped"
+  && log "Laravel $laravel_major_ver comes already installed with Vue.\nVue install directive in starter.ini ignored"
 fi
 # END: Optional vue install
-
 # BEGIN: Optional bootstrap install
 if [[ $install_bootstrap == 1 && $install_react != 1 && $install_vue != 1 ]]; then
   version=$(eval "$parse" bootstrap version)
@@ -246,11 +242,8 @@ else
   fi
 fi
 # END: Optional bootstrap install
-
 # END: optional frontend scaffolding installations
-
 # BEGIN: optional example setup
-
 # Initialize optional react example project
 if [[ -n  $init_react_example ]];then
   [[ $laravel_major_ver -ne 8 ]] \
@@ -261,12 +254,10 @@ if [[ -n  $init_react_example ]];then
   . "$init_react_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_example 2>&1 1>/dev/null)"
   exit
 fi
-
 # Initialize optional vue example project
 if [[ -n  $init_vue_example ]];then
   # shellcheck source=.gp/bash/examples/init-vue-example.sh
   . "$init_vue_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_vue_example 2>&1 1>/dev/null)"
   exit
 fi
-
 # END: optional example setup
