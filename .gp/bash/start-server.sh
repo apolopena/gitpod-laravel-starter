@@ -5,7 +5,7 @@
 #
 # open-preview.sh
 # Description:
-# Conditionally starts the default server.
+# Starts the default server once MySQL is ready.
 
 # Load spinner
 . .gp/bash/spinner.sh

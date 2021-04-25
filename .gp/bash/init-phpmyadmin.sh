@@ -5,7 +5,7 @@
 #
 # init-gitpod.sh
 # Description:
-# Configures an existing phpmyadmin installation.
+# Bootstraps an existing phpmyadmin installation.
 
 # Load logger
 . .gp/bash/workspace-init-logger.sh
@@ -16,7 +16,8 @@
 # regexp pattern for checking an array of exit codes
 all_zeros_reg='^0$|^0*0$'
 
-# Edge case where the workspace image has cached the directive to not install phpmyadmin, install it now.
+# BEGIN: Boostrap phpMyAdmin
+# If the docker image has cached the directive to not install phpmyadmin, install it now.
 if [[ ! -d "public/phpmyadmin" ]]; then
   msg="Installing phpmyadmin"
   log_silent "$msg" && start_spinner "$msg"
@@ -33,6 +34,7 @@ if [[ ! -d "public/phpmyadmin" ]]; then
   fi
 fi
 
+# BEGIN: Parse configuration file
 if [ -e public/phpmyadmin/config.sample.inc.php ]; then
   msg="Creating file public/phpmyadmin/config.inc.php"
   log_silent "$msg" && start_spinner "$msg"
@@ -78,6 +80,7 @@ if [ -e public/phpmyadmin/config.sample.inc.php ]; then
     log_silent "SUCCESS: $msg"
   fi
 fi
+# END: Parse configuration file
 
 # Setup phpmyadmin db and storage tables
 msg='Configuring phpmyadmin db and storage tables'
@@ -91,7 +94,7 @@ else
   log_silent "SUCCESS: $msg"
 fi
 
-# Super user account for phpmyadmin
+# Create super user account for phpmyadmin
 msg="Creating phpmyadmin superuser: pmasu"
 log_silent "$msg" && start_spinner "$msg"
 mysql -e "CREATE USER 'pmasu'@'%' IDENTIFIED BY '123456';"
@@ -105,7 +108,7 @@ else
   stop_spinner $err_code
 fi
 
-# Control user account for phpmyadmin (used for storage features)
+# Create control user account for phpmyadmin (used for advanced/storage features)
 msg="Creating phpmyadmin control user"
 error_codes=()
 log_silent "$msg" && start_spinner "$msg"
@@ -140,4 +143,4 @@ if [ ! -d 'public/phpmyadmin/node_modules' ]; then
     log -e "ERROR: $msg. Try installing them manually."
   fi
 fi
-# END: phpmyadmin setup if installed
+# END: Boostrap phpMyAdmin

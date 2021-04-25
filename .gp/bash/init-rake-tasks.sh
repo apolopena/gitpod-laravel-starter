@@ -35,7 +35,6 @@ EOF
   bash .gp/bash/helpers.sh add_global_rake_task "$__task" "$rake"
 }
 # END: dynamic rake task functions
-
 # BEGIN: add rake tasks
   if ! add_changelog_rake; then
     exit 1
