@@ -14,7 +14,6 @@ lvm=$(bash .gp/bash/helpers.sh laravel_major_version)
 # Failsafe for unsupported versions
 (( lvm < 6 )) && exit 1
 
-
 declare -a exit_codes=()
 all_zeros='^0$|^0*0$'
 task_msg="Setting up Vue example: Material Dashboard"
