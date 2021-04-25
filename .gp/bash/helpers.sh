@@ -123,26 +123,27 @@ show_first_run_summary() {
 # Usage:
 # show_powered_by
 show_powered_by() {
-  local raw ver file
+  local ver file ver_pattern="([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)"
   echo "This project is powered by:"
   echo -e "\e[38;5;34m$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
-    raw=$(grep laravel/ui/tree/ composer.lock)
-    ver=${raw##*/}
-    [[ -n $raw ]] && echo -e "\e[38;5;34mlaravel/ui ${ver::-1}"
+    [[ $(grep laravel/ui/tree/ composer.lock) =~ $ver_pattern ]] && echo "laravel/ui ${BASH_REMATCH[1]}"
   fi
   file=node_modules/react/cjs/react.development.js
   if [[ -e $file ]]; then
-    [[ $(head -n 1 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "react ${BASH_REMATCH[1]}"
+    [[ $(head -n 1 "$file") =~ $ver_pattern ]] && echo "react ${BASH_REMATCH[1]}"
   fi
   file=node_modules/react-dom/cjs/react-dom.development.js
   if [[ -e $file ]]; then
-    [[ $(head -n 1 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "react-dom ${BASH_REMATCH[1]}"
+    [[ $(head -n 1 "$file") =~ $ver_pattern ]] && echo "react-dom ${BASH_REMATCH[1]}"
   fi
   file=node_modules/vue/dist/vue.js
+  alt_file=node_modules/@vue/shared/package.json
   if [[ -e $file ]]; then
-    [[ $(head -n 2 "$file") =~ ([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+) ]] && echo "vue ${BASH_REMATCH[1]}"
+    [[ $(head -n 2 "$file") =~ $ver_pattern ]] && echo "vue ${BASH_REMATCH[1]}"
+  elif [[ -e "$alt_file" ]]; then
+    [[ $(grep version "$alt_file" | head -1) =~ $ver_pattern ]] && echo "vue ${BASH_REMATCH[1]}"
   fi
   echo -en "\e[0m"
 }
