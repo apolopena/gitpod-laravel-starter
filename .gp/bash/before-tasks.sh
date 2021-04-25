@@ -9,7 +9,7 @@
 # 
 # Notes:
 # Gitpod currently does not persist files in the home directory so we must write them 
-# in everytime the workspace starts. We do this in the 'before' task in .gitpod.yml
+# in everytime the workspace starts. This is done in the 'before' task in .gitpod.yml
 
 # Load logger
 . .gp/bash/workspace-init-logger.sh
@@ -34,7 +34,7 @@ log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
 
 # Restore files marked as persistant such as workspace-init.log
-# See persist_file in bash/helpers.sh for how to system works
+# See persist_file in bash/helpers.sh for how the system works
 # Keep this block at the bottom of the file so that any logging from this
 # script is only written to file upon initialization! Otherwise workspace-init.log 
 # will get written to from this script upon every workspace restart.
