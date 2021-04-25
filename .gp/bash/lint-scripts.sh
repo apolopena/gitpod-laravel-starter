@@ -10,7 +10,7 @@
 # finds anything that needs attention. 
 #
 # Note: 
-# Pass in an optional -v or --verbose if you would like to output a list of the files being checked
+# Pass in an optional -V or --verbose if you would like to output a list of the files being checked
 
 path() {
   if [[ -z $GITPOD_REPO_ROOT ]]; then
@@ -30,7 +30,7 @@ script_total() {
 
 main() {
   local total result
-  if [[ $1 == '-v' || $1 == '--verbose' ]]; then
+  if [[ $1 == '-V' || $1 == '--verbose' ]]; then
     echo -e "\e[38;5;87mRunning all starter scripts through shellcheck\e[0m"
     echo -ne "\e[38;5;45m"
     list_all_scripts;  echo -ne "\e[0m"
