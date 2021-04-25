@@ -193,10 +193,6 @@ if (( laravel_major_ver > 7 )); then
         log "  --> Installing node modules and running Laravel Mix"
         yarn install && npm run dev
         npm run dev
-        if [[ -n $version ]]; then
-          log "Upgrading vue to$version_msg"
-          yarn upgrade "vue@$version"
-        fi
         [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
       else
         log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
