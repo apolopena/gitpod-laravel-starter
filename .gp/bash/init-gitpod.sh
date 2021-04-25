@@ -13,7 +13,7 @@
 # Load spinner
 . .gp/bash/spinner.sh
 
-# Log any potential mismatched configuration values
+# Log any potential mismatched configuration values such as the laravel version
 . .gp/bash/init-check-config.sh
 
 # Let the user know there will be a wait, then begin once MySql is initialized.
@@ -23,7 +23,7 @@ stop_spinner $?
 
 # BEGIN: Update npm if needed
 target_npm_ver='^7'
-min_target_npm_ver='7.7.5'
+min_target_npm_ver='7.11.1'
 current_npm_ver=$(npm -v)
 update_npm=$(bash .gp/bash/utils.sh comp_ver_lt "$current_npm_ver" "$min_target_npm_ver")
 if [[ $update_npm == 1 ]]; then
@@ -41,10 +41,9 @@ if [[ $update_npm == 1 ]]; then
 fi
 # END: Update npm if needed
 
-# BEGIN: Bootstrap Laravel scaffolding
-
-# Move Laravel project files if they are not already in version control
+# BEGIN: Bootstrapping
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
+  # BEGIN: rsync any new Laravel project files from the docker image to the repository
   msg="rsync $(php ~/laravel-starter/artisan --version) from ~/laravel-starter to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
   shopt -s dotglob
@@ -58,17 +57,32 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     stop_spinner $err_code
     log_silent "SUCCESS: $msg"
   fi
+  # END: rsync any new Laravel project files from the docker image to the repository
 
-  # Move LICENSE to the .gp folder
+  # Move, and or merge any project files that need it
   [[ -f "LICENSE" && -d ".gp" ]] && mv -f LICENSE .gp/LICENSE
-  
-  # Cleanup any cached phpmyadmin installation from the workspace image if needed
+  mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+  # Remove potentially cached phpmyadmin installation if phpmyadmin should not be installed
   if [ "$(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install)" == 0 ]; then
     [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
   fi
 
-  # BEGIN: parse configurations
-
+  # BEGIN: Configure .editorconfig
+  if [ -e .editorconfig ]; then
+    ec_type=$(bash .gp/bash/utils.sh parse_ini_value starter.ini .editorconfig type)
+    case $(echo "$ec_type" | tr '[:upper:]' '[:lower:]') in
+      'laravel-js-2space')
+        cp .gp/conf/editorconfig/laravel-js-2space .editorconfig
+      ;;
+      'none')
+        rm .editorconfig
+      ;;
+      *)
+        #Ignore invalid types
+      ;;
+    esac
+  fi
+  # END: Configure .editorconfig
   # BEGIN Laravel .env injection
   if [ -e .env ]; then
     msg="Injecting Laravel .env file with APP_URL and ASSET_URL"
@@ -95,23 +109,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log 'ERROR: no Laravel .env file to inject'
   fi
   # END: Laravel .env injection
-  
-  # Configure .editorconfig
-  if [ -e .editorconfig ]; then
-    ec_type=$(bash .gp/bash/utils.sh parse_ini_value starter.ini .editorconfig type)
-    case $(echo "$ec_type" | tr '[:upper:]' '[:lower:]') in
-      'laravel-js-2space')
-        cp .gp/conf/editorconfig/laravel-js-2space .editorconfig
-      ;;
-      'none')
-        rm .editorconfig
-      ;;
-      *)
-        #Ignore invalid types
-      ;;
-    esac
-  fi
-  # END: parse configurations
 
   # Create laravel database if it does not exist
   __laravel_db_exists=$(mysqlshow  2>/dev/null | grep laravel >/dev/null 2>&1 && echo "1" || echo "0")
@@ -129,7 +126,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     fi
   fi
   
-  # BEGIN: Optional configurations
   # Install https://github.com/github-changelog-generator/github-changelog-generator
   installed_changelog_gen=$(bash .gp/bash/utils.sh parse_ini_value starter.ini github-changelog-generator install)
   if [ "$installed_changelog_gen" == 1 ]; then
@@ -145,14 +141,13 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
       log "SUCCESS: $msg"
     fi
   fi
-  # END: Optional configurations
 
   # Install node packages and run laravel mix blindly here since at this stage there is no viable
   # hook for when laravel/ui frontend scaffolding (react, vue or bootstrap) is in version control but the
   # workspace is initializing for the first time. This is the only way we can establish a hook
   # for init-optional-scaffolding.sh to determine if it should bypass the php artisan ui command
   # since the hook that init-optional-scaffolding.sh uses is to look for a directory in node_modules
-  # named react, vue or bootstrap. Without this hook project code such as app.js gets overwitten.
+  # named react, vue or bootstrap. Without this hook, project code such as app.js gets overwitten.
   if [[ -f "package.json"  && ! -d "node_modules" ]]; then
     msg="Installing node modules"
     log "$msg"
@@ -166,19 +161,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log " --> Running Laravel Mix"
     npm run dev
     log " --> Running of Laravel Mix complete"
-  fi
-
-  # Move and merge necessary files, then cleanup
-  mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
-  if rm -rf /home/gitpod/laravel-starter;then
-    log_silent "CLEANUP SUCCESS: removed ~/laravel-starter"
-  fi
-  
-fi
-# END: Bootstrap Laravel scaffolding
-
-# Messages for github_changelog_generator
-[ "$installed_changelog_gen" == 1 ] &&
-log_silent "You may auto generate a CHANGELOG.md from github commits by running the command:\nrake changelog [...options]" &&
-log_silent "See starter.ini (github_changelog_generator section) for configurable options" &&
-log_silent "For a full list of options see the github-changelog-generator repository on github"
+  fi # end node_modules/ check
+fi # end vendor/ check for bootstrapping
+# END: Bootstrapping
