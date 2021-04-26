@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for XDebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9009,
+      /* Bugfix: https://github.com/apolopena/gitpod-laravel-starter/issues/99 */
+      "ignore": [
+        "**/vendor/**/*.php"
+      ]
+    },
+    {
+      "name": "Launch currently open script",
+      "type": "php",
+      "request": "launch",
+      "program": "${file}",
+      "stopOnEntry": true,
+      "cwd": "${workspaceRoot}",
+      "port": 9009
+    }
+  ]
+}

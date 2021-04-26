@@ -2,51 +2,36 @@ image:
   file: .gitpod.Dockerfile
 
 ports:
-  - port: 8001
+  - port: 3306
     onOpen: ignore
   - port: 8000
     onOpen: ignore
+  - port: 8001
+    onOpen: ignore
+  - port: 8002
+    onOpen: ignore
+  - port: 9000
+    onOpen: ignore
+    visibility: private
   - port: 9009
     onOpen: ignore
-  - port: 3306
-    onOpen: ignore
+    visibility: private
 
 tasks:
-  - before: bash bash/before-tasks.sh
+  - before: bash .gp/bash/before-tasks.sh
     init: |
-      bash bash/init-gitpod.sh
-      bash bash/init-optional-scaffolding.sh
-      bash bash/init-project.sh
-      bash bash/init-complete.sh
+      bash .gp/bash/init-gitpod.sh
+      bash .gp/bash/init-optional-scaffolding.sh
+      bash .gp/bash/init-project.sh
+      bash .gp/bash/init-complete.sh
     name: Main Terminal
-  - openMode: split-left
+  - openMode: split-right
     command: |
-      if [ $(bash bash/helpers.sh is_inited) == 1 ]; then \
-        gp sync-done gitpod-inited
-      fi;
-      . bash/third-party/spinner.sh
-      UP=$(pgrep mysql | wc -l); \
-      if [ "$UP" -ne 1 ]; then \
-        start_spinner "Initializing MySql..." &&
-        gp await-port 3306 &&
-        stop_spinner $?; \
-      fi &&
-      gp await-port 3306 &&
-      __server=$(bash bash/utils.sh parse_ini_value starter.ini development default_server); \
-      start_spinner "Starting $__server web server when system is ready..." &&
-      gp sync-await gitpod-inited &&
-      stop_spinner $? &&
-      bash -i bash/helpers.sh start_server
+      bash .gp/bash/start-server.sh
     name: Web Server
-  - openMode: split-top
+  - openMode: split-right
     command: |
-      . bash/third-party/spinner.sh &&
-      start_spinner "Opening preview when system is ready..."
-      gp sync-await gitpod-inited &&
-      stop_spinner 0 &&
-      __port=$(bash bash/helpers.sh get_default_server_port); \
-      gp await-port $__port &&
-      gp preview $(gp url $__port)
+      if bash .gp/bash/open-preview.sh; then exit; else bash .gp/bash/patch-preview.sh; fi
     name: Extra Terminal
 
 vscode:
