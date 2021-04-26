@@ -1,5 +1,61 @@
 # Changelog
 
+## [v1.0.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.0.0) (2021-04-26)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v0.0.4...v1.0.0)
+
+**Implemented enhancements:**
+
+- include Laravel and laravel/ui version in Init summary [\#110](https://github.com/apolopena/gitpod-laravel-starter/issues/110)
+- allow\_mixed\_web directive in starter.ini  [\#109](https://github.com/apolopena/gitpod-laravel-starter/issues/109)
+- Provide a Vue EXAMPLE [\#105](https://github.com/apolopena/gitpod-laravel-starter/issues/105)
+- Make the version of Laravel configurable in starter.ini [\#102](https://github.com/apolopena/gitpod-laravel-starter/issues/102)
+- Support Laravel 6, 7 and future major releases [\#101](https://github.com/apolopena/gitpod-laravel-starter/issues/101)
+- ♻️ REFACTOR: bash scripts to pass shellcheck [\#93](https://github.com/apolopena/gitpod-laravel-starter/issues/93)
+- Support Nginx and php-fpm [\#89](https://github.com/apolopena/gitpod-laravel-starter/issues/89)
+- Add shellcheck [\#88](https://github.com/apolopena/gitpod-laravel-starter/issues/88)
+- Implement LICENSE files for third party software [\#86](https://github.com/apolopena/gitpod-laravel-starter/issues/86)
+- \[DEMO\] React Example without phpMyAdmin and no extras [\#84](https://github.com/apolopena/gitpod-laravel-starter/issues/84)
+- Give this project a license [\#81](https://github.com/apolopena/gitpod-laravel-starter/issues/81)
+- \[DEMO\] React QnA, full featured and barebones [\#80](https://github.com/apolopena/gitpod-laravel-starter/issues/80)
+- DEMO/EXAMPLE mode [\#79](https://github.com/apolopena/gitpod-laravel-starter/issues/79)
+- Init summary: colorize errors and successes [\#75](https://github.com/apolopena/gitpod-laravel-starter/issues/75)
+- starter.ini add react-router and react-router-dom [\#36](https://github.com/apolopena/gitpod-laravel-starter/issues/36)
+
+**Fixed bugs:**
+
+- Calling debug\_on without an argument should use the default server [\#111](https://github.com/apolopena/gitpod-laravel-starter/issues/111)
+- Only the major version is respected for Laravel install [\#107](https://github.com/apolopena/gitpod-laravel-starter/issues/107)
+- Vue EXAMPLE does not work properly in an iframe \(preview browser\) [\#106](https://github.com/apolopena/gitpod-laravel-starter/issues/106)
+- lint-starter has no success message [\#100](https://github.com/apolopena/gitpod-laravel-starter/issues/100)
+- Xdebug does not work in vscode [\#99](https://github.com/apolopena/gitpod-laravel-starter/issues/99)
+- nginx redirects urls with no trailing slash to a 404 [\#96](https://github.com/apolopena/gitpod-laravel-starter/issues/96)
+- The spinner in terminal during initialization shows garbage text [\#95](https://github.com/apolopena/gitpod-laravel-starter/issues/95)
+- phpmyadmin wont display in an iframe [\#94](https://github.com/apolopena/gitpod-laravel-starter/issues/94)
+- debug mode does not work with nginx [\#92](https://github.com/apolopena/gitpod-laravel-starter/issues/92)
+-  bash directory in the root is opinionated [\#91](https://github.com/apolopena/gitpod-laravel-starter/issues/91)
+- nginx server requires trailing slash locations like phpmyadmin [\#90](https://github.com/apolopena/gitpod-laravel-starter/issues/90)
+- vscode IDE preview browser does not open [\#87](https://github.com/apolopena/gitpod-laravel-starter/issues/87)
+- LICENSE file is in the way [\#83](https://github.com/apolopena/gitpod-laravel-starter/issues/83)
+- Restarting a workspaces gives an error when opening the preview [\#19](https://github.com/apolopena/gitpod-laravel-starter/issues/19)
+
+**Closed issues:**
+
+- Create the wiki - home page and setup page [\#114](https://github.com/apolopena/gitpod-laravel-starter/issues/114)
+- Remove support to configure the version of Vue in starter.ini [\#113](https://github.com/apolopena/gitpod-laravel-starter/issues/113)
+- Docker image can build a different version of laravel that what is in VCS [\#112](https://github.com/apolopena/gitpod-laravel-starter/issues/112)
+- ~ is not supported when setting a Laravel version in starter.ini [\#108](https://github.com/apolopena/gitpod-laravel-starter/issues/108)
+- Change repository name to gitpod-laravel-starter [\#104](https://github.com/apolopena/gitpod-laravel-starter/issues/104)
+- Document laravel version options [\#103](https://github.com/apolopena/gitpod-laravel-starter/issues/103)
+- Refactor snippets and .bashrc functions [\#98](https://github.com/apolopena/gitpod-laravel-starter/issues/98)
+- Document nginx server [\#97](https://github.com/apolopena/gitpod-laravel-starter/issues/97)
+- Document EXAMPLE mode [\#85](https://github.com/apolopena/gitpod-laravel-starter/issues/85)
+- ♻️ REFACTOR: log wrappers for init-workspace.log [\#82](https://github.com/apolopena/gitpod-laravel-starter/issues/82)
+
+**Merged pull requests:**
+
+- 🔀 MERGE: Features, Fixes, Docs and Tasks for version 1.0.0 [\#115](https://github.com/apolopena/gitpod-laravel-starter/pull/115) ([apolopena](https://github.com/apolopena))
+
 ## [v0.0.4](https://github.com/apolopena/gitpod-laravel8-starter/tree/v0.0.4) (2021-03-29)
 
 [Full Changelog](https://github.com/apolopena/gitpod-laravel8-starter/compare/v0.0.3...v0.0.4)
