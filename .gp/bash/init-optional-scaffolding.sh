@@ -170,38 +170,32 @@ if [ $install_react == 1 ]; then
 fi
 # END: Optional react, react-dom and react-router-dom installs
 # BEGIN: Optional vue install
-# Only install vue if the laravel version is > 7 since laravel 6 and 7 come with vue by default
-if (( laravel_major_ver > 7 )); then
-  if [[ $install_vue == 1 && $install_react != 1 ]]; then
-    version=$(eval "$parse" vue version)
-    __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
-    [[ -z $version ]] && version_msg='' || version_msg=" version $version"
-    [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
-    log "Vue install directive found in starter.ini"
-    if [[ $__installed == 1 ]]; then
-      log "However it appears that Vue has already been installed, skipping this installation."
+if [[ $install_vue == 1 && $install_react != 1 ]]; then
+  version=$(eval "$parse" vue version)
+  __installed=$(bash .gp/bash/utils.sh node_package_exists vue)
+  [[ -z $version ]] && version_msg='' || version_msg=" version $version"
+  [[ $vue_auth != 1 ]] && auth_msg='' || auth_msg=' with --auth'
+  log "Vue install directive found in starter.ini"
+  if [[ $__installed == 1 ]]; then
+    log "However it appears that Vue has already been installed, skipping this installation."
+  else
+    log "Installing vue$auth_msg"
+    if [[ $vue_auth == 1 ]]; then
+      php artisan ui vue --auth
     else
-      log "Installing vue$auth_msg"
-      if [[ $vue_auth == 1 ]]; then
-        php artisan ui vue --auth
-      else
-        php artisan ui vue
-      fi
-      err_code=$?
-      if [[ $err_code == 0 ]]; then
-        log "SUCCESS: Vue$auth_msg has been installed"
-        log "  --> Installing node modules and running Laravel Mix"
-        yarn install && npm run dev
-        npm run dev
-        [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
-      else
-        log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
-      fi
+      php artisan ui vue
+    fi
+    err_code=$?
+    if [[ $err_code == 0 ]]; then
+      log "SUCCESS: Vue$auth_msg has been installed"
+      log "  --> Installing node modules and running Laravel Mix"
+      yarn install && npm run dev
+      npm run dev
+      [[ $install_bootstrap == 1 ]] && log "Bootstrap install directive found but ignored. Already installed."
+    else
+      log -e "ERROR $err_code: There was a problem installing vue$auth_msg"
     fi
   fi
-else
-  [[ $install_vue == 1 && $install_react != 1 ]] \
-  && log "Laravel $laravel_major_ver comes already installed with Vue.\nVue install directive in starter.ini ignored"
 fi
 # END: Optional vue install
 # BEGIN: Optional bootstrap install
