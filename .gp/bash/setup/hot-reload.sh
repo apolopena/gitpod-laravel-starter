@@ -7,8 +7,12 @@
 # Description:
 # One-time setup script for hot reloading functionality using browser-sync
 
-. .gp/bash/workspace-init-logger.sh
-. .gp/bash/spinner.sh
+rp=$GITPOD_REPO_ROOT
+
+# shellcheck source=.gp/bash/workspace-init-logger.sh
+. "$rp"/.gp/bash/workspace-init-logger.sh
+# shellcheck source=.gp/bash/spinner.sh
+. "$rp"/.gp/bash/spinner.sh
 
 c_red='\e[38;5;124m'
 c_orange='\e[38;5;208m'
@@ -18,18 +22,18 @@ c_hot_pink="\e[38;5;213m"
 c_end='\e[0m'
 
 pass_msg() {
-  echo -e $c_green"SUCCESS$c_end:$c_end $1"
+  echo -e "$c_green""SUCCESS$c_end:$c_end $1"
 }
 
 fail_msg() {
-  echo -e $c_red"ERROR $c_end$c_blue$(readlink -f $0)$c_end$c_red:$c_end$c_orange $1"$c_end
+  echo -e "$c_red""ERROR $c_end$c_blue$(readlink -f "$0")$c_end$c_red:$c_end$c_orange $1$c_end"
 }
 
 main_msg="$c_hot_pink""Setting up hot reload system$c_end"
 echo -e "$main_msg"
 
 # Install browser-sync packages
-if [[ ! -f node_modules/browser-sync/LICENSE ]]; then
+if [[ ! -f $rp/node_modules/browser-sync/LICENSE ]]; then
   msg="Installing browser-sync packages..."
   start_spinner "$msg"
   yarn add browser-sync browser-sync-webpack-plugin  --silent --dev 2> >(grep -v warning 1>&2) > /dev/null 2>&1
@@ -45,8 +49,8 @@ else
 fi
 
 # Inject webpack.mix.js
-file=webpack.mix.js
-snippet=.gp/snippets/laravel/webpack/browser-sync.snippet
+file=$rp/webpack.mix.js
+snippet=$rp/.gp/snippets/laravel/webpack/browser-sync.snippet
 msg="Injecting $file file..."
 if [[ -e $file ]]; then
   [[ ! -e $snippet ]] && fail=1 && e_msg="Missing injection file $snippet"
