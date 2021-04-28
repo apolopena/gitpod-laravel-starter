@@ -29,7 +29,7 @@ script_total() {
 }
 
 main() {
-  local total result
+  local total result skip skip_msg
   if [[ $1 == '-V' || $1 == '--verbose' ]]; then
     echo -e "\e[38;5;87mRunning all starter scripts through shellcheck\e[0m"
     echo -ne "\e[38;5;45m"
@@ -37,9 +37,18 @@ main() {
   fi
   total=$(script_total)
   (( total == 0 )) && echo -e "\e[38;5;124mInternal Error:\e[0m no scripts found to lint" && exit 1
-  result=$(find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" {} \; | tee >(wc -l))
-  [[ $result == 0 ]] && echo -e "\e[38;5;76mSUCCESS:\e[0m \e[38;5;40mall \e[0;36m$total\e[0m \e[38;5;40mscripts in the system passed the shellcheck.\e[0m" && exit
-  find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" {} \;
+  if [[ ! -e $(pwd)/.gp ]]; then
+    skip_msg="\e[38;5;208mWARNING: You did not lint the starter scripts from the project root so shellcheck error \e[0mSC1091\e[38;5;208m was be excluded.\e[0m"
+    skip='-e SC1091'
+  fi
+  result=$(find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" $skip {} \; | tee >(wc -l))
+  if [[ $result == 0 ]]; then
+    [[ -n $skip_msg ]] && echo -e "$skip_msg"
+    echo -e "\e[38;5;76mSUCCESS:\e[0m \e[38;5;40mall \e[0;36m$total\e[0m \e[38;5;40mscripts in the system passed the shellcheck.\e[0m"
+    exit
+  fi
+  find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" $skip {} \;
+  [[ -n $skip_msg ]] && echo -e "$skip_msg"
 }
 
 main "$1"
