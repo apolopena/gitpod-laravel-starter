@@ -36,6 +36,7 @@ main() {
     list_all_scripts;  echo -ne "\e[0m"
   fi
   total=$(script_total)
+  (( total == 0 )) && echo -e "\e[38;5;124mInternal Error:\e[0m no scripts found to lint" && exit 1
   result=$(find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" {} \; | tee >(wc -l))
   [[ $result == 0 ]] && echo -e "\e[38;5;76mSUCCESS:\e[0m \e[38;5;40mall \e[0;36m$total\e[0m \e[38;5;40mscripts in the system passed the shellcheck.\e[0m" && exit
   find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" {} \;
