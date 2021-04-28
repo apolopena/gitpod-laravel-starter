@@ -13,11 +13,7 @@
 # Pass in an optional -V or --verbose if you would like to output a list of the files being checked
 
 path() {
-  if [[ -z $GITPOD_REPO_ROOT ]]; then
-    echo '.gp'
-  else
-    echo "$GITPOD_REPO_ROOT/.gp"
-  fi
+  echo "$GITPOD_REPO_ROOT/.gp"
 }
 
 list_all_scripts() {
@@ -38,7 +34,7 @@ main() {
   total=$(script_total)
   (( total == 0 )) && echo -e "\e[38;5;124mInternal Error:\e[0m no scripts found to lint" && exit 1
   if [[ ! -e $(pwd)/.gp ]]; then
-    skip_msg="\e[38;5;208mWARNING: You did not lint the starter scripts from the project root so shellcheck error \e[0mSC1091\e[38;5;208m was be excluded.\e[0m"
+    skip_msg="\e[38;5;208mWARNING: You did not lint the starter scripts from the project root so shellcheck error \e[0mSC1091\e[38;5;208m was excluded.\e[0m"
     skip='-e SC1091'
   fi
   result=$(find "$(path)" -type d \( -name node_modules \) -prune -false -o -name "*.sh" -exec shellcheck -x -P "$(path)" $skip {} \; | tee >(wc -l))
