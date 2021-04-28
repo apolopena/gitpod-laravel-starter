@@ -20,11 +20,14 @@ c_end='\e[0m'
 pass_msg() {
   echo -e $c_green"SUCCESS$c_end:$c_end $1"
 }
+
 fail_msg() {
   echo -e $c_red"ERROR $c_end$c_blue$(readlink -f $0)$c_end$c_red:$c_end$c_orange $1"$c_end
 }
+
 main_msg="$c_hot_pink""Setting up hot reload system$c_end"
 echo -e "$main_msg"
+
 # Install browser-sync packages
 if [[ ! -f node_modules/browser-sync/LICENSE ]]; then
   msg="Installing browser-sync packages..."
@@ -40,6 +43,7 @@ if [[ ! -f node_modules/browser-sync/LICENSE ]]; then
 else
   pass_msg "Browser-sync packages have already been installed"
 fi
+
 # Inject webpack.mix.js
 file=webpack.mix.js
 snippet=.gp/snippets/laravel/webpack/browser-sync.snippet
@@ -66,6 +70,7 @@ else
   stop_spinner 1 "\b \n$(fail_msg "no $file file to inject")"
   exit 1
 fi
+
 # Run Laravel Mix, to initialize browser-sync-webpack-plugin
 msg="Running Laravel Mix..."
 start_spinner "$msg"
@@ -75,5 +80,6 @@ else
   stop_spinner 1 "\b \n$(fail_msg "$msg")"
   exit 1
 fi
+
 pass_msg "$main_msg"
 
