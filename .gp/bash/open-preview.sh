@@ -8,12 +8,13 @@
 # Conditionally opens an integrated preview browser
 # either to the web root if no argument is passed in
 # or to the specified path segment if $1 is passed in
+
 [[ $(pwd) != "$GITPOD_REPO_ROOT" ]] &&
 echo -e "\e[1;31mThis command can only be run from the project root of a gitpod workspace:\e[0m $GITPOD_REPO_ROOT" &&
-
 exit 1
-# Load spinner
+
 . .gp/bash/spinner.sh
+
 __path=
 if [[ -n  $1 ]]; then
   if [[ ! $1 =~ \/$ ]]; then
