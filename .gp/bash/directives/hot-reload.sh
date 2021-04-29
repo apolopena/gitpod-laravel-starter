@@ -3,9 +3,10 @@
 # SPDX-License-Identifier: MIT
 # Copyright © 2021 Apolo Pena
 #
-# setup-hot-reload.sh
+# hot-reload.sh
 # Description:
-# One-time setup script for hot reloading functionality using browser-sync
+# Intelligent hot reload using browser-sync and Laravel Mix
+# setup, start, stop, refresh and help commands for the public API
 
 # shellcheck source=.gp/bash/spinner.sh
 . "$GITPOD_REPO_ROOT"/.gp/bash/spinner.sh
