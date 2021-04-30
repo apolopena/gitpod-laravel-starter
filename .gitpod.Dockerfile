@@ -46,3 +46,7 @@ COPY --chown=gitpod:gitpod .gp/snippets/server-functions.sh /tmp
 COPY --chown=gitpod:gitpod .gp/snippets/browser-functions.sh /tmp
 RUN cp /tmp/server-functions.sh ~/.bashrc.d/server-functions \
     && cp /tmp/browser-functions.sh ~/.bashrc.d/browser-functions
+
+# Customs cli's and user scripts for /usr/local/bin
+COPY --chown=gitpod:gitpod .gp/bash/bin/hot-reload.sh /usr/local/bin
+RUN sudo mv /usr/local/bin/hot-reload.sh /usr/local/bin/hot-reload
