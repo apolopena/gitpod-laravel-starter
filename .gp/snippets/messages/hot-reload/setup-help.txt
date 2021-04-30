@@ -1,4 +1,3 @@
-
 Installs the hot-reload system. Must be called before any other hot-reload command.
 This command should only be called once. When the changed files resulting from calling this command 
 have been pushed to your repository you will not need to call hot-reload setup again.

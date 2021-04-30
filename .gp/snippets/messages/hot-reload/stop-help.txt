@@ -1,4 +1,3 @@
-
 Stops Laravel Mix Watch which stops the browser-sync hot reload webpack server on port 3005
 Can only be called after the hot-reload 'setup' and 'start' commands have been called.
 The browser-sync hot-reload webpack server on port 3005 will stop serving.

@@ -1,4 +1,3 @@
-
 Starts Laravel Mix Watch which starts browser-sync 
 Can only be called after the hot-reload 'setup' command has been called.
 browser-sync spawns the hot-reload webpack server on port 3005. A preview browser is automatically opened
