@@ -1,0 +1,19 @@
+
+Installs the hot-reload system. Must be called before any other hot-reload command.
+This command should only be called once. When the changed files resulting from calling this command 
+have been pushed to your repository you will not need to call hot-reload setup again.
+
+Notes:
+When this command is run the following actions are taken if they have not already be done.
+If any of the below tasks are already complete, you will be notified and that task will be skipped:
+1. Install the latest versions of the following node packages as devDependencies (via yarn):
+  browser-sync
+  browser-sync-webpack-plugin
+2. Append .gp/snippets/webpack/browser-sync.snippet to webpack.mix.js if it is not already there
+3. Run Laravel Mix 
+
+Usage:
+  hot-reload setup [flag]
+
+Flags:
+  -h, --help       help for setup
