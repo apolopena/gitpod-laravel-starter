@@ -186,7 +186,7 @@ _handle_cmd_args() {
       exit 1;
     else
       [[ $1 == '-h' || $1 == '--help' ]] && \
-      _show_help refresh && exit || _fail_msg "$2: Unsupported flag $1" && exit 1
+      _show_help "$2" && exit || _fail_msg "$2: Unsupported flag $1" && exit 1
     fi
   fi
   local all_spaces="^[ ]*$"
