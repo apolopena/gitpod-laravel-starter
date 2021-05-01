@@ -1,6 +1,6 @@
-Installs the hot-reload system. Must be called before any other hot-reload command.
-This command should only be called once. When the changed files resulting from calling this command 
-have been pushed to your repository you will not need to call hot-reload setup again.
+Installs the hot-reload system.
+Run this command one-time prior to running any other hot-reload command.
+The files this command will change are: package.json, webpack.mix.js and yarn.lock
 
 Notes:
 When this command is run the following actions are taken if they have not already be done.
@@ -15,4 +15,5 @@ Usage:
   hot-reload setup [flag]
 
 Flags:
-  -h, --help       help for setup
+  -h, --help       show help for this command
+

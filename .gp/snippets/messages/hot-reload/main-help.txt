@@ -1,4 +1,4 @@
-Command line interface for hot reloading using browser-sync and Laravel Mix
+Command line interface for hot reloading using browser-sync and Laravel Mix Watch
 
 Usage:
   hot-reload [COMMAND][-h |--help]
@@ -10,7 +10,7 @@ Requires:
   yarn
 
 Commands:
-  setup           Installs hot-reload. Must be called before any other command
+  setup           Installs the hot-reload system. Call this prior to any other command
   start           Starts Laravel Mix Watch which starts browser-sync (port 3005)
   stop            Stops Laravel Mix Watch and browser-sync (port 3005)
   refresh         Refreshes the preview browser on port 3005
@@ -21,4 +21,4 @@ Flags:
   -h --help        Display this help and exit
   -s --show-deps   Show dependency information
 
-Use "gp [command] --help" for more information about a command.
+Use "hot-reload [command] --help" for more information about a command.

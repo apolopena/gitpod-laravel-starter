@@ -1,15 +1,17 @@
-Starts Laravel Mix Watch which starts browser-sync 
-Can only be called after the hot-reload 'setup' command has been called.
-browser-sync spawns the hot-reload webpack server on port 3005. A preview browser is automatically opened
-The webpack server will proxy whatever default development server you have set in starter.ini
+Starts hot reload server on port 3005 by starting Laravel Mix Watch which starts browser-sync.
+This command can only be called after the hot-reload 'setup' command has been called.
+browser-sync spawns the hot-reload webpack server on port 3005. A preview browser is automatically opened.
+The hot reload server will proxy whatever default development server you have set in starter.ini
 
 Notes:
 If you are serving dynamic content such as PHP or compiled javascript using a server other than what
-was set as the development server in starter.ini, then the hot reload will not proxy the correct port and
-will fail. If you need to change this you can edit the hot reload code snippet in webpack.mix.js
+was set as the development server in starter.ini, then the hot reload server will not proxy the correct 
+port and will fail. If you need to change this you can edit the hot reload code snippet in webpack.mix.js
+or change your default server preference in starter.ini.
 
 Usage:
   hot-reload start [flag]
 
 Flags:
-  -h, --help       help for start
+  -h, --help       show help for this command
+
