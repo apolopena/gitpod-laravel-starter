@@ -16,6 +16,13 @@
 #
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
+# version
+# Description:
+# The gitpod-laravel-starter version
+#
+gls_version() {
+  echo "gitpod-laravel-starter 1.0.0"
+}
 # start_server
 # Description:
 # Starts up the default server or a specific server ($1)
@@ -125,7 +132,9 @@ show_first_run_summary() {
 show_powered_by() {
   local ver file ver_pattern="([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)"
   echo "This project is powered by:"
-  echo -e "\e[38;5;34m$(php artisan --version)"
+  echo -en "\e[38;5;34m"
+  gls_version
+  echo -e "$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
     [[ $(grep laravel/ui/tree/ composer.lock) =~ $ver_pattern ]] && echo "laravel/ui ${BASH_REMATCH[1]}"
