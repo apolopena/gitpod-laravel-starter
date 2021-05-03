@@ -59,9 +59,12 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: rsync any new Laravel project files from the docker image to the repository
 
-  # Move, and or merge any project files that need it
+  # Move, rename or merge any project files that need it
   [[ -f "LICENSE" && -d ".gp" ]] && mv -f LICENSE .gp/LICENSE
+  [[ -f "README.md" && -d ".gp" ]] && mv -f README.md .gp/README.md
+  [[ -f "CHANGELOG.md" && -d ".gp" ]] && mv -f CHANGELOG.md .gp/CHANGELOG.md
   mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+
   # Remove potentially cached phpmyadmin installation if phpmyadmin should not be installed
   if [ "$(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install)" == 0 ]; then
     [ -d "public/phpmyadmin" ] && rm -rf public/phpmyadmin
