@@ -21,7 +21,7 @@
 # The gitpod-laravel-starter version
 #
 gls_version() {
-  echo "gitpod-laravel-starter 1.0.0"
+  echo "Gitpod Laravel Starter Framework 1.0.0"
 }
 # start_server
 # Description:
