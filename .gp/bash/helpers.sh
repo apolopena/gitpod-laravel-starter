@@ -16,12 +16,21 @@
 #
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
-# version
+# gls_version
 # Description:
-# The gitpod-laravel-starter version
+# Parses The gitpod-laravel-starter version from it's CHANGELOG.
+# If the CHANGELOG.md cannot be found then a hardcoded string is used.
 #
 gls_version() {
-  echo "Gitpod Laravel Starter Framework 1.0.0"
+  local hard version title file
+  hard="1.1.0"
+  title="Gitpod Laravel Starter Framework"
+  file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
+  if [[ -f $file ]]; then
+    version=$(grep -oE "([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)?" "$file" | head -n 1)
+    echo "$prefix $hard"
+  fi
+  if [[ -n  $version ]];then echo "$title $version"; else echo "$title $hard"; fi
 }
 # start_server
 # Description:
