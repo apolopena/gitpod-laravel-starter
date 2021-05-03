@@ -28,7 +28,6 @@ gls_version() {
   file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
   if [[ -f $file ]]; then
     version=$(grep -oE "([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)?" "$file" | head -n 1)
-    echo "$prefix $hard"
   fi
   if [[ -n  $version ]];then echo "$title $version"; else echo "$title $hard"; fi
 }
