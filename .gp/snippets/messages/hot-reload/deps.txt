@@ -7,6 +7,6 @@ hot-reload 'setup' command installs the latest versions of the following node pa
   browser-sync-webpack-plugin
 
 Notes:
-  hot reload 'setup' command will append your webpack.mix.js file with a hot-reload code snippet.
+  The hot-reload 'setup' command will append your webpack.mix.js file with a hot-reload code snippet.
   The code in the hot-reload snippet can be altered (add browser-sync options, etc..) but do not
   remove or alter the comments that surround the snippet as they are a hook that this system uses.
