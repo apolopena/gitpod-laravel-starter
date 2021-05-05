@@ -38,10 +38,10 @@ JavaScript Framework" width="72" ></a>
 
 1. [Welcome](#welcome)
 2. [Requirements](#requirements)
-3. [Set Up a Repository](#set-up-a-repository)
+3. [Setting Up a Repository](#setting-up-a-repository)
    - 3.1 [Creating a new Gitpod Workspace from a GitHub repository](#creating-a-new-gitpod-workspace-from-a-github-repository)
-4. [Run the Client](#run-the-client)
-5. [Push Laravel scaffolding Files to Your Remote Repository](#push-laravel-scaffolding-files-to-your-remote-repository)
+4. [Running the Client](#running-the-client)
+5. [Pushing Laravel scaffolding Files to Your Remote Repository](#pushing-laravel-scaffolding-files-to-your-remote-repository)
    - 5.1 [Gitpod account permissions](#gitpod-account-permissions)
    - 5.2 [GitHub email protection](#GitHub-email-protection)
 6. [Starter Project Configuration](#Starter-Project-Configuration)
@@ -50,6 +50,7 @@ JavaScript Framework" width="72" ></a>
    - 6.3 [Changing the default server](#changing-the-default-server)
    - 6.4 [Running more than one server at a time](#running-more-than-one-server-at-a-time)
    - 6.5 [Changing the Laravel Version](#changing-the-laravel-version)
+   - 6.6 [Breaking the Docker cache](#breaking-the-docker-cache)
 7. [Additional Features](#additional-features)
    - 7.1 [Hot Reloading](#hot-reloading)
    - 7.2 [Typescript](#typescript)
@@ -64,11 +65,11 @@ JavaScript Framework" width="72" ></a>
    - 9.2 [Security Concerns](#security-concerns)
    - 9.3 [Securing phpMyAdmin](#securing-phpmyadmin)
 10. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
-   - 10.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
+    - 10.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
 11. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
 12. [Ruby Gems](#ruby-gems)
-13. [Git aliases](#git-aliases)
-   - 13.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
+13. [Git Aliases](#git-aliases)
+    - 13.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
 13. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
 14. [Gitpod Caveats](#gitpod-caveats)
 15. [Thanks](#thanks)
@@ -83,7 +84,7 @@ JavaScript Framework" width="72" ></a>
 
 <br />
 
-## Set Up a Repository
+## Setting Up a Repository
 There are many ways that you can [use `gitpod-laravel-starter`](https://github.com/apolopena/gitpod-laravel-starter/wiki/Setup). __Full setup instructions can be found on the wiki [setup page](https://github.com/apolopena/gitpod-laravel-starter/wiki/Setup)__.
 
 ### Creating a new Gitpod Workspace from a Github repository
@@ -102,13 +103,13 @@ When the workspace is created for the first time an entire online development en
 
 <br />
 
-## Run the Client
+## Running the Client
 
-A preview browser should automatically open and display the Laravel start page once the system is ready. This page is being served by the default web server which is set in `starter.ini`. The code for the laravel start page page is in `/resources/views/welcome.blade.php`. To manually open the preview browser or to refresh it you can run the command `op`.
+A preview browser should automatically open and display the Laravel start page once the system is ready. This page is being served by the default web server which is set in `starter.ini`. The code for the Laravel start page page is in `/resources/views/welcome.blade.php`. To manually open the preview browser or to refresh it you can run the command `op`.
 
 <br />
 
-## Push Laravel scaffolding Files to Your Remote Repository
+## Pushing Laravel scaffolding Files to Your Remote Repository
 
 If the result log summary in the console shows success, then you should push those newly created Laravel scaffolding files to your remote repository before you get started coding your project. 
 
@@ -152,10 +153,10 @@ The file `starter.ini` in the root of the project allows you to configure option
 You can activate a preset example as a starting point by adding `EXAMPLE=<id>` to the Gitpod URL right after the `#` and followed by a `\`.
 | id | Description | Sample URL |
 | :---:  | :--- | :--- |
-| 1 | React Example with phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=1/https://github.com/apolopena/gitpod-laravel8-starter |
-| 2 | React Example without phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=2/https://github.com/apolopena/gitpod-laravel8-starter |
-| 10 | Vue Example with phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=10/https://github.com/apolopena/gitpod-laravel8-starter |
-| 11 | Vue Example without phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=11/https://github.com/apolopena/gitpod-laravel8-starter |
+| 1 | React Example with phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=1/https://github.com/apolopena/gitpod-laravel-starter |
+| 2 | React Example without phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=2/https://github.com/apolopena/gitpod-laravel-starter |
+| 10 | Vue Example with phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=10/https://github.com/apolopena/gitpod-laravel-starter |
+| 11 | Vue Example without phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=11/https://github.com/apolopena/gitpod-laravel-starter |
 
 ### Development Servers
 
@@ -196,7 +197,7 @@ Now the nginx server will be running in parallel.
 Laravel requires a URL to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The URL set in the `.env` file contains the server port. so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
 ### Changing the Laravel Version
-In `starter.ini` there is a directive to change the version of Laravel. 
+In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel before you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
 
 **Important**:
 - By default `gitpod-laravel-starter` uses the most recent version of Laravel. Currently this is version `8.*`
@@ -207,9 +208,13 @@ In `starter.ini` there is a directive to change the version of Laravel.
  - __Upgrading or downgrading Laravel once Laravel scaffolding files have been saved to your repository is not advised and should not be done.__
  - Attempts to upgrade will will result in an automatic downgrade and could cause instability.
  - Attempts to downgrade will be ignored and could cause instability.
- - The laravel version directive is cached in the workspace image so changing it requires you to break the docker cache. Do this to fix any version mismatch errors.
+ - The Laravel version directive is cached in the workspace image so changing it requires you to break the Docker cache.
+
+ ### Breaking the Docker cache
+ You can break the Docker cache and force the workspace image to be rebuilt by incrementing the `INVALIDATE_CACHE` variable in `.gitpod.Dockerfile`. Push the changed `.gitpod.Dockerfile` to your repository, create a new gitpod workspace and the workspace image will be rebuilt. Any cached external files that Docker uses such as `starter.ini` will be updated.
 
 <br />
+
 
 ## Additional Features
 To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project.
@@ -218,7 +223,7 @@ To keep the `gitpod-laravel-framework` as flexible as possible, some features ha
   - `gitpod-laravel-starter` makes it easy for you to add the ability to see your code changes in realtime without refreshing the browser. Take a look at the [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) wiki page for more details.
 
 ### Typescript
-  - Adding [Typescript](https://www.typescriptlang.org/) to your project is simple. Have a look at the [Typescript](https://github.com/apolopena/gitpod-laravel-starter/wiki/Typescript) wiki page for an example.
+  - Adding [Typescript](https://www.typescriptlang.org/) to your project is simple. Have a look at the wiki [Typescript page](https://github.com/apolopena/gitpod-laravel-starter/wiki/Typescript) for an example.
 
 <br />
 
@@ -320,7 +325,7 @@ There is an option in `starter-ini` to install [`github-changelog-generator`](ht
 This option is on by default and additional settings for this option can be found in `starter.ini`.
 You can generate a `CHANGELOG.md` by running the command:
 `rake changelog`
-Currently generating a changelog can only be done when the workspace is built for the first time. See [here](https://github.com/apolopena/gitpod-laravel8-starter/issues/57) for more details. See [github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator) for documentation.
+Currently generating a changelog can only be done when the workspace is built for the first time. See [here](https://github.com/apolopena/gitpod-laravel-starter/issues/57) for more details. See [github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator) for documentation.
 
 ### Setting up an Access Token for github-changelog-generator
 
@@ -349,13 +354,13 @@ This file contains some basic scaffolding and examples that you may use in your 
 
 ## Ruby Gems
 
-Currently until gitpod fixes the [issue](https://github.com/apolopena/gitpod-laravel8-starter/issues/57) of ruby gems not persisting across workspace restarts, you can only use rake commands when the workspace is created for the first time.
+Currently until gitpod fixes the [issue](https://github.com/apolopena/gitpod-laravel-starter/issues/57) of ruby gems not persisting across workspace restarts, you can only use rake commands when the workspace is created for the first time.
 
 <br />
 
-## Git aliases
+## Git Aliases
 
-Any git aliases you would like to add to your project should be added to the [`alias`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/.gp/snippets/git/aliases) file.  
+Git aliases that you would like to add to your project should be added to the [`alias`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/.gp/snippets/git/aliases) file.  
 
 ### Emoji-log and Gitmoji
 A compilation of git aliases from [Emoji-log](https://github.com/ahmadawais/Emoji-Log) and [Gitmoji](https://gitmoji.dev/) are included, use them as you like from the command line. There is also a separate set of emoji based git aliases that will commit the files with a message and push them to the repository *without* adding the files. Use these aliases for dealing with groups of files that need different commit messages but still need to use to Emoji-log and or Gitmoji standards. You can get a list of all the emoji based git aliases with the command: `git a`
@@ -364,7 +369,7 @@ A compilation of git aliases from [Emoji-log](https://github.com/ahmadawais/Emoj
 
 ## Deployment Outside of Gitpod
 
-For now this will be something you need to figure out. Eventually some guidelines for how to do that will be added here.
+For now this will be something you need to figure out, eventually some guidelines for how to do that may be added here.
 
 <br />
 
@@ -374,7 +379,7 @@ Gitpod is an amazing and dynamic platform however at times, during it's peak hou
     - **Possible Fix**: Delete the workspace in your Gitpod dashboard and then [recreate the workspace](#creating-a-new-workspace-in-gitpod-from-your-new-github-project-repository).
   - **Symptom**: Workspace loads, IDE displays, however no ports become available and or the spinner stays spinning in the terminal even after a couple of minutes.
     - **Possible Fix**: Refresh the browser
-    - 
+
 You can also try to remedy any rare Gitpod network hiccups by simply waiting 30 minutes and trying again.
 
 ## Thank You
