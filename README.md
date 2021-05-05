@@ -200,7 +200,7 @@ Laravel requires a URL to be set in the `.env` file in the project root. This is
 In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel before you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
 
 **Important**:
-- By default `gitpod-laravel-starter` uses the most recent version of Laravel. Currently this is version `8.*`
+- By default `gitpod-laravel-starter` uses the most recent version of Laravel. Currently the most recent version of Laravel is `8.*`
 - There are exactly three supported values for the Laravel version directive: `8.*`, `7.*`, and `6.*` 
 - Laravel will always use the most recent/stable minor and patch version for any major version
 
