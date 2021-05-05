@@ -54,25 +54,26 @@ JavaScript Framework" width="72" ></a>
 7. [Additional Features](#additional-features)
    - 7.1 [Hot Reloading](#hot-reloading)
    - 7.2 [Typescript](#typescript)
-8. [Debugging](#debugging)
+8. [Debugging PHP](#debugging-php)
    - 8.1 [The default development server](#the-default-development-server)
    - 8.2 [Specific development servers](#specific-development-servers)
    - 8.3 [Setting breakpoints](#setting-breakpoints)
    - 8.4 [Debugging Blade templates](#debugging-blade-templates)
    - 8.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
-9. [phpMyAdmin](#phpmyadmin)
-   - 9.1 [Installing phpMyAdmin](#installing-phpmyadmin)
-   - 9.2 [Security Concerns](#security-concerns)
-   - 9.3 [Securing phpMyAdmin](#securing-phpmyadmin)
-10. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
-    - 10.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
-11. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
-12. [Ruby Gems](#ruby-gems)
-13. [Git Aliases](#git-aliases)
-    - 13.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
-13. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
-14. [Gitpod Caveats](#gitpod-caveats)
-15. [Thanks](#thanks)
+9. [Debugging JavaScript](#debugging-javascript)
+10. [phpMyAdmin](#phpmyadmin)
+   - 10.1 [Installing phpMyAdmin](#installing-phpmyadmin)
+   - 10.2 [Security Concerns](#security-concerns)
+   - 10.3 [Securing phpMyAdmin](#securing-phpmyadmin)
+11. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
+    - 11.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
+12. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
+13. [Ruby Gems](#ruby-gems)
+14. [Git Aliases](#git-aliases)
+    - 14.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
+15. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
+16. [Gitpod Caveats](#gitpod-caveats)
+17. [Thanks](#thanks)
 
 <br />
 
@@ -105,7 +106,7 @@ When the workspace is created for the first time an entire online development en
 
 ## Running the Client
 
-A preview browser should automatically open and display the Laravel start page once the system is ready. This page is being served by the default web server which is set in `starter.ini`. The code for the Laravel start page page is in `/resources/views/welcome.blade.php`. To manually open the preview browser or to refresh it you can run the command `op`.
+A preview browser should automatically open and display the Laravel start page once the system is ready. This page is served by the default web server which is set in `starter.ini`. The code for the Laravel start page page is in `/resources/views/welcome.blade.php`. To manually open the preview browser or to refresh it you can run the command `op`.
 
 <br />
 
@@ -137,20 +138,20 @@ Another workaround is to edit the `~/.gitconfig` file in your Gitpod workspace t
 
 A configuration file has been provided to allow you to control many aspects of the development environment and the Laravel project scaffolding.
 
-The file `starter.ini` in the root of the project allows you to configure optional installations and other various configurations. Have a look at the comments in `starter.ini` for details and acceptable values you can use. Simply change values in `starter.ini`, push those changes to your repository, create a new Gitpod workspace from that repo and your new configurations will be enabled. Some of the configurations you can make are:
+The file [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/hot-reload/starter.ini) in the root of the project allows you to configure optional installations and other various options. Have a look at the comments in `starter.ini` for details and acceptable values you can use. Simply change values in `starter.ini`, push those changes to your repository, create a new Gitpod workspace from that repository and your new configurations will be enabled. Some of the configurations you can make are:
 -  Server: `apache`, `nginx` or `php` (development server)
 -  Optional installations
     - `phpMyAdmin`
     - Frontend: `react`, `vue` or plain `bootstrap`
     - Your servers log monitor: `tail` with colorized log or `multitail`
-    - .editorconfig: You can omit this file or use a less opinionated version of this file than what Laravel gives you by default
+    - `.editorconfig`: You can omit this file or use a less opinionated version of this file than what Laravel gives you by default
     - [github-change-log-generator](https://github.com/github-changelog-generator/github-changelog-generator)
 
-*Please note that many of the configurations found in `starter.ini` should be made just once __prior__ to creating your workspace for the first time. Have a look at the comments in [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for specifics).*
+*Please note that many of the configurations found in `starter.ini` should be made just once __prior__ to creating your workspace for the first time. Have a look at the comments in [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for specifics.*
 
 ### Preset Examples
 `gitpod-laravel-starter` preset examples are auto-configured examples of React and Vue projects.
-You can activate a preset example as a starting point by adding `EXAMPLE=<id>` to the Gitpod URL right after the `#` and followed by a `\`.
+You can activate a preset example as a starting point by adding `EXAMPLE=<id>` to the Gitpod URL right after the `#` and followed by a `/`.
 | id | Description | Sample URL |
 | :---:  | :--- | :--- |
 | 1 | React Example with phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=1/https://github.com/apolopena/gitpod-laravel-starter |
@@ -182,7 +183,7 @@ You can toggle any server on and off from any terminal window by running the rel
 
 ### Changing the default server
 
-Change the value of  `default_server` in the `development` section of `starter.ini` to `apache`, `nginx`, or `php`. You will need to change the APP_URL and ASSET_URL in the `.env` file to use the port number for that server if you change the default development server after a workspace has been created.
+Change the value of  `default_server` in the `development` section of `starter.ini` to `apache`, `nginx`, or `php`. You will need to change the APP_URL and ASSET_URL in the `.env` file to use the port number for that server if you change the default development server *after* a workspace has been created.
 
 ### Running more than one server at a time
 
@@ -192,20 +193,20 @@ If you have the Apache server running and you want to run the Nginx server at th
 
 `start_nginx`
 
-The Nginx server will now be running in parallel.
+The Nginx server will now be running in addition to the Apache server.
 
 Laravel requires a URL to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The URL set in the `.env` file contains the server port. so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
 ### Changing the Laravel Version
-In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel before you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
+In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel *before* you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
 
 **Important**:
 - By default `gitpod-laravel-starter` uses the most recent version of Laravel. Currently the most recent version of Laravel is `8.*`
 - There are exactly three supported values for the Laravel version directive: `8.*`, `7.*`, and `6.*` 
-- Laravel will always use the most recent/stable minor and patch version for any major version
+- Laravel will always use the most recent/stable minor and patch version for any major version.
 
 **Caveats**:
- - __Upgrading or downgrading Laravel once Laravel scaffolding files have been saved to your repository is not advised and should not be done.__
+ - __Upgrading or downgrading Laravel once Laravel scaffolding files have been saved to your repository is not advised and should be avoided.__
  - Attempts to upgrade will will result in an automatic downgrade and could cause instability.
  - Attempts to downgrade will be ignored and could cause instability.
  - The Laravel version directive is cached in the workspace image so changing it requires you to break the Docker cache.
@@ -227,7 +228,7 @@ To keep the `gitpod-laravel-framework` as flexible as possible, some features ha
 
 <br />
 
-## Debugging
+## Debugging PHP
 
 Debugging must be enabled before breakpoints can be hit and will last for an hour before the debug session is disabled automatically.
 
@@ -282,9 +283,16 @@ If you are having trouble, launch the "Listen for Xdebug" launch configuration a
 <br />
 
 ### Tailing the Xdebug Log
-
+You may want to see how Xdebug is working with your server when you are debugging PHP files. 
    1. Open a new terminal in gitpod
    2. Run the command: `tail -f /var/log/xdebug.log`
+
+<br />
+
+## Debugging JavaScript
+The is a rather diverse topic. To make a long story short it is possible but very situational.
+
+Have a look at the wiki [debugging JavaScript](https://github.com/apolopena/gitpod-laravel-starter/wiki/Debugging-JavaScript) page for details and exact steps you can take to debug various types of JavaScript.
 
 <br />
 
@@ -374,7 +382,7 @@ For now this will be something you need to figure out, eventually some guideline
 <br />
 
 ## Gitpod Caveats
-Gitpod is an amazing and dynamic platform however at times, during it's peak hours, latency can affect the workspace. Here are a few symptoms and their possible remedies. This section will be updated as Gitpod evolves.
+Gitpod is an amazing and dynamic platform however sometimes during it's peak hours, latency can affect the workspace. Here are a few symptoms and their possible remedies. This section will be updated or removed as Gitpod evolves.
   - **Symptom**: Workspace loads, IDE displays, however one or more terminals are blank.
     - **Possible Fix**: Delete the workspace in your Gitpod dashboard and then [recreate the workspace](#creating-a-new-workspace-in-gitpod-from-your-new-github-project-repository).
   - **Symptom**: Workspace loads, IDE displays, however no ports become available and or the spinner stays spinning in the terminal even after a couple of minutes.
