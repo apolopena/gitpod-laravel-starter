@@ -220,7 +220,7 @@ In `starter.ini` there is a directive to change the version of Laravel. You shou
 To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project.
 
 ### Hot Reloading
-  - `gitpod-laravel-starter` makes it easy for you to add the ability to see your code changes in realtime without refreshing the browser. Take a look at the [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) wiki page for more details.
+  - `gitpod-laravel-starter` makes it easy for you to add the ability to see your code changes in realtime without refreshing the browser. Take a look at the wiki [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) page for more details.
 
 ### Typescript
   - Adding [Typescript](https://www.typescriptlang.org/) to your project is simple. Have a look at the wiki [Typescript page](https://github.com/apolopena/gitpod-laravel-starter/wiki/Typescript) for an example.
