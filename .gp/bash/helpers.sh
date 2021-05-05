@@ -16,6 +16,21 @@
 #
 # Usage: bash -i <function name> arg1 arg2 arg3 ...
 
+# gls_version
+# Description:
+# Parses The gitpod-laravel-starter version from it's CHANGELOG.
+# If the CHANGELOG.md cannot be found then a hardcoded string is used.
+#
+gls_version() {
+  local hard version title file
+  hard="1.1.0"
+  title="Gitpod Laravel Starter Framework"
+  file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
+  if [[ -f $file ]]; then
+    version=$(grep -oE "([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)?" "$file" | head -n 1)
+  fi
+  if [[ -n  $version ]];then echo "$title $version"; else echo "$title $hard"; fi
+}
 # start_server
 # Description:
 # Starts up the default server or a specific server ($1)
@@ -125,7 +140,9 @@ show_first_run_summary() {
 show_powered_by() {
   local ver file ver_pattern="([[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+)"
   echo "This project is powered by:"
-  echo -e "\e[38;5;34m$(php artisan --version)"
+  echo -en "\e[38;5;34m"
+  gls_version
+  echo -e "$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
     [[ $(grep laravel/ui/tree/ composer.lock) =~ $ver_pattern ]] && echo "laravel/ui ${BASH_REMATCH[1]}"

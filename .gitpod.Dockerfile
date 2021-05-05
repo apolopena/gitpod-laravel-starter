@@ -32,7 +32,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=180
+ENV INVALIDATE_CACHE=181
 
 COPY --chown=gitpod:gitpod .gp/conf/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --chown=gitpod:gitpod .gp/bash/.bash_aliases /home/gitpod
@@ -46,3 +46,7 @@ COPY --chown=gitpod:gitpod .gp/snippets/server-functions.sh /tmp
 COPY --chown=gitpod:gitpod .gp/snippets/browser-functions.sh /tmp
 RUN cp /tmp/server-functions.sh ~/.bashrc.d/server-functions \
     && cp /tmp/browser-functions.sh ~/.bashrc.d/browser-functions
+
+# Customs cli's and user scripts for /usr/local/bin
+COPY --chown=gitpod:gitpod .gp/bash/bin/hot-reload.sh /usr/local/bin
+RUN sudo mv /usr/local/bin/hot-reload.sh /usr/local/bin/hot-reload
