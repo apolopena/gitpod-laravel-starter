@@ -192,7 +192,7 @@ If you have the Apache server running and you want to run the Nginx server at th
 
 `start_nginx`
 
-Now the nginx server will be running in parallel.
+The Nginx server will now be running in parallel.
 
 Laravel requires a URL to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The URL set in the `.env` file contains the server port. so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
