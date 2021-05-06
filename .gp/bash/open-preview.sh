@@ -30,7 +30,7 @@ if [[ $(bash .gp/bash/helpers.sh is_inited) == 0 ]]; then
   gp sync-await gitpod-inited &&
   stop_spinner 0 &&
   gp await-port "$__port" &&
-  gp preview "$(gp url "$__port")$__path"
+  gp preview "$(gp url "$__port")$__path" > /dev/null 2>&1
 else
-  gp preview "$(gp url "$__port")$__path"
+  gp preview "$(gp url "$__port")$__path" > /dev/null 2>&1
 fi;
