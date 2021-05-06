@@ -1,5 +1,31 @@
 # Changelog
 
+## [v1.1.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.1.0) (2021-05-06)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.0.0...v1.1.0)
+
+**Implemented enhancements:**
+
+- Provide a hot reload system [\#120](https://github.com/apolopena/gitpod-laravel-starter/issues/120)
+- Show gitpod-laravel-starter version in powered by section [\#117](https://github.com/apolopena/gitpod-laravel-starter/issues/117)
+
+**Fixed bugs:**
+
+- gitpod-laravel-starter version should be derived first [\#123](https://github.com/apolopena/gitpod-laravel-starter/issues/123)
+- Linting the starter scripts shows success message when find fails [\#119](https://github.com/apolopena/gitpod-laravel-starter/issues/119)
+- Linting the starter scripts from outside the project root triggers SC1091 [\#118](https://github.com/apolopena/gitpod-laravel-starter/issues/118)
+
+**Closed issues:**
+
+- Document debugging JavaScript [\#125](https://github.com/apolopena/gitpod-laravel-starter/issues/125)
+- Document the workspace initialization process [\#124](https://github.com/apolopena/gitpod-laravel-starter/issues/124)
+- Move README.md and CHANGELOG.md to .gp on workspace init [\#122](https://github.com/apolopena/gitpod-laravel-starter/issues/122)
+- Document a typescript implementation [\#121](https://github.com/apolopena/gitpod-laravel-starter/issues/121)
+
+**Merged pull requests:**
+
+- 🔀 MERGE: Features, Fixes, Docs and Tasks for version 1.1.0 [\#126](https://github.com/apolopena/gitpod-laravel-starter/pull/126) ([apolopena](https://github.com/apolopena))
+
 ## [v1.0.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.0.0) (2021-04-26)
 
 [Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v0.0.4...v1.0.0)
