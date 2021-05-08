@@ -43,6 +43,18 @@ fi
 
 # BEGIN: Bootstrapping
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
+
+  # Handle laravel README.md
+  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel include_readme) == 1 ]]; then
+    if [[ ! -f "$GITPOD_REPO_ROOT/README_LARAVEL.md" ]]; then 
+      mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+    else
+    rm /home/gitpod/laravel-starter/README.md
+    fi
+  else
+    rm /home/gitpod/laravel-starter/README.md
+  fi
+  
   # BEGIN: rsync any new Laravel project files from the docker image to the repository
   msg="rsync $(php ~/laravel-starter/artisan --version) from ~/laravel-starter to $GITPOD_REPO_ROOT"
   log_silent "$msg" && start_spinner "$msg"
@@ -60,10 +72,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # END: rsync any new Laravel project files from the docker image to the repository
 
   # Move, rename or merge any project files that need it
-  [[ -f "LICENSE" && -d ".gp" ]] && mv -f LICENSE .gp/LICENSE
-  [[ -f "README.md" && -d ".gp" ]] && mv -f README.md .gp/README.md
-  [[ -f "CHANGELOG.md" && -d ".gp" ]] && mv -f CHANGELOG.md .gp/CHANGELOG.md
-  mv /home/gitpod/laravel-starter/README.md "$GITPOD_REPO_ROOT/README_LARAVEL.md"
+  [[ -f "LICENSE" && -d ".gp" && ! -f .gp/LICENSE ]] && mv -f LICENSE .gp/LICENSE
+  [[ -f "README.md" && -d ".gp" && ! -f .gp/README.md ]] && mv -f README.md .gp/README.md
+  [[ -f "CHANGELOG.md" && -d ".gp" && ! -f .gp/CHANGELOG.md ]] && mv -f CHANGELOG.md .gp/CHANGELOG.md
 
   # Remove potentially cached phpmyadmin installation if phpmyadmin should not be installed
   if [ "$(bash .gp/bash/utils.sh parse_ini_value starter.ini phpmyadmin install)" == 0 ]; then
