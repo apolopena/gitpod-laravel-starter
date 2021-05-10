@@ -1,30 +1,28 @@
 # Changelog
 
-## [v1.1.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.1.0) (2021-05-06)
+## [v1.2.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.2.0) (2021-05-10)
 
-[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.0.0...v1.1.0)
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.1.0...v1.2.0)
 
 **Implemented enhancements:**
 
-- Provide a hot reload system [\#120](https://github.com/apolopena/gitpod-laravel-starter/issues/120)
-- Show gitpod-laravel-starter version in powered by section [\#117](https://github.com/apolopena/gitpod-laravel-starter/issues/117)
+- Allow for easy persistent configuration of apache [\#135](https://github.com/apolopena/gitpod-laravel-starter/issues/135)
+- Add a directive to starter.ini: laravel: include\_readme [\#128](https://github.com/apolopena/gitpod-laravel-starter/issues/128)
 
 **Fixed bugs:**
 
-- gitpod-laravel-starter version should be derived first [\#123](https://github.com/apolopena/gitpod-laravel-starter/issues/123)
-- Linting the starter scripts shows success message when find fails [\#119](https://github.com/apolopena/gitpod-laravel-starter/issues/119)
-- Linting the starter scripts from outside the project root triggers SC1091 [\#118](https://github.com/apolopena/gitpod-laravel-starter/issues/118)
+- apache: rewriting the missing trailing slash when in an iframe breaks the page [\#134](https://github.com/apolopena/gitpod-laravel-starter/issues/134)
+- nginx: rewriting the missing trailing slash when in an iframe breaks the page [\#131](https://github.com/apolopena/gitpod-laravel-starter/issues/131)
+- op: opening url paths that end in a file name gives a 404 [\#130](https://github.com/apolopena/gitpod-laravel-starter/issues/130)
+- Fix bad logic for initially moving project files such as README.md [\#127](https://github.com/apolopena/gitpod-laravel-starter/issues/127)
 
 **Closed issues:**
 
-- Document debugging JavaScript [\#125](https://github.com/apolopena/gitpod-laravel-starter/issues/125)
-- Document the workspace initialization process [\#124](https://github.com/apolopena/gitpod-laravel-starter/issues/124)
-- Move README.md and CHANGELOG.md to .gp on workspace init [\#122](https://github.com/apolopena/gitpod-laravel-starter/issues/122)
-- Document a typescript implementation [\#121](https://github.com/apolopena/gitpod-laravel-starter/issues/121)
+- Bump Xdebug to v3.0.4 [\#129](https://github.com/apolopena/gitpod-laravel-starter/issues/129)
 
 **Merged pull requests:**
 
-- 🔀 MERGE: Features, Fixes, Docs and Tasks for version 1.1.0 [\#126](https://github.com/apolopena/gitpod-laravel-starter/pull/126) ([apolopena](https://github.com/apolopena))
+- 🚀 RELEASE: Version 1.2.0 [\#136](https://github.com/apolopena/gitpod-laravel-starter/pull/136) ([apolopena](https://github.com/apolopena))
 
 ## [v1.0.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.0.0) (2021-04-26)
 
