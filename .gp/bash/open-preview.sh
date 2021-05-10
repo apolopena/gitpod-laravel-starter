@@ -15,14 +15,8 @@ exit 1
 
 . .gp/bash/spinner.sh
 
-__path=
-if [[ -n  $1 ]]; then
-  if [[ ! $1 =~ \/$ ]]; then
-    __path=/$1/
-  else
-    __path=/$1
-  fi
-fi
+__path=/$1
+
 __port=$(bash .gp/bash/helpers.sh get_default_server_port)
 if [[ $(bash .gp/bash/helpers.sh is_inited) == 0 ]]; then
   . .gp/bash/spinner.sh &&
