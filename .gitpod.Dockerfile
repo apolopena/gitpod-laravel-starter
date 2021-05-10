@@ -15,9 +15,9 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
     && sudo apt-get clean
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
-RUN wget http://xdebug.org/files/xdebug-3.0.2.tgz \
-    && tar -xvzf xdebug-3.0.2.tgz \
-    && cd xdebug-3.0.2 \
+RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
+    && tar -xvzf xdebug-3.0.4.tgz \
+    && cd xdebug-3.0.4 \
     && phpize \
     && ./configure --enable-xdebug \
     && make \
