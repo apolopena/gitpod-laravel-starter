@@ -23,7 +23,7 @@
 #
 gls_version() {
   local hard version title file
-  hard="1.1.0"
+  hard="1.2.0"
   title="Gitpod Laravel Starter Framework"
   file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
   if [[ -f $file ]]; then
