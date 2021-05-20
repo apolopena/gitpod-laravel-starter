@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright © 2021 Apolo Pena
 #
-# init-gitpod.sh
+# init-project.sh
 # Description:
-# Initial configuration for an existing phpmyadmin installation.
+# Project specific initialization.
 
 
 # Load logger
