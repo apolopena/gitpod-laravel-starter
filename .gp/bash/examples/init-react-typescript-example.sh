@@ -10,6 +10,8 @@
 # Load logger
 . .gp/bash/workspace-init-logger.sh
 
+yarn run mix 
+
 declare -a exit_codes=()
 
 task_msg="Downloading React Typescript example: Questions and Answers"
