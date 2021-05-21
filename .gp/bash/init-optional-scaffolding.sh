@@ -250,6 +250,12 @@ else
 fi
 # END: Optional bootstrap install
 # END: optional frontend scaffolding installations
+
+# workaround for third party bug https://github.com/apolopena/gitpod-laravel-starter/issues/140
+# force latest sass 1.32.*
+#yes | npx add-dependencies sass@1.32.12 --dev
+yarn upgrade sass@1.32.12
+
 # BEGIN: optional example setup
 # Initialize optional react example project
 if [[ -n  $init_react_example ]];then
@@ -278,8 +284,3 @@ if [[ -n  $init_vue_example ]];then
   exit
 fi
 # END: optional example setup
-
-# workaround for third party bug https://github.com/apolopena/gitpod-laravel-starter/issues/140
-# force latest sass 1.32.*
-#yes | npx add-dependencies sass@1.32.12 --dev
-yarn upgrade sass@1.32.12
