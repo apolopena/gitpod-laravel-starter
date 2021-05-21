@@ -14,8 +14,18 @@
 . .gp/bash/spinner.sh
 
 # Workaround third party sass bug: https://github.com/apolopena/gitpod-laravel-starter/issues/140
-hotfix130 () {
-  yes | npx add-dependencies sass@1.32.12 --dev
+hotfix140 () {
+  local exit_code msg="Applying hotfix 130"
+  log_silent "$msg..." && start_spinner "$msg"
+  yes | npx add-dependencies sass@1.32.12 --dev 2> >(grep -v warning 1>&2) > /dev/null 2>&1
+  exit_code=$?
+  if [[ $exit_code == 0 ]]; then
+    stop_spinner 0
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner 1
+    log_silent -e "ERROR: $msg"
+  fi
 }
 
 parse="bash .gp/bash/utils.sh parse_ini_value starter.ini"
@@ -176,7 +186,7 @@ if [ $install_react == 1 ]; then
           log -e "ERROR: $sub_msg"
         fi
       fi
-      hotfix130
+      hotfix140
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
       npm run dev
@@ -210,7 +220,7 @@ if [[ $install_vue == 1 && $install_react != 1 ]]; then
     fi
     err_code=$?
     if [[ $err_code == 0 ]]; then
-      hotfix130
+      hotfix140
       log "SUCCESS: Vue$auth_msg has been installed"
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
@@ -236,7 +246,7 @@ if [[ $install_bootstrap == 1 && $install_react != 1 && $install_vue != 1 ]]; th
   fi
   err_code=$?
   if [[ $err_code == 0 ]]; then
-    hotfix130
+    hotfix140
     log "SUCCESS: Bootstrap$version_msg$auth_msg has been installed"
     log "  --> Installing node modules and running Laravel Mix"
     yarn install && npm run dev
