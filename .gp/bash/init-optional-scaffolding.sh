@@ -134,6 +134,11 @@ fi # end check laravel/ui already in vcs but needs composer install
 # Cleanup (since we use yarn)
 [ -f package-lock.json ] && rm package-lock.json
 # END: Install Laravel ui if needed
+ 
+# workaround for third party bug https://github.com/apolopena/gitpod-laravel-starter/issues/140
+# force saas 1.32.*
+npx add-dependencies saas@1.32.*
+
 # BEGIN: Optional react, react-dom and react-router-dom installs
 if [ $install_react == 1 ]; then
   version=$(eval "$parse" react version)
@@ -267,7 +272,7 @@ if [[ -n  $init_react_typescript_example ]];then
   && log -e "WARNING: Ignoring the example requested: $example_title" \
   && exit
   # shellcheck source=.gp/bash/examples/init-react-example.sh
-  #. "$init_react_typescript_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_typescript_example 2>&1 1>/dev/null)"
+  . "$init_react_typescript_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_typescript_example 2>&1 1>/dev/null)"
   exit
 fi
 # Initialize optional vue example project
