@@ -49,6 +49,22 @@ if [[ -n $EXAMPLE ]]; then
         install_react_router_dom=1
         rrd_ver='^5.2.0'
         ;;
+      3)
+        example_title="React Typescript Example with phpMyAdmin - Questions and Answers"
+        init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
+        install_react=1
+        install_phpmyadmin=1
+        install_react_router_dom=1
+        rrd_ver='^5.2.0'
+        ;;
+      4)
+        example_title="React Typescript Example without phpMyAdmin - Questions and Answers"
+        init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
+        install_react=1
+        install_phpmyadmin=0
+        install_react_router_dom=1
+        rrd_ver='^5.2.0'
+        ;;
       10)
         example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
         init_vue_example=".gp/bash/examples/init-vue-example.sh"
@@ -242,6 +258,16 @@ if [[ -n  $init_react_example ]];then
   && exit
   # shellcheck source=.gp/bash/examples/init-react-example.sh
   . "$init_react_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_example 2>&1 1>/dev/null)"
+  exit
+fi
+# Initialize optional react typescript example project
+if [[ -n  $init_react_typescript_example ]];then
+  [[ $laravel_major_ver -ne 8 ]] \
+  && log -e "WARNING: React examples are only supported by Laravel version 8. Your Laravel version is $laravel_major_ver" \
+  && log -e "WARNING: Ignoring the example requested: $example_title" \
+  && exit
+  # shellcheck source=.gp/bash/examples/init-react-example.sh
+  . "$init_react_typescript_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_typescript_example 2>&1 1>/dev/null)"
   exit
 fi
 # Initialize optional vue example project
