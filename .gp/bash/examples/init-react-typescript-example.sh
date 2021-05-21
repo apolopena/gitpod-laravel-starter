@@ -11,7 +11,7 @@
 . .gp/bash/workspace-init-logger.sh
 
 declare -a exit_codes=()
-all_zeros='^[0]+$'
+
 task_msg="Downloading React Typescript example: Questions and Answers"
 
 log "$task_msg"
@@ -22,7 +22,7 @@ exit_codes+=($?)
 rm qna-typescript-demo-skeleton-1.1.0.tar.gz
 exit_codes+=($?)
 
-if [[ $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ $all_zeros ]]; then
+if [[ $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ ^[0]+$ ]]; then
   log "SUCCESS: $task_msg"
 else
   log -e "ERROR: $task_msg"
