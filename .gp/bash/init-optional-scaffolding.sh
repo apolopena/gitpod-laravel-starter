@@ -136,8 +136,8 @@ fi # end check laravel/ui already in vcs but needs composer install
 # END: Install Laravel ui if needed
  
 # workaround for third party bug https://github.com/apolopena/gitpod-laravel-starter/issues/140
-# force saas 1.32.*
-npx add-dependencies saas@1.32.*
+# force latest sass 1.32.*
+yes | npx add-dependencies sass@1.32.12
 
 # BEGIN: Optional react, react-dom and react-router-dom installs
 if [ $install_react == 1 ]; then
