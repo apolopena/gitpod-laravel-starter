@@ -15,7 +15,7 @@
 
 # Workaround third party sass bug: https://github.com/apolopena/gitpod-laravel-starter/issues/140
 hotfix140 () {
-  local exit_code msg="Applying hotfix 130"
+  local exit_code msg="Applying hotfix 140"
   log_silent "$msg..." && start_spinner "$msg"
   yes | npx add-dependencies sass@1.32.12 --dev 2> >(grep -v warning 1>&2) > /dev/null 2>&1
   exit_code=$?
