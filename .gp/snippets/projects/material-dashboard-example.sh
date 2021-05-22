@@ -14,8 +14,8 @@ task_msg="Setting up Vue example: Material Dashboard"
 
 log "$task_msg"
 
-# Hook: If this file is in VCS then assume all scaffolding for this project is in VCS
-if git ls-files --error-unmatch routes > /dev/null 2>&1; then
+# Hook: If this file is not in VCS then assume all required scaffolding for this project is in VCS
+if ! git ls-files --error-unmatch routes > /dev/null 2>&1; then
   if (( lvm > 6 )); then
     composer require laravel-frontend-presets/material-dashboard
   else
