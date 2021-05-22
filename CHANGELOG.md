@@ -1,5 +1,28 @@
 # Changelog
 
+## [v1.3.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.3.0) (2021-05-22)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.2.0...v1.3.0)
+
+**Implemented enhancements:**
+
+- Make EXAMPLE presets be legitimate starting points [\#142](https://github.com/apolopena/gitpod-laravel-starter/issues/142)
+- Add a Typescript EXAMPLE 3 and 4: Questions and Answers React Typescript Web Feature [\#139](https://github.com/apolopena/gitpod-laravel-starter/issues/139)
+- Add  -\<port number\>  and --help options to op command [\#138](https://github.com/apolopena/gitpod-laravel-starter/issues/138)
+
+**Fixed bugs:**
+
+- init-project.sh should not have a copyright in the header [\#141](https://github.com/apolopena/gitpod-laravel-starter/issues/141)
+
+**Closed issues:**
+
+- Update EXAMPLE 1 and 2  to match the refactored code in EXAMPLE 3 and 4 [\#143](https://github.com/apolopena/gitpod-laravel-starter/issues/143)
+- Compliation of saas \>= 1.33.0 outputs DEPRECATION WARNING: Using / for division [\#140](https://github.com/apolopena/gitpod-laravel-starter/issues/140)
+
+**Merged pull requests:**
+
+- 🚀 RELEASE: Version 1.3.0 [\#144](https://github.com/apolopena/gitpod-laravel-starter/pull/144) ([apolopena](https://github.com/apolopena))
+
 ## [v1.2.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.2.0) (2021-05-10)
 
 [Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.1.0...v1.2.0)
