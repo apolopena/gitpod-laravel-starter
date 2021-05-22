@@ -15,17 +15,11 @@ all_zeros='^0$|^0*0$'
 task_msg="Setting up React example: Questions and Answers"
 
 log "$task_msg"
-curl -LJO https://github.com/apolopena/QnA-demo-skeleton/archive/refs/tags/1.0.0.tar.gz
+curl -LJO https://github.com/apolopena/qna-demo-skeleton/archive/refs/tags/1.1.0.tar.gz
 exit_codes+=($?)
-tar -xvzf QnA-demo-skeleton-1.0.0.tar.gz --strip-components=1
+tar --overwrite -xvzf qna-demo-skeleton-1.1.0.tar.gz --strip-components=1
 exit_codes+=($?)
-rm QnA-demo-skeleton-1.0.0.tar.gz
-exit_codes+=($?)
-php artisan migrate
-exit_codes+=($?)
-php artisan db:seed
-exit_codes+=($?)
-yarn run mix
+rm qna-demo-skeleton-1.1.0.tar.gz
 exit_codes+=($?)
 
 if [[ $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ $all_zeros ]]; then
