@@ -15,7 +15,7 @@ lvm=$(bash .gp/bash/helpers.sh laravel_major_version)
 (( lvm < 6 )) && exit 1
 
 declare -a exit_codes=()
-all_zeros='^0$|^0*0$'
+all_zeros='^[0]+$'
 task_msg="Setting up Vue example: Material Dashboard"
 
 log "$task_msg"

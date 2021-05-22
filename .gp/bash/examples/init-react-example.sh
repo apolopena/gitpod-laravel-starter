@@ -11,7 +11,7 @@
 . .gp/bash/workspace-init-logger.sh
 
 declare -a exit_codes=()
-all_zeros='^0$|^0*0$'
+all_zeros='^[0]+$'
 task_msg="Setting up React example: Questions and Answers"
 
 log "$task_msg"
