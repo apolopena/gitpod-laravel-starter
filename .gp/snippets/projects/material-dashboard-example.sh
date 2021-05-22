@@ -15,7 +15,7 @@ task_msg="Setting up Vue example: Material Dashboard"
 log "$task_msg"
 
 # Hook: If this file is not in VCS then assume all required scaffolding for this project is in VCS
-if ! git ls-files --error-unmatch routes > /dev/null 2>&1; then
+if ! git ls-files --error-unmatch resources/views/dashboard.blade.php > /dev/null 2>&1; then
   if (( lvm > 6 )); then
     composer require laravel-frontend-presets/material-dashboard
   else
@@ -24,13 +24,13 @@ if ! git ls-files --error-unmatch routes > /dev/null 2>&1; then
   exit_codes+=($?)
   php artisan ui material
   exit_codes+=($?)
-  composer dump-autoload
-  exit_codes+=($?)
 else
   composer install
   exit_codes+=($?)
 fi
 
+composer dump-autoload
+exit_codes+=($?)
 php artisan migrate
 exit_codes+=($?)
 php artisan migrate --seed
