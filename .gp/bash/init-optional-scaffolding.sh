@@ -92,8 +92,8 @@ if [[ -n $EXAMPLE ]]; then
         example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
         init_vue_example=".gp/bash/examples/init-vue-example.sh"
         install_react=0
-        install_vue=1
-        vue_auth=1
+        install_vue=0
+        install_bootstrap=0
         install_phpmyadmin=0
         ;;
       *)
