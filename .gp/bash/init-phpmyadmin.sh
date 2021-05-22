@@ -14,7 +14,7 @@
 . .gp/bash/spinner.sh
 
 # regexp pattern for checking an array of exit codes
-all_zeros_reg='^0$|^0*0$'
+all_zeros_reg='^[0]+$'
 
 # BEGIN: Boostrap phpMyAdmin
 # If the docker image has cached the directive to not install phpmyadmin, install it now.

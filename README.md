@@ -150,14 +150,27 @@ The file [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blo
 *Please note that many of the configurations found in `starter.ini` should be made just once __prior__ to creating your workspace for the first time. Have a look at the comments in [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for specifics.*
 
 ### Preset Examples
-`gitpod-laravel-starter` preset examples are auto-configured examples of React and Vue projects.
-You can activate a preset example as a starting point by adding `EXAMPLE=<id>` to the Gitpod URL right after the `#` and followed by a `/`.
-| id | Description | Sample URL |
+`gitpod-laravel-starter` preset examples are auto-configured examples of React and Vue projects that you can learn from or use as starting points for your own projects.
+
+You can initialize a preset example as a starting point by adding `EXAMPLE=<id>` to the Gitpod URL right after the `#` and followed by a `/`.
+
+To use a preset example as a starting point:
+1. [Setup a project repository](https://github.com/apolopena/gitpod-laravel-starter/wiki/Setup#create-a-new-project-repository-from-gitpod-laravel-starter)
+2. Initialize your workspace using the workspace URL for your corresponding EXAMPLE id but substitute https://github.com/apolopena/gitpod-laravel-starter with your project repository URL.
+3. Save the system generated project scaffolding files to your new repository and you can start your project from that point.
+    - Please that some directives in `starter.ini` such as `phpmyadmin` will not be supercded on subsequent initializations of your workspace. Edit your `starter.ini` as needed.
+
+| id | Description | Workspace URL |
 | :---:  | :--- | :--- |
 | 1 | React Example with phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=1/https://github.com/apolopena/gitpod-laravel-starter |
 | 2 | React Example without phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=2/https://github.com/apolopena/gitpod-laravel-starter |
-| 10 | Vue Example with phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=10/https://github.com/apolopena/gitpod-laravel-starter |
-| 11 | Vue Example without phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=11/https://github.com/apolopena/gitpod-laravel-starter |
+| 3 __*__ | React Typescript Example with phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=3/https://github.com/apolopena/gitpod-laravel-starter |
+| 4 __*__ | React Typescript Example without phpMyAdmin - Questions and Answers | https://gitpod.io/#EXAMPLE=4/https://github.com/apolopena/gitpod-laravel-starter |
+| 10 __**__ | Vue Example with phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=10/https://github.com/apolopena/gitpod-laravel-starter |
+| 11 __**__ | Vue Example without phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=11/https://github.com/apolopena/gitpod-laravel-starter |
+
+<br />__\*__ Comes with hot reload functionality
+<br />__\**__ Not designed to run in an iframe such as the preview browser in the IDE.
 
 ### Development Servers
 

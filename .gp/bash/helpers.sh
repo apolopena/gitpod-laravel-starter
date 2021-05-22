@@ -23,7 +23,7 @@
 #
 gls_version() {
   local hard version title file
-  hard="1.2.0"
+  hard="1.3.0"
   title="Gitpod Laravel Starter Framework"
   file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
   if [[ -f $file ]]; then
@@ -320,7 +320,7 @@ has_installs() {
 has_frontend_scaffolding_install() {
   local result scaff_installs
   result=$(get_installs | grep -oP '\d' | tr -d '[:space:]')
-  local all_zeros='^0$|^0*0$'
+  local all_zeros='^[0]+$'
   # Trim the first character from the string (this is the phpmyadmin value)
   local installs="${result:1}"
   # Trim the next three characters in the string (there are only three possible front end scaffolding)
