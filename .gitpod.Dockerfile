@@ -11,7 +11,7 @@ RUN sudo touch /var/log/workspace-image.log \
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
-    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
+    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck apt-transport-https ca-certificates \
     && sudo apt-get clean \
     && sudo update-ca-certificates
     
