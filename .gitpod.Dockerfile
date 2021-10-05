@@ -12,7 +12,8 @@ RUN sudo touch /var/log/workspace-image.log \
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
     && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
-    && sudo apt-get clean
+    && sudo apt-get clean \
+    && sudo update-ca-certificates
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
 RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
@@ -22,10 +23,10 @@ RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
     && ./configure --enable-xdebug \
     && make \
     && sudo cp modules/xdebug.so /usr/lib/php/20190902/xdebug.so \
-    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/cli/php.ini" \
-    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/apache2/php.ini" \
-    && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
-    && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
+    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/cli/conf.d/20-xdebug.ini" \
+    && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/apache2/conf.d/20-xdebug.ini" \
+    && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/20-xdebug.ini \
+    && sudo ln -s /etc/php/7.4/mods-available/20-xdebug.ini /etc/php/7.4/fpm/conf.d
 
 COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
@@ -51,3 +52,6 @@ RUN cp /tmp/server-functions.sh ~/.bashrc.d/server-functions \
 # Customs cli's and user scripts for /usr/local/bin
 COPY --chown=gitpod:gitpod .gp/bash/bin/hot-reload.sh /usr/local/bin
 RUN sudo mv /usr/local/bin/hot-reload.sh /usr/local/bin/hot-reload
+
+# Add global composer bin folder to $PATH
+ENV PATH="$PATH:$HOME/.config/composer/vendor/bin"
