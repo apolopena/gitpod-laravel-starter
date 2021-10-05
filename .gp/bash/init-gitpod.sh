@@ -160,13 +160,13 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   installed_ioncube_gen=$(bash .gp/bash/utils.sh parse_ini_value starter.ini ioncube install)
   if [ "$installed_ioncube_gen" == 1 ]; then
     msg="Installing ioncube loader"
-    log_silent "$msg" && start_spinner "$msg" &&
-    wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O /tmp/ioncube.tar.gz
-    tar xzf /tmp/ioncube.tar.gz -C /tmp
-    cp /tmp/ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so
-    bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/apache2/conf.d/10-ioncube.ini'
-    bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/10-ioncube.ini'
-    rm -rf /tmp/ioncube.tar.gz /tmp/ioncube
+    log_silent "$msg" && start_spinner "$msg" \
+    && wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O /tmp/ioncube.tar.gz \
+    && tar xzf /tmp/ioncube.tar.gz -C /tmp \
+    && sudo cp /tmp/ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so \
+    && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/apache2/conf.d/10-ioncube.ini' \
+    && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/10-ioncube.ini' \
+    && rm -rf /tmp/ioncube.tar.gz /tmp/ioncube
     err_code=$?
     if [[ $err_code != 0 ]]; then
       stop_spinner $err_code
