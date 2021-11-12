@@ -1,7 +1,7 @@
 # Welcome
 
 🚀
-`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other technoglogy you would like to add.
+`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other Technology you would like to add.
 * Supports Laravel 6, 7, and 8
 * Develop in the cloud on the [Gitpod](https://www.gitpod.io/) platform
 * Preconfigured yet fully customizable [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) or [LEMP](https://lemp.io/) stack
@@ -332,7 +332,7 @@ phpMyAdmin also introduces some extra security concerns that you may want to add
 At a minimum the default passwords that phpMyAdmin uses to administer the MySQL databases should be changed right after a Gitpod workspace has been created for the first time. An `update-phpmyadmin-pws` command has been provided that automagically changes the default passwords for you.
 <br /><br />
 The following steps are required to successfully run the `update-phpmyadmin-pws` command:
-   1. Create a file in .gp named `.starter.env`. you can run this command from the project root: `cp .gp/.starter.env.example .starter.env`
+   1. Create a file in .gp named `.starter.env`. you can run this command from the project root: `cp .gp/.starter.env.example .gp/.starter.env`
    2. Or Copy and paste all the keys containing `PHPMYADMIN` from `.gp/.starter.env.example` to your blank `.starter.env` file
    3. In `.starter.env`, set your password values for the `PHPMYADMIN` keys and save the file
    4. In a terminal run the alias: `update-phpmyadmin-pws`
