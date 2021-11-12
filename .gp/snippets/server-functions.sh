@@ -68,7 +68,7 @@ stop_apache() {
 }
 
 start_nginx() {
-  nginx & /usr/sbin/php-fpm7.4 --fpm-config .gp/conf/php-fpm/php-fpm.conf
+  nginx & /usr/sbin/php-fpm8.0 --fpm-config .gp/conf/php-fpm/php-fpm.conf
   local exit_code=$?
   (( exit_code == 0 )) || return
   local log_monitor_type=
@@ -88,7 +88,7 @@ start_nginx() {
 }
 
 stop_nginx() {
-  nginx -s stop && pkill php-fpm7.4
+  nginx -s stop && pkill php-fpm8.0
   local exit_code=$?
   (( exit_code == 0 )) || return
   local pid
