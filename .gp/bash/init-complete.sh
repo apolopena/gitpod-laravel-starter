@@ -31,3 +31,6 @@ bash .gp/bash/helpers.sh persist_file /var/log/workspace-init.log
 # Set initialized flag - Keep this at the bottom of the file
 bash .gp/bash/helpers.sh mark_as_inited
 gp sync-done gitpod-inited
+
+# Add Workspace/Project composer bin folder to $PATH
+export PATH="$PATH:$HOME/.config/composer/vendor/bin:$GITPOD_REPO_ROOT/vendor/bin"
