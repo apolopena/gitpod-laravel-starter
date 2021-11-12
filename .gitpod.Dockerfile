@@ -13,7 +13,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
     && sudo apt-get update -q \
     && sudo apt-get -y install php8.0-fpm rsync grc shellcheck apt-transport-https ca-certificates \
     && sudo apt-get clean \
-    && sudo update-ca-certificates
+    && sudo update-ca-certificates \
+    && sudo rm -rf /var/lib/apt/lists/*
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
 RUN wget http://xdebug.org/files/xdebug-3.1.1.tgz \
