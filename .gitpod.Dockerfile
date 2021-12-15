@@ -9,10 +9,15 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log
 
-RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
-    && sudo apt-get update -q \
-    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
-    && sudo apt-get clean
+#RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
+#    && sudo apt-get update -q \
+#    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
+#    && sudo apt-get clean
+
+# in development: optional install of php7.4
+RUN add-apt-repository ppa:ondrej/php \
+    && install-packages php7.4 php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
+    && update-alternatives --set php /usr/bin/php7.4
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
 RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
@@ -32,7 +37,7 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
-ENV INVALIDATE_CACHE=184
+ENV INVALIDATE_CACHE=185
 
 COPY --chown=gitpod:gitpod .gp/conf/apache/apache2.conf /etc/apache2/apache2.conf
 COPY --chown=gitpod:gitpod .gp/conf/nginx/nginx.conf /etc/nginx/nginx.conf
