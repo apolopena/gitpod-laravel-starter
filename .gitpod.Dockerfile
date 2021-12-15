@@ -15,8 +15,7 @@ RUN sudo touch /var/log/workspace-image.log \
 #    && sudo apt-get clean
 
 # in development: optional install of php7.4
-RUN add-apt-repository ppa:ondrej/php \
-    && install-packages php7.4 php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
+RUN install-packages php7.4 php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
     && update-alternatives --set php /usr/bin/php7.4
     
 COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
