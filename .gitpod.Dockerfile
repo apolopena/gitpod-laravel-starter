@@ -15,7 +15,7 @@ COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh \
     .gp/snippets/server-functions.sh \
     .gp/snippets/browser-functions.sh \
     .gp/bash/bin/hot-reload.sh \
-    /var/tmp/
+    /tmp/
 
 # Create log files and move required files to their proper locations
 RUN sudo touch /var/log/workspace-image.log \
@@ -24,12 +24,12 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-init.log \
     && sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log \
-    && sudo mv /var/tmp/apache2.conf /etc/apache2/apache2.conf \
-    && sudo mv /var/tmp/nginx.conf /etc/nginx/nginx.conf \
-    && sudo mv /var/tmp/.bash_aliases /home/gitpod/.bash_aliases \
-    && sudo mv /var/tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
-    && sudo mv /var/tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
-    && sudo mv /var/tmp/hot-reload.sh /usr/local/bin/hot-reload
+    && sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf \
+    && sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf \
+    && sudo mv /tmp/.bash_aliases /home/gitpod/.bash_aliases \
+    && sudo mv /tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
+    && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
+    && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
 #RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
 #    && sudo apt-get update -q \
@@ -39,7 +39,7 @@ RUN sudo touch /var/log/workspace-image.log \
 # in development: optional install of php7.4
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
-    && sudo apt-get -y install rsync grc shellcheck php7.4 php7.4-fpm php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
+    && sudo apt-get -yq install rsync grc shellcheck php7.4 php7.4-fpm php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
     && sudo update-alternatives --set php /usr/bin/php7.4 \
     && sudo apt-get clean
     
@@ -57,7 +57,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
 #   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
 
 ##COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
-RUN sudo bash -c ". /var/tmp/update-composer.sh" && rm /var/tmp/update-composer.sh
+RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
@@ -69,7 +69,7 @@ ENV INVALIDATE_CACHE=185
 #COPY --chown=gitpod:gitpod .gp/bash/utils.sh /tmp
 #COPY --chown=gitpod:gitpod starter.ini /tmp
 #COPY --chown=gitpod:gitpod .gp/bash/scaffold-project.sh /tmp
-RUN sudo bash -c ". /var/tmp/scaffold-project.sh" && rm /var/tmp/scaffold-project.sh
+RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Aliases
 #COPY --chown=gitpod:gitpod .gp/snippets/server-functions.sh /tmp
