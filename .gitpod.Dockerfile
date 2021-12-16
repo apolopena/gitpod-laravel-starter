@@ -15,10 +15,10 @@ COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh \
     .gp/snippets/server-functions.sh \
     .gp/snippets/browser-functions.sh \
     .gp/bash/bin/hot-reload.sh \
-    /tmp/
+    /var/tmp/
 
 # debug temp
-RUN sudo ls -al /tmp
+RUN sudo ls -al /var/tmp
 
 # Create log files and move required files to their proper locations
 RUN sudo touch /var/log/workspace-image.log \
@@ -27,12 +27,12 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-init.log \
     && sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log \
-    && sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf \
-    && sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf \
-    && sudo mv /tmp/.bash_aliases /home/gitpod/.bash_aliases \
-    && sudo mv /tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
-    && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
-    && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
+    && sudo mv /var/tmp/apache2.conf /etc/apache2/apache2.conf \
+    && sudo mv /var/tmp/nginx.conf /etc/nginx/nginx.conf \
+    && sudo mv /var/tmp/.bash_aliases /home/gitpod/.bash_aliases \
+    && sudo mv /var/tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
+    && sudo mv /var/tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
+    && sudo mv /var/tmp/hot-reload.sh /usr/local/bin/hot-reload
 
 #RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
 #    && sudo apt-get update -q \
@@ -58,10 +58,10 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
 #   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
 
 # debug temp
-RUN sudo ls -al /tmp
+RUN sudo ls -al /var/tmp
 
 ##COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
-RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
+RUN sudo bash -c ". /var/tmp/update-composer.sh" && rm /var/tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
 # just increment the value each time you want to bypass the cache system
@@ -73,7 +73,7 @@ ENV INVALIDATE_CACHE=185
 #COPY --chown=gitpod:gitpod .gp/bash/utils.sh /tmp
 #COPY --chown=gitpod:gitpod starter.ini /tmp
 #COPY --chown=gitpod:gitpod .gp/bash/scaffold-project.sh /tmp
-RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
+RUN sudo bash -c ". /var/tmp/scaffold-project.sh" && rm /var/tmp/scaffold-project.sh
 
 # Aliases
 #COPY --chown=gitpod:gitpod .gp/snippets/server-functions.sh /tmp
