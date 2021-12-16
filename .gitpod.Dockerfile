@@ -30,8 +30,8 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf \
     && sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf \
     && sudo mv /tmp/.bash_aliases /home/gitpod/.bash_aliases \
-    && sudo mv /tmp/server-functions /home/gitpod/.bashrc.d/server-functions \
-    && sudo mv /tmp/browser-functions /home/gitpod/.bashrc.d/browser-functions \
+    && sudo mv /tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
+    && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
 #RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
