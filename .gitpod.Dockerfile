@@ -57,6 +57,9 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
 #   && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
 #   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
 
+# debug temp
+RUN sudo ls -al /tmp
+
 ##COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
