@@ -33,7 +33,7 @@ fi
 if [[ $php_version == '7.4' ]]; then
   all_packages="$core $php7_4 $additional_packages"
 else
-  [[ $php_version == 'latest' ]] || echo "  WARNING: invalid PHP version value $php_version found in /tmp/starter.ini. Defaulting PHP version to 'latest'" | tee -a $log
+  [[ $php_version == 'latest' ]] || echo "  WARNING: unsupported or invalid PHP version value $php_version found in /tmp/starter.ini. Defaulting PHP version to 'latest'" | tee -a $log
   all_packages="$core php$latest_php-fpm $additional_packages"
 fi
 
