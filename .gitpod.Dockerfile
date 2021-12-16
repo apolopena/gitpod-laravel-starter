@@ -9,6 +9,7 @@ COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh \
     .gp/conf/apache/apache2.conf \
     .gp/conf/nginx/nginx.conf \
     .gp/bash/.bash_aliases \
+    .gp/bash/install-project-packages.sh \
     .gp/bash/update-composer.sh \
     .gp/bash/utils.sh \
     .gp/bash/scaffold-project.sh \
@@ -31,18 +32,9 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
-#RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
-#    && sudo apt-get update -q \
-#    && sudo apt-get -y install php7.4-fpm rsync grc shellcheck \
-#    && sudo apt-get clean
+# Install core and additionals packages including an optional PHP version
+RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
 
-# in development: optional install of php7.4
-RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
-    && sudo apt-get update -q \
-    && sudo apt-get -yq install rsync grc shellcheck php7.4 php7.4-fpm php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip \
-    && sudo update-alternatives --set php /usr/bin/php7.4 \
-    && sudo apt-get clean
-    
 #COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
 #RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
 #   && tar -xvzf xdebug-3.0.4.tgz \
