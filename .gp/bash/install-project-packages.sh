@@ -44,12 +44,20 @@ echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selecti
   && sudo apt-get -yq install "${all_packages[@]}"
 ec=$!
 if [[ $ec -ne 0 ]]; then
-  >&2 echo "  ERROR: failed while installing: ${all_packages[*]}" | tee -a $log
+  2>&1 echo "  ERROR: failed while installing: ${all_packages[*]}" | tee -a $log
 else
-  [[ "$php_version" == "7.4" ]] && sudo update-alternatives --set php /usr/bin/php7.4
-  sudo apt-get clean
   echo "  SUCCESS: installing project packages: ${all_packages[*]}" | tee -a $log
+  if [[ "$php_version" == "7.4" ]]; then
+    msg="changing PHP version from $latest_php to $php_version"
+    echo "$msg" | tee-a $log
+    sudo update-alternatives --set php /usr/bin/php7.4
+    if [[ $ec -eq 0 ]]; then
+      echo "SUCCESS: $msg" | tee -a $log
+    else
+      2>&1 echo "ERROR: $msg" | tee -a $log
+    fi
+  fi
+  sudo apt-get clean
 fi
 
 echo "END: installing project packages" | tee -a $log
-
