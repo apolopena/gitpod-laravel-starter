@@ -20,6 +20,7 @@ additional_packages=
 log='/var/log/workspace-image.log'
 core='rsync grc shellcheck'
 php7_4='php7.4 php7.4-fpm php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
+latest_php="$(. /tmp/utils.sh php_version)"
 
 echo "BEGIN: installing project packages" | tee -a $log
 php_version=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
@@ -33,7 +34,7 @@ if [[ $php_version == '7.4' ]]; then
   all_packages="$core $php7_4 $additional_packages"
 else
   [[ $php_version == 'latest' ]] || echo "  WARNING: invalid PHP version value $php_version found in /tmp/starter.ini. Defaulting PHP version to 'latest'" | tee -a $log
-  all_packages="$core $additional_packages"
+  all_packages="$core php$latest_php-fpm $additional_packages"
 fi
 
 echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
