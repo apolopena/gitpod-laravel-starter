@@ -31,22 +31,24 @@ if [[ $ec -ne 0 ]]; then
 fi
 
 if [[ $php_version == '7.4' ]]; then
-  all_packages="$core $php7_4 $additional_packages"
+  ap="$core $php7_4 $additional_packages"
+  IFS=" " read -r -a all_packages <<< "$ap"
 else
   [[ $php_version == 'latest' ]] || echo "  WARNING: unsupported or invalid PHP version value $php_version found in /tmp/starter.ini. Defaulting PHP version to 'latest'" | tee -a $log
-  all_packages="$core php$latest_php-fpm $additional_packages"
+  ap="$core php$latest_php-fpm $additional_packages"
+  IFS=" " read -r -a all_packages <<< "$ap"
 fi
 
 echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
   && sudo apt-get update -q \
-  && sudo apt-get -yq install "$all_packages"
+  && sudo apt-get -yq install "${all_packages[@]}"
 ec=$!
 if [[ $ec -ne 0 ]]; then
-  >&2 echo "  ERROR: failed while installing: $all_packages" | tee -a $log
+  >&2 echo "  ERROR: failed while installing: ${all_packages[*]}" | tee -a $log
 else
   [[ "$php_version" == "7.4" ]] && sudo update-alternatives --set php /usr/bin/php7.4
   sudo apt-get clean
-  echo "  SUCCESS: installing project packages: $all_packages" | tee -a $log
+  echo "  SUCCESS: installing project packages: ${all_packages[*]}" | tee -a $log
 fi
 
 echo "END: installing project packages" | tee -a $log
