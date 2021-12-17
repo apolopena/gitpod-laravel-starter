@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 # Copyright © 2021 Apolo Pena
 #
-# open-preview.sh
+# start-server.sh
 # Description:
 # Starts the default server once MySQL is ready.
 

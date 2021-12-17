@@ -38,4 +38,4 @@ tasks:
 
 vscode:
   extensions:
-    - felixfbecker.php-debug@1.14.12:e02f0fde2ddd444c182ba531e8b09afd
+    - felixfbecker.php-debug

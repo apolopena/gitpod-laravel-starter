@@ -66,7 +66,7 @@ add_file_to_file_before() {
 #
 # Usage:
 # Example: add the contents of git-alises.txt to .gitconfig after the marker [aliases]
-# add_file_to_file_before \\[alias\\] git-aliases.txt .gitconfig
+# add_file_to_file_after \\[alias\\] git-aliases.txt .gitconfig
 #
 add_file_to_file_after() {
   check_files_exist "$2" "$3" && local c=$?; if [ $c -ne 0 ]; then exit 1; fi
