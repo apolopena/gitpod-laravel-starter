@@ -5,11 +5,11 @@ USER gitpod
 # Copy required files to /tmp
 COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh \
     starter.ini \
-    .gp/conf/xdebug/xdebug.ini \
     .gp/conf/apache/apache2.conf \
     .gp/conf/nginx/nginx.conf \
     .gp/bash/.bash_aliases \
     .gp/bash/install-project-packages.sh \
+    .gp/bash/install-xdebug.sh \
     .gp/bash/update-composer.sh \
     .gp/bash/utils.sh \
     .gp/bash/scaffold-project.sh \
@@ -32,8 +32,11 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
-# Install core and additionals packages including an optional PHP version
+# Install core packages, optional PHP version and any additional packages a user would want
 RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
+
+# Compile, install and configure xdebug from source
+RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
 
 #COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
 #RUN wget http://xdebug.org/files/xdebug-3.1.2.tgz \
@@ -48,7 +51,7 @@ RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project
 #   && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
 #   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
 
-##COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh /tmp
+
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # gitpod trick to bypass the docker caching mechanism for all lines below this one
