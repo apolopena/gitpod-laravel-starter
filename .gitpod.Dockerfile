@@ -36,9 +36,9 @@ RUN sudo touch /var/log/workspace-image.log \
 RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
 
 #COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
-#RUN wget http://xdebug.org/files/xdebug-3.0.4.tgz \
-#   && tar -xvzf xdebug-3.0.4.tgz \
-#   && cd xdebug-3.0.4 \
+#RUN wget http://xdebug.org/files/xdebug-3.1.2.tgz \
+#   && tar -xvzf xdebug-3.1.2.tgz \
+#   && cd xdebug-3.1.2 \
 #   && phpize \
 #   && ./configure --enable-xdebug \
 #   && make \
