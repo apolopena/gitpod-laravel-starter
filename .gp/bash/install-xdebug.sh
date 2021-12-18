@@ -44,7 +44,7 @@ xdebug_zend_ext_conf() {
   echo "\nzend_extension = $xdebug_ext_path\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n"
 }
 echo "BEGIN: $msg" | tee -a $log
-xdebug_conf "7.4" "/etc/php/$php_version/mods-available/xdebug.ini"
+xdebug_conf "7.4" "/etc/php/$php_version/mods-available/20-xdebug.ini"
 ec=$?
 [[ $ec -eq 0 ]] || echo "  ERROR $ec: could not generate xdebug conf to file /etc/php/$php_version/mods-available/xdebug.ini" | tee -a $log
 wget "$xdebug_binary_url" \
@@ -56,7 +56,7 @@ wget "$xdebug_binary_url" \
 && sudo cp modules/xdebug.so "$xdebug_ext_path" \
 && sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/cli/php.ini\"" \
 && sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/apache2/php.ini\"" \
-&& sudo ln -s "/etc/php/$php_version/mods-available/xdebug.ini" "/etc/php/$php_version/fpm/conf.d"
+&& sudo ln -s "/etc/php/$php_version/mods-available/20-xdebug.ini" "/etc/php/$php_version/fpm/conf.d"
 ec=$?
 if [[ $ec -eq 0 ]]; then
   echo "  SUCCESS: $msg" | tee -a $log
