@@ -251,6 +251,24 @@ get_env_value() {
   echo "$val"
 }
 
+# php_version()
+# Description:
+# Gets the major and minor version of PHP from the installed configuration file php.ini
+# Fails if PHP is not installed 
+#
+# Notes:
+# Assumes that the file path for the loaded php.ini file is somewhat standard in that the first
+# directory in the path with numbers with dots in them that resembles a version number is
+# indeed the PHP version
+#
+# Usage:
+# outputs x.y where x is the major PHP version and y in the minor PHP version: 
+# php_version
+#
+php_version() {
+  php --ini | head -n 1 | grep -Eo "([0-9]{1,}\.)[0-9]{1,}"
+}
+
 # split_ver
 # Description:
 # splits a version number ($1) into three numbers delimited by a space
