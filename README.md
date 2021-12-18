@@ -1,7 +1,7 @@
 # Welcome
 
 🚀
-`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other Technology you would like to add.
+`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other technology you would like to add.
 * Supports Laravel 6, 7, and 8
 * Develop in the cloud on the [Gitpod](https://www.gitpod.io/) platform
 * Preconfigured yet fully customizable [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) or [LEMP](https://lemp.io/) stack
