@@ -48,9 +48,10 @@ if [[ $ec -ne 0 ]]; then
 else
   echo "  SUCCESS: installing project packages: ${all_packages[*]}" | tee -a $log
   if [[ "$php_version" == "7.4" ]]; then
-    msg="  changing PHP version from $latest_php to $php_version"
-    echo "$msg" | tee-a $log
-    sudo update-alternatives --set php /usr/bin/php7.4
+    msg="  changing PHP version and phpize from $latest_php to $php_version"
+    echo "$msg" | tee -a $log
+    sudo update-alternatives --set php /usr/bin/php7.4 \
+    && sudo update-alternatives --set /usr/bin/phpize7.4
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
     else
