@@ -36,20 +36,20 @@ RUN sudo touch /var/log/workspace-image.log \
 RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
 
 # Compile, install and configure xdebug from source
-RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
+#RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
 
-#COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
-#RUN wget http://xdebug.org/files/xdebug-3.1.2.tgz \
-#   && tar -xvzf xdebug-3.1.2.tgz \
-#   && cd xdebug-3.1.2 \
-#   && phpize \
-#   && ./configure --enable-xdebug \
-#   && make \
-#   && sudo cp modules/xdebug.so /usr/lib/php/20190902/xdebug.so \
-#   && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/cli/php.ini" \
-#   && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/apache2/php.ini" \
-#   && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
-#   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
+COPY --chown=gitpod:gitpod .gp/conf/xdebug/xdebug.ini /tmp
+RUN wget http://xdebug.org/files/xdebug-3.1.2.tgz \
+   && tar -xvzf xdebug-3.1.2.tgz \
+   && cd xdebug-3.1.2 \
+   && phpize \
+   && ./configure --enable-xdebug \
+   && make \
+   && sudo cp modules/xdebug.so /usr/lib/php/20190902/xdebug.so \
+   && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/cli/php.ini" \
+   && sudo bash -c "echo -e '\nzend_extension = /usr/lib/php/20190902/xdebug.so\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n' >> /etc/php/7.4/apache2/php.ini" \
+   && sudo cp /tmp/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini \
+   && sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d 
 
 
 RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
