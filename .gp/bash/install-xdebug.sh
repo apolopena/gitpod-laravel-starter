@@ -15,10 +15,11 @@
 # For xdebug version compatibility with PHP see https://xdebug.org/docs/compat
 
 xdebug_version='3.1.2'
+xdebug_binary_url="http://xdebug.org/files/xdebug-$xdebug_version.tgz"
 xdebug_ext_path="$(php -r 'echo ini_get("extension_dir");')/xdebug.so"
 php_version="$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)"
 log='/var/log/workspace-image.log'
-msg="Compiling and installing xdebug $xdebug_version"
+msg="Compiling and installing xdebug $xdebug_version from $xdebug_binary_url"
 
 xdebug_conf() {
   echo "\
@@ -44,7 +45,7 @@ xdebug_zend_ext_conf() {
 }
 
 echo "BEGIN: $msg" | tee -a $log
-wget "http://xdebug.org/files/xdebug-$xdebug_version.tgz" \
+wget "$xdebug_binary_url" \
 && tar -xvzf "xdebug-$xdebug_version.tgz" \
 && cd "xdebug-$xdebug_version" \
 && phpize \
@@ -55,6 +56,10 @@ wget "http://xdebug.org/files/xdebug-$xdebug_version.tgz" \
 && sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/cli/php.ini\"" \
 && "$(xdebug_conf "7.4")" > "/etc/php/$php_version/mods-available/xdebug.ini" \
 && sudo ln -s "/etc/php/$php_version/mods-available/xdebug.ini" "/etc/php/$php_version/fpm/conf.d"
-ec=$!
-if [[ $ec -eq 0 ]]; then echo "  SUCCESS: $msg" | tee -a $log; else echo "  ERROR: $msg"; fi
-echo "END: $msg" | tee - a $log
+ec=$?
+if [[ $ec -eq 0 ]]; then
+  echo "  SUCCESS: $msg" | tee -a $log
+else 
+  2>&1 echo "  ERROR $ec: $msg" | tee -a $log
+fi
+echo "END: $msg" | tee -a $log
