@@ -36,7 +36,7 @@ xdebug_conf() {
   pm.max_children = 5
   pm.start_servers = 2
   pm.min_spare_servers = 1
-  pm.max_spare_servers = 3"
+  pm.max_spare_servers = 3" > "$2"
 }
 
 xdebug_zend_ext_conf() {
@@ -53,8 +53,8 @@ wget "$xdebug_binary_url" \
 && make \
 && sudo cp modules/xdebug.so "$xdebug_ext_path" \
 && sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/cli/php.ini\"" \
-&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/cli/php.ini\"" \
-&& "$(xdebug_conf "7.4")" > "/etc/php/$php_version/mods-available/xdebug.ini" \
+&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/apache2/php.ini\"" \
+&& xdebug_conf "7.4" "/etc/php/$php_version/mods-available/xdebug.ini" \
 && sudo ln -s "/etc/php/$php_version/mods-available/xdebug.ini" "/etc/php/$php_version/fpm/conf.d"
 ec=$?
 if [[ $ec -eq 0 ]]; then
