@@ -10,8 +10,8 @@
 # and any other additional project specific packages a user may require
 #
 # Notes:
-# This script assumes it is being run from .gitpod.Dockerfile and
-# that all of this scripts dependencies have already been copied to /tmp
+# This script assumes it is being run from .gitpod.Dockerfile as a sudo user
+# and that all of this scripts dependencies have already been copied to /tmp
 # If you change this script you must force a rebuild of the docker image
 
 # Put any additional packages you would like to install for the project here in single quotes delimited by a space
