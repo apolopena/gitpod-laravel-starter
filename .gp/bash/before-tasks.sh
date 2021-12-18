@@ -5,7 +5,7 @@
 #
 # before-tasks.sh
 # Description:
-# Tasks that should be run everytime the workspace is created or started.
+# Tasks that should be run every time the workspace is created or started.
 # 
 # Notes:
 # Gitpod currently does not persist files in the home directory so we must write them 
