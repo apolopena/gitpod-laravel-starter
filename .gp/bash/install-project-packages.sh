@@ -51,7 +51,7 @@ else
     msg="  changing PHP version and phpize from $latest_php to $php_version"
     echo "$msg" | tee -a $log
     sudo update-alternatives --set php /usr/bin/php7.4 \
-    && sudo update-alternatives --set /usr/bin/phpize7.4
+    && sudo update-alternatives --set phpize /usr/bin/phpize7.4
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
     else
