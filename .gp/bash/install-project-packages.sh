@@ -26,7 +26,7 @@ core='rsync grc shellcheck'
 php7_4='php7.4 php7.4-fpm php7.4-dev libapache2-mod-php7.4 php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
 latest_php="$(. /tmp/utils.sh php_version)"
 
-echo "BEGIN: installing project packages" | tee -a $log
+echo "BEGIN: Installing project packages" | tee -a $log
 php_version=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
 ec=$?
 if [[ $ec -ne 0 ]]; then
@@ -37,12 +37,16 @@ fi
 if [[ $php_version == '7.4' ]]; then
   ap="$core $php7_4 $additional_packages"
   IFS=" " read -r -a all_packages <<< "$ap"
-else
-  [[ $php_version == 'latest' ]] || echo "  WARNING: unsupported or invalid PHP version value $php_version found in /tmp/starter.ini. Defaulting PHP version to 'latest'" | tee -a $log
+elif [[ $php_version == 'latest' ]]; then
   ap="$core php$latest_php-fpm $additional_packages"
   IFS=" " read -r -a all_packages <<< "$ap"
+else
+  2>&1 echo "  WARNING: unsupported PHP version $php_version found in starter.ini. Falling back to PHP version $latest_php" | tee -a $log
+  echo "END: Installing project packages" | tee -a $log
+  exit 1
 fi
 
+# Install packages then (if needed) configure PHP and PHP for apache2.
 echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
   && sudo apt-get update -q \
   && sudo apt-get -yq install "${all_packages[@]}"
@@ -51,12 +55,23 @@ if [[ $ec -ne 0 ]]; then
   2>&1 echo "  ERROR: failed while installing: ${all_packages[*]}" | tee -a $log
 else
   echo "  SUCCESS: installing project packages: ${all_packages[*]}" | tee -a $log
-  if [[ "$php_version" == "7.4" ]]; then
-    msg="  changing PHP version and phpize from $latest_php to $php_version"
+  if [[ "$php_version" != "latest" ]]; then
+    msg="  Setting PHP config, phar and phpize from $latest_php to $php_version"
     echo "$msg" | tee -a $log
-    sudo update-alternatives --set php /usr/bin/php7.4 &&
-    sudo update-alternatives --set phpize /usr/bin/phpize7.4 &&   
-    sudo update-alternatives --set php-config /usr/bin/php-config7.4
+    sudo update-alternatives --set php "/usr/bin/php$php_version" &&
+    sudo update-alternatives --set phpize "/usr/bin/phpize$php_version" &&
+    sudo update-alternatives --set phar "/usr/bin/phar$php_version"
+    sudo update-alternatives --set phar.phar "/usr/bin/phar.phar$php_version"
+    sudo update-alternatives --set php-config "/usr/bin/php-config$php_version"
+    if [[ $ec -eq 0 ]]; then
+      echo "  SUCCESS: $msg" | tee -a $log
+    else
+      2>&1 echo "  ERROR: $msg" | tee -a $log
+    fi
+    msg="Configuring PHP $php_version for apache2 (prefork MPM)"
+    echo "$msg" | tee -a $log
+    sudo a2dismod "php$latest_php" &&
+    sudo a2enmod "php$php_version"
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
     else
@@ -66,4 +81,4 @@ else
   sudo apt-get clean
 fi
 
-echo "END: installing project packages" | tee -a $log
+echo "END: Installing project packages" | tee -a $log
