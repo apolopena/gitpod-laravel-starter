@@ -13,13 +13,17 @@
 # This script assumes it is being run from .gitpod.Dockerfile as a sudo user
 # and that all of this scripts dependencies have already been copied to /tmp
 # If you change this script you must force a rebuild of the docker image
+#
+# Gitpod currently implements PHP as an embedded Apache module (prefork MPM)
+# This script assumes that case by installing libapache2-mod-php7.4 when an optional
+# php version is required
 
 # Put any additional packages you would like to install for the project here in single quotes delimited by a space
 additional_packages=
 
 log='/var/log/workspace-image.log'
 core='rsync grc shellcheck'
-php7_4='php7.4 php7.4-fpm php7.4-dev php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
+php7_4='php7.4 php7.4-fpm php7.4-dev libapache2-mod-php7.4 php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
 latest_php="$(. /tmp/utils.sh php_version)"
 
 echo "BEGIN: installing project packages" | tee -a $log
@@ -50,8 +54,9 @@ else
   if [[ "$php_version" == "7.4" ]]; then
     msg="  changing PHP version and phpize from $latest_php to $php_version"
     echo "$msg" | tee -a $log
-    sudo update-alternatives --set php /usr/bin/php7.4 \
-    && sudo update-alternatives --set phpize /usr/bin/phpize7.4
+    sudo update-alternatives --set php /usr/bin/php7.4 &&
+    sudo update-alternatives --set phpize /usr/bin/phpize7.4 &&   
+    sudo update-alternatives --set php-config /usr/bin/php-config7.4
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
     else
