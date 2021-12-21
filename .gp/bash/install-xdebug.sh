@@ -50,7 +50,7 @@ ec=$?
 wget "$xdebug_binary_url" \
 && tar -xvzf "xdebug-$xdebug_version.tgz" \
 && cd "xdebug-$xdebug_version" \
-&& phpize \
+&& /usr/bin/phpize7.4 \
 && ./configure --enable-xdebug \
 && make \
 && sudo cp modules/xdebug.so "$xdebug_ext_path" \
