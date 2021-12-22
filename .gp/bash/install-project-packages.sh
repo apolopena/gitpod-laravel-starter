@@ -26,6 +26,25 @@ core='rsync grc shellcheck'
 php7_4='php7.4 php7.4-fpm php7.4-dev libapache2-mod-php7.4 php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
 latest_php="$(. /tmp/utils.sh php_version)"
 
+php_fpm_conf() {
+  [[ -z $1 || -z $2 ]] && 2>&1 echo "  ERROR: php-fpm_conf(): Bad args. Script aborted" && exit 1
+  echo "\
+  [global]
+  pid = /tmp/php$1-fpm.pid
+  error_log = /tmp/php$1-fpm.log
+
+  [www]
+  listen = 127.0.0.1:9000
+  listen.owner = gitpod
+  listen.group = gitpod
+
+  pm = dynamic
+  pm.max_children = 5
+  pm.start_servers = 2
+  pm.min_spare_servers = 1
+  pm.max_spare_servers = 3" > "$2"
+}
+
 echo "BEGIN: Installing project packages" | tee -a $log
 php_version=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
 ec=$?
@@ -46,11 +65,11 @@ else
   exit 1
 fi
 
-# Install packages then (if needed) configure PHP and PHP for apache2.
+# Install packages then (if needed) configure PHP, php-fpm conf and PHP for apache2.
 echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
   && sudo apt-get update -q \
   && sudo apt-get -yq install "${all_packages[@]}"
-ec=$!
+ec=$?
 if [[ $ec -ne 0 ]]; then
   2>&1 echo "  ERROR: failed while installing: ${all_packages[*]}" | tee -a $log
 else
@@ -60,8 +79,8 @@ else
     echo "$msg" | tee -a $log
     sudo update-alternatives --set php "/usr/bin/php$php_version" &&
     sudo update-alternatives --set phpize "/usr/bin/phpize$php_version" &&
-    sudo update-alternatives --set phar "/usr/bin/phar$php_version"
-    sudo update-alternatives --set phar.phar "/usr/bin/phar.phar$php_version"
+    sudo update-alternatives --set phar "/usr/bin/phar$php_version" &&
+    sudo update-alternatives --set phar.phar "/usr/bin/phar.phar$php_version" &&
     sudo update-alternatives --set php-config "/usr/bin/php-config$php_version"
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
@@ -72,12 +91,28 @@ else
     echo "$msg" | tee -a $log
     sudo a2dismod "php$latest_php" &&
     sudo a2enmod "php$php_version"
+    ec=$?
     if [[ $ec -eq 0 ]]; then
       echo "  SUCCESS: $msg" | tee -a $log
     else
       2>&1 echo "  ERROR: $msg" | tee -a $log
     fi
   fi
+
+  # Autogenerate php-fpm conf for whatever version of php is now in use
+  php_fpm_conf_path='.gp/conf/php-fpm/php-fpm.conf'
+  active_php_version="$(. /tmp/utils.sh php_version)"
+  msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
+  echo "$msg" | tee -a $log
+  php_fpm_conf "$active_php_version" "$php_fpm_conf_path"
+  ec=$?
+  if [[ $ec -eq 0 ]]; then
+    echo "  SUCCESS: $msg" | tee -a $log
+  else
+    2>&1 echo "  ERROR: $msg" | tee -a $log
+  fi
+
+  # Cleanup
   sudo apt-get clean
 fi
 

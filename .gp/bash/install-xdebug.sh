@@ -21,32 +21,19 @@ php_version="$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)"
 log='/var/log/workspace-image.log'
 msg="Compiling and installing xdebug $xdebug_version from $xdebug_binary_url"
 
-xdebug_conf() {
-  echo "\
-  [global]
-  pid = /tmp/php$1-fpm.pid
-  error_log = /tmp/php$1-fpm.log
-
-  [www]
-  listen = 127.0.0.1:9000
-  listen.owner = gitpod
-  listen.group = gitpod
-
-  pm = dynamic
-  pm.max_children = 5
-  pm.start_servers = 2
-  pm.min_spare_servers = 1
-  pm.max_spare_servers = 3" > "$2"
-}
-
 xdebug_zend_ext_conf() {
   # shellcheck disable=SC2028
   echo "\nzend_extension = $xdebug_ext_path\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n"
 }
+
 echo "BEGIN: $msg" | tee -a $log
-xdebug_conf "7.4" "/etc/php/$php_version/mods-available/20-xdebug.ini"
+echo -e "; configuration for xdebug
+; priority=20
+$(xdebug_zend_ext_conf)" > "/etc/php/$php_version/mods-available/20-xdebug.ini"
 ec=$?
-[[ $ec -eq 0 ]] || echo "  ERROR $ec: could not generate xdebug conf to file /etc/php/$php_version/mods-available/xdebug.ini" | tee -a $log
+[[ $ec -eq 0 ]] || 2>&1 echo "  ERROR $ec: could not generate xdebug zend ext conf to file /etc/php/$php_version/mods-available/xdebug.ini" | tee -a $log
+# Generate php-fpm conf
+php-fpm_conf "$php_version" 
 wget "$xdebug_binary_url" \
 && tar -xvzf "xdebug-$xdebug_version.tgz" \
 && cd "xdebug-$xdebug_version" \
