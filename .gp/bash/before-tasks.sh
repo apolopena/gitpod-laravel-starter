@@ -41,3 +41,9 @@ log_silent "try: git a    or: git aliases to see what is available."
 if [[ $(bash .gp/bash/helpers.sh is_inited) == 1 ]]; then
   bash .gp/bash/helpers.sh restore_persistent_files "$GITPOD_REPO_ROOT"
 fi
+
+if [[ -n $INTELEPHENSE_LICENSEKEY ]]; then
+log "Notice: Intelephense Licensekey found, push to $HOME/intelephense/licence.txt"
+ mkdir -p "$HOME/intelephense"
+ echo "$INTELEPHENSE_LICENSEKEY" > "$HOME/intelephense/licence.txt"
+fi
