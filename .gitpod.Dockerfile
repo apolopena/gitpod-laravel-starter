@@ -8,6 +8,8 @@ COPY --chown=gitpod:gitpod .gp/bash/update-composer.sh \
     .gp/conf/apache/apache2.conf \
     .gp/conf/nginx/nginx.conf \
     .gp/bash/.bash_aliases \
+    .gp/bash/php.sh \
+    .gp/bash/install-core-packages.sh \
     .gp/bash/install-project-packages.sh \
     .gp/bash/install-xdebug.sh \
     .gp/bash/update-composer.sh \
@@ -32,7 +34,13 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
-# Install core packages, optional PHP version and any additional packages a user would want
+# Configure php as specified in starter.ini
+RUN sudo bash -c ". /tmp/php.sh" && rm /tmp/php.sh
+
+# Install core packages for gitpod-laravel-starter
+RUN sudo bash -c ". /tmp/install-core-packages.sh" && rm /tmp/install-core-packages.sh
+
+# Install any user specified packages for the project
 RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
 
 # Compile, install and configure xdebug from source
