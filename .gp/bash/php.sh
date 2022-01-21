@@ -59,7 +59,7 @@ install_php() {
   sudo a2query -m
 
   # try this
-  sudo a2dismod mpm_prefork
+  sudo a2dismod "php$latest_php" mpm_prefork
 
   local msg="Installing PHP $php_version as specified in starter.ini"
   echo "  $msg" | tee -a $log
