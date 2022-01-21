@@ -94,41 +94,6 @@ configure_php() {
   fi
 }
 
-php_fpm_conf() {
-  [[ -z $1 || -z $2 ]] && 2>&1 echo "  ERROR: php-fpm_conf(): Bad args. Script aborted" && exit 1
-  echo "\
-  [global]
-  pid = /tmp/php$1-fpm.pid
-  error_log = /tmp/php$1-fpm.log
-
-  [www]
-  listen = 127.0.0.1:9000
-  listen.owner = gitpod
-  listen.group = gitpod
-
-  pm = dynamic
-  pm.max_children = 5
-  pm.start_servers = 2
-  pm.min_spare_servers = 1
-  pm.max_spare_servers = 3" > "$2"
-}
-
-generate_php_fpm_conf() {
-  local php_fpm_conf_path="$GITPOD_REPO_ROOT/.gp/conf/php-fpm/php-fpm.conf"
-  local active_php_version=
-  active_php_version="$(. /tmp/utils.sh php_version)"
-  local msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
-  echo "  $msg" | tee -a $log
-  php_fpm_conf "$active_php_version" "$php_fpm_conf_path"
-  local ec=$?
-  if [[ $ec -eq 0 ]]; then
-    echo "    SUCCESS: $msg" | tee -a $log
-  else
-    2>&1 echo "   ERROR: $msg" | tee -a $log
-    return 1
-  fi
-}
-
 keep_existing_php() {
   local msg1 msg2=
   [[ $1 == 'fallback' ]] &&
@@ -182,11 +147,6 @@ fi
 # Configure PHP
 if ! configure_php; then
   2>&1 echo "  php.sh was aborted: Optional php installation failed to be configured!" | tee -a $log && exit 1
-fi
-
-# Autogenerate php-fpm conf for whatever version of php is now in use
-if ! generate_php_fpm_conf; then
-  2>&1 echo "  php.sh was aborted: php-fpm conf failed to be configured!" | tee -a $log && exit 1
 fi
 
 echo "END: php.sh" | tee -a $log
