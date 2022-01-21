@@ -51,15 +51,16 @@ install_php() {
   local ppa=
   local msg=
   ppa=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP ppa)
-
+  
   # Uncomment to debugging installed packages in the build image step
   # sudo a2query -m
+  echo "LALALALALA: PPA value in starter.ini is: $ppa"
 
   # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
   sudo a2dismod "php$latest_php" mpm_prefork
 
   # Conditionally remove ppa:ondrej/php (if directed to do so AND it exists)
-  if [[ $ppa != 'ondrej' ]]; then
+  if [[ $ppa != "ondrej" ]]; then
     if grep ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* | grep -wq "ondrej/php"; then
       msg="Removing ppa:ondrej/php (as specified in starter.ini)"
       echo "  $msg" | tee -a $log
