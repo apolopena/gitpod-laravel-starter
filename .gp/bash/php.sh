@@ -114,7 +114,7 @@ php_fpm_conf() {
 }
 
 generate_php_fpm_conf() {
-  local php_fpm_conf_path='php-fpm.conf'
+  local php_fpm_conf_path='.gp/conf/php-fpm/php-fpm.conf'
   local active_php_version=
   active_php_version="$(. /tmp/utils.sh php_version)"
   local msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
