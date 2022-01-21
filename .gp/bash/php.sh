@@ -49,14 +49,17 @@ purge_gp_php() {
 }
 
 install_php() {
+  # For debugging, remove later
+  apachectl -M
+  if apachectl -M | grep "php_module (shared)"; then sudo a2dismod "$latest_php"; fi
   # Disable PHP mod for Apache since we only install PHP if another version is specified in starter.ini
-  sudo a2dismod "$latest_php"
+  #sudo a2dismod "$latest_php"
 
   local msg="Installing PHP $php_version as specified in starter.ini"
   echo "  $msg" | tee -a $log
   echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
-    && sudo apt-get -yqo Dpkg::Options::="--force-confold" install "${all_packages[@]}"
+    && sudo apt-get -yqo Dpkg::Options::="--force-confnew" install "${all_packages[@]}"
   local ec=$?
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
