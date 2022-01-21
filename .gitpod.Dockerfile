@@ -27,7 +27,6 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo chmod 666 /var/log/workspace-init.log \
     && sudo touch /var/log/xdebug.log \
     && sudo chmod 666 /var/log/xdebug.log \
-    && sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf \
     && sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf \
     && sudo mv /tmp/.bash_aliases /home/gitpod/.bash_aliases \
     && sudo mv /tmp/server-functions.sh /home/gitpod/.bashrc.d/server-functions \
@@ -37,7 +36,7 @@ RUN sudo touch /var/log/workspace-image.log \
 # Configure php as specified in starter.ini
 RUN sudo bash -c ". /tmp/php.sh" && rm /tmp/php.sh
 
-# Set Apache conf as it may have been overwritten by the potential php install
+# Set Apache conf (must be done after the potential php install)
 RUN sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf
 
 # Install core packages for gitpod-laravel-starter
