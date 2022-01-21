@@ -37,6 +37,9 @@ RUN sudo touch /var/log/workspace-image.log \
 # Configure php as specified in starter.ini
 RUN sudo bash -c ". /tmp/php.sh" && rm /tmp/php.sh
 
+# Set Apache conf as it may have been overwritten by the potential php install
+RUN sudo mv /tmp/apache2.conf /etc/apache2/apache2.conf
+
 # Install core packages for gitpod-laravel-starter
 RUN sudo bash -c ". /tmp/install-core-packages.sh" && rm /tmp/install-core-packages.sh
 
@@ -53,4 +56,4 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Force the docker image to build by incrementing this value
-ENV INVALIDATE_CACHE=203
+ENV INVALIDATE_CACHE=204
