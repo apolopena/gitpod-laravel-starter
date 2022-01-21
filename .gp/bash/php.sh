@@ -156,6 +156,9 @@ else
   keep_existing_php 'fallback'
 fi
 
+# Rebuild the package list so we can find the Gitpod installed PHP in order to purge it
+sudo apt-get update
+
 # Installing multiple versions of PHP is possible but adds alot of complexity and decreases performance
 # so remove the version of php that was installed via the gitpod base image before we get started
 if ! purge_gp_php; then
