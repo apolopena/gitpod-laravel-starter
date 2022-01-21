@@ -7,7 +7,6 @@
 # Description:
 # Installs an optional PHP version if specified in the [PHP] section of starter.ini
 # If an optional PHP version is installed then the original PHP version will be uninstalled and purged
-# Also this script configures phpfpm for nginx for the version of PHP that will be used
 #
 # Notes:
 # This script assumes it is being run from .gitpod.Dockerfile as a sudo user
@@ -32,7 +31,7 @@ purge_gp_php() {
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
   else
-    2>&1 echo "   ERROR: $msg" | tee -a $log
+    2>&1 echo "    ERROR: $msg" | tee -a $log
     return 1
   fi
 
@@ -44,24 +43,37 @@ purge_gp_php() {
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
   else
-    2>&1 echo "   ERROR: $msg" | tee -a $log
+    2>&1 echo "    ERROR: $msg" | tee -a $log
   fi
 }
 
 install_php() {
-  # For debugging, remove later
-  #apachectl -M
-  #if apachectl -M | grep "php_module (shared)"; then sudo a2dismod "$latest_php"; fi
-  # Disable PHP mod for Apache since we only install PHP if another version is specified in starter.ini
-  #sudo a2dismod "$latest_php"
-  
-  # debugging
-  sudo a2query -m
+  local ppa=
+  local msg=
+  ppa=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
 
-  # try this
+  # Uncomment to debugging installed packages in the build image step
+  # sudo a2query -m
+
+  # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
   sudo a2dismod "php$latest_php" mpm_prefork
 
-  local msg="Installing PHP $php_version as specified in starter.ini"
+  # Conditionally remove ppa:ondrej/php (if directed to do so AND it exists)
+  if [[ $ppa != 'ondrej' ]]; then
+    if grep ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* | grep -wq "ondrej/php"; then
+      msg="Removing ppa:ondrej/php (as specified in starter.ini)"
+      echo "  $msg" | tee -a $log
+      if sudo add-apt-repository -y --remove "ppa:ondrej/php"; then
+        echo "    SUCCESS: $msg" | tee -a $log
+        echo "      The standard OS ppa will be used to install PHP $php_version"
+      else
+        2>&1 echo "    ERROR: $msg" | tee -a $log
+      fi # end removal of ppa:ondrej/php
+    fi # end check if ppa:ondrej/php is active
+  fi # end check ppa directive in starter.ini
+
+
+  msg="Installing PHP $php_version as specified in starter.ini"
   echo "  $msg" | tee -a $log
   echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
@@ -71,8 +83,8 @@ install_php() {
     echo "    SUCCESS: $msg" | tee -a $log
     echo "      The following packages were installed: ${all_packages[*]}"
   else
-    2>&1 echo "   ERROR: $msg" | tee -a $log
-    2>&1 echo "     One or more of the following packages failed to install: ${all_packages[*]}" | tee -a $log
+    2>&1 echo "    ERROR: $msg" | tee -a $log
+    2>&1 echo "      One or more of the following packages failed to install: ${all_packages[*]}" | tee -a $log
     return 1
   fi
 }
@@ -89,7 +101,7 @@ configure_php() {
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
   else
-    2>&1 echo "  ERROR: $msg" | tee -a $log
+    2>&1 echo "    ERROR: $msg" | tee -a $log
     return 1
   fi
 }
