@@ -48,13 +48,14 @@ purge_gp_php() {
 }
 
 install_php() {
-  local ppa=
   local msg=
+  local ppa=
   ppa=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP ppa)
-  
+  # Strip any potential leading or tailing whitepsace from the parsed ppa value
+  ppa=$(bash /tmp/utils.sh trim_external "$ppa")
+
   # Uncomment to debugging installed packages in the build image step
   # sudo a2query -m
-  echo "LALALALALA: PPA value in starter.ini is: $ppa"
 
   # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
   sudo a2dismod "php$latest_php" mpm_prefork
