@@ -349,6 +349,16 @@ test_comp_ver_lt() {
   done
 }
 
+# Trims all leading and trailing whitespace
+trim_external() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    printf '%s' "$var"
+}
+
 
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
