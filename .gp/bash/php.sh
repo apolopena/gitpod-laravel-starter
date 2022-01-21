@@ -50,7 +50,7 @@ purge_gp_php() {
 install_php() {
   local ppa=
   local msg=
-  ppa=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
+  ppa=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP ppa)
 
   # Uncomment to debugging installed packages in the build image step
   # sudo a2query -m
