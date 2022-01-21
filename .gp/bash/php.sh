@@ -50,10 +50,16 @@ purge_gp_php() {
 
 install_php() {
   # For debugging, remove later
-  apachectl -M
-  if apachectl -M | grep "php_module (shared)"; then sudo a2dismod "$latest_php"; fi
+  #apachectl -M
+  #if apachectl -M | grep "php_module (shared)"; then sudo a2dismod "$latest_php"; fi
   # Disable PHP mod for Apache since we only install PHP if another version is specified in starter.ini
   #sudo a2dismod "$latest_php"
+  
+  # debugging
+  sudo a2query -m
+
+  # try this
+  sudo a2dismod mpm_prefork
 
   local msg="Installing PHP $php_version as specified in starter.ini"
   echo "  $msg" | tee -a $log
