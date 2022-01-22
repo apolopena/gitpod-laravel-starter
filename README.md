@@ -49,8 +49,9 @@ JavaScript Framework" width="72" ></a>
    - 6.2 [Development Servers](#development-servers)
    - 6.3 [Changing the default server](#changing-the-default-server)
    - 6.4 [Running more than one server at a time](#running-more-than-one-server-at-a-time)
-   - 6.5 [Changing the Laravel Version](#changing-the-laravel-version)
-   - 6.6 [Breaking the Docker cache](#breaking-the-docker-cache)
+   - 6.5 [Changing the PHP Version and PPA](#changing-the-php-version-and-ppa)
+   - 6.6 [Changing the Laravel Version](#changing-the-laravel-version)
+   - 6.7 [Breaking the Docker cache](#breaking-the-docker-cache)
 7. [Additional Features](#additional-features)
    - 7.1 [Hot Reloading](#hot-reloading)
    - 7.2 [Typescript](#typescript)
@@ -210,7 +211,30 @@ The Nginx server will now be running in addition to the Apache server.
 
 Laravel requires a URL to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The URL set in the `.env` file contains the server port. so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
-### Changing the Laravel Version
+
+### __Changing the PHP version and PPA__
+In `starter.ini` there is a `[PHP]` section and directives to change the version of PHP and or the `ppa` used for downloading the PHP packages.
+
+<br />
+
+Note: _See [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for more details._
+
+**The following values are supported in the `[PHP]` section of `starter.ini`:**
+- `version`
+  - `7.4`
+    - The default value
+    - Installs PHP 7.4. See [php.sh](https://github.com/apolopena/gitpod-laravel-starter/blob/main/.gp/bash/php.sh) for specifics.
+    - The current version of PHP that gitpod installs by default in their [`workspace-full`](https://github.com/gitpod-io/workspace-images/blob/master/full/Dockerfile) image will be automatically purged.
+  - `gitpodlatest`
+    - This keeps the current version that gitpod installs by default in their [`workspace-full`](https://github.com/gitpod-io/workspace-images/blob/master/full/Dockerfile) image.
+- `ppa`
+  - `OS`
+    - The default value
+    - Uses the standard Debian distribution ppa
+  - `ondrej`
+    - Uses `ppa:ondrej/php`. This [ppa](https://launchpad.net/~ondrej/+archive/ubuntu/php) is maintained by an individual but does support the of running multiple versions of PHP side by side.
+
+### __Changing the Laravel Version__
 In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel *before* you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
 
 **Important**:
