@@ -118,7 +118,7 @@ keep_existing_php() {
     echo "END: php.sh" | tee -a $log  && 
     exit 1
 
-  msg1="  Using the existing 'latest' version of PHP ($latest_php) as specified in $gp_php_url" &&
+  msg1="  Using the existing 'gitpodlatest' version of PHP ($latest_php) as specified in $gp_php_url" &&
   echo "$msg1" &&
   generate_php_fpm_conf &&
   echo "END: php.sh" | tee -a $log  && 
@@ -139,13 +139,13 @@ echo "BEGIN: php.sh" | tee -a $log
 php_version=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)
 ec=$?
 if [[ $ec -ne 0 ]]; then
-  2>&1 echo "  WARNING: could not parse /tmp/starter.ini. Defaulting PHP version to 'latest' as specified in $gp_php_url" | tee -a $log
-  php_version='latest'
+  2>&1 echo "  WARNING: could not parse /tmp/starter.ini. Defaulting PHP version to 'gitpodlatest' as specified in $gp_php_url" | tee -a $log
+  php_version='gitpodlatest'
 fi
 
 if [[ $php_version == '7.4' ]]; then
   IFS=" " read -r -a all_packages <<< "$php7_4"
-elif [[ $php_version == 'latest' ]]; then
+elif [[ $php_version == 'gitpodlatest' ]]; then
   keep_existing_php
 else
   keep_existing_php 'fallback'
