@@ -41,53 +41,6 @@ if [[ $update_npm == 1 ]]; then
 fi
 # END: Update npm if needed
 
-# BEGIN: parse .vscode/settings.json
-if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
-  msg="parsing .vscode/settings.json in order to disable vscode preview tab functionality"
-  log_silent "$msg" && start_spinner "$msg"
-  if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
-    stop_spinner $?
-    log_silent "SUCCESS: $msg"
-  else
-    stop_spinner $?
-    log -e "ERROR: $msg"
-  fi
-fi
-# END: parse .vscode/settings.json
-
-# BEGIN: Autogenerate phpinfo.php
-if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
-  if [[ -z $GITPOD_REPO_ROOT ]]; then 
-    p="public/phpinfo.php"; 
-  else
-    p="$GITPOD_REPO_ROOT/public/phpinfo.php"
-  fi
-  msg="generating phpinfo.php file in $p"
-  log_silent "$msg" && start_spinner "$msg"
-  if echo "<?php phpinfo( ); ?>" > "$p"; then
-    stop_spinner $?
-    log_silent "SUCCESS: $msg"
-  else
-    stop_spinner $?
-    log -e "ERROR: $msg"
-  fi
-fi
-# END: Autogenerate phpinfo.php
-
-# BEGIN: Autogenerate php-fpm.conf
-php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
-active_php_version="$(. .gp/bash/utils.sh php_version)"
-msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
-log_silent "$msg" && start_spinner "$msg"
-if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
-  stop_spinner $?
-  log_silent "SUCCESS: $msg"
-else
-  stop_spinner $?
-  log -e "ERROR: $msg"
-fi
-# END: Autogenerate php-fpm.conf
-
 # BEGIN: Bootstrapping
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
@@ -117,6 +70,53 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log_silent "SUCCESS: $msg"
   fi
   # END: rsync any new Laravel project files from the docker image to the repository
+
+  # BEGIN: parse .vscode/settings.json
+  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
+    msg="parsing .vscode/settings.json in order to disable vscode preview tab functionality"
+    log_silent "$msg" && start_spinner "$msg"
+    if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
+      stop_spinner $?
+      log_silent "SUCCESS: $msg"
+    else
+      stop_spinner $?
+      log -e "ERROR: $msg"
+    fi
+  fi
+  # END: parse .vscode/settings.json
+
+  # BEGIN: Autogenerate phpinfo.php
+  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
+    if [[ -z $GITPOD_REPO_ROOT ]]; then 
+      p="public/phpinfo.php"; 
+    else
+      p="$GITPOD_REPO_ROOT/public/phpinfo.php"
+    fi
+    msg="generating phpinfo.php file in $p"
+    log_silent "$msg" && start_spinner "$msg"
+    if echo "<?php phpinfo( ); ?>" > "$p"; then
+      stop_spinner $?
+      log_silent "SUCCESS: $msg"
+    else
+      stop_spinner $?
+      log -e "ERROR: $msg"
+    fi
+  fi
+  # END: Autogenerate phpinfo.php
+
+  # BEGIN: Autogenerate php-fpm.conf
+  php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
+  active_php_version="$(. .gp/bash/utils.sh php_version)"
+  msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
+  log_silent "$msg" && start_spinner "$msg"
+  if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
+    stop_spinner $?
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner $?
+    log -e "ERROR: $msg"
+  fi
+  # END: Autogenerate php-fpm.conf
 
   # Move, rename or merge any project files that need it
   [[ -f "LICENSE" && -d ".gp" && ! -f .gp/LICENSE ]] && mv -f LICENSE .gp/LICENSE
