@@ -274,7 +274,7 @@ Set a breakpoint in the Gitpod IDE by clicking in the gutter next to the line of
 Then in the Gitpod IDE in the browser:
 1. Click the debug icon in the left side panel to open the Debug panel.
 2. Choose "Listen for XDebug" from the dropdown list.
-3. Click the green play button (you should see the status "RUNNING" in the Threads panel)
+3. Click the green play button (you should see the status "RUNNING" in the CALL STACK panel)
 4. Refresh the preview browser either manually or by running the `op` command and your breakpoint will be hit in the IDE.
 
 All debugging is subject to a server timeout, just refresh preview browser or run the command `op` if this happens.
