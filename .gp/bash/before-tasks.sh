@@ -37,8 +37,8 @@ log_silent "try: git a    or: git aliases to see what is available."
 if [[ -n $GNUPG_KEY && -n $GNUPG_SIGNING_KEY ]]; then
   msg="enabling Git commit signing"
   log_silent "GnuPG Private Key env vars found, $msg"
-  gpg --verbose --batch --import <(echo "$GNUPG_KEY" | base64 -d) > /dev/null &&
-  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf > /dev/null &&
+  gpg -q --batch --import <(echo "$GNUPG_KEY" | base64 -d) &&
+  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
   git config --global user.signingkey "$GNUPG_SIGNING_KEY" &&
   git config commit.gpgsign true
   ec=$?
