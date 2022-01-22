@@ -57,14 +57,14 @@ fi
 
 # BEGIN: Autogenerate phpinfo.php
 if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
-  if [[ -z $GITPOD_REPO_URL ]]; then 
+  if [[ -z $GITPOD_REPO_ROOT ]]; then 
     p="public/phpinfo.php"; 
   else
-    p="$GITPOD_REPO_URL/public/phpinfo.php"
+    p="$GITPOD_REPO_ROOT/public/phpinfo.php"
   fi
-  msg="generating phpinfo.php file in $p"
+  msg="generating phpinfo.php file in /public"
   log_silent "$msg" && start_spinner "$msg"
-  if echo "<?php phpinfo( ); ?>" > "public/phpinfo.php"; then
+  if echo "<?php phpinfo( ); ?>" > "$p"; then
     stop_spinner $?
     log_silent "SUCCESS: $msg"
   else
