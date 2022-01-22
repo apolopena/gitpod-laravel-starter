@@ -17,7 +17,7 @@ assignees: ''
 <!-- A clear and concise description of what you want to happen. -->
 
 ## Constraints and Assumptions
-<! -- Any constraints and/or assumption relevant for the development and use of this feature? -->
+<!-- Any constraints and/or assumption relevant for the development and use of this feature? -->
 
 ## Alternatives or Workarounds
 <!-- A concise description of any alternative solutions or features you've considered or used. -->
