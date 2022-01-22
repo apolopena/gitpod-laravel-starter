@@ -41,3 +41,12 @@ log_silent "try: git a    or: git aliases to see what is available."
 if [[ $(bash .gp/bash/helpers.sh is_inited) == 1 ]]; then
   bash .gp/bash/helpers.sh restore_persistent_files "$GITPOD_REPO_ROOT"
 fi
+
+# Enables GnuPG Support to sign Git commits if the GnuPG key (GNUPG_KEY) is available.
+if [[ -n $GNUPG_KEY ]]; then
+log "Notice: GnuPG Private Key found, Git commit signing is enabled"
+  gpg --verbose --batch --import <(echo $GNUPG_KEY | base64 -d)
+  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
+  git config --global user.signingkey $GNUPG_SIGNING_KEY
+  git config commit.gpgsign true
+fi
