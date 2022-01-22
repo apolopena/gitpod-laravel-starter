@@ -33,19 +33,10 @@ bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/snippets/git/ali
 log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
 
-# Restore files marked as persistant such as workspace-init.log
-# See persist_file in bash/helpers.sh for how the system works
-# Keep this block at the bottom of the file so that any logging from this
-# script is only written to file upon initialization! Otherwise workspace-init.log 
-# will get written to from this script upon every workspace restart.
-if [[ $(bash .gp/bash/helpers.sh is_inited) == 1 ]]; then
-  bash .gp/bash/helpers.sh restore_persistent_files "$GITPOD_REPO_ROOT"
-fi
-
 # Enables GnuPG Support to sign Git commits if the GnuPG key (GNUPG_KEY) is available.
 if [[ -n $GNUPG_KEY && -n $GNUPG_SIGNING_KEY ]]; then
   msg="enabling Git commit signing"
-  log "GnuPG Private Key env vars found, $msg"
+  log_silent "GnuPG Private Key env vars found, $msg"
   gpg --verbose --batch --import <(echo "$GNUPG_KEY" | base64 -d) &&
   echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
   git config --global user.signingkey "$GNUPG_SIGNING_KEY" &&
@@ -56,4 +47,27 @@ if [[ -n $GNUPG_KEY && -n $GNUPG_SIGNING_KEY ]]; then
   else
     log -e "ERROR: $msg"
   fi
+fi
+
+# Auto activate intelephense if license key is available
+if [[ -n $INTELEPHENSE_LICENSEKEY ]]; then
+  msg="creating $HOME/intelephense/licence.txt"
+  log_silent "INTELEPHENSE_LICENSEKEY environment variable found, $msg"
+  mkdir -p "$HOME/intelephense" &&
+  echo "$INTELEPHENSE_LICENSEKEY" > "$HOME/intelephense/licence.txt" &&
+  ec=$?
+  if [[ $ec -eq 0 ]]; then 
+    log "SUCCESS: $msg"
+  else
+    log -e "ERROR: $msg"
+  fi
+fi
+
+# Restore files marked as persistant such as workspace-init.log
+# See persist_file in bash/helpers.sh for how the system works
+# Keep this block at the bottom of the file so that any logging from this
+# script is only written to file upon initialization! Otherwise workspace-init.log 
+# will get written to from this script upon every workspace restart.
+if [[ $(bash .gp/bash/helpers.sh is_inited) == 1 ]]; then
+  bash .gp/bash/helpers.sh restore_persistent_files "$GITPOD_REPO_ROOT"
 fi
