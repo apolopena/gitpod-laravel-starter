@@ -92,7 +92,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     else
       p="$GITPOD_REPO_ROOT/public/phpinfo.php"
     fi
-    msg="generating phpinfo.php file in $p"
+    msg="generating phpinfo.php file in /public"
     log_silent "$msg" && start_spinner "$msg"
     if echo "<?php phpinfo( ); ?>" > "$p"; then
       stop_spinner $?
