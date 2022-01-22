@@ -43,10 +43,17 @@ if [[ $(bash .gp/bash/helpers.sh is_inited) == 1 ]]; then
 fi
 
 # Enables GnuPG Support to sign Git commits if the GnuPG key (GNUPG_KEY) is available.
-if [[ -n $GNUPG_KEY ]]; then
-log "Notice: GnuPG Private Key found, Git commit signing is enabled"
-  gpg --verbose --batch --import <(echo $GNUPG_KEY | base64 -d)
-  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
-  git config --global user.signingkey $GNUPG_SIGNING_KEY
+if [[ -n $GNUPG_KEY && -n $GNUPG_SIGNING_KEY ]]; then
+  msg="enabling Git commit signing"
+  log "GnuPG Private Key env vars found, $msg"
+  gpg --verbose --batch --import <(echo "$GNUPG_KEY" | base64 -d) &&
+  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
+  git config --global user.signingkey "$GNUPG_SIGNING_KEY" &&
   git config commit.gpgsign true
+  ec=$?
+  if [[ $ec -eq 0 ]]; then 
+    log "SUCCESS: $msg"
+  else
+    log -e "ERROR: $msg"
+  fi
 fi
