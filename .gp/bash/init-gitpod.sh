@@ -23,7 +23,7 @@ stop_spinner $?
 
 # BEGIN: parse .vscode/settings.json
 if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
-  msg="parsing .vscode/settings.json in order to disable vscode preview tab functionality"
+  msg="parsing .vscode/settings.json as per starter.ini"
   log_silent "$msg" && start_spinner "$msg"
   if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
     stop_spinner $?
