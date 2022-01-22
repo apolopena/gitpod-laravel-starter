@@ -41,6 +41,22 @@ if [[ $update_npm == 1 ]]; then
 fi
 # END: Update npm if needed
 
+# BEGIN: Autogenerate phpinfo.php
+if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
+  if [[ -z $GITPOD_REPO_URL ]]; then 
+    p="public/phpinfo.php"; 
+  else
+    p="$GITPOD_REPO_URL/public/phpinfo.php"
+  fi
+  msg="generating phpinfo.php file in $p"
+  if echo "<?php phpinfo( ); ?>" > "public/phpinfo.php"; then
+    echo "SUCCESS: $msg"
+  else
+    echo "ERROR: $msg"
+  fi
+fi
+# END: Autogenerate phpinfo.php
+
 # BEGIN: Autogenerate php-fpm.conf
 php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
 active_php_version="$(. .gp/bash/utils.sh php_version)"
