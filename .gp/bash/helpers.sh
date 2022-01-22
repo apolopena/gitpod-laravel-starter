@@ -142,6 +142,7 @@ show_powered_by() {
   echo "This project is powered by:"
   echo -en "\e[38;5;34m"
   gls_version
+  echo "PHP $(bash .gp/bash/utils.sh php_version)"
   echo -e "$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
