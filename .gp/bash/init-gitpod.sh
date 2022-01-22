@@ -41,6 +41,20 @@ if [[ $update_npm == 1 ]]; then
 fi
 # END: Update npm if needed
 
+# BEGIN: Autogenerate php-fpm.conf
+php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
+active_php_version="$(. .gp/bash/utils.sh php_version)"
+msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
+log_silent "$msg" && start_spinner "$msg"
+if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
+  stop_spinner $?
+  log_silent "SUCCESS: $msg"
+else
+  stop_spinner $?
+  log -e "ERROR: $msg"
+fi
+# END: Autogenerate php-fpm.conf
+
 # BEGIN: Bootstrapping
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
@@ -146,6 +160,27 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     msg="Installing github-changelog-generator"
     log_silent "$msg" && start_spinner "$msg" &&
     gem install github_changelog_generator --no-document --silent
+    err_code=$?
+    if [[ $err_code != 0 ]]; then
+      stop_spinner $err_code
+      log -e "ERROR: $msg"
+    else
+      stop_spinner $err_code
+      log "SUCCESS: $msg"
+    fi
+  fi
+  
+  # Install https://www.ioncube.com/loaders.php
+  installed_ioncube_gen=$(bash .gp/bash/utils.sh parse_ini_value starter.ini ioncube install)
+  if [ "$installed_ioncube_gen" == 1 ]; then
+    msg="Installing ioncube loader"
+    log_silent "$msg" && start_spinner "$msg" \
+    && wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O /tmp/ioncube.tar.gz \
+    && tar xzf /tmp/ioncube.tar.gz -C /tmp \
+    && sudo cp /tmp/ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so \
+    && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/apache2/conf.d/10-ioncube.ini' \
+    && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/10-ioncube.ini' \
+    && rm -rf /tmp/ioncube.tar.gz /tmp/ioncube
     err_code=$?
     if [[ $err_code != 0 ]]; then
       stop_spinner $err_code

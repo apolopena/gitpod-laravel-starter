@@ -374,6 +374,27 @@ laravel_ui_version() {
   fi
 }
 
+# Dynamically Configures php-fpm based on currently used bersion of PHP
+# NOTE: If you want to configure this further do it elsewhere or open a PR
+php_fpm_conf() {
+  [[ -z $1 || -z $2 ]] && 2>&1 echo "  ERROR: utils.sh --> php_fpm_conf(): Bad args. Script aborted" && exit 1
+  echo "\
+[global]
+pid = /tmp/php$1-fpm.pid
+error_log = /tmp/php$1-fpm.log
+
+[www]
+listen = 127.0.0.1:9000
+listen.owner = gitpod
+listen.group = gitpod
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3" > "$2"
+}
+
 # Call functions from this script gracefully
 if declare -f "$1" > /dev/null
 then

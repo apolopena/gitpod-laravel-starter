@@ -66,7 +66,7 @@ add_file_to_file_before() {
 #
 # Usage:
 # Example: add the contents of git-alises.txt to .gitconfig after the marker [aliases]
-# add_file_to_file_before \\[alias\\] git-aliases.txt .gitconfig
+# add_file_to_file_after \\[alias\\] git-aliases.txt .gitconfig
 #
 add_file_to_file_after() {
   check_files_exist "$2" "$3" && local c=$?; if [ $c -ne 0 ]; then exit 1; fi
@@ -251,6 +251,24 @@ get_env_value() {
   echo "$val"
 }
 
+# php_version()
+# Description:
+# Gets the major and minor version of PHP from the installed configuration file php.ini
+# Fails if PHP is not installed 
+#
+# Notes:
+# Assumes that the file path for the loaded php.ini file is somewhat standard in that the first
+# directory in the path with numbers with dots in them that resembles a version number is
+# indeed the PHP version
+#
+# Usage:
+# outputs x.y where x is the major PHP version and y in the minor PHP version: 
+# php_version
+#
+php_version() {
+  php --ini | head -n 1 | grep -Eo "([0-9]{1,}\.)[0-9]{1,}"
+}
+
 # split_ver
 # Description:
 # splits a version number ($1) into three numbers delimited by a space
@@ -329,6 +347,16 @@ test_comp_ver_lt() {
     echo "$v1a is less than $v1b  $tf"
     ((i++))
   done
+}
+
+# Trims all leading and trailing whitespace
+trim_external() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    printf '%s' "$var"
 }
 
 
