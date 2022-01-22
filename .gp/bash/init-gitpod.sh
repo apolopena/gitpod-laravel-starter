@@ -21,6 +21,20 @@ start_spinner "Initializing MySql..." &&
 gp await-port 3306 &&
 stop_spinner $?
 
+# BEGIN: parse .vscode/settings.json
+if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
+  msg="parsing .vscode/settings.json in order to disable vscode preview tab functionality"
+  log_silent "$msg" && start_spinner "$msg"
+  if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
+    stop_spinner $?
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner $?
+    log -e "ERROR: $msg"
+  fi
+fi
+# END: parse .vscode/settings.json
+
 # BEGIN: Update npm if needed
 target_npm_ver='^7'
 min_target_npm_ver='7.11.1'
@@ -71,20 +85,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   fi
   # END: rsync any new Laravel project files from the docker image to the repository
 
-  # BEGIN: parse .vscode/settings.json
-  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
-    msg="parsing .vscode/settings.json in order to disable vscode preview tab functionality"
-    log_silent "$msg" && start_spinner "$msg"
-    if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
-      stop_spinner $?
-      log_silent "SUCCESS: $msg"
-    else
-      stop_spinner $?
-      log -e "ERROR: $msg"
-    fi
-  fi
-  # END: parse .vscode/settings.json
-
   # BEGIN: Autogenerate phpinfo.php
   if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
     if [[ -z $GITPOD_REPO_ROOT ]]; then 
@@ -92,7 +92,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     else
       p="$GITPOD_REPO_ROOT/public/phpinfo.php"
     fi
-    msg="generating phpinfo.php file in /public"
+    msg="generating phpinfo.php file in /public "
     log_silent "$msg" && start_spinner "$msg"
     if echo "<?php phpinfo( ); ?>" > "$p"; then
       stop_spinner $?
