@@ -62,7 +62,7 @@ if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo)
   else
     p="$GITPOD_REPO_ROOT/public/phpinfo.php"
   fi
-  msg="generating phpinfo.php file in /public"
+  msg="generating phpinfo.php file in $p"
   log_silent "$msg" && start_spinner "$msg"
   if echo "<?php phpinfo( ); ?>" > "$p"; then
     stop_spinner $?
