@@ -22,7 +22,7 @@ gp await-port 3306 &&
 stop_spinner $?
 
 # Globals
-current_php_version="$(.gp/bash/utils.sh php_version)"
+current_php_version="$(bash .gp/bash/utils.sh php_version)"
 
 # BEGIN: parse .vscode/settings.json
 if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
