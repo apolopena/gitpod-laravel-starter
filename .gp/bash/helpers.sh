@@ -375,8 +375,9 @@ laravel_ui_version() {
   fi
 }
 
-# Dynamically Configures php-fpm based on currently used bersion of PHP
-# NOTE: If you want to configure this further do it elsewhere or open a PR
+# php_fpm_conf
+# Configures the php-fpm.conf depending on PHP version ($1) and the output file ($2)
+# NOTE: If you want to configure this further parse the result of this from elsewhere.
 php_fpm_conf() {
   [[ -z $1 || -z $2 ]] && 2>&1 echo "  ERROR: utils.sh --> php_fpm_conf(): Bad args. Script aborted" && exit 1
   echo "\
