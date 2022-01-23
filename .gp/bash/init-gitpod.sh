@@ -209,7 +209,7 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   # Install https://www.ioncube.com/loaders.php
   installed_ioncube_gen=$(bash .gp/bash/utils.sh parse_ini_value starter.ini ioncube install)
   if [[ $installed_ioncube_gen == 1 ]]; then
-    if [[ $(bash .gp/bash/utils.sh comp_ver_lt "$current_php_version" 7.4) == 0 ]]; then
+    if [[ $(bash .gp/bash/utils.sh comp_ver_lt "$current_php_version" "8.0") == 1 ]]; then
       msg="Installing ioncube loader"
       log_silent "$msg" && start_spinner "$msg" \
       && wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O /tmp/ioncube.tar.gz \

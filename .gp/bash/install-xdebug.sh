@@ -17,7 +17,7 @@
 xdebug_version='3.1.2'
 xdebug_binary_url="http://xdebug.org/files/xdebug-$xdebug_version.tgz"
 xdebug_ext_path="$(php -r 'echo ini_get("extension_dir");')/xdebug.so"
-php_version="$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini PHP version)"
+php_version="$(. /tmp/utils.sh php_version)"
 log='/var/log/workspace-image.log'
 msg="Compiling and installing xdebug $xdebug_version from $xdebug_binary_url"
 
@@ -37,12 +37,12 @@ php-fpm_conf "$php_version"
 wget "$xdebug_binary_url" \
 && tar -xvzf "xdebug-$xdebug_version.tgz" \
 && cd "xdebug-$xdebug_version" \
-&& /usr/bin/phpize7.4 \
+&& "/usr/bin/phpize$php_version" \
 && ./configure --enable-xdebug \
 && make \
 && sudo cp modules/xdebug.so "$xdebug_ext_path" \
-&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/cli/php.ini\"" \
-&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" >> \"/etc/php/$php_version/apache2/php.ini\"" \
+&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" > \"/etc/php/$php_version/cli/conf.d/20-xdebug.ini\"" \
+&& sudo bash -c "echo -e \"$(xdebug_zend_ext_conf)\" > \"/etc/php/$php_version/apache2/conf.d/20-xdebug.ini\"" \
 && sudo ln -s "/etc/php/$php_version/mods-available/20-xdebug.ini" "/etc/php/$php_version/fpm/conf.d"
 ec=$?
 if [[ $ec -eq 0 ]]; then
