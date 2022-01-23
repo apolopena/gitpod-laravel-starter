@@ -34,7 +34,7 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
-# Configure php as specified in starter.ini
+# Install and configure php and php-fpm as specified in starter.ini
 RUN sudo bash -c ". /tmp/php.sh" && rm /tmp/php.sh
 
 # Install core packages for gitpod-laravel-starter
@@ -43,7 +43,7 @@ RUN sudo bash -c ". /tmp/install-core-packages.sh" && rm /tmp/install-core-packa
 # Install any user specified packages for the project
 RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project-packages.sh
 
-# Compile, install and configure xdebug from source
+# Download, compile, install and configure xdebug from source
 RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
 
 # Update composer. TODO: https://github.com/apolopena/gitpod-laravel-starter/issues/159
@@ -53,4 +53,4 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Force the docker image to build by incrementing this value
-ENV INVALIDATE_CACHE=215
+ENV INVALIDATE_CACHE=216
