@@ -15,25 +15,25 @@
 # For xdebug version compatibility with PHP see https://xdebug.org/docs/compat
 
 xdebug_version='3.1.2'
+
 xdebug_binary_url="http://xdebug.org/files/xdebug-$xdebug_version.tgz"
 xdebug_ext_path="$(php -r 'echo ini_get("extension_dir");')/xdebug.so"
 php_version="$(. /tmp/utils.sh php_version)"
 log='/var/log/workspace-image.log'
-msg="Compiling and installing xdebug $xdebug_version from $xdebug_binary_url"
 
 xdebug_zend_ext_conf() {
   # shellcheck disable=SC2028
   echo "\nzend_extension = $xdebug_ext_path\n[XDebug]\nxdebug.client_host = 127.0.0.1\nxdebug.client_port = 9009\nxdebug.log = /var/log/xdebug.log\nxdebug.mode = debug\nxdebug.start_with_request = trigger\n"
 }
 
+# Download/build xdebug and configure it for PHP
+msg="Compiling and installing xdebug $xdebug_version from $xdebug_binary_url"
 echo "BEGIN: $msg" | tee -a $log
 echo -e "; configuration for xdebug
 ; priority=20
 $(xdebug_zend_ext_conf)" > "/etc/php/$php_version/mods-available/20-xdebug.ini"
 ec=$?
 [[ $ec -eq 0 ]] || 2>&1 echo "  ERROR $ec: could not generate xdebug zend ext conf to file /etc/php/$php_version/mods-available/xdebug.ini" | tee -a $log
-# Generate php-fpm conf
-php-fpm_conf "$php_version" 
 wget "$xdebug_binary_url" \
 && tar -xvzf "xdebug-$xdebug_version.tgz" \
 && cd "xdebug-$xdebug_version" \
