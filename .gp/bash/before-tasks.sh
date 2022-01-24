@@ -35,7 +35,7 @@ log_silent "try: git a    or: git aliases to see what is available."
 
 # Enable GPG key to sign Git commits.
 if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
-  msg="Enabling Git commit signing for GPG key id: "
+  msg="Enabling Git commit signing for GPG key id: $GPG_KEY_ID"
   log_silent "$msg"
   gpg -q --batch --import <(echo "$GPG_KEY" | base64 -d) &&
   echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
