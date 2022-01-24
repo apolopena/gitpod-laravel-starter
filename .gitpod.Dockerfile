@@ -34,6 +34,9 @@ RUN sudo touch /var/log/workspace-image.log \
     && sudo mv /tmp/browser-functions.sh /home/gitpod/.bashrc.d/browser-functions \
     && sudo mv /tmp/hot-reload.sh /usr/local/bin/hot-reload
 
+# Force the docker image to build by incrementing this value
+ENV INVALIDATE_CACHE=219
+
 # Install and configure php and php-fpm as specified in starter.ini
 RUN sudo bash -c ". /tmp/php.sh" && rm /tmp/php.sh
 
@@ -51,6 +54,3 @@ RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # Scaffold the Laravel project
 RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
-
-# Force the docker image to build by incrementing this value
-ENV INVALIDATE_CACHE=219
