@@ -53,8 +53,8 @@ fi
 # END: parse .vscode/settings.json
 
 # BEGIN: Update npm if needed
-target_npm_ver='^7'
-min_target_npm_ver='7.11.1'
+target_npm_ver='^8'
+min_target_npm_ver='8.3.2'
 current_npm_ver=$(npm -v)
 update_npm=$(bash .gp/bash/utils.sh comp_ver_lt "$current_npm_ver" "$min_target_npm_ver")
 if [[ $update_npm == 1 ]]; then
