@@ -33,13 +33,13 @@ bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/snippets/git/ali
 log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
 
-# Enables GnuPG Support to sign Git commits if the GnuPG key (GNUPG_KEY) is available.
-if [[ -n $GNUPG_KEY && -n $GNUPG_SIGNING_KEY ]]; then
-  msg="enabling Git commit signing"
-  log_silent "GnuPG Private Key env vars found, $msg"
-  gpg -q --batch --import <(echo "$GNUPG_KEY" | base64 -d) &&
+# Enable GPG key to sign Git commits.
+if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
+  msg="Enabling Git commit signing for GPG key id: "
+  log_silent "$msg"
+  gpg -q --batch --import <(echo "$GPG_KEY" | base64 -d) &&
   echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
-  git config --global user.signingkey "$GNUPG_SIGNING_KEY" &&
+  git config --global user.signingkey "$GPG_KEY_ID" &&
   git config commit.gpgsign true
   ec=$?
   if [[ $ec -eq 0 ]]; then 
