@@ -24,6 +24,20 @@ stop_spinner $?
 # Globals
 current_php_version="$(bash .gp/bash/utils.sh php_version)"
 
+  # BEGIN: Autogenerate php-fpm.conf
+  php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
+  active_php_version="$(. .gp/bash/utils.sh php_version)"
+  msg="Autogenerating $php_fpm_conf_path for PHP $active_php_version"
+  log_silent "$msg" && start_spinner "$msg"
+  if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
+    stop_spinner $?
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner $?
+    log -e "ERROR: $msg"
+  fi
+  # END: Autogenerate php-fpm.conf
+
 # BEGIN: parse .vscode/settings.json
 if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
   msg="parsing .vscode/settings.json as per starter.ini"
@@ -106,20 +120,6 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     fi
   fi
   # END: Autogenerate phpinfo.php
-
-  # BEGIN: Autogenerate php-fpm.conf
-  php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
-  active_php_version="$(. .gp/bash/utils.sh php_version)"
-  msg="Autogenerating php-fpm configuration file for PHP $active_php_version in $php_fpm_conf_path"
-  log_silent "$msg" && start_spinner "$msg"
-  if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
-    stop_spinner $?
-    log_silent "SUCCESS: $msg"
-  else
-    stop_spinner $?
-    log -e "ERROR: $msg"
-  fi
-  # END: Autogenerate php-fpm.conf
 
   # Move, rename or merge any project files that need it
   [[ -f "LICENSE" && -d ".gp" && ! -f .gp/LICENSE ]] && mv -f LICENSE .gp/LICENSE
