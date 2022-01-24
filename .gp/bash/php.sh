@@ -120,12 +120,13 @@ keep_existing_php() {
 
   [[ $1 == 'fallback' ]] &&
     msg1="  WARNING: unsupported PHP version $php_version found in starter.ini." &&
-    msg2="Falling back to the existing PHP version $latest_php as specified in $gp_php_url"  &&
-    2>&1 echo "$msg1 $msg2" | tee -a $log &&
-    echo "END: php.sh" | tee -a $log  
+    msg2="Falling back to the existing PHP version $latest_php as specified in $gp_php_url" &&
+    echo "$msg1 $msg2" | tee -a $log &&
+    echo "END: php.sh" | tee -a $log  &&
+    return 0
 
   msg1="  Using the existing 'gitpodlatest' version of PHP ($latest_php) as specified in $gp_php_url" &&
-  echo | tee -a $log "$msg1" &&
+  echo "$msg1" | tee -a $log &&
   echo "END: php.sh" | tee -a $log
 }
 
@@ -141,9 +142,11 @@ fi
 if [[ $php_version == '7.4' ]]; then
   IFS=" " read -r -a all_packages <<< "$php7_4"
 elif [[ $php_version == 'gitpodlatest' ]]; then
-  keep_existing_php && exit 0
+  keep_existing_php
+  exit 0
 else
-  keep_existing_php 'fallback' && exit 0
+  keep_existing_php 'fallback'
+  exit 0
 fi
 
 # Rebuild the package list so we can find the Gitpod installed PHP in order to purge it
