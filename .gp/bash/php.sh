@@ -125,7 +125,7 @@ keep_existing_php() {
     echo "END: php.sh" | tee -a $log  
 
   msg1="  Using the existing 'gitpodlatest' version of PHP ($latest_php) as specified in $gp_php_url" &&
-  echo "$msg1" &&
+  echo | tee -a $log "$msg1" &&
   echo "END: php.sh" | tee -a $log
 }
 
