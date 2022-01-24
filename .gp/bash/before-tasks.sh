@@ -45,7 +45,7 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
   if [[ $ec -eq 0 ]]; then 
     log "SUCCESS: $msg"
     # For security remove the gpg key from the terminal
-    unset "$GPG_KEY"
+    unset GPG_KEY
     # Change the git email if the user needs it (ensures the commit is marked as 'Verified')
     if [[ -n $GPG_MATCH_GIT_TO_EMAIL ]]; then
       msg="Changing user.email in ~/.gitconfig to $GPG_MATCH_GIT_TO_EMAIL"
