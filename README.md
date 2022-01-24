@@ -55,6 +55,7 @@ JavaScript Framework" width="72" ></a>
 7. [Additional Features](#additional-features)
    - 7.1 [Hot Reloading](#hot-reloading)
    - 7.2 [Typescript](#typescript)
+   - 7.3 [GPG Keys for signing commits]
 8. [Debugging PHP](#debugging-php)
    - 8.1 [The default development server](#the-default-development-server)
    - 8.2 [Specific development servers](#specific-development-servers)
@@ -68,7 +69,7 @@ JavaScript Framework" width="72" ></a>
    - 10.3 [Securing phpMyAdmin](#securing-phpmyadmin)
 11. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
     - 11.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
-12. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
+12. [Project Specific Bash Code and package installation](#project-specific-bash-code-and-package-installation)
 13. [Ruby Gems](#ruby-gems)
 14. [Git Aliases](#git-aliases)
     - 14.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
@@ -389,12 +390,19 @@ Important Note: If you do not generate an access token for `github-changelog-gen
 
 <br />
 
-## Project Specific Bash Code for Gitpod
+## Project Specific Bash Code and Package Installation
 
-Bash code that you want to run when your Gitpod workspace is created for the first time such as database migrations and seeding should be put in the file: 
-`bash/init-project.sh`
+Most of the files in `gitpod-laravel-starter` are core files and should not be altered unless you open PR for `gitpod-laravel-starter`.
+
+__Files have been provided so that you can customize your project:__
+
+- __Bash code__ that you want to run when your Gitpod workspace is created for the first time such as database migrations and seeding should be put in the file: 
+`.gp/bash/init-project.sh`
 This file contains some basic scaffolding and examples that you may use in your project.
 
+- __Packages__ that you would like installed when the docker image layers are built can be added as a single space delimited string in `.gp/bash/install-project-packages.sh`.
+
+- __Please note__ that any changes made to `.gp/bash/install-project-packages.sh` will required a rebuild of the Docker image layers before the workspace is created for the first time. To rebuild the Docker image layers increment the `INVALIDATE_CACHE` value in `.gitpod/Dockerfile` and push that change to the remote repository
 <br />
 
 ## Ruby Gems
