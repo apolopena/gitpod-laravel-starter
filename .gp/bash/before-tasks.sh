@@ -44,6 +44,8 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
   ec=$?
   if [[ $ec -eq 0 ]]; then 
     log "SUCCESS: $msg"
+    # For security
+    unset "$GPG_KEY"
   else
     log -e "ERROR: $msg"
   fi
