@@ -14,10 +14,17 @@
 #
 
 log='/var/log/workspace-image.log'
+php_version="$(. /tmp/utils.sh php_version)"
 core='rsync grc shellcheck'
+
+# Append the appropriate phpfpm package to core if the current php version is greater than 7.4
+[[ $(bash .gp/bash/utils.sh comp_ver_lt "$php_version" 7.4) == 0 ]] \
+  && core="${core} php$php_version-fpm"
+
 IFS=" " read -r -a all_packages <<< "$core"
 
 echo "BEGIN: Installing core packages" | tee -a $log
+
 echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
   && sudo apt-get update -q \
   && sudo apt-get -yq install "${all_packages[@]}"
