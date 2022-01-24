@@ -18,7 +18,7 @@ php_version="$(. /tmp/utils.sh php_version)"
 core='rsync grc shellcheck'
 
 # Append the appropriate phpfpm package to core if the current php version is greater than 7.4
-[[ $(bash .gp/bash/utils.sh comp_ver_lt "$php_version" 7.4) == 0 ]] \
+[[ $(bash /tmp/utils.sh comp_ver_lt "$php_version" 7.4) == 0 ]] \
   && core="${core} php$php_version-fpm"
 
 IFS=" " read -r -a all_packages <<< "$core"
