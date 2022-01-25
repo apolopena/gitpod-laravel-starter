@@ -54,8 +54,8 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
         log -e "ERROR: $msg"
       fi
     fi
-    # Ultimately trust the key
-    if [[ $(echo "$GPG_AUTO_ULTIMATE_TRUST " | tr '[:upper:]' '[:lower:]') == yes ]]; then
+    # Ultimately trust the key, bump to lowercase and check the value of the directive
+    if [[ $(echo "$GPG_AUTO_ULTIMATE_TRUST" | tr '[:upper:]' '[:lower:]') == yes ]]; then
       msg="Automagically giving ultimate trust to GPG_KEY_ID: $GPG_KEY_ID"
       log_silent "$msg"
       # Prepend the key id as a trusted hex and update the local database with a silent arbitrary gpg call
