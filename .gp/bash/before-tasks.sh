@@ -43,14 +43,12 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
   git config commit.gpgsign true
   ec=$?
   if [[ $ec -eq 0 ]]; then 
-    log "SUCCESS: $msg"
-    # For security remove the gpg key from the terminal
-    unset GPG_KEY
+    log_silent "SUCCESS: $msg"
     # Change the git email if the user needs it (ensures the commit is marked as 'Verified')
     if [[ -n $GPG_MATCH_GIT_TO_EMAIL ]]; then
       msg="Changing user.email in ~/.gitconfig to $GPG_MATCH_GIT_TO_EMAIL"
       if git config --global user.email "$GPG_MATCH_GIT_TO_EMAIL"; then
-        log "SUCCESS: $msg"
+        log_silent "SUCCESS: $msg"
       else
         log -e "ERROR: $msg"
       fi
