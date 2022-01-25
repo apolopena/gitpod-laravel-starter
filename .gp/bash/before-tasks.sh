@@ -32,7 +32,16 @@ bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/snippets/git/ali
 log_silent "$msg" &&
 log_silent "try: git a    or: git aliases to see what is available."
 
-# Enable GPG key to sign Git commits.
+# BEGIN: Enable GPG key to sign Git commits.
+# Error handling for improper use of GPG environment variables
+err_msg_prefix1="A GPG_KEY was found but it's corresponding GPG_KEY_ID was not."
+err_msg_prefix2="A GPG_KEY_ID was found but it's corresponding GPG_KEY was not."
+err_msg_suffix="Git commits will not be signed."
+[[ -n $GPG_KEY && -z $GPG_KEY_ID ]] &&
+log -e "ERROR: $err_msg_prefix1 $err_msg_suffix"
+[[ -n $GPG_KEY_ID && -z $GPG_KEY ]] &&
+log -e "ERROR: $err_msg_prefix2 $err_msg_suffix"
+# Main GPG key logic
 if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
   gpg_conf_path=~/.gnupg/gpg.conf
   msg="Enabling Git commit signing for GPG key id: $GPG_KEY_ID"
@@ -69,6 +78,7 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
     log -e "ERROR: $msg"
   fi
 fi
+# END: Enable GPG key to sign Git commits.
 
 # Auto activate intelephense if license key is available
 if [[ -n $INTELEPHENSE_LICENSEKEY ]]; then
