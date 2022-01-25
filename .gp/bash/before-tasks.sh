@@ -18,7 +18,6 @@
 # Some rake tasks are dynamic and depend on the configuration in starter.ini
 if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini github-changelog-generator install) ]]; then
   msg="Writing rake tasks"
-  log_silent "$msg" &&
   if bash .gp/bash/init-rake-tasks.sh; then 
     log_silent "SUCCESS: $msg"
   else
@@ -37,7 +36,6 @@ log_silent "try: git a    or: git aliases to see what is available."
 if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
   gpg_conf_path=~/.gnupg/gpg.conf
   msg="Enabling Git commit signing for GPG key id: $GPG_KEY_ID"
-  log_silent "$msg"
   gpg -q --batch --import <(echo "$GPG_KEY" | base64 -d) &&
   echo 'pinentry-mode loopback' >> "$gpg_conf_path" &&
   git config --global user.signingkey "$GPG_KEY_ID" &&
@@ -57,7 +55,6 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
     # Ultimately trust the key, bump to lowercase and check the value of the directive
     if [[ $(echo "$GPG_AUTO_ULTIMATE_TRUST" | tr '[:upper:]' '[:lower:]') == yes ]]; then
       msg="Automagically giving ultimate trust to GPG_KEY_ID: $GPG_KEY_ID"
-      log_silent "$msg"
       # Prepend the key id as a trusted hex and update the local database with a silent arbitrary gpg call
       echo -e ""trusted-key 0x"$GPG_KEY_ID""\n$(cat $gpg_conf_path)" > "$gpg_conf_path" &&
       gpg --list-keys &> /dev/null
