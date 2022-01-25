@@ -25,7 +25,7 @@ if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini github-changelog-gene
     log -e "ERROR: $msg"
   fi
 fi
-
+git status
 # Aliases for git
 msg="git aliases have been written"
 bash .gp/bash/utils.sh add_file_to_file_after "\\[alias\\]" .gp/snippets/git/emoji-log ~/.gitconfig &&
@@ -35,10 +35,11 @@ log_silent "try: git a    or: git aliases to see what is available."
 
 # Enable GPG key to sign Git commits.
 if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
+  gpg_conf_path=~/.gnupg/gpg.conf
   msg="Enabling Git commit signing for GPG key id: $GPG_KEY_ID"
   log_silent "$msg"
   gpg -q --batch --import <(echo "$GPG_KEY" | base64 -d) &&
-  echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
+  echo 'pinentry-mode loopback' >> "$gpg_conf_path" &&
   git config --global user.signingkey "$GPG_KEY_ID" &&
   git config commit.gpgsign true
   ec=$?
@@ -46,9 +47,23 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
     log_silent "SUCCESS: $msg"
     # Change the git email if the user needs it (ensures the commit is marked as 'Verified')
     if [[ -n $GPG_MATCH_GIT_TO_EMAIL ]]; then
-      msg="Changing user.email in ~/.gitconfig to $GPG_MATCH_GIT_TO_EMAIL"
+      msg="Setting user.email in ~/.gitconfig to $GPG_MATCH_GIT_TO_EMAIL"
       if git config --global user.email "$GPG_MATCH_GIT_TO_EMAIL"; then
         log_silent "SUCCESS: $msg"
+      else
+        log -e "ERROR: $msg"
+      fi
+    fi
+    # Ultimately trust the key
+    if [[ $(echo "$GPG_AUTO_ULTIMATE_TRUST " | tr '[:upper:]' '[:lower:]') == yes ]]; then
+      msg="Automagically giving ultimate trust to GPG_KEY_ID: $GPG_KEY_ID"
+      log_silent "$msg"
+      # Prepend the key id as a trusted hex and update the local database with a silent arbitrary gpg call
+      echo -e ""trusted-key 0x"$GPG_KEY_ID""\n$(cat $gpg_conf_path)" > "$gpg_conf_path" &&
+      gpg --list-keys &> /dev/null
+      ec=$?
+      if [[ $ec -eq 0 ]]; then 
+        log "SUCCESS: $msg"
       else
         log -e "ERROR: $msg"
       fi
