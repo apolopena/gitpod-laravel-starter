@@ -63,7 +63,7 @@ if [[ -n $GPG_KEY && -n $GPG_KEY_ID ]]; then
       gpg --list-keys &> /dev/null
       ec=$?
       if [[ $ec -eq 0 ]]; then 
-        log "SUCCESS: $msg"
+        log_silent "SUCCESS: $msg"
       else
         log -e "ERROR: $msg"
       fi
