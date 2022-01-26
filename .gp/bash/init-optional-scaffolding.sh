@@ -186,7 +186,7 @@ if [ $install_react == 1 ]; then
           log -e "ERROR: $sub_msg"
         fi
       fi
-      hotfix140
+      #hotfix140
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
       npm run dev
