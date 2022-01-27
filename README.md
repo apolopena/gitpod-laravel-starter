@@ -71,7 +71,7 @@ JavaScript Framework" width="72" ></a>
     - 11.3 [Securing phpMyAdmin](#securing-phpmyadmin)
 12. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
     - 12.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
-13. [Project Specific Bash Code and package installation](#project-specific-bash-code-and-package-installation)
+13. [Project Specific Bash Code and Package Installation](#project-specific-bash-code-and-package-installation)
     - 13.1 [User Editable Files](#user-editable-files)
     - 13.2 [Migration and Seeding](#migration-and-seeding)
 14. [Ruby Gems](#ruby-gems)
@@ -398,7 +398,7 @@ Important Note: If you do not generate an access token for `github-changelog-gen
 Most of the files in `gitpod-laravel-starter` are core files and should not be altered unless you open PR for `gitpod-laravel-starter` however some files are provided so that you can customize your project even further.
 <br />
 You are encouraged to put your project specific code in files mentioned below:
-### User editable files
+### User Editable Files
 - `.gp/bash/init-project.sh`
    - Contains some basic scaffolding and examples that you may use in your project.
    - Bash code you would like to run when a workspace is created for the first time (initialization) should added here.
