@@ -42,27 +42,27 @@ JavaScript Framework" width="72" ></a>
    - 3.1 [Creating a new Gitpod Workspace from a GitHub repository](#creating-a-new-gitpod-workspace-from-a-github-repository)
 4. [Running the Client](#running-the-client)
 5. [Pushing Laravel scaffolding Files to Your Remote Repository](#pushing-laravel-scaffolding-files-to-your-remote-repository)
-   - 5.1 [Gitpod account permissions](#gitpod-account-permissions)
-   - 5.2 [GitHub email protection](#GitHub-email-protection)
-6. [Starter Project Configuration](#Starter-Project-Configuration)
+   - 5.1 [Gitpod Account Permissions](#gitpod-account-permissions)
+   - 5.2 [GitHub Email Protection](#github-email-protection)
+6. [Starter Project Configuration](#starter-project-configuration)
    - 6.1 [Preset Examples](#preset-examples)
    - 6.2 [Development Servers](#development-servers)
-   - 6.3 [Changing the default server](#changing-the-default-server)
-   - 6.4 [Running more than one server at a time](#running-more-than-one-server-at-a-time)
+   - 6.3 [Changing the Default Server](#changing-the-default-server)
+   - 6.4 [Running More Than one Server at a Time](#running-more-than-one-server-at-a-time)
    - 6.5 [Changing the PHP Version and PPA](#changing-the-php-version-and-ppa)
    - 6.6 [Changing the Laravel Version](#changing-the-laravel-version)
    - 6.7 [Breaking the Docker cache](#breaking-the-docker-cache)
-7. [Gitpod Environment Variables]()
-   - 7.1 [Signing Git commits with a GPG key]()
-   - 7.2 [Activating Intelliphense]()
+7. [Gitpod Environment Variables](#gitpod-environment-variables)
+   - 7.1 [Sign Git commits with a GPG key](#sign-git-commits-with-a-gpg-key)
+   - 7.2 [Activate an Intelliphense License Key](#activate-an-intelliphense-license-key)
 8. [Additional Features](#additional-features)
    - 8.1 [Hot Reloading](#hot-reloading)
    - 8.2 [Typescript](#typescript)
 9. [Debugging PHP](#debugging-php)
-   - 9.1 [The default development server](#the-default-development-server)
-   - 9.2 [Specific development servers](#specific-development-servers)
-   - 9.3 [Setting breakpoints](#setting-breakpoints)
-   - 9.4 [Debugging Blade templates](#debugging-blade-templates)
+   - 9.1 [The Default Development Server](#the-default-development-server)
+   - 9.2 [Specific Development Servers](#specific-development-servers)
+   - 9.3 [Setting Breakpoints](#setting-breakpoints)
+   - 9.4 [Debugging Blade Templates](#debugging-blade-templates)
    - 9.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
 10. [Debugging JavaScript](#debugging-javascript)
 11. [phpMyAdmin](#phpmyadmin)
@@ -120,11 +120,11 @@ A preview browser should automatically open and display the Laravel start page o
 
 If the result log summary in the console shows success, then you should push those newly created Laravel scaffolding files to your remote repository before you get started coding your project. 
 
-### Gitpod account permissions
+### Gitpod Account Permissions
 
 You may need to allow Gitpod additional permissions to push to your repository in case you come across an issue like [this one](https://community.gitpod.io/t/i-cant-push-my-changes-to-my-github-remote-repository/629).
 
-### GitHub email protection
+### GitHub Email Protection
 
 If your GitHub account uses the protected email feature and the email address you are using in your git configuration looks something like this:
 
@@ -200,11 +200,11 @@ You can toggle any server on and off from any terminal window by running the rel
 - Nginx `start_nginx` or `stop_nginx`
 - PHP  built-in development server: `start_php_dev` or `stop_php_dev`
 
-### Changing the default server
+### Changing the Default Server
 
 Change the value of  `default_server` in the `development` section of `starter.ini` to `apache`, `nginx`, or `php`. You will need to change the APP_URL and ASSET_URL in the `.env` file to use the port number for that server if you change the default development server *after* a workspace has been created.
 
-### Running more than one server at a time
+### Running More Than one Server at a Time
 
 You may start and stop multiple servers.
 
@@ -259,6 +259,26 @@ In `starter.ini` there is a directive to change the version of Laravel. You shou
 <br />
 
 
+## Gitpod Environment Variables
+The following features can be enabled through environment variables that have been set in your [Gitpod preferences](https://gitpod.io/variables).:
+<br />
+\* _Please note that storing sensitive data in environment variables is not ultimately secure but should be OK for most development situations._
+- ### Sign Git commits with a GPG key
+   - `GPG_KEY_ID` (required)
+     - The ID of the GPG key you want to use to sign your git commits
+   - `GPG_KEY` (required)
+     - Base64 encoded private GPG key that corresponds to your `GPG_KEY_ID`
+   - `GPG_MATCH_GIT_TO_EMAIL` (optional)
+     - Sets your git user.email in `~/.gitconfig` to the value provided
+   - `GPG_AUTO_ULTIMATE_TRUST` (optional)
+     - If the value is set to `yes` or `YES` then your `GPG_KEY` will be automatically ultimately trusted
+- ### Activate an Intelliphense License Key
+  - `INTELEPHENSE_LICENSEKEY`
+    - Creates `~/intelephense/licence.txt` and will contain the value provided
+    - This will activate [Intelliphense](https://intelephense.com/) for you each time the workspace is created or restarted
+
+<br />
+
 ## Additional Features
 To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project. Some of these features are automatically enabled for certain [preset examples](#preset-examples).
 
@@ -278,12 +298,12 @@ When debugging is enabled or disabled, the preview browser will reload the index
 
 This system uses port `9009` for the debugging. A launch configuration file is included in `.vscode/launch.json` and in `.theia/launch.json`.
 
-### The default development server
+### The Default Development Server
 
 To enable a debugging session on the default development server run `debug_on` in a Gitpod terminal. 
 To disable a debugging session on the default development server run `debug_off` in a Gitpod terminal.
 
-### Specific development servers
+### Specific Development Servers
 
 You can toggle a debugging session for a specific server:
 
@@ -296,7 +316,7 @@ You can toggle a debugging session for a specific server:
 
 *The [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) webpack server on port 3005 is not supported by this debugging system. You may be able to [configure it on your own](https://stackoverflow.com/questions/28470601/how-to-do-remote-debugging-with-browser-sync) if you like.*
 
-### Setting breakpoints
+### Setting Breakpoints
 
 Set a breakpoint in the Gitpod IDE by clicking in the gutter next to the line of code you want in any PHP file in the `public` folder (or deeper) 
 
@@ -308,7 +328,7 @@ Then in the Gitpod IDE in the browser:
 
 All debugging is subject to a server timeout, just refresh preview browser or run the command `op` if this happens.
 
-### Debugging Blade templates
+### Debugging Blade Templates
 
 You may also debug blade templates by placing the following snippet above where you want to inspect the blade directive.
 
