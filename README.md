@@ -52,30 +52,34 @@ JavaScript Framework" width="72" ></a>
    - 6.5 [Changing the PHP Version and PPA](#changing-the-php-version-and-ppa)
    - 6.6 [Changing the Laravel Version](#changing-the-laravel-version)
    - 6.7 [Breaking the Docker cache](#breaking-the-docker-cache)
-7. [Additional Features](#additional-features)
-   - 7.1 [Hot Reloading](#hot-reloading)
-   - 7.2 [Typescript](#typescript)
-   - 7.3 [GPG Keys for signing commits]
-8. [Debugging PHP](#debugging-php)
-   - 8.1 [The default development server](#the-default-development-server)
-   - 8.2 [Specific development servers](#specific-development-servers)
-   - 8.3 [Setting breakpoints](#setting-breakpoints)
-   - 8.4 [Debugging Blade templates](#debugging-blade-templates)
-   - 8.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
-9. [Debugging JavaScript](#debugging-javascript)
-10. [phpMyAdmin](#phpmyadmin)
-   - 10.1 [Installing phpMyAdmin](#installing-phpmyadmin)
-   - 10.2 [Security Concerns](#security-concerns)
-   - 10.3 [Securing phpMyAdmin](#securing-phpmyadmin)
-11. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
-    - 11.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
-12. [Project Specific Bash Code and package installation](#project-specific-bash-code-and-package-installation)
-13. [Ruby Gems](#ruby-gems)
-14. [Git Aliases](#git-aliases)
-    - 14.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
-15. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
-16. [Gitpod Caveats](#gitpod-caveats)
-17. [Thanks](#thanks)
+7. [Gitpod Environment Variables]()
+   - 7.1 [Signing Git commits with a GPG key]()
+   - 7.2 [Activating Intelliphense]()
+8. [Additional Features](#additional-features)
+   - 8.1 [Hot Reloading](#hot-reloading)
+   - 8.2 [Typescript](#typescript)
+9. [Debugging PHP](#debugging-php)
+   - 9.1 [The default development server](#the-default-development-server)
+   - 9.2 [Specific development servers](#specific-development-servers)
+   - 9.3 [Setting breakpoints](#setting-breakpoints)
+   - 9.4 [Debugging Blade templates](#debugging-blade-templates)
+   - 9.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
+10. [Debugging JavaScript](#debugging-javascript)
+11. [phpMyAdmin](#phpmyadmin)
+    - 11.1 [Installing phpMyAdmin](#installing-phpmyadmin)
+    - 11.2 [Security Concerns](#security-concerns)
+    - 11.3 [Securing phpMyAdmin](#securing-phpmyadmin)
+12. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
+    - 12.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
+13. [Project Specific Bash Code and package installation](#project-specific-bash-code-and-package-installation)
+    - 13.1 [User Editable Files](#user-editable-files)
+    - 13.2 [Migration and Seeding](#migration-and-seeding)
+14. [Ruby Gems](#ruby-gems)
+15. [Git Aliases](#git-aliases)
+   - 15.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
+16. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
+17. [Gitpod Caveats](#gitpod-caveats)
+18. [Thanks](#thanks)
 
 <br />
 
@@ -256,7 +260,7 @@ In `starter.ini` there is a directive to change the version of Laravel. You shou
 
 
 ## Additional Features
-To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project.
+To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project. Some of these features are automatically enabled for certain [preset examples](#preset-examples).
 
 ### Hot Reloading
   - `gitpod-laravel-starter` makes it easy for you to add the ability to see your code changes in realtime without refreshing the browser. Take a look at the wiki [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) page for more details.
@@ -391,18 +395,21 @@ Important Note: If you do not generate an access token for `github-changelog-gen
 <br />
 
 ## Project Specific Bash Code and Package Installation
-
-Most of the files in `gitpod-laravel-starter` are core files and should not be altered unless you open PR for `gitpod-laravel-starter`.
-
-__Files have been provided so that you can customize your project:__
-
-- __Bash code__ that you want to run when your Gitpod workspace is created for the first time such as database migrations and seeding should be put in the file: 
-`.gp/bash/init-project.sh`
-This file contains some basic scaffolding and examples that you may use in your project.
-
-- __Packages__ that you would like installed when the docker image layers are built can be added as a single space delimited string in `.gp/bash/install-project-packages.sh`.
-
-- __Please note__ that any changes made to `.gp/bash/install-project-packages.sh` will required a rebuild of the Docker image layers before the workspace is created for the first time. To rebuild the Docker image layers increment the `INVALIDATE_CACHE` value in `.gitpod/Dockerfile` and push that change to the remote repository
+Most of the files in `gitpod-laravel-starter` are core files and should not be altered unless you open PR for `gitpod-laravel-starter` however some files are provided so that you can customize your project even further.
+<br />
+You are encouraged to put your project specific code in files mentioned below:
+### User editable files
+- `.gp/bash/init-project.sh`
+   - Contains some basic scaffolding and examples that you may use in your project.
+   - Bash code you would like to run when a workspace is created for the first time (initialization) should added here.
+- `.gp/bash/install-project-packages.sh`
+   - Packages that you would like installed (via `apt-get`) when the docker image layers are built can be added as a single space delimited string to this file.
+   - Any changes made to `.gp/bash/install-project-packages.sh` will require a rebuild of the Docker image layers before the workspace is created for the first time.
+   - To rebuild the Docker image layers increment the `INVALIDATE_CACHE` value in `.gitpod/Dockerfile` and push that change to the remote repository
+### Migration and Seeding
+It is recommended that you migrate and seed your project in this file: `.gp/bash/init-project.sh`.
+<br />
+[For example](https://github.com/apolopena/qna-demo-skeleton/blob/main/.gp/bash/init-project.sh), the [react preset](#preset-examples) makes use of `.gp/bash/init-project` for [migration and seeding](https://github.com/apolopena/qna-demo-skeleton/blob/main/.gp/bash/init-project.sh).
 <br />
 
 ## Ruby Gems
