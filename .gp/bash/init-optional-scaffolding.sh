@@ -186,7 +186,6 @@ if [ $install_react == 1 ]; then
           log -e "ERROR: $sub_msg"
         fi
       fi
-      #hotfix140
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
       npm run dev
@@ -220,7 +219,6 @@ if [[ $install_vue == 1 && $install_react != 1 ]]; then
     fi
     err_code=$?
     if [[ $err_code == 0 ]]; then
-      hotfix140
       log "SUCCESS: Vue$auth_msg has been installed"
       log "  --> Installing node modules and running Laravel Mix"
       yarn install && npm run dev
