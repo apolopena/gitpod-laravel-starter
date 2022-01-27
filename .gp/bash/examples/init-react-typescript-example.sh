@@ -15,7 +15,8 @@ declare -a exit_codes=()
 task_msg="Downloading React Typescript example: Questions and Answers"
 
 log "$task_msg"
-curl -LJO https://github.com/apolopena/qna-typescript-demo-skeleton/archive/refs/tags/1.1.0.tar.gz
+#curl -LJO https://github.com/apolopena/qna-typescript-demo-skeleton/archive/refs/tags/1.1.0.tar.gz
+curl -LJO https://github.com/apolopena/qna-typescript-demo-skeleton/archive/refs/tags/1.1.1a.tar.gz
 exit_codes+=($?)
 tar --overwrite -xvzf qna-typescript-demo-skeleton-1.1.0.tar.gz --strip-components=1
 exit_codes+=($?)
