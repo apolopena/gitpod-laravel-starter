@@ -1,5 +1,56 @@
 # Changelog
 
+## [v1.4.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.4.0) (2022-01-28)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.3.0...v1.4.0)
+
+**Implemented enhancements:**
+
+- starter.ini: Allow the choice of which PPA to use for an optional install of PHP [\#172](https://github.com/apolopena/gitpod-laravel-starter/issues/172)
+- Add GnuPG Support to sign git commits [\#170](https://github.com/apolopena/gitpod-laravel-starter/issues/170)
+- Add an option in starter.ini to generate a phpinfo.php to /public [\#168](https://github.com/apolopena/gitpod-laravel-starter/issues/168)
+- Auto activate intelephense if license key is available [\#165](https://github.com/apolopena/gitpod-laravel-starter/issues/165)
+- Add PHP version to Project powered by and Summary [\#158](https://github.com/apolopena/gitpod-laravel-starter/issues/158)
+- Consolidate docker layers in .gitpod.Dockerfile [\#157](https://github.com/apolopena/gitpod-laravel-starter/issues/157)
+- starter.ini: Make the PHP version configurable [\#156](https://github.com/apolopena/gitpod-laravel-starter/issues/156)
+
+**Fixed bugs:**
+
+- Unable to install github-changelog-generator gem on Ruby \< 3.0 [\#190](https://github.com/apolopena/gitpod-laravel-starter/issues/190)
+- React example presets may not work properly with Laravel version \< 8 [\#186](https://github.com/apolopena/gitpod-laravel-starter/issues/186)
+- Make react example presets use their own package.json [\#185](https://github.com/apolopena/gitpod-laravel-starter/issues/185)
+- React example presets have some bad css/sass [\#184](https://github.com/apolopena/gitpod-laravel-starter/issues/184)
+- Leading and trailing whitespace for values in starter.ini can break the system [\#174](https://github.com/apolopena/gitpod-laravel-starter/issues/174)
+- starter.ini: Make VS-Code IDE Preview \(tab\) setting a configurable option. [\#161](https://github.com/apolopena/gitpod-laravel-starter/issues/161)
+- xdebug cannot be installed because the base image has been updated to php8. [\#155](https://github.com/apolopena/gitpod-laravel-starter/issues/155)
+- workspace-init-logger.sh does an error when ran outside the project root [\#148](https://github.com/apolopena/gitpod-laravel-starter/issues/148)
+
+**Closed issues:**
+
+- Remove hotfix 140 [\#188](https://github.com/apolopena/gitpod-laravel-starter/issues/188)
+- Document user editable files and suggested use of init-project.sh for migration and seeding [\#183](https://github.com/apolopena/gitpod-laravel-starter/issues/183)
+- Question about Database Migration  [\#182](https://github.com/apolopena/gitpod-laravel-starter/issues/182)
+- Add info about install-project-packages.sh to README [\#181](https://github.com/apolopena/gitpod-laravel-starter/issues/181)
+- Clarify which values in starter.ini require a docker image rebuild. [\#180](https://github.com/apolopena/gitpod-laravel-starter/issues/180)
+- Update README with information about configuring the PPA for optional install of PHP [\#177](https://github.com/apolopena/gitpod-laravel-starter/issues/177)
+- Update README with information about configuring GPG keys and Intelliphense [\#176](https://github.com/apolopena/gitpod-laravel-starter/issues/176)
+- Update README with information about configuring the version of PHP [\#173](https://github.com/apolopena/gitpod-laravel-starter/issues/173)
+- DevX: Normalize line endings in git [\#164](https://github.com/apolopena/gitpod-laravel-starter/issues/164)
+- Docs: setting breakpoints, Threads panel is now the CALL STACK panel [\#160](https://github.com/apolopena/gitpod-laravel-starter/issues/160)
+- Typo in README [\#153](https://github.com/apolopena/gitpod-laravel-starter/issues/153)
+- Fix usage comment for add\_file\_to\_file\_after\(\) in utils.sh [\#152](https://github.com/apolopena/gitpod-laravel-starter/issues/152)
+- Fix mispelling in before-tasks.sh header comment [\#151](https://github.com/apolopena/gitpod-laravel-starter/issues/151)
+- img tags in readme for powered by needs correction [\#150](https://github.com/apolopena/gitpod-laravel-starter/issues/150)
+- Fix multitail value comment in starter.ini [\#149](https://github.com/apolopena/gitpod-laravel-starter/issues/149)
+- update-pma-pws-help: recommended command is wrong [\#147](https://github.com/apolopena/gitpod-laravel-starter/issues/147)
+- WIKI \[setup page\]: Reword The Developer section [\#146](https://github.com/apolopena/gitpod-laravel-starter/issues/146)
+- Comment header in start-server.sh is incorrect [\#145](https://github.com/apolopena/gitpod-laravel-starter/issues/145)
+
+**Merged pull requests:**
+
+- 🚀 RELEASE: Version 1.4.0 - Hotfix 190 [\#191](https://github.com/apolopena/gitpod-laravel-starter/pull/191) ([apolopena](https://github.com/apolopena))
+- 🚀 RELEASE: Version 1.4.0 [\#189](https://github.com/apolopena/gitpod-laravel-starter/pull/189) ([apolopena](https://github.com/apolopena))
+
 ## [v1.3.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.3.0) (2021-05-22)
 
 [Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.2.0...v1.3.0)
