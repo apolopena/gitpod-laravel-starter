@@ -21,9 +21,40 @@ start_spinner "Initializing MySql..." &&
 gp await-port 3306 &&
 stop_spinner $?
 
+# Globals
+current_php_version="$(bash .gp/bash/utils.sh php_version)"
+
+  # BEGIN: Autogenerate php-fpm.conf
+  php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
+  active_php_version="$(. .gp/bash/utils.sh php_version)"
+  msg="Autogenerating $php_fpm_conf_path for PHP $active_php_version"
+  log_silent "$msg" && start_spinner "$msg"
+  if bash .gp/bash/helpers.sh php_fpm_conf "$active_php_version" "$php_fpm_conf_path"; then
+    stop_spinner $?
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner $?
+    log -e "ERROR: $msg"
+  fi
+  # END: Autogenerate php-fpm.conf
+
+# BEGIN: parse .vscode/settings.json
+if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini development vscode_disable_preview_tab) == 1 ]]; then
+  msg="parsing .vscode/settings.json as per starter.ini"
+  log_silent "$msg" && start_spinner "$msg"
+  if bash .gp/bash/utils.sh add_file_to_file_after '{' ".gp/conf/vscode/disable_preview_tab.txt" ".vscode/settings.json"; then
+    stop_spinner $?
+    log_silent "SUCCESS: $msg"
+  else
+    stop_spinner $?
+    log -e "ERROR: $msg"
+  fi
+fi
+# END: parse .vscode/settings.json
+
 # BEGIN: Update npm if needed
-target_npm_ver='^7'
-min_target_npm_ver='7.11.1'
+target_npm_ver='^8'
+min_target_npm_ver='8.3.2'
 current_npm_ver=$(npm -v)
 update_npm=$(bash .gp/bash/utils.sh comp_ver_lt "$current_npm_ver" "$min_target_npm_ver")
 if [[ $update_npm == 1 ]]; then
@@ -40,6 +71,31 @@ if [[ $update_npm == 1 ]]; then
   fi
 fi
 # END: Update npm if needed
+
+  # BEGIN: Install https://www.ioncube.com/loaders.php
+  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini ioncube install) == 1 ]]; then
+    if [[ $current_php_version == 7.4 ]]; then
+      msg="Installing ioncube loader"
+      log_silent "$msg" && start_spinner "$msg" \
+      && wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O /tmp/ioncube.tar.gz \
+      && tar xzf /tmp/ioncube.tar.gz -C /tmp \
+      && sudo cp /tmp/ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so \
+      && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/apache2/conf.d/10-ioncube.ini' \
+      && sudo bash -c 'echo "zend_extension=ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/10-ioncube.ini' \
+      && rm -rf /tmp/ioncube.tar.gz /tmp/ioncube
+      err_code=$?
+      if [[ $err_code != 0 ]]; then
+        stop_spinner $err_code
+        log -e "ERROR: $msg"
+      else
+        stop_spinner $err_code
+        log "SUCCESS: $msg"
+      fi
+    else
+      log "WARNING: ioncube loader cannot be installed with PHP $current_php_version. Fix your starter.ini"
+    fi
+  fi
+  # END: Install https://www.ioncube.com/loaders.php
 
 # BEGIN: Bootstrapping
 if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
@@ -70,6 +126,25 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log_silent "SUCCESS: $msg"
   fi
   # END: rsync any new Laravel project files from the docker image to the repository
+
+  # BEGIN: Autogenerate phpinfo.php
+  if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini PHP generate_phpinfo) == 1 ]]; then
+    if [[ -z $GITPOD_REPO_ROOT ]]; then 
+      p="public/phpinfo.php"; 
+    else
+      p="$GITPOD_REPO_ROOT/public/phpinfo.php"
+    fi
+    msg="generating phpinfo.php file in /public "
+    log_silent "$msg" && start_spinner "$msg"
+    if echo "<?php phpinfo( ); ?>" > "$p"; then
+      stop_spinner $?
+      log_silent "SUCCESS: $msg"
+    else
+      stop_spinner $?
+      log -e "ERROR: $msg"
+    fi
+  fi
+  # END: Autogenerate phpinfo.php
 
   # Move, rename or merge any project files that need it
   [[ -f "LICENSE" && -d ".gp" && ! -f .gp/LICENSE ]] && mv -f LICENSE .gp/LICENSE

@@ -1,7 +1,7 @@
 # Welcome
 
 🚀
-`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other technoglogy you would like to add.
+`gitpod-laravel-starter` generates a starting point for you to [develop in the cloud](https://www.gitpod.io/) with [Laravel](https://laravel.com/) web application framework, [MySql](https://www.mysql.com/products/community/) and pretty much any other technology you would like to add.
 * Supports Laravel 6, 7, and 8
 * Develop in the cloud on the [Gitpod](https://www.gitpod.io/) platform
 * Preconfigured yet fully customizable [LAMP](https://en.wikipedia.org/wiki/LAMP_(software_bundle)) or [LEMP](https://lemp.io/) stack
@@ -42,38 +42,44 @@ JavaScript Framework" width="72" ></a>
    - 3.1 [Creating a new Gitpod Workspace from a GitHub repository](#creating-a-new-gitpod-workspace-from-a-github-repository)
 4. [Running the Client](#running-the-client)
 5. [Pushing Laravel scaffolding Files to Your Remote Repository](#pushing-laravel-scaffolding-files-to-your-remote-repository)
-   - 5.1 [Gitpod account permissions](#gitpod-account-permissions)
-   - 5.2 [GitHub email protection](#GitHub-email-protection)
-6. [Starter Project Configuration](#Starter-Project-Configuration)
+   - 5.1 [Gitpod Account Permissions](#gitpod-account-permissions)
+   - 5.2 [GitHub Email Protection](#github-email-protection)
+6. [Starter Project Configuration](#starter-project-configuration)
    - 6.1 [Preset Examples](#preset-examples)
    - 6.2 [Development Servers](#development-servers)
-   - 6.3 [Changing the default server](#changing-the-default-server)
-   - 6.4 [Running more than one server at a time](#running-more-than-one-server-at-a-time)
-   - 6.5 [Changing the Laravel Version](#changing-the-laravel-version)
-   - 6.6 [Breaking the Docker cache](#breaking-the-docker-cache)
-7. [Additional Features](#additional-features)
-   - 7.1 [Hot Reloading](#hot-reloading)
-   - 7.2 [Typescript](#typescript)
-8. [Debugging PHP](#debugging-php)
-   - 8.1 [The default development server](#the-default-development-server)
-   - 8.2 [Specific development servers](#specific-development-servers)
-   - 8.3 [Setting breakpoints](#setting-breakpoints)
-   - 8.4 [Debugging Blade templates](#debugging-blade-templates)
-   - 8.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
-9. [Debugging JavaScript](#debugging-javascript)
-10. [phpMyAdmin](#phpmyadmin)
-   - 10.1 [Installing phpMyAdmin](#installing-phpmyadmin)
-   - 10.2 [Security Concerns](#security-concerns)
-   - 10.3 [Securing phpMyAdmin](#securing-phpmyadmin)
-11. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
-    - 11.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
-12. [Project Specific Bash Code for Gitpod](#project-specific-bash-code-for-gitpod)
-13. [Ruby Gems](#ruby-gems)
-14. [Git Aliases](#git-aliases)
-    - 14.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
-15. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
-16. [Gitpod Caveats](#gitpod-caveats)
-17. [Thanks](#thanks)
+   - 6.3 [Changing the Default Server](#changing-the-default-server)
+   - 6.4 [Running More Than one Server at a Time](#running-more-than-one-server-at-a-time)
+   - 6.5 [Changing the PHP Version and PPA](#changing-the-php-version-and-ppa)
+   - 6.6 [Changing the Laravel Version](#changing-the-laravel-version)
+   - 6.7 [Breaking the Docker cache](#breaking-the-docker-cache)
+7. [Gitpod Environment Variables](#gitpod-environment-variables)
+   - 7.1 [Sign Git commits with a GPG key](#sign-git-commits-with-a-gpg-key)
+   - 7.2 [Activate an Intelliphense License Key](#activate-an-intelliphense-license-key)
+8. [Additional Features](#additional-features)
+   - 8.1 [Hot Reloading](#hot-reloading)
+   - 8.2 [Typescript](#typescript)
+9. [Debugging PHP](#debugging-php)
+   - 9.1 [The Default Development Server](#the-default-development-server)
+   - 9.2 [Specific Development Servers](#specific-development-servers)
+   - 9.3 [Setting Breakpoints](#setting-breakpoints)
+   - 9.4 [Debugging Blade Templates](#debugging-blade-templates)
+   - 9.5 [Tailing the Xdebug Log](#tailing-the-xdebug-log)
+10. [Debugging JavaScript](#debugging-javascript)
+11. [phpMyAdmin](#phpmyadmin)
+    - 11.1 [Installing phpMyAdmin](#installing-phpmyadmin)
+    - 11.2 [Security Concerns](#security-concerns)
+    - 11.3 [Securing phpMyAdmin](#securing-phpmyadmin)
+12. [Generating a CHANGELOG.md Using github-changelog-generator](#generating-a-changelogmd-using-github-changelog-generator)
+    - 12.1 [Setting up an Access Token for github-changelog-generator](#setting-up-an-access-token-for-github-changelog-generator)
+13. [Project Specific Bash Code and Package Installation](#project-specific-bash-code-and-package-installation)
+    - 13.1 [User Editable Files](#user-editable-files)
+    - 13.2 [Migration and Seeding](#migration-and-seeding)
+14. [Ruby Gems](#ruby-gems)
+15. [Git Aliases](#git-aliases)
+   - 15.1 [Emoji-log and Gitmoji](#emoji-log-and-gitmoji)
+16. [Deployment Outside of Gitpod](#deployment-outside-of-gitpod)
+17. [Gitpod Caveats](#gitpod-caveats)
+18. [Thanks](#thanks)
 
 <br />
 
@@ -114,11 +120,11 @@ A preview browser should automatically open and display the Laravel start page o
 
 If the result log summary in the console shows success, then you should push those newly created Laravel scaffolding files to your remote repository before you get started coding your project. 
 
-### Gitpod account permissions
+### Gitpod Account Permissions
 
 You may need to allow Gitpod additional permissions to push to your repository in case you come across an issue like [this one](https://community.gitpod.io/t/i-cant-push-my-changes-to-my-github-remote-repository/629).
 
-### GitHub email protection
+### GitHub Email Protection
 
 If your GitHub account uses the protected email feature and the email address you are using in your git configuration looks something like this:
 
@@ -194,11 +200,11 @@ You can toggle any server on and off from any terminal window by running the rel
 - Nginx `start_nginx` or `stop_nginx`
 - PHP  built-in development server: `start_php_dev` or `stop_php_dev`
 
-### Changing the default server
+### Changing the Default Server
 
 Change the value of  `default_server` in the `development` section of `starter.ini` to `apache`, `nginx`, or `php`. You will need to change the APP_URL and ASSET_URL in the `.env` file to use the port number for that server if you change the default development server *after* a workspace has been created.
 
-### Running more than one server at a time
+### Running More Than one Server at a Time
 
 You may start and stop multiple servers.
 
@@ -210,7 +216,30 @@ The Nginx server will now be running in addition to the Apache server.
 
 Laravel requires a URL to be set in the `.env` file in the project root. This is done for you automatically when the workspace is initialized. The URL set in the `.env` file contains the server port. so if you want to properly serve Laravel pages from a server other than the default server you initialized the project with then will need to change the values for APP_URL and ASSET_URL accordingly.
 
-### Changing the Laravel Version
+
+### __Changing the PHP version and PPA__
+In `starter.ini` there is a `[PHP]` section and directives to change the version of PHP and or the `ppa` used for downloading the PHP packages.
+
+<br />
+
+Note: _See [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for more details._
+
+**The following values are supported in the `[PHP]` section of `starter.ini`:**
+- `version`
+  - `7.4`
+    - The default value
+    - Installs PHP 7.4. See [php.sh](https://github.com/apolopena/gitpod-laravel-starter/blob/main/.gp/bash/php.sh) for specifics.
+    - The current version of PHP that gitpod installs by default in their [`workspace-full`](https://github.com/gitpod-io/workspace-images/blob/master/full/Dockerfile) image will be automatically purged.
+  - `gitpodlatest`
+    - This keeps the current version that gitpod installs by default in their [`workspace-full`](https://github.com/gitpod-io/workspace-images/blob/master/full/Dockerfile) image.
+- `ppa`
+  - `OS`
+    - The default value
+    - Uses the standard Debian distribution ppa
+  - `ondrej`
+    - Uses `ppa:ondrej/php`. This [ppa](https://launchpad.net/~ondrej/+archive/ubuntu/php) is maintained by an individual but does support the of running multiple versions of PHP side by side.
+
+### __Changing the Laravel Version__
 In `starter.ini` there is a directive to change the version of Laravel. You should only change the version of Larvel *before* you create a new workspace. The laravel version directive is cached in the workspace image so changing it sometimes requires you to [break the Docker cache](#breaking-the-docker-cache)
 
 **Important**:
@@ -230,8 +259,28 @@ In `starter.ini` there is a directive to change the version of Laravel. You shou
 <br />
 
 
+## Gitpod Environment Variables
+The following features can be enabled through environment variables that have been set in your [Gitpod preferences](https://gitpod.io/variables).:
+<br />
+\* _Please note that storing sensitive data in environment variables is not ultimately secure but should be OK for most development situations._
+- ### Sign Git commits with a GPG key
+   - `GPG_KEY_ID` (required)
+     - The ID of the GPG key you want to use to sign your git commits
+   - `GPG_KEY` (required)
+     - Base64 encoded private GPG key that corresponds to your `GPG_KEY_ID`
+   - `GPG_MATCH_GIT_TO_EMAIL` (optional)
+     - Sets your git user.email in `~/.gitconfig` to the value provided
+   - `GPG_AUTO_ULTIMATE_TRUST` (optional)
+     - If the value is set to `yes` or `YES` then your `GPG_KEY` will be automatically ultimately trusted
+- ### Activate an Intelliphense License Key
+  - `INTELEPHENSE_LICENSEKEY`
+    - Creates `~/intelephense/licence.txt` and will contain the value provided
+    - This will activate [Intelliphense](https://intelephense.com/) for you each time the workspace is created or restarted
+
+<br />
+
 ## Additional Features
-To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project.
+To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project. Some of these features are automatically enabled for certain [preset examples](#preset-examples).
 
 ### Hot Reloading
   - `gitpod-laravel-starter` makes it easy for you to add the ability to see your code changes in realtime without refreshing the browser. Take a look at the wiki [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) page for more details.
@@ -249,12 +298,12 @@ When debugging is enabled or disabled, the preview browser will reload the index
 
 This system uses port `9009` for the debugging. A launch configuration file is included in `.vscode/launch.json` and in `.theia/launch.json`.
 
-### The default development server
+### The Default Development Server
 
 To enable a debugging session on the default development server run `debug_on` in a Gitpod terminal. 
 To disable a debugging session on the default development server run `debug_off` in a Gitpod terminal.
 
-### Specific development servers
+### Specific Development Servers
 
 You can toggle a debugging session for a specific server:
 
@@ -267,19 +316,19 @@ You can toggle a debugging session for a specific server:
 
 *The [hot reload](https://github.com/apolopena/gitpod-laravel-starter/wiki/Hot-Reload) webpack server on port 3005 is not supported by this debugging system. You may be able to [configure it on your own](https://stackoverflow.com/questions/28470601/how-to-do-remote-debugging-with-browser-sync) if you like.*
 
-### Setting breakpoints
+### Setting Breakpoints
 
 Set a breakpoint in the Gitpod IDE by clicking in the gutter next to the line of code you want in any PHP file in the `public` folder (or deeper) 
 
 Then in the Gitpod IDE in the browser:
 1. Click the debug icon in the left side panel to open the Debug panel.
 2. Choose "Listen for XDebug" from the dropdown list.
-3. Click the green play button (you should see the status "RUNNING" in the Threads panel)
+3. Click the green play button (you should see the status "RUNNING" in the CALL STACK panel)
 4. Refresh the preview browser either manually or by running the `op` command and your breakpoint will be hit in the IDE.
 
 All debugging is subject to a server timeout, just refresh preview browser or run the command `op` if this happens.
 
-### Debugging Blade templates
+### Debugging Blade Templates
 
 You may also debug blade templates by placing the following snippet above where you want to inspect the blade directive.
 
@@ -332,7 +381,7 @@ phpMyAdmin also introduces some extra security concerns that you may want to add
 At a minimum the default passwords that phpMyAdmin uses to administer the MySQL databases should be changed right after a Gitpod workspace has been created for the first time. An `update-phpmyadmin-pws` command has been provided that automagically changes the default passwords for you.
 <br /><br />
 The following steps are required to successfully run the `update-phpmyadmin-pws` command:
-   1. Create a file in .gp named `.starter.env`. you can run this command from the project root: `cp .gp/.starter.env.example .starter.env`
+   1. Create a file in .gp named `.starter.env`. You can run this command from the project root: `cp .gp/.starter.env.example .gp/.starter.env`
    2. Or Copy and paste all the keys containing `PHPMYADMIN` from `.gp/.starter.env.example` to your blank `.starter.env` file
    3. In `.starter.env`, set your password values for the `PHPMYADMIN` keys and save the file
    4. In a terminal run the alias: `update-phpmyadmin-pws`
@@ -365,12 +414,22 @@ Important Note: If you do not generate an access token for `github-changelog-gen
 
 <br />
 
-## Project Specific Bash Code for Gitpod
-
-Bash code that you want to run when your Gitpod workspace is created for the first time such as database migrations and seeding should be put in the file: 
-`bash/init-project.sh`
-This file contains some basic scaffolding and examples that you may use in your project.
-
+## Project Specific Bash Code and Package Installation
+Most of the files in `gitpod-laravel-starter` are core files and should not be altered unless you open PR for `gitpod-laravel-starter` however some files are provided so that you can customize your project even further.
+<br />
+You are encouraged to put your project specific code in files mentioned below:
+### User Editable Files
+- `.gp/bash/init-project.sh`
+   - Contains some basic scaffolding and examples that you may use in your project.
+   - Bash code you would like to run when a workspace is created for the first time (initialization) should added here.
+- `.gp/bash/install-project-packages.sh`
+   - Packages that you would like installed (via `apt-get`) when the docker image layers are built can be added as a single space delimited string to this file.
+   - Any changes made to `.gp/bash/install-project-packages.sh` will require a rebuild of the Docker image layers before the workspace is created for the first time.
+   - To rebuild the Docker image layers increment the `INVALIDATE_CACHE` value in `.gitpod/Dockerfile` and push that change to the remote repository
+### Migration and Seeding
+It is recommended that you migrate and seed your project in this file: `.gp/bash/init-project.sh`.
+<br />
+[For example](https://github.com/apolopena/qna-demo-skeleton/blob/main/.gp/bash/init-project.sh), the [react preset](#preset-examples) makes use of `.gp/bash/init-project` for [migration and seeding](https://github.com/apolopena/qna-demo-skeleton/blob/main/.gp/bash/init-project.sh).
 <br />
 
 ## Ruby Gems

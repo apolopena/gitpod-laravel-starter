@@ -23,7 +23,7 @@
 #
 gls_version() {
   local hard version title file
-  hard="1.3.0"
+  hard="1.4.0"
   title="Gitpod Laravel Starter Framework"
   file="$GITPOD_REPO_ROOT"/.gp/CHANGELOG.md
   if [[ -f $file ]]; then
@@ -142,6 +142,7 @@ show_powered_by() {
   echo "This project is powered by:"
   echo -en "\e[38;5;34m"
   gls_version
+  echo "PHP $(bash .gp/bash/utils.sh php_version)"
   echo -e "$(php artisan --version)"
   composer show | grep laravel/ui >/dev/null && ui=1 || ui=0
   if [[ $ui -eq 1 ]]; then
@@ -372,6 +373,28 @@ laravel_ui_version() {
     # Won't get this far since laravel_major_version will use the default if out of the of range 5-8
     echo 'helpers.sh laravel_ui_version(): Internal Error'
   fi
+}
+
+# php_fpm_conf
+# Configures the php-fpm.conf depending on PHP version ($1) and the output file ($2)
+# NOTE: If you want to configure this further parse the result of this from elsewhere.
+php_fpm_conf() {
+  [[ -z $1 || -z $2 ]] && 2>&1 echo "  ERROR: utils.sh --> php_fpm_conf(): Bad args. Script aborted" && exit 1
+  echo "\
+[global]
+pid = /tmp/php$1-fpm.pid
+error_log = /tmp/php$1-fpm.log
+
+[www]
+listen = 127.0.0.1:9000
+listen.owner = gitpod
+listen.group = gitpod
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3" > "$2"
 }
 
 # Call functions from this script gracefully

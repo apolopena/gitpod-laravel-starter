@@ -15,11 +15,11 @@ all_zeros='^[0]+$'
 task_msg="Setting up React example: Questions and Answers"
 
 log "$task_msg"
-curl -LJO https://github.com/apolopena/qna-demo-skeleton/archive/refs/tags/1.1.0.tar.gz
+curl -LJO https://github.com/apolopena/qna-demo-skeleton/archive/refs/tags/1.1.1.tar.gz
 exit_codes+=($?)
-tar --overwrite -xvzf qna-demo-skeleton-1.1.0.tar.gz --strip-components=1
+tar --overwrite -xvzf qna-demo-skeleton-1.1.1.tar.gz --strip-components=1
 exit_codes+=($?)
-rm qna-demo-skeleton-1.1.0.tar.gz
+rm qna-demo-skeleton-1.1.1.tar.gz
 exit_codes+=($?)
 
 if [[ $(echo "${exit_codes[@]}" | tr -d '[:space:]') =~ $all_zeros ]]; then
