@@ -220,6 +220,9 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
   if [ "$installed_changelog_gen" == 1 ]; then
     msg="Installing github-changelog-generator"
     log_silent "$msg" && start_spinner "$msg" &&
+    # Hotfix https://github.com/github-changelog-generator/github-changelog-generator/issues/1003
+    # See https://github.com/apolopena/gitpod-laravel-starter/issues/190
+    gem install async -v '~> 1.29' &&
     gem install github_changelog_generator --no-document --silent
     err_code=$?
     if [[ $err_code != 0 ]]; then
