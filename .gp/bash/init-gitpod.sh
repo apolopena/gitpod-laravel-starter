@@ -69,9 +69,8 @@ if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini ioncube install) == 1
 fi
 # END: Install https://www.ioncube.com/loaders.php
 
-# BEGIN: Bootstrapping
-if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
-
+# BEGIN: Bootstrap anything not directly related to Laravel
+if [[ $(bash .gp/bash/helpers.sh is_inited) == 0 ]]; then
   # BEGIN: Autogenerate php-fpm.conf
   php_fpm_conf_path=".gp/conf/php-fpm/php-fpm.conf"
   active_php_version="$(. .gp/bash/utils.sh php_version)"
@@ -99,6 +98,11 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     fi
   fi
   # END: parse .vscode/settings.json
+fi;
+# END: Bootstrap anything not directly related to Laravel
+
+# BEGIN: Laravel Bootstrapping
+if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
 
   # Handle laravel README.md
   if [[ $(bash .gp/bash/utils.sh parse_ini_value starter.ini laravel include_readme) == 1 ]]; then
@@ -255,4 +259,4 @@ if [ ! -d "$GITPOD_REPO_ROOT/vendor" ]; then
     log " --> Running of Laravel Mix complete"
   fi # end node_modules/ check
 fi # end vendor/ check for bootstrapping
-# END: Bootstrapping
+# END: Laravel Bootstrapping
