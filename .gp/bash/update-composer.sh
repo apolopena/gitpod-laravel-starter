@@ -21,21 +21,21 @@ fi
 
 echo "  Installing latest version of composer"  | tee -a $LOG
 EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 
 if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
     >&2 echo "  ERROR: Invalid installer checksum - failed to install latest version of composer." | tee -a $LOG
-    rm composer-setup.php
+    sudo rm composer-setup.php
 else
-  php composer-setup.php --install-dir=/usr/bin --filename=composer
+  sudo php composer-setup.php --install-dir=/usr/bin --filename=composer
   COMP_VAL=$?
   if [ $COMP_VAL -ne 0 ]; then
     >&2 echo "  ERROR $COMP_VAL: Failed to install latest version of composer." | tee -a $LOG
   else
     echo "  SUCCESS: latest version of composer installed: $(composer --version)" | tee -a $LOG
   fi
-  rm composer-setup.php
+  sudo rm composer-setup.php
 fi
 
 echo "END: update composer" | tee -a $LOG

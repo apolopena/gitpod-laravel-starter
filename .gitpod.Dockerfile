@@ -46,11 +46,11 @@ RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project
 # Download, compile, install and configure xdebug from source
 RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
 
-# Update composer. TODO: https://github.com/apolopena/gitpod-laravel-starter/issues/159
-RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
+# Update composer
+RUN bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # Scaffold the Laravel project
-RUN sudo bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
+RUN bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
 
 # Force the docker image to build by incrementing this value
-ENV INVALIDATE_CACHE=226
+ENV INVALIDATE_CACHE=232

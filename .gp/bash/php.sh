@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 #
 # SPDX-License-Identifier: MIT
 # Copyright © 2022 Apolo Pena
