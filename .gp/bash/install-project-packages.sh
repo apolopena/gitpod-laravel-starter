@@ -14,7 +14,7 @@
 # If you change this script you must force a rebuild of the docker image
 #
 
-packages="$(bash /tmp/utils.sh parse_ini_value starter.ini apt-get packages)"
+packages="$(bash /tmp/git status/utils.sh parse_ini_value /tmp/starter.ini apt-get packages)"
 log='/var/log/workspace-image.log'
 IFS=" " read -r -a all_packages <<< "$packages"
 
