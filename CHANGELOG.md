@@ -1,5 +1,31 @@
 # Changelog
 
+## [v1.5.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.5.0) (2022-02-08)
+
+[Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.4.0...v1.5.0)
+
+**Implemented enhancements:**
+
+- Allow op \(open-preview.sh\) to work outside the project root [\#197](https://github.com/apolopena/gitpod-laravel-starter/issues/197)
+
+**Fixed bugs:**
+
+- settings.json, php-conf.php should only be parsed when the project is bootstrapped [\#196](https://github.com/apolopena/gitpod-laravel-starter/issues/196)
+- Do not run Composer as root/super user! See https://getcomposer.org/root for details [\#159](https://github.com/apolopena/gitpod-laravel-starter/issues/159)
+
+**Closed issues:**
+
+- Move user requested apt-get packages to be installed into starter.ini [\#198](https://github.com/apolopena/gitpod-laravel-starter/issues/198)
+- Allow lint-scripts.sh to be run locally [\#195](https://github.com/apolopena/gitpod-laravel-starter/issues/195)
+- Wong path in placeholder file: .gp/conf/php-fpm/php-fpm.conf  [\#194](https://github.com/apolopena/gitpod-laravel-starter/issues/194)
+- Shellscript linter throws SC1091's [\#193](https://github.com/apolopena/gitpod-laravel-starter/issues/193)
+- \[docs\] Mention that package.json will override installation directives that are set to 0 in starter.ini [\#192](https://github.com/apolopena/gitpod-laravel-starter/issues/192)
+
+**Merged pull requests:**
+
+- 🚀 RELEASE: Version 1.5.0 [\#199](https://github.com/apolopena/gitpod-laravel-starter/pull/199) ([apolopena](https://github.com/apolopena))
+
+
 ## [v1.4.0](https://github.com/apolopena/gitpod-laravel-starter/tree/v1.4.0) (2022-01-28)
 
 [Full Changelog](https://github.com/apolopena/gitpod-laravel-starter/compare/v1.3.0...v1.4.0)
