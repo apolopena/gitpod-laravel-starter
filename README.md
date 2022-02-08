@@ -153,7 +153,9 @@ The file [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blo
     - `.editorconfig`: You can omit this file or use a less opinionated version of this file than what Laravel gives you by default
     - [github-change-log-generator](https://github.com/github-changelog-generator/github-changelog-generator)
 
-*Please note that many of the configurations found in `starter.ini` should be made just once __prior__ to creating your workspace for the first time. Have a look at the comments in [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for specifics.*
+*Please note that a project's package.json can supercede any installation directives that have been set to zero in starter.ini.*
+
+*Also please note that many of the configurations found in `starter.ini` should be made just once __prior__ to creating your workspace for the first time. Have a look at the comments in [`starter.ini`](https://github.com/apolopena/gitpod-laravel-starter/blob/main/starter.ini) for specifics.*
 
 ### Preset Examples
 `gitpod-laravel-starter` preset examples are auto-configured examples of React and Vue projects that you can learn from or use as starting points for your own projects.
