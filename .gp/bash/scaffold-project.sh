@@ -38,7 +38,7 @@ _exitcode=$?
 if [ $_exitcode -ne 0 ]; then
   >&2 echo "  ERROR $?: failed to create Laravel $_lv project scaffolding in $_scaff_dest" | tee -a $_log
 else
-  chown -R gitpod:gitpod "$_scaff_dest"
+  sudo chown -R gitpod:gitpod "$_scaff_dest"
   cd "$_scaff_dest" || exit 1
   echo "  SUCCESS: $(php artisan --version) project scaffolding created in $_scaff_dest" | tee -a $_log
 
@@ -49,7 +49,7 @@ else
     cd "$_scaff_dest/public" && composer create-project phpmyadmin/phpmyadmin
     _exitcode_phpmyadmin=$?
     if [ $_exitcode_phpmyadmin -eq 0 ]; then
-      chown -R gitpod:gitpod "$_scaff_dest/public/phpmyadmin"
+      sudo chown -R gitpod:gitpod "$_scaff_dest/public/phpmyadmin"
       echo "  SUCCESS: phpmyadmin installed to $_scaff_dest/public"  | tee -a $_log
     else
       >&2 echo "  ERROR $?: phpmyadmin failed to install" | tee -a $_log
