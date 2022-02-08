@@ -47,7 +47,7 @@ RUN sudo bash -c ". /tmp/install-project-packages.sh" && rm /tmp/install-project
 RUN sudo bash -c ". /tmp/install-xdebug.sh" && rm /tmp/install-xdebug.sh
 
 # Update composer
-RUN sudo bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
+RUN bash -c ". /tmp/update-composer.sh" && rm /tmp/update-composer.sh
 
 # Scaffold the Laravel project
 RUN bash -c ". /tmp/scaffold-project.sh" && rm /tmp/scaffold-project.sh
