@@ -6,7 +6,7 @@
 #
 # install-project-packages.sh
 # Description:
-# Installs project specific packages
+# Installs project specific packages as per starter.ini
 #
 # Notes:
 # This script assumes it is being run from .gitpod.Dockerfile as a sudo user
@@ -14,9 +14,7 @@
 # If you change this script you must force a rebuild of the docker image
 #
 
-# Put any packages you would like to install for your project here in single quotes delimited by a space
-packages=''
-
+packages="$(bash .gp/bash/utils.sh parse_ini_value starter.ini apt-get packages)"
 log='/var/log/workspace-image.log'
 IFS=" " read -r -a all_packages <<< "$packages"
 
