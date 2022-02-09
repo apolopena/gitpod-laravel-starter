@@ -1,4 +1,4 @@
-FROM gitpod/workspace-mysql
+FROM gitpod/workspace-mysql:legacy-dazzle-v1
 
 USER gitpod
 
