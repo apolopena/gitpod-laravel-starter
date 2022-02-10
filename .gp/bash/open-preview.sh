@@ -54,7 +54,6 @@ Usage:
 function valid_path() {
   [[ ${1:0:1} == '/' ]] && echo "ERROR: PATH $1 cannot have a leading slash" && return 1
   return 0
-
 }
 
 function main() {
