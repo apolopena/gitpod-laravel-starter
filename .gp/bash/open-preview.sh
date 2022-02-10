@@ -12,8 +12,7 @@
 # In the case of using the port option, the path segment to open will be $2
 
 function help() {
-  echo "
-Command line interface for opening the preview browser
+  echo "Command line interface for opening the preview browser
 Requires the Gitpod binary: gp
 
 Usage:
