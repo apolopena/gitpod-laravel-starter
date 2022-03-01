@@ -124,11 +124,9 @@ keep_existing_php() {
   # https://github.com/apolopena/gitpod-laravel-starter/issues/203
   # Sniff php-fpm, install the proper version if needed, this might go away if something comes about from
   # https://github.com/gitpod-io/workspace-images/pull/712#issuecomment-1047992565
-  if ! dpkg-query -l php-fpm; then
+  if ! dpkg-query -l php-fpm > /dev/null 2>&1; then
     echo "  Installing $php_fpm" | tee -a $log
-    sudo apt-get update -q && sudo apt-get -yq "$php_fpm"
-  else
-     echo "  Did not install $php_fpm" | tee -a $log
+    sudo apt-get update -q && sudo apt-get -yq install "$php_fpm"
   fi
 
   [[ $1 == 'fallback' ]] &&
@@ -147,6 +145,7 @@ keep_existing_php() {
     msg5="  NOTE: If you want to use a version of PHP higher than $latest_php, set it in starter.ini"
     msg6="    Supported PHP versions for starter.ini are: 7.4 and 8.0"
     2>&1 echo -e "$msg1\n$msg2\n$msg3\n$msg4\n$msg5\n$msg6" | tee -a $log
+    echo "END: php.sh" | tee -a $log
     return 0
   fi
   
