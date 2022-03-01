@@ -131,10 +131,10 @@ keep_existing_php() {
   if [[ $(. /tmp/utils.sh comp_ver_lt "$latest_php" 8.0) == 1 ]]; then
     msg1="  WARNING: The PHP version in the Gitpod Image and the target PHP version are the same"
     msg2="    This can occur when Gitpod bumps down its version of PHP in workspace-mysql"
-    msg3="    The existing version of PHP $latest_php will be left as-is"
+    msg3="    The existing installation of PHP $latest_php will be left untouched"
     msg4="    The ppa value in starter.ini will be ignored"
-    msg5="  NOTE: If you want to use a higher version of PHP than $latest_php, set it in starter.ini"
-    msg6="    Supported PHP version values for starter.ini are: 7.4 and 8.0"
+    msg5="  NOTE: If you want to use a version of PHP higher than $latest_php, set it in starter.ini"
+    msg6="    Supported PHP versions for starter.ini are: 7.4 and 8.0"
     2>&1 echo -e "$msg1\n$msg2\n$msg3\n$msg4\n$msg5\n$msg6" | tee -a $log
     return 0
   fi
