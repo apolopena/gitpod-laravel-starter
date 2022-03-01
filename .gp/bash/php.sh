@@ -120,6 +120,13 @@ configure_apache() {
 keep_existing_php() {
   local msg1 msg2 msg3 msg4 msg5 msg6=
 
+  # https://github.com/apolopena/gitpod-laravel-starter/issues/203
+  # Sniff php-fpm, install the proper version if needed, this might go away if something comes about from
+  # https://github.com/gitpod-io/workspace-images/pull/712#issuecomment-1047992565
+  if ! dpkg-query -l php-fpm; then
+    sudo apt-get update -q && sudo apt-get -yq "php-fpm""$latest_php"
+  fi
+
   [[ $1 == 'fallback' ]] &&
     msg1="  WARNING: unsupported PHP version $php_version found in starter.ini." &&
     msg2="Falling back to the existing PHP version $latest_php as specified in $gp_php_url" &&
