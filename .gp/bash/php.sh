@@ -119,7 +119,7 @@ configure_apache() {
 
 keep_existing_php() {
   local msg1 msg2 msg3 msg4 msg5 msg6=
-  local php_fpm="php-fpm""$latest_php"
+  local php_fpm="php$latest_php-fpm"
 
   # https://github.com/apolopena/gitpod-laravel-starter/issues/203
   # Sniff php-fpm, install the proper version if needed, this might go away if something comes about from
