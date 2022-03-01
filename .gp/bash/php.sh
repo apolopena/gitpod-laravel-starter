@@ -126,7 +126,9 @@ keep_existing_php() {
   # https://github.com/gitpod-io/workspace-images/pull/712#issuecomment-1047992565
   if ! dpkg-query -l php-fpm > /dev/null 2>&1; then
     echo "  Installing $php_fpm" | tee -a $log
-    sudo apt-get update -q && sudo apt-get -yq install "$php_fpm"
+    echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections &&
+      sudo apt-get update -q &&
+      sudo apt-get -yq install "$php_fpm"
   fi
 
   [[ $1 == 'fallback' ]] &&
