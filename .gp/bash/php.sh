@@ -119,12 +119,16 @@ configure_apache() {
 
 keep_existing_php() {
   local msg1 msg2 msg3 msg4 msg5 msg6=
+  local php_fpm="php-fpm""$latest_php"
 
   # https://github.com/apolopena/gitpod-laravel-starter/issues/203
   # Sniff php-fpm, install the proper version if needed, this might go away if something comes about from
   # https://github.com/gitpod-io/workspace-images/pull/712#issuecomment-1047992565
   if ! dpkg-query -l php-fpm; then
-    sudo apt-get update -q && sudo apt-get -yq "php-fpm""$latest_php"
+    echo "  Installing $php_fpm" | tee -a $log
+    sudo apt-get update -q && sudo apt-get -yq "$php_fpm"
+  else
+     echo "  Did not install $php_fpm" | tee -a $log
   fi
 
   [[ $1 == 'fallback' ]] &&
