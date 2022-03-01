@@ -20,6 +20,7 @@
 
 log='/var/log/workspace-image.log'
 php7_4='php7.4 php7.4-fpm php7.4-dev libapache2-mod-php7.4 php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
+php8_0='php8.0 php8.0fpm php8.0-dev php8.0-bcmath php8.0-ctype php8.0-curl php8.0-gd php8.0-intl php8.0-mbstring php8.0-mysql php8.0-pgsql php8.0-sqlite3 php8.0-tokenizer php8.0-xml php8.0-zip'
 latest_php="$(. /tmp/utils.sh php_version)"
 php_version=
 gp_php_url='https://github.com/gitpod-io/workspace-images/blob/master/full/Dockerfile'
@@ -140,13 +141,26 @@ if [[ $ec -ne 0 ]]; then
   php_version='gitpodlatest'
 fi
 
-if [[ $php_version == '7.4' ]]; then
-  IFS=" " read -r -a all_packages <<< "$php7_4"
-elif [[ $php_version == 'gitpodlatest' ]]; then
-  keep_existing_php
-  exit 0
+if [[ $php_version != "$latest_php" ]]; then
+  if [[ $php_version == '7.4' ]]; then
+    IFS=" " read -r -a all_packages <<< "$php7_4"
+  elif [[ $php_version == '8.0' ]]; then
+    IFS=" " read -r -a all_packages <<< "$php8_0"
+  elif [[ $php_version == 'gitpodlatest' ]]; then
+    keep_existing_php
+    exit 0
+  else
+    keep_existing_php 'fallback'
+    exit 0
+  fi
 else
-  keep_existing_php 'fallback'
+  msg1="  WARNING: The PHP version in the Gitpod Image and the target PHP version are the same"
+  msg2="    This can occur when Gitpod bumps down its version of PHP in workspace-mysql"
+  msg3="    The existing version of PHP $latest_php will be left as-is"
+  msg4="    The ppa value in starter.ini will be ignored"
+  msg5="  NOTE: If you want to use a higher version of PHP than $latest_php, set it in starter.ini"
+  msg6="    Supported PHP version values are: 7.4 and 8.0"
+  2>&1 echo -e "$msg1\n$msg2\n$msg3\n$msg4\n$msg5\n$msg6" | tee -a $log
   exit 0
 fi
 
