@@ -20,7 +20,7 @@
 
 log='/var/log/workspace-image.log'
 php7_4='php7.4 php7.4-fpm php7.4-dev libapache2-mod-php7.4 php7.4-bcmath php7.4-ctype php7.4-curl php-date php7.4-gd php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php-net-ftp php7.4-pgsql php7.4-sqlite3 php7.4-tokenizer php7.4-xml php7.4-zip'
-php8_0='php8.0 php8.0-fpm php8.0-dev libapache2-mod-php8.0 php8.0-bcmath php8.0-curl php8.0-gd php8.0-intl'
+php8_0='php8.0 php8.0-fpm php8.0-dev libapache2-mod-php8.0 php8.0-bcmath'
 latest_php="$(. /tmp/utils.sh php_version)"
 php_version=
 gp_php_url='https://github.com/gitpod-io/workspace-images/blob/master/chunks/tool-nginx/Dockerfile'
