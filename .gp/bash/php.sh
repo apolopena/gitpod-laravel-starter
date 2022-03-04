@@ -61,6 +61,7 @@ install_php() {
   # sudo a2query -m
 
   # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
+  # Something fishy here...
   sudo a2dismod "php$latest_php" mpm_prefork
 
   # Remove ppa:ondrej/php if needed (Focal requires ppa:ondrej/php for PHP8!) 
@@ -88,7 +89,7 @@ install_php() {
   local ec=$?
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
-    echo "      The following packages were installed: ${all_packages[*]}"
+    echo "      The following PHP $php_version related packages were installed: ${all_packages[*]}" | tee -a $log
   else
     2>&1 echo "    ERROR: $msg" | tee -a $log
     2>&1 echo "      One or more of the following packages failed to install: ${all_packages[*]}" | tee -a $log
