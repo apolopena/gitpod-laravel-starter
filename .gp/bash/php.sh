@@ -63,8 +63,8 @@ install_php() {
   # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
   sudo a2dismod "php$latest_php" mpm_prefork
 
-  # Conditionally remove ppa:ondrej/php (if directed to do so AND it exists)
-  if [[ $ppa != "ondrej" ]]; then
+  # Remove ppa:ondrej/php if needed (Focal requires ppa:ondrej/php for PHP8!) 
+  if [[ $ppa != "ondrej" && $php_version == 7.4 ]]; then
     if grep ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* | grep -wq "ondrej/php"; then
       msg="Removing ppa:ondrej/php (as specified in starter.ini)"
       echo "  $msg" | tee -a $log
@@ -76,7 +76,7 @@ install_php() {
       fi # end removal of ppa:ondrej/php
     fi # end check if ppa:ondrej/php is active
   else
-  # You never know if Gitpod will remove the ondrej ppa in their workspace-mysql image so add it blindly
+  # Gitpod can remove ppa:ondrej/php in their workspace-mysql anytime so add it blindly here
   sudo add-apt-repository ppa:ondrej/php -y
   fi # end check ppa directive in starter.ini
 
