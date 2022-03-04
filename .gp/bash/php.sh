@@ -75,10 +75,10 @@ install_php() {
         2>&1 echo "    ERROR: $msg" | tee -a $log
       fi # end removal of ppa:ondrej/php
     fi # end check if ppa:ondrej/php is active
-  fi # end check ppa directive in starter.ini
-
-  # Looks like ppa:ondrej was removed by gitpod, cant tell really so add in explicitly here just to test
+  else
+  # You never know if Gitpod will remove the ondrej ppa in their workspace-mysql image so add it blindly
   sudo add-apt-repository ppa:ondrej/php -y
+  fi # end check ppa directive in starter.ini
 
   msg="Installing PHP $php_version as specified in starter.ini"
   echo "  $msg" | tee -a $log
