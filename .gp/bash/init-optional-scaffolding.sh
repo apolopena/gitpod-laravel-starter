@@ -27,6 +27,8 @@ rrd_ver=$(eval "$parse" react-router-dom version)
 laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
 laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
+react_examp_warn1="WARNING: React examples require Laravel version >= 8."
+react_examp_warn2="WARNING: Ignoring the example requested:"
 
 # Any value set for EXAMPLE will build an example project thus superceding some directives in starter.ini
 if [[ -n $EXAMPLE ]]; then
@@ -35,11 +37,16 @@ if [[ -n $EXAMPLE ]]; then
     case $EXAMPLE in
       1)
         example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-        init_react_example=".gp/bash/examples/init-react-example.sh"
-        install_react=1
-        install_phpmyadmin=1
-        install_react_router_dom=1
-        rrd_ver='^5.2.0'
+        if [[ $laravel_major_ver -lt 8 ]]; then
+          log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver"
+          log -e "$react_examp_warn2 $example_title"
+        else
+          init_react_example=".gp/bash/examples/init-react-example.sh"
+          install_react=1
+          install_phpmyadmin=1
+          install_react_router_dom=1
+          rrd_ver='^5.2.0'
+        fi
         ;;
       2)
         example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
@@ -254,10 +261,6 @@ fi
 # BEGIN: optional example setup
 # Initialize optional react example project
 if [[ -n  $init_react_example ]];then
-  [[ $laravel_major_ver -lt 8 ]] \
-  && log -e "WARNING: React examples require Laravel version >= 8. Your Laravel version is $laravel_major_ver" \
-  && log -e "WARNING: Ignoring the example requested: $example_title" \
-  && exit
   # shellcheck source=.gp/bash/examples/init-react-example.sh
   . "$init_react_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_example 2>&1 1>/dev/null)"
   exit
