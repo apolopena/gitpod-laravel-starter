@@ -27,14 +27,14 @@ rrd_ver=$(eval "$parse" react-router-dom version)
 laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
 laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
-react_examp_warn1='WARNING: React examples require Laravel version >= 8.*'
+react_examp_warn1='WARNING: React preset examples require Laravel version >= 8.*'
 react_examp_warn2="WARNING: Ignoring the preset example requested:"
 
 # BEGIN: configure preset example
 show_preset_example_msg () {
   log "EXAMPLE directive query parameter found"
   log "  --> Some directives in starter.ini will be superceded"
-  log "Creating the example project"
+  log "Creating the preset example project"
   log "  --> $example_title"
 }
 # Any value set for EXAMPLE will build an example project thus superceding some directives in starter.ini
@@ -102,8 +102,8 @@ if [[ -n $EXAMPLE ]]; then
       10)
         example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
         if [[ $laravel_major_ver -ge 9 ]]; then
-          log -e "WARNING: Vue example uses Material Dashboard which does not support Laravel version > 8.*"
-          log -e "WARNING: Ignoring the example requested: $example_title"
+          log -e "WARNING: Vue preset example uses Material Dashboard which does not support Laravel version > 8.*"
+          log -e "WARNING: Ignoring the preset example requested: $example_title"
         else
           init_vue_example=".gp/bash/examples/init-vue-example.sh"
           install_react=0
@@ -146,8 +146,8 @@ if [[ -n $EXAMPLE ]]; then
         ;;
     esac
   else
-    log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seems to already be in version control"
-    log "Skipping creation of the example project $EXAMPLE"
+    log "WARNING: preset EXAMPLE $EXAMPLE requested but Laravel scaffolding seems to already be in version control"
+    log "Skipping creation of the preset example project $EXAMPLE"
   fi # end check Laravel scaffolding is already in version control
 fi # end check EXAMPLE query parameter
 # END: configure preset example
