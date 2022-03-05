@@ -84,7 +84,7 @@ install_php() {
   echo "  $msg" | tee -a $log
   echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections \
     && sudo apt-get update -q \
-    && sudo apt-get -yo Dpkg::Options::="--force-confnew" install "${all_packages[@]}"
+    && sudo apt-get -yqo Dpkg::Options::="--force-confnew" install "${all_packages[@]}"
   local ec=$?
   if [[ $ec -eq 0 ]]; then
     echo "    SUCCESS: $msg" | tee -a $log
