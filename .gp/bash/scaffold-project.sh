@@ -22,7 +22,7 @@ _lv=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini laravel version)
 [[ -z $_lv ]] && _lv="$_lv_default"
 
 # Set default laravel version if value in starter.ini was invalid/unsupported
-if [[ ! $_lv =~ ^[6-8]*(\.\*)$ ]]; then
+if [[ ! $_lv =~ ^[6-9]*(\.\*)$ ]]; then
   echo "WARNING: unsupported or invalid laravel version value $_lv found in starter.ini" | tee -a $_log
   echo -e "Supported laravel version values are:\n\t6.*\n\t7.*\n\t8.*" | tee -a $_log
   echo "Specifying Minor and Patch versions in starter.ini is not supported." | tee -a $_log
