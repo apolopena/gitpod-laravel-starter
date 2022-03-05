@@ -28,7 +28,7 @@ laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
 laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
 react_examp_warn1='WARNING: React examples require Laravel version >= 8.*'
-react_examp_warn2="WARNING: Ignoring the example requested:"
+react_examp_warn2="WARNING: Ignoring the preset example requested:"
 
 # BEGIN: configure preset example
 show_preset_example_msg () {
