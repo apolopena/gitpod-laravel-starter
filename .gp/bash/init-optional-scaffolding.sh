@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # SPDX-License-Identifier: MIT
-# Copyright © 2021 Apolo Pena
+# Copyright © 2022 Apolo Pena
 #
 # init-optional-scaffolding.sh
 # Description:
@@ -27,15 +27,110 @@ rrd_ver=$(eval "$parse" react-router-dom version)
 laravel_major_ver=$(bash .gp/bash/helpers.sh laravel_major_version)
 laravel_ui_ver=$(bash .gp/bash/helpers.sh laravel_ui_version)
 init_phpmyadmin=".gp/bash/init-phpmyadmin.sh"
-react_examp_warn1="WARNING: React examples require Laravel version >= 8."
+react_examp_warn1='WARNING: React examples require Laravel version >= 8.*'
 react_examp_warn2="WARNING: Ignoring the example requested:"
 
+# BEGIN: configure preset example
+show_preset_example_msg () {
+  log "EXAMPLE directive query parameter found"
+  log "  --> Some directives in starter.ini will be superceded"
+  log "Creating the example project"
+  log "  --> $example_title"
+}
 # Any value set for EXAMPLE will build an example project thus superceding some directives in starter.ini
 if [[ -n $EXAMPLE ]]; then
   # Hook: If there is no routes folder in version control then assume no scaffolding is in version control
   if ! git ls-files --error-unmatch routes > /dev/null 2>&1; then
+    # Bypass starter.ini if the preset example meets version requirements
     case $EXAMPLE in
       1)
+        example_title="React Example with phpMyAdmin and extras - Questions and Answers"
+        if [[ $laravel_major_ver -lt 8 ]]; then
+          log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver.*"
+          log -e "$react_examp_warn2 $example_title"
+        else
+          init_react_example=".gp/bash/examples/init-react-example.sh"
+          install_react=1
+          install_phpmyadmin=1
+          install_react_router_dom=1
+          rrd_ver='^5.2.0'
+          show_preset_example_msg
+        fi
+        ;;
+      2)
+        example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
+        if [[ $laravel_major_ver -lt 8 ]]; then
+          log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver.*"
+          log -e "$react_examp_warn2 $example_title"
+        else
+          init_react_example=".gp/bash/examples/init-react-example.sh"
+          install_react=1
+          install_phpmyadmin=0
+          install_react_router_dom=1
+          rrd_ver='^5.2.0'
+          show_preset_example_msg
+        fi
+        ;;
+      3)
+        example_title="React Typescript Example with phpMyAdmin - Questions and Answers"
+        if [[ $laravel_major_ver -lt 8 ]]; then
+          log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver.*"
+          log -e "$react_examp_warn2 $example_title"
+        else
+          init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
+          install_react=1
+          install_phpmyadmin=1
+          install_react_router_dom=1
+          rrd_ver='^5.2.0'
+          show_preset_example_msg
+        fi
+        ;;
+      4)
+        example_title="React Typescript Example without phpMyAdmin - Questions and Answers"
+        if [[ $laravel_major_ver -lt 8 ]]; then
+          log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver.*"
+          log -e "$react_examp_warn2 $example_title"
+        else
+          init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
+          install_react=1
+          install_phpmyadmin=0
+          install_react_router_dom=1
+          rrd_ver='^5.2.0'
+          show_preset_example_msg
+        fi
+        ;;
+      10)
+        example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
+        if [[ $laravel_major_ver -ge 9 ]]; then
+          log -e "WARNING: Vue example uses Material Dashboard which does not support Laravel version > 8.*"
+          log -e "WARNING: Ignoring the example requested: $example_title"
+        else
+          init_vue_example=".gp/bash/examples/init-vue-example.sh"
+          install_react=0
+          install_vue=1
+          vue_auth=1
+          install_phpmyadmin=1
+          show_preset_example_msg
+        fi
+        ;;
+      11)
+        example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
+        if [[ $laravel_major_ver -ge 9 ]]; then
+          log -e "WARNING: Vue example uses Material Dashboard which does not support Laravel version > 8.*"
+          log -e "WARNING: Ignoring the example requested: $example_title"
+        else
+          init_vue_example=".gp/bash/examples/init-vue-example.sh"
+          install_react=0
+          install_vue=1
+          vue_auth=1
+          install_phpmyadmin=0
+          show_preset_example_msg
+        fi
+        ;;
+      *)
+        # Default example
+        # Keep this block identical to case 1)
+        log "WARNING: invalid preset example value found: $EXAMPLE. Falling back to Example: 1"
         example_title="React Example with phpMyAdmin and extras - Questions and Answers"
         if [[ $laravel_major_ver -lt 8 ]]; then
           log -e "$react_examp_warn1 Your Laravel version is $laravel_major_ver"
@@ -46,68 +141,16 @@ if [[ -n $EXAMPLE ]]; then
           install_phpmyadmin=1
           install_react_router_dom=1
           rrd_ver='^5.2.0'
+          show_preset_example_msg
         fi
         ;;
-      2)
-        example_title="React Example without phpMyAdmin and no extras - Questions and Answers"
-        init_react_example=".gp/bash/examples/init-react-example.sh"
-        install_react=1
-        install_phpmyadmin=0
-        install_react_router_dom=1
-        rrd_ver='^5.2.0'
-        ;;
-      3)
-        example_title="React Typescript Example with phpMyAdmin - Questions and Answers"
-        init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
-        install_react=1
-        install_phpmyadmin=1
-        install_react_router_dom=1
-        rrd_ver='^5.2.0'
-        ;;
-      4)
-        example_title="React Typescript Example without phpMyAdmin - Questions and Answers"
-        init_react_typescript_example=".gp/bash/examples/init-react-typescript-example.sh"
-        install_react=1
-        install_phpmyadmin=0
-        install_react_router_dom=1
-        rrd_ver='^5.2.0'
-        ;;
-      10)
-        example_title="Vue Example with phpMyAdmin and extras - Material Dashboard"
-        init_vue_example=".gp/bash/examples/init-vue-example.sh"
-        install_react=0
-        install_vue=1
-        vue_auth=1
-        install_phpmyadmin=1
-        ;;
-      11)
-        example_title="Vue Example without phpMyAdmin and no extras - Material Dashboard"
-        init_vue_example=".gp/bash/examples/init-vue-example.sh"
-        install_react=0
-        install_vue=1
-        vue_auth=1
-        install_phpmyadmin=0
-        ;;
-      *)
-        # Default example
-        # Keep this block identical to case 1)
-        example_title="React Example with phpMyAdmin and extras - Questions and Answers"
-        init_react_example=".gp/bash/examples/init-react-example.sh"
-        install_react=1
-        install_phpmyadmin=1
-        install_react_router_dom=1
-        rrd_ver='^5.2.0'
-        ;;
     esac
-    log "EXAMPLE directive query parameter found"
-    log "  --> Some directives in starter.ini will be superceded"
-    log "Creating the example project"
-    log "  --> $example_title"
   else
     log "WARNING: EXAMPLE$EXAMPLE requested but Laravel scaffolding seems to already be in version control"
-    log "Skipping creation of the example project"
+    log "Skipping creation of the example project $EXAMPLE"
   fi # end check Laravel scaffolding is already in version control
 fi # end check EXAMPLE query parameter
+# END: configure preset example
 
 # Install phpMyAdmin if needed
 if [[ $install_phpmyadmin == 1 ]];then
@@ -258,7 +301,7 @@ fi
 # END: Optional bootstrap install
 # END: optional frontend scaffolding installations
 
-# BEGIN: optional example setup
+# BEGIN: run setup for preset examples
 # Initialize optional react example project
 if [[ -n  $init_react_example ]];then
   # shellcheck source=.gp/bash/examples/init-react-example.sh
@@ -267,22 +310,14 @@ if [[ -n  $init_react_example ]];then
 fi
 # Initialize optional react typescript example project
 if [[ -n  $init_react_typescript_example ]];then
-  [[ $laravel_major_ver -lt 8 ]] \
-  && log -e "WARNING: React typescript examples require Laravel version >= 8. Your Laravel version is $laravel_major_ver" \
-  && log -e "WARNING: Ignoring the example requested: $example_title" \
-  && exit
   # shellcheck source=.gp/bash/examples/init-react-example.sh
   . "$init_react_typescript_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_react_typescript_example 2>&1 1>/dev/null)"
   exit
 fi
 # Initialize optional vue example project
 if [[ -n  $init_vue_example ]];then
-  [[ $laravel_major_ver -ge 9 ]] \
-  && log -e "WARNING: Vue example uses Material Dashboard which does not support Laravel versions > 8.*" \
-  && log -e "WARNING: Ignoring the example requested: $example_title" \
-  && exit
   # shellcheck source=.gp/bash/examples/init-vue-example.sh
   . "$init_vue_example" 2>/dev/null || log_silent -e "ERROR: $(. $init_vue_example 2>&1 1>/dev/null)"
   exit
 fi
-# END: optional example setup
+# END: run setup for preset examples
