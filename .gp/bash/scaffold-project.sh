@@ -31,19 +31,11 @@ if [[ ! $_lv =~ ^[6-9]*(\.\*)$ ]]; then
   _lv="$_lv_default"
 fi
 
-# debug
-echo "_lv=$_lv" | tee -a $_log
-echo "_php=$_php" | tee -a $_log
-echo "$_php is less thaan 8.0 = $(bash .gp/bash/utils.sh comp_ver_lt "$_php" 8.0)"
-
 # Fallback to laravel 8.* if PHP version is < 8.0 and Larvel is 9.*
-[[ $_lv == '9.*' && $(bash .gp/bash/utils.sh comp_ver_lt "$_php" 8.0) == 1 ]] && \
+[[ $_lv == '9.*' && $(bash /tmp/utils.sh comp_ver_lt "$_php" 8.0) == 1 ]] && \
   echo "WARNING: laravel $_lv requires PHP 8.*" | tee -a $_log && \
   echo "  Falling back to laravel 8.*" | tee -a $_log && \
   _lv="8.*"
-
-# debug
-echo "after the fallback conditional _lv=$_lv"
 
 # Scaffold
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $_log
