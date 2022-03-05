@@ -17,6 +17,7 @@ _scaff_name='laravel-starter'
 _scaff_dest="/home/gitpod/$_scaff_name"
 _lv_default='8.*'
 _lv=$(. /tmp/utils.sh parse_ini_value /tmp/starter.ini laravel version)
+_php="$(bash /tmp/utils.sh php_version)"
 
 # Set default if laravel version was not set in starter.ini
 [[ -z $_lv ]] && _lv="$_lv_default"
@@ -30,6 +31,13 @@ if [[ ! $_lv =~ ^[6-9]*(\.\*)$ ]]; then
   _lv="$_lv_default"
 fi
 
+# Fallback to laravel 8.* if PHP version is < 8.0 and Larvel is 9.*
+[[ $_lv == '9.*' && $(bash .gp/bash/utils.sh comp_ver_lt "$_php" 8.0) == 0 ]] &&
+  echo "WARNING: laravel $_lv requires PHP 8.*" | tee -a $_log &&
+  echo "Falling back to laravel 8.*" &&
+  _lv="8.*"
+
+# Scaffold
 echo "BEGIN: Scaffolding Laravel Project" | tee -a $_log
 echo "  Creating Laravel $_lv project scaffolding in $_scaff_dest" | tee -a $_log
 composer create-project --prefer-dist laravel/laravel "$_scaff_name" "$_lv"
