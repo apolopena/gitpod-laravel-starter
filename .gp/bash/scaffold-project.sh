@@ -32,7 +32,7 @@ if [[ ! $_lv =~ ^[6-9]*(\.\*)$ ]]; then
 fi
 
 # Fallback to laravel 8.* if PHP version is < 8.0 and Larvel is 9.*
-[[ $_lv == '9.*' && $(bash .gp/bash/utils.sh comp_ver_lt "$_php" 8.0) == 0 ]] &&
+[[ $_lv == '9.*' && $(bash .gp/bash/utils.sh comp_ver_lt "$_php" 8.0) == 1 ]] &&
   echo "WARNING: laravel $_lv requires PHP 8.*" | tee -a $_log &&
   echo "Falling back to laravel 8.*" &&
   _lv="8.*"
