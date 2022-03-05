@@ -275,7 +275,7 @@ fi
 # Initialize optional vue example project
 if [[ -n  $init_vue_example ]];then
   [[ $laravel_major_ver -ge 9 ]] \
-  && log -e "WARNING: Vue exmamle uses Material Dashboard which does not support Laravel versions > 8.*" \
+  && log -e "WARNING: Vue example uses Material Dashboard which does not support Laravel versions > 8.*" \
   && log -e "WARNING: Ignoring the example requested: $example_title" \
   && exit
   # shellcheck source=.gp/bash/examples/init-vue-example.sh
