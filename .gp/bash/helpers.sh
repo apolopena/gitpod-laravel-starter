@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # SPDX-License-Identifier: MIT
-# Copyright © 2021 Apolo Pena
+# Copyright © 2022 Apolo Pena
 #
 # helpers.sh
 # Description:
@@ -31,6 +31,7 @@ gls_version() {
   fi
   if [[ -n  $version ]];then echo "$title $version"; else echo "$title $hard"; fi
 }
+
 # start_server
 # Description:
 # Starts up the default server or a specific server ($1)
@@ -114,14 +115,14 @@ add_global_rake_task() {
 # show_first_run_summary
 show_first_run_summary() {
   local ui
-  workspace_log='/var/log/workspace-image.log'
-  init_log='/var/log/workspace-init.log'
+  local workspace_log='/var/log/workspace-image.log'
+  local init_log='/var/log/workspace-init.log'
   echo -e "\n\e[38;5;171mSUMMARY 👀\e[0m\n"
   echo -e "\e[38;5;194mResults of building the workspace image\e[0m \e[38;5;34m$workspace_log\e[0m ➥\e[38;5;183m"
-  cat $workspace_log
+  grc -c .gp/conf/grc/image-log.conf cat "$workspace_log"
   echo -en "\e[0m"
   echo -e "\e[38;5;194mResults of the gitpod initialization\e[0m \e[38;5;34m$init_log\e[0m ➥"
-  grc -c .gp/conf/grc/init-log.conf cat $init_log
+  grc -c .gp/conf/grc/init-log.conf cat "$init_log"
   [ -d 'public/phpmyadmin' ] &&
   echo -en "\e[38;5;208m" &&
   echo -e "$(cat .gp/snippets/messages/phpmyadmin-security.txt)" &&
