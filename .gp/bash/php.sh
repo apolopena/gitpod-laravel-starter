@@ -60,8 +60,7 @@ install_php() {
   # Uncomment to debugging installed packages in the build image step
   # sudo a2query -m
 
-  # Disable existing php mod and prefork, this will automatically be reinstated when PHP is installed
-  # Something fishy here...
+  # Disable existing php mod and prefork
   sudo a2dismod "php$latest_php" mpm_prefork
 
   # Remove ppa:ondrej/php if needed (Focal requires ppa:ondrej/php for PHP8!) 
@@ -95,6 +94,20 @@ install_php() {
     2>&1 echo "      One or more of the following packages failed to install: ${all_packages[*]}" | tee -a $log
     return 1
   fi
+
+  # Re-enable existing php mod which will automatically turn mpm_event and mpm_prefork back on
+  msg="Re-enabling the PHP $php_version mod for apache prefork"
+  sudo a2dismod "php$php_version" mpm_event && sudo a2enmod "php$php_version" &> /dev/null
+  ec="$?"
+  if [[ $ec -eq 0 ]]; then
+    echo "    SUCCESS: $msg" | tee -a $log
+    echo "       Apache should start up and serve PHP pages with no problems" | tee -a $log
+  else
+    2>&1 echo "    ERROR: $msg" | tee -a $log
+    2>&1 echo "      Apache may not startup and serve PHP pages correctly" | tee -a $log
+    2>&1 echo "      Try a manual restart and/or reload of apache or enable php-fpm for apache" | tee -a $log
+  fi
+
 }
 
 configure_php() {
