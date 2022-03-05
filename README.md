@@ -178,7 +178,7 @@ To use a preset example as a starting point:
 | 11 __**__ | Vue Example without phpMyAdmin - Material Dashboard | https://gitpod.io/#EXAMPLE=11/https://github.com/apolopena/gitpod-laravel-starter |
 
 <br />__\*__ Comes with hot reload functionality
-<br />__\**__ Not designed to run in an iframe such as the preview browser in the IDE.
+<br />__\**__ Not designed to run in an iframe such as the preview browser in the IDE. Is not supported with laravel > 8.*
 
 ### Development Servers
 
