@@ -1,4 +1,6 @@
 {
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
   "editor.renderWhitespace": "all",
   "editor.rulers": [
     106 /*140: landscape, 106: portrait (with line numbers)*/
