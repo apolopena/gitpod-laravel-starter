@@ -263,13 +263,14 @@ In `starter.ini` there is a directive to change the version of Laravel. You shou
 
 ## Gitpod Environment Variables
 The following features can be enabled through environment variables that have been set in your [Gitpod preferences](https://gitpod.io/variables).:
-<br />
 \* _Please note that storing sensitive data in environment variables is not ultimately secure but should be OK for most development situations._
+
 - ### Sign Git commits with a GPG key
    - `GPG_KEY_ID` (required)
      - The ID of the GPG key you want to use to sign your git commits
    - `GPG_KEY` (required)
      - Base64 encoded private GPG key that corresponds to your `GPG_KEY_ID`
+     - To export the GPG privatekey in Base64 use : `gpg --export-secret-keys <key-id> | base64 -w 0`
    - `GPG_MATCH_GIT_TO_EMAIL` (optional)
      - Sets your git user.email in `~/.gitconfig` to the value provided
    - `GPG_AUTO_ULTIMATE_TRUST` (optional)
@@ -279,7 +280,7 @@ The following features can be enabled through environment variables that have be
     - Creates `~/intelephense/licence.txt` and will contain the value provided
     - This will activate [Intelliphense](https://intelephense.com/) for you each time the workspace is created or restarted
 
-<br />
+
 
 ## Additional Features
 To keep the `gitpod-laravel-framework` as flexible as possible, some features have been left out of the `starter.ini` configuration file. These additional features can be easily added to your project using a one-time set up process.  Wiki pages are available for each additional feature below that you may want to add to your project. Some of these features are automatically enabled for certain [preset examples](#preset-examples).
